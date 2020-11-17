@@ -6648,7 +6648,7 @@ Apart from the special case of introductions, any advisor can be used with any a
 
 It is possible to mix advisor and advice types in Spring in the same AOP proxy. For example, you could use an interception around advice, throws advice, and before advice in one proxy configuration. Spring automatically creates the necessary interceptor chain.
 
-可以在同一AOP代理中的Spring中混合使用顾问和建议类型。例如，您可以在一个代理配置中使用围绕建议的拦截，抛出建议以及在建议之前。 Spring自动创建必要的拦截器链。
+可以在同一AOP代理中的Spring中混合使用顾问和通知类型。例如，您可以在一个代理配置中使用围绕通知的拦截，抛出通知以及前置通知。 Spring自动创建必要的拦截器链。
 
 ### 6.4. Using the `ProxyFactoryBean` to Create AOP Proxies
 
@@ -6656,15 +6656,15 @@ It is possible to mix advisor and advice types in Spring in the same AOP proxy. 
 
 If you use the Spring IoC container (an `ApplicationContext` or `BeanFactory`) for your business objects (and you should be!), you want to use one of Spring’s AOP `FactoryBean` implementations. (Remember that a factory bean introduces a layer of indirection, letting it create objects of a different type.)
 
-如果您将Spring IoC容器（一个`ApplicationContext`或`BeanFactory`）用于您的业务对象（应该是！），那么您想使用Spring的AOP的FactoryBean实现之一。 （请记住，工厂bean引入了一个间接层，允许它创建不同类型的对象。）
+如果您为您的业务对象使用Spring IoC容器(一个“ApplicationContext”或“BeanFactory”)(您应该这样做!)，那么您需要使用Spring的AOP“FactoryBean”实现之一。(请记住，工厂bean引入了一个间接层，使它能够创建不同类型的对象。)
 
 |      | The Spring AOP support also uses factory beans under the covers. |
 | ---- | ------------------------------------------------------------ |
-|      | Spring AOP支持还在后台使用了工厂bean。                       |
+|      | Spring AOP支持也在幕后使用工厂bean。                         |
 
 The basic way to create an AOP proxy in Spring is to use the `org.springframework.aop.framework.ProxyFactoryBean`. This gives complete control over the pointcuts, any advice that applies, and their ordering. However, there are simpler options that are preferable if you do not need such control.
 
-在Spring中创建AOP代理的基本方法是使用org.springframework.aop.framework.ProxyFactoryBean。这样可以完全控制切入点，任何适用的建议及其顺序。但是，如果不需要这样的控制，则有一些更简单的选项是可取的。
+在Spring中创建AOP代理的基本方法是使用`org.springframework.aop.framework.ProxyFactoryBean`。这样可以完全控制切入点，任何适用的通知及其顺序。但是，如果不需要这样的控制，则有一些更简单的选项是可取的。
 
 #### 6.4.1. Basics
 
@@ -6676,7 +6676,7 @@ The `ProxyFactoryBean`, like other Spring `FactoryBean` implementations, introdu
 
 One of the most important benefits of using a `ProxyFactoryBean` or another IoC-aware class to create AOP proxies is that advices and pointcuts can also be managed by IoC. This is a powerful feature, enabling certain approaches that are hard to achieve with other AOP frameworks. For example, an advice may itself reference application objects (besides the target, which should be available in any AOP framework), benefiting from all the pluggability provided by Dependency Injection.
 
-使用`ProxyFactoryBean`或另一个支持IoC的类来创建AOP代理的最重要好处之一是，建议和切入点也可以由IoC管理。这是一项强大的功能，可以实现某些其他AOP框架难以实现的方法。例如，受益于依赖注入提供的所有可插入性，建议本身可以引用应用程序对象（目标之外，目标应该在任何AOP框架中可用）。
+使用“ProxyFactoryBean”或其他支持ioc-aware的类来创建AOP代理的最重要的好处之一是通知和切入点也可以由IoC管理。这是一项强大的功能，可以实现某些其他AOP框架难以实现的方法。例如，通知本身可以引用应用程序对象(除了目标对象，它应该在任何AOP框架中都可用)，这得益于依赖注入提供的所有可插入性。
 
 #### 6.4.2. JavaBean Properties
 
@@ -6696,7 +6696,7 @@ In common with most `FactoryBean` implementations provided with Spring, the `Pro
 
 Some key properties are inherited from `org.springframework.aop.framework.ProxyConfig` (the superclass for all AOP proxy factories in Spring). These key properties include the following:
 
-一些关键属性是从org.springframework.aop.framework.ProxyConfig继承的（Spring中所有AOP代理工厂的超类）。这些关键属性包括：
+一些关键属性是从`org.springframework.aop.framework.ProxyConfig`继承的（Spring中所有AOP代理工厂的超类）。这些关键属性包括：
 
 - `proxyTargetClass`: `true` if the target class is to be proxied, rather than the target class’s interfaces. If this property value is set to `true`, then CGLIB proxies are created (but see also [JDK- and CGLIB-based proxies](https://docs.spring.io/spring-framework/docs/current/reference/html/core.html#aop-pfb-proxy-types)).
 
@@ -6708,7 +6708,7 @@ Some key properties are inherited from `org.springframework.aop.framework.ProxyC
 
 - `frozen`: If a proxy configuration is `frozen`, changes to the configuration are no longer allowed. This is useful both as a slight optimization and for those cases when you do not want callers to be able to manipulate the proxy (through the `Advised` interface) after the proxy has been created. The default value of this property is `false`, so changes (such as adding additional advice) are allowed.
 
-  -`frozen`：如果代理配置为`frozen`，则不再允许对该配置进行更改。这是一个轻微的优化，对于在您不希望调用者在创建代理后能够通过代理（通过`建议`接口）操纵代理的情况下很有用。该属性的默认值为` false`，因此允许进行更改（例如添加其他建议）。
+  -`frozen`：如果代理配置为`frozen`，则不再允许对该配置进行更改。这是一个轻微的优化，对于在您不希望调用者在创建代理后能够通过代理（通过`advised`接口）操纵代理的情况下很有用。该属性的默认值为` false`，因此允许进行更改（例如添加其他通知）。
 
 - `exposeProxy`: Determines whether or not the current proxy should be exposed in a `ThreadLocal` so that it can be accessed by the target. If a target needs to obtain the proxy and the `exposeProxy` property is set to `true`, the target can use the `AopContext.currentProxy()` method.
 
@@ -6724,19 +6724,19 @@ Other properties specific to `ProxyFactoryBean` include the following:
 
 - `interceptorNames`: A `String` array of `Advisor`, interceptor, or other advice names to apply. Ordering is significant, on a first come-first served basis. That is to say that the first interceptor in the list is the first to be able to intercept the invocation.
 
-  -`interceptorNames`：要应用的` Advisor`，拦截器或其他建议名称的` String`数组。顺序很重要，先到先得。也就是说，列表中的第一个拦截器是第一个能够拦截调用的拦截器。
+  -`interceptorNames`：要应用的` Advisor`，拦截器或其他通知名称的` String`数组。顺序很重要，先到先得。也就是说，列表中的第一个拦截器是第一个能够拦截调用的拦截器。
 
   The names are bean names in the current factory, including bean names from ancestor factories. You cannot mention bean references here, since doing so results in the `ProxyFactoryBean` ignoring the singleton setting of the advice.
 
-  名称是当前工厂中的Bean名称，包括祖先工厂中的Bean名称。您不能在此提及bean引用，因为这样做会导致ProxyFactoryBean忽略建议的单例设置。
+  这些名称是当前工厂中的bean名称，包括来自祖先工厂的bean名称。。您不能在此提及bean引用，因为这样做会导致ProxyFactoryBean忽通知的单例设置。
 
   You can append an interceptor name with an asterisk (`*`). Doing so results in the application of all advisor beans with names that start with the part before the asterisk to be applied. You can find an example of using this feature in [Using “Global” Advisors](https://docs.spring.io/spring-framework/docs/current/reference/html/core.html#aop-global-advisors).
 
-    您可以在拦截器名称后添加星号（`*`）。这样做将导致应用所有顾问Bean，其名称以要应用星号的部分开头。您可以在[使用`全局`顾问`中找到使用此功能的示例
+    可以用星号(' * ')附加拦截器名称。这样做的结果是，所有的advisor bean的应用程序的名称都以要应用的星号之前的部分开头。您可以在[使用`全局`顾问`中找到使用此功能的示例
 
 - singleton: Whether or not the factory should return a single object, no matter how often the `getObject()` method is called. Several `FactoryBean` implementations offer such a method. The default value is `true`. If you want to use stateful advice - for example, for stateful mixins - use prototype advices along with a singleton value of `false`.
 
-  -单例：无论调用getObject（）方法的频率如何，工厂是否应返回单个对象。几种`FactoryBean`实现提供了这种方法。默认值为` true`。如果要使用有状态的建议（例如，对于有状态的混合），请使用原型建议以及单例值` false`。
+  -单例：无论调用getObject（）方法的频率如何，工厂是否应返回单个对象。几种`FactoryBean`实现提供了这种方法。默认值为` true`。如果要使用有状态的通知（例如，对于有状态的混合），请使用原型建议以及单例值` false`。
 
 #### 6.4.3. JDK- and CGLIB-based proxies
 
@@ -6782,11 +6782,11 @@ Consider a simple example of `ProxyFactoryBean` in action. This example involves
 
 - An `Advisor` and an `Interceptor` used to provide advice.
 
-  -用于提供建议的`顾问`和`拦截器`。
+  -用于提供通知（增强）的`advisor`和`interceptor`。
 
 - An AOP proxy bean definition to specify the target object (the `personTarget` bean), the interfaces to proxy, and the advices to apply.
 
-  -AOP代理Bean定义，用于指定目标对象（` personTarget` Bean），代理接口以及要应用的建议。
+  -AOP代理Bean定义，用于指定目标对象（` personTarget` Bean），代理接口以及要应用的（增强，通知）建议。
 
 The following listing shows the example:
 
@@ -6821,7 +6821,7 @@ The following listing shows the example:
 
 Note that the `interceptorNames` property takes a list of `String`, which holds the bean names of the interceptors or advisors in the current factory. You can use advisors, interceptors, before, after returning, and throws advice objects. The ordering of advisors is significant.
 
-注意，` interceptorNames`属性采用` String`列表，其中包含当前工厂中的拦截器或顾问程序的bean名称。您可以在返回之前，之后使用顾问程序，拦截器并引发建议对象。顾问的顺序很重要。
+注意，` interceptorNames`属性采用` String`列表，其中包含当前工厂中的拦截器或顾问程序的bean名称。您可以使用advisors, interceptors, before, after returning, and throws advice objects、拦截器。顾问的顺序很重要。
 
 |      | You might be wondering why the list does not hold bean references. The reason for this is that, if the singleton property of the `ProxyFactoryBean` is set to `false`, it must be able to return independent proxy instances. If any of the advisors is itself a prototype, an independent instance would need to be returned, so it is necessary to be able to obtain an instance of the prototype from the factory. Holding a reference is not sufficient. |
 | ---- | ------------------------------------------------------------ |
@@ -6847,11 +6847,11 @@ Other beans in the same IoC context can express a strongly typed dependency on i
 
 The `PersonUser` class in this example exposes a property of type `Person`. As far as it is concerned, the AOP proxy can be used transparently in place of a “real” person implementation. However, its class would be a dynamic proxy class. It would be possible to cast it to the `Advised` interface (discussed later).
 
-在本例中，` PersonUser`类公开了` Person`类型的属性。就其而言，可以透明地使用AOP代理代替`真实的`人实现。但是，其类将是动态代理类。可以将其转换为`建议`界面（稍后讨论）。
+在本例中，` PersonUser`类公开了` Person`类型的属性。就其而言，可以透明地使用AOP代理代替`real`人实现。但是，它的类将是一个动态代理类。可以将其转换为`advised`界面（稍后讨论）。
 
 You can conceal the distinction between target and proxy by using an anonymous inner bean. Only the `ProxyFactoryBean` definition is different. The advice is included only for completeness. The following example shows how to use an anonymous inner bean:
 
-您可以使用匿名内部bean隐藏目标和代理之间的区别。仅` ProxyFactoryBean`定义不同。该建议仅出于完整性考虑。以下示例显示如何使用匿名内部bean：
+您可以使用匿名内部bean隐藏目标和代理之间的区别。仅` ProxyFactoryBean`定义不同。该(通知)建议仅出于完整性考虑。以下示例显示如何使用匿名内部bean：
 
 ```xml
 <bean id="myAdvisor" class="com.mycompany.MyAdvisor">
@@ -6880,7 +6880,7 @@ You can conceal the distinction between target and proxy by using an anonymous i
 
 Using an anonymous inner bean has the advantage that there is only one object of type `Person`. This is useful if we want to prevent users of the application context from obtaining a reference to the un-advised object or need to avoid any ambiguity with Spring IoC autowiring. There is also, arguably, an advantage in that the `ProxyFactoryBean` definition is self-contained. However, there are times when being able to obtain the un-advised target from the factory might actually be an advantage (for example, in certain test scenarios).
 
-使用匿名内部bean的优点是只有一个类型为'Person'的对象。如果我们要防止应用程序上下文的用户获取对未建议对象的引用，或者需要避免使用Spring IoC自动装配的任何歧义，这将非常有用。可以说，还有一个优点是，`ProxyFactoryBean`的定义是独立的。但是，有时能够从工厂获得未经建议的目标实际上可能是一个优势（例如，在某些测试方案中）。
+使用匿名内部bean的优点是只有一个类型为'Person'的对象。如果我们要防止应用程序上下文的用户获取对未建议对象的引用，或者需要避免使用Spring IoC自动装配的任何歧义，这将非常有用。可以说，还有一个优点是，`ProxyFactoryBean`的定义是独立的。但是，有时能够从工厂获得未经通知（增强）的目标实际上可能是一个优势（例如，在某些测试方案中）。
 
 #### 6.4.5. Proxying Classes
 
