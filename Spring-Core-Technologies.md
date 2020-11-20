@@ -6890,7 +6890,7 @@ What if you need to proxy a class, rather than one or more interfaces?
 
 Imagine that in our earlier example, there was no `Person` interface. We needed to advise a class called `Person` that did not implement any business interface. In this case, you can configure Spring to use CGLIB proxying rather than dynamic proxies. To do so, set the `proxyTargetClass` property on the `ProxyFactoryBean` shown earlier to `true`. While it is best to program to interfaces rather than classes, the ability to advise classes that do not implement interfaces can be useful when working with legacy code. (In general, Spring is not prescriptive. While it makes it easy to apply good practices, it avoids forcing a particular approach.)
 
-想象一下，在我们之前的示例中，没有`人`界面。我们需要建议一个名为` Person`的类，该类没有实现任何业务接口。在这种情况下，您可以配置Spring以使用CGLIB代理而不是动态代理。为此，请将前面显示的` ProxyFactoryBean`上的` proxyTargetClass`属性设置为` true`。尽管最好对接口而不是对类进行编程，但是在处理遗留代码时，建议未实现接口的类的功能可能会很有用。 （通常，Spring并不是规定性的。虽然可以轻松地应用良好实践，但可以避免强制采用特定方法。）
+想象一下，在我们之前的示例中，没有`person`接口，要建议一个名为` Person`的类，该类没有实现任何业务接口。在这种情况下，您可以配置Spring以使用CGLIB代理而不是动态代理。为此，请将前面显示的` ProxyFactoryBean`上的` proxyTargetClass`属性设置为` true`。尽管最好对接口而不是对类进行编程，但是在处理遗留代码时，建议未实现接口的类的功能可能会很有用。 （通常，Spring并不是规定性的。虽然可以轻松地应用良好实践，但可以避免强制采用特定方法。）
 
 If you want to, you can force the use of CGLIB in any case, even if you do have interfaces.
 
@@ -6898,7 +6898,7 @@ If you want to, you can force the use of CGLIB in any case, even if you do have 
 
 CGLIB proxying works by generating a subclass of the target class at runtime. Spring configures this generated subclass to delegate method calls to the original target. The subclass is used to implement the Decorator pattern, weaving in the advice.
 
-CGLIB代理通过在运行时生成目标类的子类来工作。 Spring配置此生成的子类以将方法调用委托给原始目标。子类用于实现Decorator模式，并编织在建议中。
+CGLIB代理通过在运行时生成目标类的子类来工作。 Spring配置此生成的子类以将方法调用委托给原始目标。子类用于实现Decorator模式（装饰者模式），并编织在通知中。
 
 CGLIB proxying should generally be transparent to users. However, there are some issues to consider:
 
@@ -6906,11 +6906,11 @@ CGLIB代理通常应对用户透明。但是，有一些问题要考虑：
 
 - `Final` methods cannot be advised, as they cannot be overridden.
 
-  -不能建议使用`最终`方法，因为它们不能被覆盖。
+  -不能通知使用`final`方法，因为它们不能被覆盖。
 
 - There is no need to add CGLIB to your classpath. As of Spring 3.2, CGLIB is repackaged and included in the spring-core JAR. In other words, CGLIB-based AOP works “out of the box”, as do JDK dynamic proxies.
 
-  -无需将CGLIB添加到您的类路径中。从Spring 3.2开始，CGLIB被重新打包并包含在spring-core JAR中。换句话说，基于CGLIB的AOP就像JDK动态代理一样`开箱即用`。
+  -无需将CGLIB添加到您的类路径中。从Spring 3.2开始，CGLIB被重新打包并包含在spring-core JAR中。换句话说，基于CGLIB的AOP就像JDK动态代理一样`out of the box`。
 
 There is little performance difference between CGLIB proxying and dynamic proxies. Performance should not be a decisive consideration in this case.
 
@@ -6920,7 +6920,7 @@ CGLIB代理和动态代理之间几乎没有性能差异。在这种情况下，
 
 By appending an asterisk to an interceptor name, all advisors with bean names that match the part before the asterisk are added to the advisor chain. This can come in handy if you need to add a standard set of “global” advisors. The following example defines two global advisors:
 
-通过在拦截器名称后附加星号，所有具有与该星号之前的部分匹配的Bean名称的顾问程序都将添加到顾问程序链中。如果您需要添加一组标准的`全局`顾问程序，这可能会派上用场。以下示例定义了两个全局顾问程序：
+通过向拦截器名称附加星号，所有具有与星号之前的部分相匹配的bean名称的顾问都会被添加到顾问链中。如果您需要添加一组标准的“全局”顾问，这将非常有用。下面的示例定义了两个全局顾问:
 
 ```xml
 <bean id="proxy" class="org.springframework.aop.framework.ProxyFactoryBean">
