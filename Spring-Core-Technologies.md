@@ -6035,11 +6035,8 @@ The `org.springframework.aop.Pointcut` interface is the central interface, used 
 
 ```java
 public interface Pointcut {
-
     ClassFilter getClassFilter();
-
     MethodMatcher getMethodMatcher();
-
 }
 ```
 
@@ -6060,7 +6057,7 @@ public interface ClassFilter {
 
 The `MethodMatcher` interface is normally more important. The complete interface follows:
 
-` MethodMatcher`界面通常更为重要。完整的界面如下：
+` MethodMatcher`接口通常更为重要。完整的接口如下：
 
 ```java
 public interface MethodMatcher {
@@ -6075,7 +6072,7 @@ public interface MethodMatcher {
 
 The `matches(Method, Class)` method is used to test whether this pointcut ever matches a given method on a target class. This evaluation can be performed when an AOP proxy is created to avoid the need for a test on every method invocation. If the two-argument `matches` method returns `true` for a given method, and the `isRuntime()` method for the MethodMatcher returns `true`, the three-argument matches method is invoked on every method invocation. This lets a pointcut look at the arguments passed to the method invocation immediately before the target advice starts.
 
-`matches（Method，Class）`方法用于测试此切入点是否与目标类上的给定方法匹配。创建AOP代理时可以执行此评估，以避免需要对每个方法调用进行测试。如果两个参数的matchs方法为给定方法返回true，而`MethodMatcher的isRuntime（）`方法返回true，则每次调用方法都会调用三参数的matchs方法。这使切入点可以在目标建议开始之前立即查看传递给方法调用的参数。
+`matches（Method，Class）`方法用于测试此切入点是否与目标类上的给定方法匹配。创建AOP代理时可以执行此评估，以避免需要对每个方法调用进行测试。如果两个参数的matchs方法为给定方法返回true，而`MethodMatcher的isRuntime（）`方法返回true，则每次调用方法都会调用三参数的matchs方法。这使切入点可以在目标建议(通知)开始之前立即查看传递给方法调用的参数。
 
 Most `MethodMatcher` implementations are static, meaning that their `isRuntime()` method returns `false`. In this case, the three-argument `matches` method is never invoked.
 
@@ -6155,7 +6152,7 @@ The following example shows how to use `JdkRegexpMethodPointcut`:
 
 Spring provides a convenience class named `RegexpMethodPointcutAdvisor`, which lets us also reference an `Advice` (remember that an `Advice` can be an interceptor, before advice, throws advice, and others). Behind the scenes, Spring uses a `JdkRegexpMethodPointcut`. Using `RegexpMethodPointcutAdvisor` simplifies wiring, as the one bean encapsulates both pointcut and advice, as the following example shows:
 
-Spring提供了一个名为`RegexpMethodPointcutAdvisor`的便利类，它使我们也可以引用一个Advice（记住，Advice可以是拦截器，而不是通知，引发建议等）。在幕后，Spring使用了`JdkRegexpMethodPointcut`。使用`RegexpMethodPointcutAdvisor`可以简化接线，因为一个bean封装了切入点和建议(通知)，如以下示例所示：
+Spring提供了一个名为`RegexpMethodPointcutAdvisor`的便利类，它使我们也可以引用一个Advice（记住，Advice可以是拦截器，前置通知，抛出通知等等）。在幕后，Spring使用了`JdkRegexpMethodPointcut`。使用`RegexpMethodPointcutAdvisor`可以简化链接，因为一个bean封装了切入点和建议(通知)，如以下示例所示：
 
 ```xml
 <bean id="settersAndAbsquatulateAdvisor"
@@ -6202,7 +6199,7 @@ The main example is the `control flow` pointcut.
 
 Spring control flow pointcuts are conceptually similar to AspectJ `cflow` pointcuts, although less powerful. (There is currently no way to specify that a pointcut runs below a join point matched by another pointcut.) A control flow pointcut matches the current call stack. For example, it might fire if the join point was invoked by a method in the `com.mycompany.web` package or by the `SomeCaller` class. Control flow pointcuts are specified by using the `org.springframework.aop.support.ControlFlowPointcut` class.
 
-弹簧控制流切入点在概念上类似于AspectJ`cflow`切入点，尽管功能不那么强大。 （当前无法指定切入点在与另一个切入点匹配的连接点下运行。）控制流切入点与当前调用堆栈匹配。例如，如果连接点是由`com.mycompany.web`包中的方法或`SomeCaller`类调用的，则可能会触发。控制流切入点是使用org.springframework.aop.support.ControlFlowPointcut类指定的。
+spring控制流切入点在概念上类似于AspectJ`cflow`切入点，尽管功能不那么强大。 （当前无法指定切入点在与另一个切入点匹配的连接点下运行。）控制流切入点与当前调用堆栈匹配。例如，如果连接点是由`com.mycompany.web`包中的方法或`SomeCaller`类调用的，则可能会触发。控制流切入点是使用org.springframework.aop.support.ControlFlowPointcut类指定的。
 
 |      | Control flow pointcuts are significantly more expensive to evaluate at runtime than even other dynamic pointcuts. In Java 1.4, the cost is about five times that of other dynamic pointcuts. |
 | ---- | ------------------------------------------------------------ |
@@ -6231,7 +6228,7 @@ class TestStaticPointcut extends StaticMethodMatcherPointcut {
 
 There are also superclasses for dynamic pointcuts. You can use custom pointcuts with any advice type.
 
-还有动态切入点的超类。您可以将自定义切入点与任何建议类型一起使用。
+还有动态切入点的超类。您可以将自定义切入点与任何建议(通知，增加)类型一起使用。
 
 #### 6.1.6. Custom Pointcuts
 
@@ -6243,13 +6240,13 @@ Because pointcuts in Spring AOP are Java classes rather than language features (
 
 |      | Later versions of Spring may offer support for “semantic pointcuts” as offered by JAC — for example, “all methods that change instance variables in the target object.” |
 | ---- | ------------------------------------------------------------ |
-|      | 更高版本的Spring可能提供对JAC™提供的`语义切入点`的支持，例如，`更改目标对象中实例变量的所有方法`。 |
+|      | 更高版本的Spring可能提供对JAC™提供的`semantic pointcuts语义切入点`的支持，例如，`更改目标对象中实例变量的所有方法`。 |
 
 ### 6.2. Advice API in Spring
 
 Now we can examine how Spring AOP handles advice.
 
-现在，我们可以检查Spring AOP如何处理建议。
+现在，我们可以检查Spring AOP如何处理建议(通知，增强)。
 
 #### 6.2.1. Advice Lifecycles
 
@@ -6257,11 +6254,11 @@ Now we can examine how Spring AOP handles advice.
 
 Each advice is a Spring bean. An advice instance can be shared across all advised objects or be unique to each advised object. This corresponds to per-class or per-instance advice.
 
-每个建议都是一个Spring bean。建议实例可以在所有建议对象之间共享，或者对于每个建议对象都是唯一的。这对应于每个班级或每个实例的建议。
+每个建议都是一个Spring bean。通知实例可以在所有被通知的对象之间共享，或者对每个被通知的对象是唯一的。这对应于每个类或每个实例的通知。
 
 Per-class advice is used most often. It is appropriate for generic advice, such as transaction advisors. These do not depend on the state of the proxied object or add new state. They merely act on the method and arguments.
 
-每班建议最常用。适用于一般建议，例如交易顾问。这些不依赖于代理对象的状态或添加新状态。它们仅作用于方法和参数。
+每个类建议最常用。适用于一般建议，例如事务顾问。这些不依赖于代理对象的状态或添加新状态。它们仅作用于方法和参数。
 
 Per-instance advice is appropriate for introductions, to support mixins. In this case, the advice adds state to the proxied object.
 
@@ -6277,7 +6274,7 @@ You can use a mix of shared and per-instance advice in the same AOP proxy.
 
 Spring provides several advice types and is extensible to support arbitrary advice types. This section describes the basic concepts and standard advice types.
 
-Spring提供了几种建议类型，并且可以扩展以支持任意建议类型。本节介绍基本概念和标准建议类型。
+Spring提供了几种建议类型，并且可以扩展以支持任意建议(通知)类型。本节介绍基本概念和标准建议类型。
 
 ##### Interception Around Advice
 
@@ -6289,18 +6286,17 @@ Spring中最基本的建议类型是围绕建议的拦截。
 
 Spring is compliant with the AOP `Alliance` interface for around advice that uses method interception. Classes that implement `MethodInterceptor` and that implement around advice should also implement the following interface:
 
-对于使用方法拦截的建议，Spring符合AOP Alliance接口。实现`MethodInterceptor`和围绕建议的类也应该实现以下接口：
+Spring与使用方法拦截的around通知的AOP“Alliance”接口兼容。实现“MethodInterceptor”的类和实现around advice的类也应该实现以下接口:
 
 ```java
 public interface MethodInterceptor extends Interceptor {
-
     Object invoke(MethodInvocation invocation) throws Throwable;
 }
 ```
 
 The `MethodInvocation` argument to the `invoke()` method exposes the method being invoked, the target join point, the AOP proxy, and the arguments to the method. The `invoke()` method should return the invocation’s result: the return value of the join point.
 
-`invoke（）`方法的`MethodInvocation`参数公开了被调用的方法，目标连接点，AOP代理以及该方法的参数。 `invoke（）`方法应返回调用结果：连接点的返回值。
+`invoke（）`方法的`MethodInvocation`参数公开了`被调用的方法`，`目标连接点`，`AOP代理`以及`该方法的参数`。 `invoke（）`方法应返回调用结果：`连接点的返回值。`
 
 The following example shows a simple `MethodInterceptor` implementation:
 
@@ -6322,9 +6318,11 @@ Note the call to the `proceed()` method of `MethodInvocation`. This proceeds dow
 
 注意对`MethodInvocation`的`proceed（）`方法的调用。这沿着拦截器链向下到达连接点。大多数拦截器调用此方法并返回其返回值。但是，`MethodInterceptor`（就像任何周围的建议一样）可以返回不同的值或引发异常，而不是调用`proceed`方法。但是，您没有充分的理由就不想这样做。
 
+注意对“MethodInvocation”的“proceed()”方法的调用。这沿着拦截器链一直到连接点。大多数拦截器调用此方法并返回其返回值。然而，一个“MethodInterceptor”，像任何around通知一样，可以返回一个不同的值或者抛出一个异常，而不是调用proceed方法。但是，如果没有充分的理由，您不希望这样做。
+
 |      | `MethodInterceptor` implementations offer interoperability with other AOP Alliance-compliant AOP implementations. The other advice types discussed in the remainder of this section implement common AOP concepts but in a Spring-specific way. While there is an advantage in using the most specific advice type, stick with `MethodInterceptor` around advice if you are likely to want to run the aspect in another AOP framework. Note that pointcuts are not currently interoperable between frameworks, and the AOP Alliance does not currently define pointcut interfaces. |
 | ---- | ------------------------------------------------------------ |
-|      | `MethodInterceptor`实现提供与其他符合AOP Alliance的AOP实现的互操作性。本节其余部分讨论的其他建议类型将实现常见的AOP概念，但以特定于Spring的方式。尽管使用最具体的建议类型有一个优势，但是如果您可能想在另一个AOP框架中运行方面，则在建议周围坚持使用` MethodInterceptor`。请注意，切入点当前无法在框架之间互操作，并且AOP Alliance当前未定义切入点接口。 |
+|      | `MethodInterceptor`实现提供与其他符合AOP Alliance的AOP实现的互操作性。本节其余部分讨论的其他建议类型将实现常见的AOP概念，但以特定于Spring的方式。尽管使用最具体的建议类型有一个优势，但是如果您可能想在另一个AOP框架中运行方面，则在around通知坚持使用` MethodInterceptor`。请注意，切入点当前无法在框架之间互操作，并且AOP Alliance当前未定义切入点接口。 |
 
 ##### Before Advice
 
@@ -6332,11 +6330,11 @@ Note the call to the `proceed()` method of `MethodInvocation`. This proceeds dow
 
 A simpler advice type is a before advice. This does not need a `MethodInvocation` object, since it is called only before entering the method.
 
-一种更简单的建议类型是事前建议。这不需要`MethodInvocation`对象，因为它仅在进入方法之前被调用。
+一种更简单的建议（通知）类型是前置通知（增强）。这不需要`MethodInvocation`对象，因为它仅在进入方法之前被调用。
 
 The main advantage of a before advice is that there is no need to invoke the `proceed()` method and, therefore, no possibility of inadvertently failing to proceed down the interceptor chain.
 
-事前通知的主要优点是不需要调用`proceed（）`方法，因此，不会无意中导致无法沿拦截器链继续前进。
+before通知的主要优点是不需要调用' proceed() '方法，因此，不可能无意中沿着拦截器链失败。
 
 The following listing shows the `MethodBeforeAdvice` interface:
 
@@ -6344,32 +6342,28 @@ The following listing shows the `MethodBeforeAdvice` interface:
 
 ```java
 public interface MethodBeforeAdvice extends BeforeAdvice {
-
     void before(Method m, Object[] args, Object target) throws Throwable;
 }
 ```
 
 (Spring’s API design would allow for field before advice, although the usual objects apply to field interception and it is unlikely for Spring to ever implement it.)
 
-（尽管通常的对象适用于字段拦截，并且Spring不太可能实现它，但Spring的API设计允许先于字段咨询。）
+（尽管通常的对象适用于字段拦截，并且Spring不太可能实现它，但Spring的API设计允许先于字段通知。）
 
 Note that the return type is `void`. Before advice can insert custom behavior before the join point runs but cannot change the return value. If a before advice throws an exception, it stops further execution of the interceptor chain. The exception propagates back up the interceptor chain. If it is unchecked or on the signature of the invoked method, it is passed directly to the client. Otherwise, it is wrapped in an unchecked exception by the AOP proxy.
 
-请注意，返回类型为` void`。通知可以在联接点运行之前插入自定义行为，但不能更改返回值。如果之前的建议引发异常，它将停止进一步执行拦截器链。异常会传播回拦截器链。如果未选中它或在调用的方法的签名上，则将其直接传递给客户端。否则，它将由AOP代理包装在未经检查的异常中。
+请注意，返回类型为` void`。通知可以在联接点运行之前插入自定义行为，但不能更改返回值。如果before通知抛出异常，它将停止拦截器链的进一步执行..异常向上传播到拦截器链。如果未选中它或在被调用方法的签名上，它将直接传递给客户机。否则，它将被AOP代理包装在一个未检查的异常中。
 
 The following example shows a before advice in Spring, which counts all method invocations:
 
-以下示例显示了Spring中的before建议，该建议计算所有方法调用：
+以下示例显示了Spring中的before建议(通知)，该通知计算所有方法调用：
 
 ```java
 public class CountingBeforeAdvice implements MethodBeforeAdvice {
-
     private int count;
-
     public void before(Method m, Object[] args, Object target) throws Throwable {
         ++count;
     }
-
     public int getCount() {
         return count;
     }
@@ -6378,7 +6372,7 @@ public class CountingBeforeAdvice implements MethodBeforeAdvice {
 
 |      | Before advice can be used with any pointcut. |
 | ---- | -------------------------------------------- |
-|      | 在将建议与任何切入点一起使用之前。           |
+|      | 前置通知与任何切入点一起使用之前。           |
 
 ##### Throws Advice
 
@@ -6386,7 +6380,7 @@ public class CountingBeforeAdvice implements MethodBeforeAdvice {
 
 Throws advice is invoked after the return of the join point if the join point threw an exception. Spring offers typed throws advice. Note that this means that the `org.springframework.aop.ThrowsAdvice` interface does not contain any methods. It is a tag interface identifying that the given object implements one or more typed throws advice methods. These should be in the following form:
 
-如果联接点引发异常，则在联接点返回之后调用引发通知。 Spring提供类型化的抛出建议。注意，这意味着org.springframework.aop.ThrowsAdvice接口不包含任何方法。它是一个标签接口，用于标识给定对象实现了一个或多个类型化的throws通知方法。这些应采用以下形式：
+如果连接点抛出异常，则在连接点返回后调用抛出通知。 Spring提供类型化的抛出通知。注意，这意味着`org.springframework.aop.ThrowsAdvice`接口不包含任何方法。它是一个标签接口，用于标识给定对象实现了一个或多个类型化的throws通知方法。这些应采用以下形式：
 
 ```java
 afterThrowing([Method, args, target], subclassOfThrowable)
@@ -6394,7 +6388,7 @@ afterThrowing([Method, args, target], subclassOfThrowable)
 
 Only the last argument is required. The method signatures may have either one or four arguments, depending on whether the advice method is interested in the method and arguments. The next two listing show classes that are examples of throws advice.
 
-仅最后一个参数是必需的。方法签名可以具有一个或四个参数，具体取决于建议方法是否对该方法和参数感兴趣。接下来的两个清单显示了类，它们是引发建议的示例。
+仅最后一个参数是必需的。方法签名可以具有一个或四个参数，具体取决于通知方法是否对该方法和参数感兴趣。接下来的两个清单显示了抛出通知示例的类。
 
 The following advice is invoked if a `RemoteException` is thrown (including from subclasses):
 
@@ -6405,13 +6399,14 @@ public class RemoteThrowsAdvice implements ThrowsAdvice {
 
     public void afterThrowing(RemoteException ex) throws Throwable {
         // Do something with remote exception
+        //做一些事在远程异常发生时
     }
 }
 ```
 
 Unlike the preceding advice, the next example declares four arguments, so that it has access to the invoked method, method arguments, and target object. The following advice is invoked if a `ServletException` is thrown:
 
-与前面的建议不同，下一个示例声明四个参数，以便可以访问被调用的方法，方法参数和目标对象。如果抛出` ServletException`，则调用以下建议：
+与前面的通知不同，下一个示例声明四个参数，以便可以访问被调用的方法，方法参数和目标对象。如果抛出` ServletException`，则调用以下建议：
 
 ```java
 public class ServletThrowsAdviceWithArguments implements ThrowsAdvice {
@@ -6424,15 +6419,13 @@ public class ServletThrowsAdviceWithArguments implements ThrowsAdvice {
 
 The final example illustrates how these two methods could be used in a single class that handles both `RemoteException` and `ServletException`. Any number of throws advice methods can be combined in a single class. The following listing shows the final example:
 
-最后一个示例说明了如何在处理` RemoteException`和` ServletException`的单个类中使用这两种方法。可以将任意数量的引发建议方法组合到一个类中。以下清单显示了最后一个示例：
+最后一个例子说明了这两个方法如何在一个同时处理' RemoteException '和' ServletException '的类中使用。可以在一个类中组合任意数量的抛出通知方法。下面的清单显示了最后的示例:
 
 ```java
 public static class CombinedThrowsAdvice implements ThrowsAdvice {
-
     public void afterThrowing(RemoteException ex) throws Throwable {
         // Do something with remote exception
     }
-
     public void afterThrowing(Method m, Object[] args, Object target, ServletException ex) {
         // Do something with all arguments
     }
@@ -6441,11 +6434,11 @@ public static class CombinedThrowsAdvice implements ThrowsAdvice {
 
 |      | If a throws-advice method throws an exception itself, it overrides the original exception (that is, it changes the exception thrown to the user). The overriding exception is typically a RuntimeException, which is compatible with any method signature. However, if a throws-advice method throws a checked exception, it must match the declared exceptions of the target method and is, hence, to some degree coupled to specific target method signatures. *Do not throw an undeclared checked exception that is incompatible with the target method’s signature!* |
 | ---- | ------------------------------------------------------------ |
-|      | 如果throws-advice方法本身引发异常，则它将覆盖原始异常（也就是说，它将更改引发给用户的异常）。重写异常通常是RuntimeException，它与任何方法签名都兼容。但是，如果throws-advice方法抛出一个检查异常，则它必须与目标方法的已声明异常匹配，因此在某种程度上与特定的目标方法签名耦合。 *请勿抛出与目标方法的签名不兼容的未声明检查异常！ |
+|      | 如果throw -advice方法本身抛出异常，它将覆盖原始异常(也就是说，它将更改抛出给用户的异常)。覆盖异常通常是一个RuntimeException，它与任何方法签名兼容。但是，如果throw -advice方法抛出检查异常，它必须匹配目标方法声明的异常，因此在某种程度上与特定的目标方法签名耦合。不要抛出与目标方法的签名不兼容的未声明的检查异常 |
 
 |      | Throws advice can be used with any pointcut. |
 | ---- | -------------------------------------------- |
-|      | 抛出建议可以与任何切入点一起使用。           |
+|      | 抛出通知可以与任何切入点一起使用。           |
 
 ##### After Returning Advice
 
@@ -6453,23 +6446,21 @@ public static class CombinedThrowsAdvice implements ThrowsAdvice {
 
 An after returning advice in Spring must implement the `org.springframework.aop.AfterReturningAdvice` interface, which the following listing shows:
 
-Spring中的after after return建议必须实现`org.springframework.aop.AfterReturningAdvice`接口，以下清单显示：
+Spring中的after return那个纸必须实现`org.springframework.aop.AfterReturningAdvice`接口，以下清单显示：
 
 ```java
 public interface AfterReturningAdvice extends Advice {
-
-    void afterReturning(Object returnValue, Method m, Object[] args, Object target)
-            throws Throwable;
+    void afterReturning(Object returnValue, Method m, Object[] args, Object target) throws Throwable;
 }
 ```
 
 An after returning advice has access to the return value (which it cannot modify), the invoked method, the method’s arguments, and the target.
 
-After after returning建议可以访问返回值（它不能修改），调用的方法，方法的参数和目标。
+After returning通知可以访问返回值（它不能修改），调用的方法，方法的参数和目标。
 
 The following after returning advice counts all successful method invocations that have not thrown exceptions:
 
-返回建议后的以下内容将计数所有未引发异常的成功方法调用：
+返回通知后的以下内容将计数所有未引发异常的成功方法调用：
 
 ```java
 public class CountingAfterReturningAdvice implements AfterReturningAdvice {
@@ -6489,19 +6480,19 @@ public class CountingAfterReturningAdvice implements AfterReturningAdvice {
 
 This advice does not change the execution path. If it throws an exception, it is thrown up the interceptor chain instead of the return value.
 
-该建议不会更改执行路径。如果抛出异常，则会将其抛出拦截器链，而不是返回值。
+这个通知不会改变执行路径。如果它抛出异常，则抛出的地方是拦截器链，而不是返回值。
 
 |      | After returning advice can be used with any pointcut. |
 | ---- | ----------------------------------------------------- |
-|      | 返回后，建议可以与任何切入点一起使用。                |
+|      | after retrunning通知可以与任何切入点一起使用。        |
 
 ##### Introduction Advice
 
-简介建议
+简介建议（通知，增强）
 
 Spring treats introduction advice as a special kind of interception advice.
 
-Spring将介绍建议视为一种特殊的拦截建议。
+Spring将介绍通知视为一种特殊的拦截通知。
 
 Introduction requires an `IntroductionAdvisor` and an `IntroductionInterceptor` that implement the following interface:
 
@@ -6509,18 +6500,17 @@ Introduction requires an `IntroductionAdvisor` and an `IntroductionInterceptor` 
 
 ```java
 public interface IntroductionInterceptor extends MethodInterceptor {
-
     boolean implementsInterface(Class intf);
 }
 ```
 
 The `invoke()` method inherited from the AOP Alliance `MethodInterceptor` interface must implement the introduction. That is, if the invoked method is on an introduced interface, the introduction interceptor is responsible for handling the method call — it cannot invoke `proceed()`.
 
-从AOP联盟的MethodInterceptor接口继承的invoke（）方法必须实现介绍。也就是说，如果被调用的方法在引入的接口上，则引入拦截器负责处理方法调用？-它不能调用` proceed（）`。
+从AOP Alliance的MethodInterceptor接口继承的invoke（）方法必须实现介绍。也就是说，如果被调用的方法在引入的接口上，则引入拦截器负责处理方法调用-它不能调用` proceed（）`。
 
 Introduction advice cannot be used with any pointcut, as it applies only at the class, rather than the method, level. You can only use introduction advice with the `IntroductionAdvisor`, which has the following methods:
 
-简介建议不能与任何切入点一起使用，因为它仅适用于类，而不适用于方法级别。您只能将IntroductionAdvisor的介绍建议与以下方法一起使用：
+简介通知不能与任何切入点一起使用，因为它仅适用于类，而不适用于方法级别。您只能将IntroductionAdvisor的介绍通知与以下方法一起使用：
 
 ```java
 public interface IntroductionAdvisor extends Advisor, IntroductionInfo {
@@ -6529,28 +6519,26 @@ public interface IntroductionAdvisor extends Advisor, IntroductionInfo {
 
     void validateInterfaces() throws IllegalArgumentException;
 }
-
 public interface IntroductionInfo {
-
     Class<?>[] getInterfaces();
 }
 ```
 
 There is no `MethodMatcher` and, hence, no `Pointcut` associated with introduction advice. Only class filtering is logical.
 
-没有`MethodMatcher`，因此没有与介绍建议相关的`Pointcut'。只有类过滤是合乎逻辑的。
+没有`MethodMatcher`，因此没有与介绍通知相关的`Pointcut'。只有类过滤是合乎逻辑的。
 
 The `getInterfaces()` method returns the interfaces introduced by this advisor.
 
-getInterfaces（）方法返回此顾问程序引入的接口。
+getInterfaces()方法返回这个advisor引入的接口。
 
 The `validateInterfaces()` method is used internally to see whether or not the introduced interfaces can be implemented by the configured `IntroductionInterceptor`.
 
-在内部使用`validateInterfaces（）`方法来查看引入的接口是否可以由配置的`IntroductionInterceptor`实现。
+“validateInterfaces()”方法在内部用于查看引入的接口是否可以由配置的“introtioninterceptor”实现。
 
 Consider an example from the Spring test suite and suppose we want to introduce the following interface to one or more objects:
 
-考虑一下Spring测试套件中的一个示例，并假设我们想为一个或多个对象引入以下接口：
+考虑一个来自Spring测试套件的例子，假设我们想要向一个或多个对象引入以下接口:
 
 ```java
 public interface Lockable {
@@ -6562,11 +6550,11 @@ public interface Lockable {
 
 This illustrates a mixin. We want to be able to cast advised objects to `Lockable`, whatever their type and call lock and unlock methods. If we call the `lock()` method, we want all setter methods to throw a `LockedException`. Thus, we can add an aspect that provides the ability to make objects immutable without them having any knowledge of it: a good example of AOP.
 
-这说明了混合。我们希望能够将建议对象强制转换为`可锁定`对象，无论其类型如何，并调用锁定和解锁方法。如果我们调用`lock（）`方法，我们希望所有的setter方法都抛出`LockedException`。因此，我们可以添加一个方面，使对象在不了解对象的情况下不可变：AOP的一个很好的例子。
+这说明了混合。我们希望能够将通知对象强制转换为`Lockable`对象，无论其类型如何，并调用锁定和解锁方法。如果我们调用`lock（）`方法，我们希望所有的setter方法都抛出`LockedException`。因此，我们可以添加一个方面，使对象在不了解对象的情况下不可变：AOP的一个很好的例子。
 
 First, we need an `IntroductionInterceptor` that does the heavy lifting. In this case, we extend the `org.springframework.aop.support.DelegatingIntroductionInterceptor` convenience class. We could implement `IntroductionInterceptor` directly, but using `DelegatingIntroductionInterceptor` is best for most cases.
 
-首先，我们需要一个` IntroductionInterceptor`来完成繁重的工作。在这种情况下，我们扩展了org.springframework.aop.support.DelegatingIntroductionInterceptor便利类。我们可以直接实现IntroductionInterceptor，但是在大多数情况下最好使用DelegatingIntroductionInterceptor。
+首先，我们需要一个` IntroductionInterceptor`来完成繁重的工作。在这种情况下，我们扩展了`org.springframework.aop.support.DelegatingIntroductionInterceptor`便利类。我们可以直接实现`IntroductionInterceptor`，但是在大多数情况下最好使用`DelegatingIntroductionInterceptor`。
 
 The `DelegatingIntroductionInterceptor` is designed to delegate an introduction to an actual implementation of the introduced interfaces, concealing the use of interception to do so. You can set the delegate to any object using a constructor argument. The default delegate (when the no-argument constructor is used) is `this`. Thus, in the next example, the delegate is the `LockMixin` subclass of `DelegatingIntroductionInterceptor`. Given a delegate (by default, itself), a `DelegatingIntroductionInterceptor` instance looks for all interfaces implemented by the delegate (other than `IntroductionInterceptor`) and supports introductions against any of them. Subclasses such as `LockMixin` can call the `suppressInterface(Class intf)` method to suppress interfaces that should not be exposed. However, no matter how many interfaces an `IntroductionInterceptor` is prepared to support, the `IntroductionAdvisor` used controls which interfaces are actually exposed. An introduced interface conceals any implementation of the same interface by the target.
 
@@ -6628,11 +6616,11 @@ public class LockMixinAdvisor extends DefaultIntroductionAdvisor {
 
 We can apply this advisor very simply, because it requires no configuration. (However, it is impossible to use an `IntroductionInterceptor` without an `IntroductionAdvisor`.) As usual with introductions, the advisor must be per-instance, as it is stateful. We need a different instance of `LockMixinAdvisor`, and hence `LockMixin`, for each advised object. The advisor comprises part of the advised object’s state.
 
-我们可以非常简单地应用此顾问程序，因为它不需要配置。 （但是，没有IntroductionAdvisor的情况下不能使用IntroductionInterceptor。）与介绍一样，顾问程序必须是按实例的，因为它是有状态的。对于每个建议对象，我们需要一个不同的LockMixinAdvisor实例，因此需要一个LockMixin实例。顾问程序包含建议对象状态的一部分。
+我们可以非常简单地应用此顾问程序，因为它不需要配置。 （但是，没有IntroductionAdvisor的情况下不能使用IntroductionInterceptor。）与介绍一样，顾问程序必须是按实例的，因为它是有状态的。对于每个通知对象，我们需要一个不同的LockMixinAdvisor实例，因此需要一个LockMixin实例。顾问程序包含建议对象状态的一部分。
 
 We can apply this advisor programmatically by using the `Advised.addAdvisor()` method or (the recommended way) in XML configuration, as any other advisor. All proxy creation choices discussed below, including “auto proxy creators,” correctly handle introductions and stateful mixins.
 
-我们可以像其他任何顾问一样，通过使用XML配置中的` Advised.addAdvisor（）`方法或（推荐方式）以编程方式应用此顾问。下面讨论的所有代理创建选择，包括`自动代理创建器`，都可以正确处理介绍和有状态的混合。
+我们可以像其他任何顾问一样，通过使用XML配置中的` Advised.addAdvisor（）`方法或（推荐方式）以编程方式应用此顾问。下面讨论的所有代理创建选择，包括`auto proxy creators,`，都可以正确处理介绍和有状态的混合。
 
 ### 6.3. The Advisor API in Spring
 
@@ -6640,7 +6628,7 @@ Spring的Advisor API
 
 In Spring, an Advisor is an aspect that contains only a single advice object associated with a pointcut expression.
 
-在Spring中，顾问程序是一个方面，它仅包含与切入点表达式关联的单个建议对象。
+在Spring中，顾问程序是一个方面，它仅包含与切入点表达式关联的单个通知对象。
 
 Apart from the special case of introductions, any advisor can be used with any advice. `org.springframework.aop.support.DefaultPointcutAdvisor` is the most commonly used advisor class. It can be used with a `MethodInterceptor`, `BeforeAdvice`, or `ThrowsAdvice`.
 
@@ -6880,7 +6868,7 @@ You can conceal the distinction between target and proxy by using an anonymous i
 
 Using an anonymous inner bean has the advantage that there is only one object of type `Person`. This is useful if we want to prevent users of the application context from obtaining a reference to the un-advised object or need to avoid any ambiguity with Spring IoC autowiring. There is also, arguably, an advantage in that the `ProxyFactoryBean` definition is self-contained. However, there are times when being able to obtain the un-advised target from the factory might actually be an advantage (for example, in certain test scenarios).
 
-使用匿名内部bean的优点是只有一个类型为'Person'的对象。如果我们要防止应用程序上下文的用户获取对未建议对象的引用，或者需要避免使用Spring IoC自动装配的任何歧义，这将非常有用。可以说，还有一个优点是，`ProxyFactoryBean`的定义是独立的。但是，有时能够从工厂获得未经通知（增强）的目标实际上可能是一个优势（例如，在某些测试方案中）。
+使用匿名内部bean的优点是只有一个类型为'Person'的对象。如果我们要防止应用程序上下文的用户获取对未通知（增强）对象的引用，或者需要避免使用Spring IoC自动装配的任何歧义，这将非常有用。可以说，还有一个优点是，`ProxyFactoryBean`的定义是独立的。但是，有时能够从工厂获得未经通知（增强）的目标实际上可能是一个优势（例如，在某些测试方案中）。
 
 #### 6.4.5. Proxying Classes
 
@@ -6890,7 +6878,11 @@ What if you need to proxy a class, rather than one or more interfaces?
 
 Imagine that in our earlier example, there was no `Person` interface. We needed to advise a class called `Person` that did not implement any business interface. In this case, you can configure Spring to use CGLIB proxying rather than dynamic proxies. To do so, set the `proxyTargetClass` property on the `ProxyFactoryBean` shown earlier to `true`. While it is best to program to interfaces rather than classes, the ability to advise classes that do not implement interfaces can be useful when working with legacy code. (In general, Spring is not prescriptive. While it makes it easy to apply good practices, it avoids forcing a particular approach.)
 
+<<<<<<< HEAD
 想象一下，在我们之前的示例中，没有`person`接口，要建议一个名为` Person`的类，该类没有实现任何业务接口。在这种情况下，您可以配置Spring以使用CGLIB代理而不是动态代理。为此，请将前面显示的` ProxyFactoryBean`上的` proxyTargetClass`属性设置为` true`。尽管最好对接口而不是对类进行编程，但是在处理遗留代码时，建议未实现接口的类的功能可能会很有用。 （通常，Spring并不是规定性的。虽然可以轻松地应用良好实践，但可以避免强制采用特定方法。）
+=======
+想象一下，在我们之前的示例中，没有`person`界面。我们需要建议一个名为` Person`的类，该类没有实现任何业务接口。在这种情况下，您可以配置Spring以使用CGLIB代理而不是动态代理。为此，请将前面显示的` ProxyFactoryBean`上的` proxyTargetClass`属性设置为` true`。尽管最好对接口而不是对类进行编程，但是在处理遗留代码时，通知（增强）未实现接口的类的功能可能会很有用。 （通常，Spring并不是规定性的。虽然可以轻松地应用良好实践，但可以避免强制采用特定方法。）
+>>>>>>> 5337e1c61d148307059012c399ace45c874c719d
 
 If you want to, you can force the use of CGLIB in any case, even if you do have interfaces.
 
@@ -6906,7 +6898,11 @@ CGLIB代理通常应对用户透明。但是，有一些问题要考虑：
 
 - `Final` methods cannot be advised, as they cannot be overridden.
 
+<<<<<<< HEAD
   -不能通知使用`final`方法，因为它们不能被覆盖。
+=======
+  -不能建议`final`方法，因为它们不能被覆盖。
+>>>>>>> 5337e1c61d148307059012c399ace45c874c719d
 
 - There is no need to add CGLIB to your classpath. As of Spring 3.2, CGLIB is repackaged and included in the spring-core JAR. In other words, CGLIB-based AOP works “out of the box”, as do JDK dynamic proxies.
 
@@ -6942,11 +6938,11 @@ By appending an asterisk to an interceptor name, all advisors with bean names th
 
 Especially when defining transactional proxies, you may end up with many similar proxy definitions. The use of parent and child bean definitions, along with inner bean definitions, can result in much cleaner and more concise proxy definitions.
 
-特别是在定义事务代理时，您可能会得到许多类似的代理定义。使用父子bean定义和子bean定义以及内部bean定义可以使代理定义更加简洁明了。
+特别是在定义事务代理时，您可能会得到许多类似的代理定义。使用父bean和子bean定义以及内部bean定义可以产生更干净、更简洁的代理定义。
 
 First, we create a parent, template, bean definition for the proxy, as follows:
 
-首先，我们为代理创建父模板，bean定义，如下所示：
+首先，我们为代理创建一个父模板bean定义，如下所示:
 
 ```xml
 <bean id="txProxyTemplate" abstract="true"
@@ -6975,7 +6971,7 @@ This is never instantiated itself, so it can actually be incomplete. Then, each 
 
 You can override properties from the parent template. In the following example, we override the transaction propagation settings:
 
-您可以从父模板覆盖属性。在以下示例中，我们将覆盖事务传播设置：
+首先，我们为代理创建一个父模板bean定义，如下所示:
 
 ```xml
 <bean id="mySpecialService" parent="txProxyTemplate">
@@ -7023,11 +7019,11 @@ The first step is to construct an object of type `org.springframework.aop.framew
 
 You can add advices (with interceptors as a specialized kind of advice), advisors, or both and manipulate them for the life of the `ProxyFactory`. If you add an `IntroductionInterceptionAroundAdvisor`, you can cause the proxy to implement additional interfaces.
 
-您可以添加建议（使用拦截器作为一种特殊的建议），建议程序，或同时添加两者，并在ProxyFactory的整个生命周期内对其进行操作。如果添加`IntroductionInterceptionAroundAdvisor`，则可以使代理实现其他接口。
+您可以添加建议（通知）（使用拦截器作为一种特殊的建议(通知)），建议程序，或同时添加两者，并在`ProxyFactory`的整个生命周期内对其进行操作。如果添加`IntroductionInterceptionAroundAdvisor`，则可以使代理实现其他接口。
 
 There are also convenience methods on `ProxyFactory` (inherited from `AdvisedSupport`) that let you add other advice types, such as before and throws advice. `AdvisedSupport` is the superclass of both `ProxyFactory` and `ProxyFactoryBean`.
 
-在ProxyFactory上还有一些便捷方法（从AdisedSupport继承），可让您添加其他建议类型，例如before并引发建议。 AdvisedSupport是ProxyFactory和ProxyFactoryBean的超类。
+在ProxyFactory上还有一些便捷方法（从AdisedSupport继承），可让您添加其他通知类型，例如before，throws通知。 AdvisedSupport是ProxyFactory和ProxyFactoryBean的超类。
 
 |      | Integrating AOP proxy creation with the IoC framework is best practice in most applications. We recommend that you externalize configuration from Java code with AOP, as you should in general. |
 | ---- | ------------------------------------------------------------ |
@@ -7037,7 +7033,7 @@ There are also convenience methods on `ProxyFactory` (inherited from `AdvisedSup
 
 However you create AOP proxies, you can manipulate them BY using the `org.springframework.aop.framework.Advised` interface. Any AOP proxy can be cast to this interface, no matter which other interfaces it implements. This interface includes the following methods:
 
-无论创建AOP代理，您都可以使用org.springframework.aop.framework.Advised接口来操作它们。任何AOP代理都可以强制转换为该接口，无论它实现了哪个其他接口。该界面包括以下方法：
+无论如何创建AOP代理，您都可以使用org.springframework.aop.framework.Advised接口来操作它们。任何AOP代理都可以强制转换为该接口，无论它实现了哪个其他接口。该接口包括以下方法：
 
 ```java
 Advisor[] getAdvisors();
@@ -7063,19 +7059,19 @@ boolean isFrozen();
 
 The `getAdvisors()` method returns an `Advisor` for every advisor, interceptor, or other advice type that has been added to the factory. If you added an `Advisor`, the returned advisor at this index is the object that you added. If you added an interceptor or other advice type, Spring wrapped this in an advisor with a pointcut that always returns `true`. Thus, if you added a `MethodInterceptor`, the advisor returned for this index is a `DefaultPointcutAdvisor` that returns your `MethodInterceptor` and a pointcut that matches all classes and methods.
 
-getAdvisors（）方法针对已添加到工厂的每个顾问，拦截器或其他建议类型返回一个`顾问`。如果添加了`顾问`，则在此索引处返回的顾问就是您添加的对象。如果添加了拦截器或其他建议类型，Spring会将其包装在带有指向总是返回` true`的切入点的顾问中。因此，如果添加了MethodInterceptor，则为该索引返回的顾问是DefaultPointcutAdvisor，它返回MethodInterceptor和与所有类和方法匹配的切入点。
+getAdvisors（）方法针对已添加到工厂的每个顾问，拦截器或其他通知类型返回一个`顾问`。如果添加了`顾问`，则在此索引处返回的顾问就是您添加的对象。如果添加了拦截器或其他建议类型，Spring会将其包装在带有指向总是返回` true`的切入点的advisor中。因此，如果添加了MethodInterceptor，则为该索引返回的顾问是DefaultPointcutAdvisor，它返回MethodInterceptor和与所有类和方法匹配的切入点。
 
 The `addAdvisor()` methods can be used to add any `Advisor`. Usually, the advisor holding pointcut and advice is the generic `DefaultPointcutAdvisor`, which you can use with any advice or pointcut (but not for introductions).
 
-`addAdvisor（）`方法可用于添加任何`Advisor`。通常，拥有切入点和建议的顾问是通用的DefaultPointcutAdvisor，您可以将其与任何建议或切入点一起使用（但不能用于介绍）。
+`addAdvisor（）`方法可用于添加任何`Advisor`。通常，拥有切入点和通知（增强）的顾问是通用的`DefaultPointcutAdvisor`，您可以将其与任何通知或切入点一起使用（但不能用于介绍（introductions）。）
 
 By default, it is possible to add or remove advisors or interceptors even once a proxy has been created. The only restriction is that it is impossible to add or remove an introduction advisor, as existing proxies from the factory do not show the interface change. (You can obtain a new proxy from the factory to avoid this problem.)
 
-默认情况下，即使已创建代理，也可以添加或删除顾问程序或拦截器。唯一的限制是不可能添加或删除介绍顾问，因为工厂中的现有代理不会显示界面更改。 （您可以从工厂获取新的代理来避免此问题。）
+默认情况下，即使已创建代理，也可以添加或删除顾问程序或拦截器。唯一的限制是不可能添加或删除introduction advisor，因为工厂中的现有代理不会显示接口更改。 （您可以从工厂获取新的代理来避免此问题。）
 
 The following example shows casting an AOP proxy to the `Advised` interface and examining and manipulating its advice:
 
-以下示例显示了将AOP代理投射到`建议`界面并检查和处理其建议：
+以下示例显示了将AOP代理投射到`advised`接口并检查和处理其建议（通知）：
 
 ```java
 Advised advised = (Advised) myObject;
@@ -7088,7 +7084,7 @@ System.out.println(oldAdvisorCount + " advisors");
 // Can use for interceptors, before, after returning or throws advice
 //添加建议，例如没有切入点的拦截器
 //将匹配所有代理方法
-//可以在返回或引发建议之前，之后用于拦截器
+
 advised.addAdvice(new DebugInterceptor());
 
 // Add selective advice using a pointcut
@@ -7100,15 +7096,15 @@ assertEquals("Added two advisors", oldAdvisorCount + 2, advised.getAdvisors().le
 
 |      | It is questionable whether it is advisable (no pun intended) to modify advice on a business object in production, although there are, no doubt, legitimate usage cases. However, it can be very useful in development (for example, in tests). We have sometimes found it very useful to be able to add test code in the form of an interceptor or other advice, getting inside a method invocation that we want to test. (For example, the advice can get inside a transaction created for that method, perhaps to run SQL to check that a database was correctly updated, before marking the transaction for roll back.) |
 | ---- | ------------------------------------------------------------ |
-|      | 尽管无疑存在合法的使用案例，但是否建议（无双关语）修改生产中的业务对象的建议值得怀疑。但是，它在开发中（例如在测试中）非常有用。有时我们发现以拦截器或其他建议的形式添加测试代码，并进入我们要测试的方法调用中非常有用。 （例如，建议可以进入为该方法创建的事务内部，也许可以在将事务标记为回滚之前运行SQL以检查数据库是否已正确更新。） |
+|      | 在生产中修改关于业务对象的通知是否可取(没有双关语)值得怀疑，尽管毫无疑问，存在合法的使用案例。但是，它在开发中（例如在测试中）非常有用。有时我们发现以拦截器或其他通知的形式添加测试代码，并进入我们要测试的方法调用中非常有用。 （例如，建议（通知）可以进入为该方法创建的事务内部，也许可以在将事务标记为回滚之前运行SQL以检查数据库是否已正确更新。） |
 
 Depending on how you created the proxy, you can usually set a `frozen` flag. In that case, the `Advised` `isFrozen()` method returns `true`, and any attempts to modify advice through addition or removal results in an `AopConfigException`. The ability to freeze the state of an advised object is useful in some cases (for example, to prevent calling code removing a security interceptor).
 
-根据创建代理的方式，通常可以设置`冻结`标志。在这种情况下，` Advised``isFrozen（）方法将返回` true`，而通过添加或删除来修改建议的任何尝试都会导致` AopConfigException`。冻结建议对象状态的功能在某些情况下很有用（例如，防止调用代码删除安全拦截器）。
+根据创建代理的方式，通常可以设置`frozen`标志。在这种情况下，` Advised` `isFrozen（）方法将返回` true`，而通过添加或删除来修改建议的任何尝试都会导致` AopConfigException`。冻结建议对象状态的功能在某些情况下很有用（例如，防止调用代码删除安全拦截器）。
 
 ### 6.8. Using the "auto-proxy" facility
 
-使用`自动代理`功能
+使用`auto-proxy`功能
 
 So far, we have considered explicit creation of AOP proxies by using a `ProxyFactoryBean` or similar factory bean.
 
@@ -7116,11 +7112,11 @@ So far, we have considered explicit creation of AOP proxies by using a `ProxyFac
 
 Spring also lets us use “auto-proxy” bean definitions, which can automatically proxy selected bean definitions. This is built on Spring’s “bean post processor” infrastructure, which enables modification of any bean definition as the container loads.
 
-Spring还允许我们使用`自动代理` Bean定义，该定义可以自动代理选定的Bean定义。它建立在Spring的` bean后处理器`基础结构上，该基础结构允许在容器加载时修改任何bean定义。
+Spring还允许我们使用`自动代理` Bean定义，该定义可以自动代理选定的Bean定义。它建立在Spring的` bean后处理器bean post processor`基础结构上，该基础结构允许在容器加载时修改任何bean定义。
 
 In this model, you set up some special bean definitions in your XML bean definition file to configure the auto-proxy infrastructure. This lets you declare the targets eligible for auto-proxying. You need not use `ProxyFactoryBean`.
 
-在此模型中，您在XML bean定义文件中设置了一些特殊的bean定义，以配置自动代理基础结构。这使您可以声明有资格进行自动代理的目标。您不必使用`ProxyFactoryBean`。
+这个模块，您在XML bean定义文件中设置了一些特殊的bean定义，以配置自动代理基础结构。这使您可以声明有资格进行自动代理的目标。您不必使用`ProxyFactoryBean`。
 
 There are two ways to do this:
 
@@ -7161,7 +7157,7 @@ BeanNameAutoProxyCreator类是BeanPostProcessor，它会自动为名称与文字
 
 As with `ProxyFactoryBean`, there is an `interceptorNames` property rather than a list of interceptors, to allow correct behavior for prototype advisors. Named “interceptors” can be advisors or any advice type.
 
-与ProxyFactoryBean一样，有一个interceptorNames属性而不是拦截器列表，以允许原型顾问程序具有正确的行为。命名为`拦截器`的可以是顾问或任何建议类型。
+与ProxyFactoryBean一样，有一个interceptorNames属性而不是拦截器列表，以允许原型顾问程序具有正确的行为。命名为`interceptors`的可以是顾问或任何通知类型。
 
 As with auto-proxying in general, the main point of using `BeanNameAutoProxyCreator` is to apply the same configuration consistently to multiple objects, with minimal volume of configuration. It is a popular choice for applying declarative transactions to multiple objects.
 
@@ -7169,13 +7165,13 @@ As with auto-proxying in general, the main point of using `BeanNameAutoProxyCrea
 
 Bean definitions whose names match, such as `jdkMyBean` and `onlyJdk` in the preceding example, are plain old bean definitions with the target class. An AOP proxy is automatically created by the `BeanNameAutoProxyCreator`. The same advice is applied to all matching beans. Note that, if advisors are used (rather than the interceptor in the preceding example), the pointcuts may apply differently to different beans.
 
-名称匹配的Bean定义，例如上例中的`jdkMyBean`和`onlyJdk`，是带有目标类的普通旧Bean定义。 AOP代理由BeanNameAutoProxyCreator自动创建。相同的建议适用于所有匹配的bean。注意，如果使用了顾问程序（而不是前面的示例中的拦截器），则切入点可能会不同地应用于不同的bean。
+名称匹配的Bean定义，例如上例中的`jdkMyBean`和`onlyJdk`，是带有目标类的普通旧Bean定义。 AOP代理由`BeanNameAutoProxyCreator`自动创建。注意，如果使用了顾问(而不是前面示例中的拦截器)，切入点可能会以不同的方式应用于不同的bean。
 
 ##### `DefaultAdvisorAutoProxyCreator`
 
 A more general and extremely powerful auto-proxy creator is `DefaultAdvisorAutoProxyCreator`. This automagically applies eligible advisors in the current context, without the need to include specific bean names in the auto-proxy advisor’s bean definition. It offers the same merit of consistent configuration and avoidance of duplication as `BeanNameAutoProxyCreator`.
 
-一个更通用，功能更强大的自动代理创建器是DefaultAdvisorAutoProxyCreator。这会自动在当前上下文中应用合格的顾问程序，而无需在自动代理顾问程序的Bean定义中包括特定的Bean名称。与BeanNameAutoProxyCreator一样，它具有一致配置和避免重复的优点。
+一个更通用，功能更强大的自动代理创建器是`DefaultAdvisorAutoProxyCreator`。这会自动在当前上下文中应用合格的顾问程序，而无需在自动代理顾问程序的Bean定义中包括特定的Bean名称。与`BeanNameAutoProxyCreator`一样，它具有一致配置和避免重复的优点。
 
 Using this mechanism involves:
 
@@ -7187,19 +7183,19 @@ Using this mechanism involves:
 
 - Specifying any number of advisors in the same or related contexts. Note that these must be advisors, not interceptors or other advices. This is necessary, because there must be a pointcut to evaluate, to check the eligibility of each advice to candidate bean definitions.
 
-  在相同或相关的上下文中指定任意数量的顾问。请注意，这些必须是顾问程序，而不是拦截器或其他建议。这是必要的，因为必须有一个评估的切入点，以检查每个建议是否符合候选bean定义。
+  在相同或相关的上下文中指定任意数量的顾问。请注意，这些必须是顾问程序，而不是拦截器或其他建议(通知)。这是必要的，因为必须有一个评估的切入点，以检查每个建议（通知）是否符合候选bean定义。
 
 The `DefaultAdvisorAutoProxyCreator` automatically evaluates the pointcut contained in each advisor, to see what (if any) advice it should apply to each business object (such as `businessObject1` and `businessObject2` in the example).
 
-DefaultAdvisorAutoProxyCreator会自动评估每个顾问程序中包含的切入点，以查看应将其应用于每个业务对象的建议（如果有）（在示例中为诸如businessObject1和businessObject2）。
+`DefaultAdvisorAutoProxyCreator`会自动评估每个顾问程序中包含的切入点，以查看应将其应用于每个业务对象的建议(通知)（如果有）（在示例中为诸如businessObject1和businessObject2）。
 
 This means that any number of advisors can be applied automatically to each business object. If no pointcut in any of the advisors matches any method in a business object, the object is not proxied. As bean definitions are added for new business objects, they are automatically proxied if necessary.
 
-这意味着可以将任意数量的顾问程序自动应用于每个业务对象。如果在任何顾问程序中没有切入点与业务对象中的任何方法匹配，则该对象不会被代理。当为新的业务对象添加Bean定义时，如有必要，它们会自动被代理。
+这意味着可以将任意数量的顾问程序自动应用于每个业务对象。如果任何顾问中没有切入点匹配业务对象中的任何方法，则该对象不会被代理。当为新的业务对象添加Bean定义时，如有必要，它们会自动被代理。
 
 Auto-proxying in general has the advantage of making it impossible for callers or dependencies to obtain an un-advised object. Calling `getBean("businessObject1")` on this `ApplicationContext` returns an AOP proxy, not the target business object. (The “inner bean” idiom shown earlier also offers this benefit.)
 
-通常，自动代理的优点是使调用者或依赖项无法获得未建议的对象。在此`ApplicationContext`上调用`getBean（` businessObject1`）`会返回AOP代理，而不是目标业务对象。 （前面显示的` inner bean`惯用语也提供了这一好处。）
+通常，自动代理的优点是使调用者或依赖项不可能获得未通知的对象。在此`ApplicationContext`上调用`getBean（` businessObject1`）`会返回AOP代理，而不是目标业务对象。 （前面显示的` inner bean`惯用语也提供了这一好处。）
 
 The following example creates a `DefaultAdvisorAutoProxyCreator` bean and the other elements discussed in this section:
 
@@ -7223,11 +7219,11 @@ The following example creates a `DefaultAdvisorAutoProxyCreator` bean and the ot
 
 The `DefaultAdvisorAutoProxyCreator` is very useful if you want to apply the same advice consistently to many business objects. Once the infrastructure definitions are in place, you can add new business objects without including specific proxy configuration. You can also easily drop in additional aspects (for example, tracing or performance monitoring aspects) with minimal change to configuration.
 
-如果要将相同的建议一致地应用于许多业务对象，则` DefaultAdvisorAutoProxyCreator`非常有用。基础结构定义到位后，您可以添加新的业务对象，而无需包括特定的代理配置。您也可以轻松地添加其他方面（例如，跟踪或性能监视方面），而对配置的更改最少。
+如果要将相同的建议(通知)一致地应用于许多业务对象，则` DefaultAdvisorAutoProxyCreator`非常有用。基础结构定义到位后，您可以添加新的业务对象，而无需包括特定的代理配置。您也可以轻松地添加其他方面（例如，跟踪或性能监视方面），而对配置的更改最少。
 
 The `DefaultAdvisorAutoProxyCreator` offers support for filtering (by using a naming convention so that only certain advisors are evaluated, which allows the use of multiple, differently configured, AdvisorAutoProxyCreators in the same factory) and ordering. Advisors can implement the `org.springframework.core.Ordered` interface to ensure correct ordering if this is an issue. The `TransactionAttributeSourceAdvisor` used in the preceding example has a configurable order value. The default setting is unordered.
 
-DefaultAdvisorAutoProxyCreator提供过滤支持（通过使用命名约定，以便仅评估某些Advisor，从而允许在同一工厂中使用多个配置不同的AdvisorAutoProxyCreators）和排序。如果有问题，顾问可以实现org.springframework.core.Ordered接口以确保正确的排序。前面示例中使用的` TransactionAttributeSourceAdvisor`具有可配置的订单值。默认设置为无序。
+DefaultAdvisorAutoProxyCreator提供过滤支持（通过使用命名约定，只有特定的建议被评估，这允许在同一个工厂中使用多个不同配置的`advisorautoproxycreator`）和排序。如果有问题，顾问可以实现`org.springframework.core.Ordered`接口以确保正确的排序。前面示例中使用的` TransactionAttributeSourceAdvisor`具有可配置的订单值。默认设置为无序`
 
 ### 6.9. Using `TargetSource` Implementations
 
@@ -7235,11 +7231,11 @@ DefaultAdvisorAutoProxyCreator提供过滤支持（通过使用命名约定，�
 
 Spring offers the concept of a `TargetSource`, expressed in the `org.springframework.aop.TargetSource` interface. This interface is responsible for returning the “target object” that implements the join point. The `TargetSource` implementation is asked for a target instance each time the AOP proxy handles a method invocation.
 
-Spring提供了` TargetSource`的概念，在org.springframework.aop.TargetSource接口中表达。该接口负责返回实现连接点的`目标对象`。每当AOP代理处理方法调用时，都会向TargetSource实现请求目标实例。
+Spring提供了` TargetSource`的概念，在`org.springframework.aop.TargetSource`接口中表达。该接口负责返回实现*连接点*的`targetSource`。每当AOP代理处理方法调用时，都会向`TargetSource`实现请求目标实例。
 
 Developers who use Spring AOP do not normally need to work directly with `TargetSource` implementations, but this provides a powerful means of supporting pooling, hot swappable, and other sophisticated targets. For example, a pooling `TargetSource` can return a different target instance for each invocation, by using a pool to manage instances.
 
-使用Spring AOP的开发人员通常不需要直接使用TargetSource实现，但这提供了一种强大的手段来支持池化，热插拔和其他复杂的目标。例如，池` TargetSource`可以通过使用池来管理实例，从而为每次调用返回不同的目标实例。
+使用Spring AOP的开发人员通常不需要直接使用`TargetSource`实现，但这提供了一种强大的手段来支持池化，热插拔和其他复杂的目标。例如，池` TargetSource`可以通过使用池来管理实例，从而为每次调用返回不同的目标实例。
 
 If you do not specify a `TargetSource`, a default implementation is used to wrap a local object. The same target is returned for each invocation (as you would expect).
 
@@ -7259,7 +7255,7 @@ The rest of this section describes the standard target sources provided with Spr
 
 The `org.springframework.aop.target.HotSwappableTargetSource` exists to let the target of an AOP proxy be switched while letting callers keep their references to it.
 
-存在org.springframework.aop.target.HotSwappableTargetSource的目的是在允许调用者保留对其引用的同时切换AOP代理的目标。
+存在`org.springframework.aop.target.HotSwappableTargetSource`的目的是在允许调用者保留对其引用的同时切换`AOP`代理的目标。
 
 Changing the target source’s target takes effect immediately. The `HotSwappableTargetSource` is thread-safe.
 
@@ -7267,7 +7263,7 @@ Changing the target source’s target takes effect immediately. The `HotSwappabl
 
 You can change the target by using the `swap()` method on HotSwappableTargetSource, as the follow example shows:
 
-您可以通过在HotSwappableTargetSource上使用`swap（）`方法来更改目标，如以下示例所示：
+您可以通过在`HotSwappableTargetSource`上使用`swap()`方法来更改目标，如以下示例所示：
 
 ```java
 HotSwappableTargetSource swapper = (HotSwappableTargetSource) beanFactory.getBean("swapper");
@@ -7294,7 +7290,7 @@ The preceding `swap()` call changes the target of the swappable bean. Clients th
 
 Although this example does not add any advice (it is not necessary to add advice to use a `TargetSource`), any `TargetSource` can be used in conjunction with arbitrary advice.
 
-尽管此示例未添加任何建议（使用` TargetSource`无需添加建议），但可以将任何` TargetSource`与任意建议结合使用。
+尽管此示例未添加任何建议(通知)（使用` TargetSource`无需添加建议），但可以将任何` TargetSource`与任意建议（通知）结合使用。
 
 #### 6.9.2. Pooling Target Sources
 
@@ -7343,7 +7339,7 @@ Note that the target object (`businessObjectTarget` in the preceding example) mu
 
 In this case, `myInterceptor` is the name of an interceptor that would need to be defined in the same IoC context. However, you need not specify interceptors to use pooling. If you want only pooling and no other advice, do not set the `interceptorNames` property at all.
 
-在这种情况下，` myInterceptor`是需要在同一IoC上下文中定义的拦截器的名称。但是，您无需指定拦截器即可使用池。如果您只希望池化而没有其他建议，则完全不要设置`interceptorNames`属性。
+在这种情况下，` myInterceptor`是需要在同一IoC上下文中定义的拦截器的名称。但是，您无需指定拦截器即可使用池。如果您只希望池化而没有其他建议（通知），则完全不要设置`interceptorNames`属性。
 
 You can configure Spring to be able to cast any pooled object to the `org.springframework.aop.target.PoolingConfig` interface, which exposes information about the configuration and current size of the pool through an introduction. You need to define an advisor similar to the following:
 
@@ -7381,7 +7377,7 @@ Simpler pooling is available by using auto-proxying. You can set the `TargetSour
 
 Setting up a “prototype” target source is similar to setting up a pooling `TargetSource`. In this case, a new instance of the target is created on every method invocation. Although the cost of creating a new object is not high in a modern JVM, the cost of wiring up the new object (satisfying its IoC dependencies) may be more expensive. Thus, you should not use this approach without very good reason.
 
-设置`原型`目标源类似于设置池化` TargetSource`。在这种情况下，每次方法调用都会创建目标的新实例。尽管在现代JVM中创建新对象的成本并不高，但是连接新对象（满足其IoC依赖性）的成本可能会更高。因此，没有充分的理由就不应使用此方法。
+设置`prototype`目标源类似于设置池化` TargetSource`。在这种情况下，每次方法调用都会创建目标的新实例。尽管在现代JVM中创建新对象的成本并不高，但是连接新对象（满足其IoC依赖性）的成本可能会更高。因此，没有充分的理由就不应使用此方法。
 
 To do this, you could modify the `poolTargetSource` definition shown earlier as follows (we also changed the name, for clarity):
 
@@ -7417,15 +7413,15 @@ The only property is the name of the target bean. Inheritance is used in the `Ta
 
 ### 6.10. Defining New Advice Types
 
-定义新的建议类型
+定义新的通知（增强）类型
 
 Spring AOP is designed to be extensible. While the interception implementation strategy is presently used internally, it is possible to support arbitrary advice types in addition to the interception around advice, before, throws advice, and after returning advice.
 
-Spring AOP被设计为可扩展的。尽管目前在内部使用拦截实现策略，但是除了在建议周围，在建议之前，抛出建议和返回建议之后进行拦截之外，还可以支持任意建议类型。
+Spring AOP被设计为可扩展的。尽管目前在内部使用拦截实现策略，但是除了在环绕通知，在建议之前，抛出建议和返回建议之后进行拦截之外，还可以支持任意建议类型。
 
 The `org.springframework.aop.framework.adapter` package is an SPI package that lets support for new custom advice types be added without changing the core framework. The only constraint on a custom `Advice` type is that it must implement the `org.aopalliance.aop.Advice` marker interface.
 
-org.springframework.aop.framework.adapter软件包是一个SPI软件包，可以在不更改核心框架的情况下添加对新的自定义建议类型的支持。对自定义` Advice`类型的唯一限制是它必须实现` org.aopalliance.aop.Advice`标记接口。
+org.springframework.aop.framework.adapter软件包是一个SPI软件包，可以在不更改核心框架的情况下添加对新的自定义建议(通知)类型的支持。对自定义` Advice`类型的唯一限制是它必须实现` org.aopalliance.aop.Advice`标记接口。
 
 See the [`org.springframework.aop.framework.adapter`](https://docs.spring.io/spring-framework/docs/5.3.1/javadoc-api/org/springframework/aop/framework/adapter/package-frame.html) javadoc for further information.
 
