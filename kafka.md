@@ -3517,7 +3517,7 @@ The following are the topic-level configurations. The server's default configura
 
 下面是主题级配置。此属性的服务器默认配置在服务器默认属性标题下给出。如果主题没有显式的主题配置覆盖，则给定的服务器默认配置值仅适用于该主题。
 
-#### [cleanup.policy](http://kafka.apache.org/documentation/#cleanup.policy)
+#### [cleanup.policy旧记录保留策略](http://kafka.apache.org/documentation/#cleanup.policy)
 
   A string that is either "delete" or "compact" or both. This string designates the retention policy to use on old log segments. The default policy ("delete") will discard old segments when their retention time or size limit has been reached. The "compact" setting will enable [log compaction](http://kafka.apache.org/documentation/#compaction) on the topic.
 
@@ -3532,7 +3532,7 @@ The following are the topic-level configurations. The server's default configura
 | Server Default Property: | log.cleanup.policy |
 |              Importance: | medium             |
 
-#### [compression.type](http://kafka.apache.org/documentation/#compression.type)
+#### [compression.type压缩类型](http://kafka.apache.org/documentation/#compression.type)
 
   Specify the final compression type for a given topic. This configuration accepts the standard compression codecs ('gzip', 'snappy', 'lz4', 'zstd'). It additionally accepts 'uncompressed' which is equivalent to no compression; and 'producer' which means retain the original compression codec set by the producer.
 
@@ -3575,7 +3575,7 @@ The following are the topic-level configurations. The server's default configura
 
   This setting allows specifying an interval at which we will force an fsync of data written to the log. For example if this was set to 1 we would fsync after every message; if it were 5 we would fsync after every five messages. In general we recommend you not set this and use replication for durability and allow the operating system's background flush capabilities as it is more efficient. This setting can be overridden on a per#### [the per-topic configuration section](http://kafka.apache.org/documentation/#topicconfigs)).
 
-  此设置允许指定一个时间间隔，在该时间间隔，我们将强制将fsync数据写入日志。例如，如果这个被设为1我们会在每条消息后进行fsync;如果是5，我们会在每5条消息后进行fsync。一般来说，我们建议您不要设置这个值，而是使用复制来保证持久性，并允许操作系统的后台刷新功能，因为这样更有效。这个设置可以在每个主题的基础上被覆盖(请参阅[每个主题配置部分](http://kafka.apache.org/documentation/#topicconfigs))。
+  此设置允许指定一个时间间隔，在该时间间隔，我们将强制将fsync数据写入日志。例如，如果这个被设为1我们会在每条消息后进行fsync;如果是5，我们会在每5条消息后进行fsync。一般来说，我们建议您不要设置这个值，而是使用复制（replication）来保证持久性，并允许操作系统的后台刷新功能，因为这样更有效。这个设置可以在每个主题的基础上被覆盖(请参阅[每个主题配置部分](http://kafka.apache.org/documentation/#topicconfigs))。
 
 |                    Type: | long                        |
 | -----------------------: | --------------------------- |
@@ -3601,6 +3601,8 @@ The following are the topic-level configurations. The server's default configura
 
   A list of replicas for which log replication should be throttled on the follower side. The list should describe a set of replicas in the form [PartitionId]:[BrokerId],[PartitionId]:[BrokerId]:... or alternatively the wildcard '*' can be used to throttle all replicas for this topic.
 
+应该在跟随者端对其日志复制进行限制的副本列表。该列表应该描述一组副本，其形式为[PartitionId]:[BrokerId]，[PartitionId]:[BrokerId]:…或者，也可以使用通配符'*'来限制此主题的所有副本。
+
 |                    Type: | list                                                  |
 | -----------------------: | ----------------------------------------------------- |
 |                 Default: | ""                                                    |
@@ -3608,9 +3610,11 @@ The following are the topic-level configurations. The server's default configura
 | Server Default Property: | follower.replication.throttled.replicas               |
 |              Importance: | medium                                                |
 
-#### [index.interval.bytes](http://kafka.apache.org/documentation/#index.interval.bytes)
+#### [index.interval.bytes多少字节建个索引](http://kafka.apache.org/documentation/#index.interval.bytes)
 
   This setting controls how frequently Kafka adds an index entry to its offset index. The default setting ensures that we index a message roughly every 4096 bytes. More indexing allows reads to jump closer to the exact position in the log but makes the index larger. You probably don't need to change this.
+
+此设置控制Kafka向其偏移索引添加索引条目的频率。默认设置确保我们大约每4096字节索引一条消息。更多的索引允许读取更接近日志中的确切位置，但使索引更大。你可能不需要改变这一点。
 
 |                    Type: | int                      |
 | -----------------------: | ------------------------ |
@@ -3623,6 +3627,8 @@ The following are the topic-level configurations. The server's default configura
 
   A list of replicas for which log replication should be throttled on the leader side. The list should describe a set of replicas in the form [PartitionId]:[BrokerId],[PartitionId]:[BrokerId]:... or alternatively the wildcard '*' can be used to throttle all replicas for this topic.
 
+一个副本列表，它的日志复制应该在leader端被限制。该列表应该描述一组副本，其形式为[PartitionId]:[BrokerId]，[PartitionId]:[BrokerId]:…或者，也可以使用通配符'*'来限制此主题的所有副本
+
 |                    Type: | list                                                  |
 | -----------------------: | ----------------------------------------------------- |
 |                 Default: | ""                                                    |
@@ -3633,6 +3639,8 @@ The following are the topic-level configurations. The server's default configura
 #### [max.compaction.lag.ms](http://kafka.apache.org/documentation/#max.compaction.lag.ms)
 
   The maximum time a message will remain ineligible for compaction in the log. Only applicable for logs that are being compacted.
+
+消息在日志中不符合压缩条件的最长时间。仅适用于正在压缩的日志。
 
 |                    Type: | long                              |
 | -----------------------: | --------------------------------- |
@@ -3645,6 +3653,8 @@ The following are the topic-level configurations. The server's default configura
 
   The largest record batch size allowed by Kafka (after compression if compression is enabled). If this is increased and there are consumers older than 0.10.2, the consumers' fetch size must also be increased so that they can fetch record batches this large. In the latest message format version, records are always grouped into batches for efficiency. In previous message format versions, uncompressed records are not grouped into batches and this limit only applies to a single record in that case.
 
+Kafka允许的最大记录批大小(如果启用压缩，则在压缩之后)。如果增加这个值，并且有超过0.10.2的使用者，那么使用者的获取大小也必须增加，以便他们能够获取这么大的记录批。在最新的消息格式版本中，为了提高效率，记录总是分组成批。在以前的消息格式版本中，未压缩的记录不会分组成批，在这种情况下，此限制仅适用于单个记录。
+
 |                    Type: | int               |
 | -----------------------: | ----------------- |
 |                 Default: | 1048588           |
@@ -3655,6 +3665,8 @@ The following are the topic-level configurations. The server's default configura
 #### [message.format.version](http://kafka.apache.org/documentation/#message.format.version)
 
   Specify the message format version the broker will use to append messages to the logs. The value should be a valid ApiVersion. Some examples are: 0.8.2, 0.9.0.0, 0.10.0, check ApiVersion for more details. By setting a particular message format version, the user is certifying that all the existing messages on disk are smaller or equal than the specified version. Setting this value incorrectly will cause consumers with older versions to break as they will receive messages with a format that they don't understand.
+
+指定代理将用于将消息追加到日志的消息格式版本。该值应该是一个有效的ApiVersion。一些例子是:0.8.2,0.9.0.0,0.10.0，查看ApiVersion获得更多细节。通过设置特定的消息格式版本，用户可以确认磁盘上现有的所有消息都小于或等于指定的版本。不正确地设置此值将导致使用旧版本的用户崩溃，因为他们将接收到他们不理解的格式的消息
 
 |                    Type: | string                                                       |
 | -----------------------: | ------------------------------------------------------------ |
@@ -3667,6 +3679,8 @@ The following are the topic-level configurations. The server's default configura
 
   The maximum difference allowed between the timestamp when a broker receives a message and the timestamp specified in the message. If message.timestamp.type=CreateTime, a message will be rejected if the difference in timestamp exceeds this threshold. This configuration is ignored if message.timestamp.type=LogAppendTime.
 
+代理接收消息时的时间戳与消息中指定的时间戳之间允许的最大差异。如果message.timestamp.type=CreateTime，如果时间戳的差异超过此阈值，则消息将被拒绝。如果message.timestamp.type=LogAppendTime，则忽略此配置
+
 |                    Type: | long                                    |
 | -----------------------: | --------------------------------------- |
 |                 Default: | 9223372036854775807                     |
@@ -3677,6 +3691,8 @@ The following are the topic-level configurations. The server's default configura
 #### [message.timestamp.type](http://kafka.apache.org/documentation/#message.timestamp.type)
 
   Define whether the timestamp in the message is message create time or log append time. The value should be either `CreateTime` or `LogAppendTime`
+
+定义消息中的时间戳是消息创建时间还是日志追加时间。值应该是' CreateTime '或' LogAppendTime '
 
 |                    Type: | string                      |
 | -----------------------: | --------------------------- |
@@ -3689,6 +3705,8 @@ The following are the topic-level configurations. The server's default configura
 
   This configuration controls how frequently the log compactor will attempt to clean the log (assuming [log compaction](http://kafka.apache.org/documentation/#compaction) is enabled). By default we will avoid cleaning a log where more than 50% of the log has been compacted. This ratio bounds the maximum space wasted in the log by duplicates (at 50% at most 50% of the log could be duplicates). A higher ratio will mean fewer, more efficient cleanings but will mean more wasted space in the log. If the max.compaction.lag.ms or the min.compaction.lag.ms configurations are also specified, then the log compactor considers the log to be eligible for compaction as soon as either: (i) the dirty ratio threshold has been met and the log has had dirty (uncompacted) records for at least the min.compaction.lag.ms duration, or (ii) if the log has had dirty (uncompacted) records for at most the max.compaction.lag.ms period.
 
+这个配置控制日志压缩器尝试清理日志的频率(假设启用了[log compaction](http://kafka.apache.org/documentation/#compaction))。默认情况下，我们将避免清理已压缩超过50%的日志。这个比率限制了重复日志所浪费的最大空间(最多50%的日志是重复的)。较高的比率意味着更少、更有效的清理，但也意味着日志中浪费的空间更多。如果max.compaction.lag.ms或min.compaction.lag.ms配置也指定,然后日志压缩机认为日志就有资格获得压实:(i)脏比率阈值满足和日志已经脏(未压实的)记录至少min.compaction.lag.ms持续时间,或(ii)如果日志已经脏(未压实的)记录最多max.compaction.lag.ms时期。
+
 |                    Type: | double                          |
 | -----------------------: | ------------------------------- |
 |                 Default: | 0.5                             |
@@ -3699,6 +3717,8 @@ The following are the topic-level configurations. The server's default configura
 #### [min.compaction.lag.ms](http://kafka.apache.org/documentation/#min.compaction.lag.ms)
 
   The minimum time a message will remain uncompacted in the log. Only applicable for logs that are being compacted.
+
+消息在日志中保持未压缩状态的最小时间。仅适用于正在压缩的日志。
 
 |                    Type: | long                              |
 | -----------------------: | --------------------------------- |
@@ -3712,6 +3732,8 @@ The following are the topic-level configurations. The server's default configura
   When a producer sets acks to "all" (or "-1"), this configuration specifies the minimum number of replicas that must acknowledge a write for the write to be considered successful. If this minimum cannot be met, then the producer will raise an exception (either NotEnoughReplicas or NotEnoughReplicasAfterAppend).
   When used together, `min.insync.replicas` and `acks` allow you to enforce greater durability guarantees. A typical scenario would be to create a topic with a replication factor of 3, set `min.insync.replicas` to 2, and produce with `acks` of "all". This will ensure that the producer raises an exception if a majority of replicas do not receive a write.
 
+当生产者将acks设置为“all”(或“-1”)时，此配置指定必须确认写入操作的最小副本数量，以便认为写入操作成功。如果不能满足这个最小值，那么生成器将抛出一个异常(NotEnoughReplicas或NotEnoughReplicasAfterAppend)。当一起使用时，可以用min.insynco.replicas'和' acks '允许您强制执行更大的持久性保证。一个典型的场景是创建一个复制因子为3的主题，设置min.insync.replicas'到2，并与' acks '的“所有”。这将确保在大多数副本没有收到写操作时，生成程序会引发异常。
+
 |                    Type: | int                 |
 | -----------------------: | ------------------- |
 |                 Default: | 1                   |
@@ -3722,6 +3744,8 @@ The following are the topic-level configurations. The server's default configura
 #### [preallocate](http://kafka.apache.org/documentation/#preallocate)
 
   True if we should preallocate the file on disk when creating a new log segment.
+
+如果在创建新的日志段时应该在磁盘上预先分配文件，则为true。
 
 |                    Type: | boolean         |
 | -----------------------: | --------------- |
@@ -3734,6 +3758,8 @@ The following are the topic-level configurations. The server's default configura
 
   This configuration controls the maximum size a partition (which consists of log segments) can grow to before we will discard old log segments to free up space if we are using the "delete" retention policy. By default there is no size limit only a time limit. Since this limit is enforced at the partition level, multiply it by the number of partitions to compute the topic retention in bytes.
 
+如果我们使用“删除”保留策略，在我们丢弃旧的日志段以释放空间之前，这个配置控制一个分区(由日志段组成)可以增长到的最大大小。默认情况下没有大小限制，只有时间限制。由于这个限制是在分区级别强制执行的，所以用它乘以分区数就可以计算以字节为单位的主题保留量。
+
 |                    Type: | long                |
 | -----------------------: | ------------------- |
 |                 Default: | -1                  |
@@ -3744,6 +3770,8 @@ The following are the topic-level configurations. The server's default configura
 #### [retention.ms](http://kafka.apache.org/documentation/#retention.ms)
 
   This configuration controls the maximum time we will retain a log before we will discard old log segments to free up space if we are using the "delete" retention policy. This represents an SLA on how soon consumers must read their data. If set to -1, no time limit is applied.
+
+如果使用“删除”保留策略，在丢弃旧日志段以释放空间之前，此配置控制保留日志的最大时间。这表示关于用户必须多长时间读取数据的SLA。如果设置为-1，则不应用时间限制。
 
 |                    Type: | long               |
 | -----------------------: | ------------------ |
@@ -3756,6 +3784,8 @@ The following are the topic-level configurations. The server's default configura
 
   This configuration controls the segment file size for the log. Retention and cleaning is always done a file at a time so a larger segment size means fewer files but less granular control over retention.
 
+此配置控制日志的段文件大小。保留和清理总是一次对一个文件进行，因此更大的段大小意味着更少的文件，但对保留的粒度控制更少
+
 |                    Type: | int                     |
 | -----------------------: | ----------------------- |
 |                 Default: | 1073741824 (1 gibibyte) |
@@ -3766,6 +3796,8 @@ The following are the topic-level configurations. The server's default configura
 #### [segment.index.bytes](http://kafka.apache.org/documentation/#segment.index.bytes)
 
   This configuration controls the size of the index that maps offsets to file positions. We preallocate this index file and shrink it only after log rolls. You generally should not need to change this setting.
+
+此配置控制将偏移量映射到文件位置的索引的大小。我们预先分配这个索引文件，只有在日志滚动之后才收缩它。通常不需要更改此设置。
 
 |                    Type: | int                      |
 | -----------------------: | ------------------------ |
@@ -3778,6 +3810,8 @@ The following are the topic-level configurations. The server's default configura
 
   The maximum random jitter subtracted from the scheduled segment roll time to avoid thundering herds of segment rolling
 
+从预定分段滚动时间中减去的最大随机抖动，以避免轰鸣成群的分段滚动
+
 |                    Type: | long               |
 | -----------------------: | ------------------ |
 |                 Default: | 0                  |
@@ -3788,6 +3822,8 @@ The following are the topic-level configurations. The server's default configura
 #### [segment.ms](http://kafka.apache.org/documentation/#segment.ms)
 
   This configuration controls the period of time after which Kafka will force the log to roll even if the segment file isn't full to ensure that retention can delete or compact old data.
+
+这个配置控制了Kafka强制日志滚动的时间，即使段文件没有满，以确保保留可以删除或压缩旧数据。
 
 |                    Type: | long               |
 | -----------------------: | ------------------ |
@@ -3800,6 +3836,8 @@ The following are the topic-level configurations. The server's default configura
 
   Indicates whether to enable replicas not in the ISR set to be elected as leader as a last resort, even though doing so may result in data loss.
 
+指示是否在最后不得已的情况下启用ISR集中以外的副本作为leader，即使这样做可能导致数据丢失。
+
 |                    Type: | boolean                        |
 | -----------------------: | ------------------------------ |
 |                 Default: | false                          |
@@ -3810,6 +3848,8 @@ The following are the topic-level configurations. The server's default configura
 #### [message.downconversion.enable](http://kafka.apache.org/documentation/#message.downconversion.enable)
 
   This configuration controls whether down-conversion of message formats is enabled to satisfy consume requests. When set to `false`, broker will not perform down-conversion for consumers expecting an older message format. The broker responds with `UNSUPPORTED_VERSION` error for consume requests from such older clients. This configurationdoes not apply to any message format conversion that might be required for replication to followers.
+
+此配置控制是否启用消息格式的下转换以满足消费请求。当设置为“false”时，代理将不会为希望使用旧消息格式的用户执行下转换。对于来自这些较老客户端的消费请求，代理会以“UNSUPPORTED_VERSION”错误响应。此配置不适用于复制到关注者可能需要的任何消息格式转换。
 
 |                    Type: | boolean                           |
 | -----------------------: | --------------------------------- |
@@ -3825,6 +3865,8 @@ Below is the configuration of the producer:
 #### [key.serializer](http://kafka.apache.org/documentation/#key.serializer)
 
   Serializer class for key that implements the `org.apache.kafka.common.serialization.Serializer` interface.
+
+实现了' org.apache.kafka.common.serialization.Serializer '接口的键的Serializer类。
 
 |         Type: | class |
 | ------------: | ----- |
@@ -3846,11 +3888,19 @@ Below is the configuration of the producer:
 
   The number of acknowledgments the producer requires the leader to have received before considering a request complete. This controls the durability of records that are sent. The following settings are allowed:
 
+生产者要求领导者在考虑完成请求之前收到的确认数量。它控制发送的记录的持久性。允许以下设置:
+
   - `acks=0` If set to zero then the producer will not wait for any acknowledgment from the server at all. The record will be immediately added to the socket buffer and considered sent. No guarantee can be made that the server has received the record in this case, and the `retries` configuration will not take effect (as the client won't generally know of any failures). The offset given back for each record will always be set to `-1`.
+
+    如果设置为0，那么生成器将根本不等待来自服务器的任何确认。该记录将立即添加到套接字缓冲区并被认为已发送。在这种情况下，不能保证服务器已经收到了记录，“retries”配置将不会生效(因为客户机通常不会知道任何失败)。为每条记录返回的偏移量将始终设置为“-1”。
+
   - `acks=1` This will mean the leader will write the record to its local log but will respond without awaiting full acknowledgement from all followers. In this case should the leader fail immediately after acknowledging the record but before the followers have replicated it then the record will be lost.
+
+    acks=1这意味着领导者将把记录写入本地日志，但将不等待所有追随者的完全确认而响应。在这种情况下，如果领导者在确认记录后立即失败，但是在追随者复制它之前，那么记录将丢失。
+
   - `acks=all` This means the leader will wait for the full set of in-sync replicas to acknowledge the record. This guarantees that the record will not be lost as long as at least one in-sync replica remains alive. This is the strongest available guarantee. This is equivalent to the acks=-1 setting.
 
-  
+  ' acks=all '这意味着leader将等待完整的同步副本集合来确认记录。这保证了只要至少有一个同步副本保持活动状态，记录就不会丢失。这是现有的最有力的保证。这等价于ack =-1的设置。
 
 |         Type: | string          |
 | ------------: | --------------- |
@@ -3862,6 +3912,8 @@ Below is the configuration of the producer:
 
   A list of host/port pairs to use for establishing the initial connection to the Kafka cluster. The client will make use of all servers irrespective of which servers are specified here for bootstrapping—this list only impacts the initial hosts used to discover the full set of servers. This list should be in the form `host1:port1,host2:port2,...`. Since these servers are just used for the initial connection to discover the full cluster membership (which may change dynamically), this list need not contain the full set of servers (you may want more than one, though, in case a server is down).
 
+用于建立到Kafka集群的初始连接的主机/端口对列表。客户机将使用所有服务器，而不管这里为引导指定了哪些服务器——此列表只影响用于发现完整服务器集的初始主机。该列表应该以“host1:port1,host2:port2，…”的形式出现。由于这些服务器仅用于初始连接，以发现完整的集群成员关系(可能会动态更改)，因此此列表不需要包含完整的服务器集(不过，如果服务器宕机，您可能需要多个服务器)。
+
 |         Type: | list            |
 | ------------: | --------------- |
 |      Default: | ""              |
@@ -3872,7 +3924,11 @@ Below is the configuration of the producer:
 
   The total bytes of memory the producer can use to buffer records waiting to be sent to the server. If records are sent faster than they can be delivered to the server the producer will block for `max.block.ms` after which it will throw an exception.
 
+生成器可用于缓冲等待发送到服务器的记录的内存总字节。如果记录发送的速度比它们发送到服务器的速度快，producer将阻塞“max.block.ms”之后，它将抛出一个异常。
+
   This setting should correspond roughly to the total memory the producer will use, but is not a hard bound since not all memory the producer uses is used for buffering. Some additional memory will be used for compression (if compression is enabled) as well as for maintaining in-flight requests.
+
+这个设置应该大致对应于producer将使用的总内存，但不是硬性限制，因为生成器使用的所有内存都用于缓冲。一些额外的内存将用于压缩(如果启用了压缩)以及维护动态请求。
 
 |         Type: | long     |
 | ------------: | -------- |
@@ -3884,6 +3940,8 @@ Below is the configuration of the producer:
 
   The compression type for all data generated by the producer. The default is none (i.e. no compression). Valid values are `none`, `gzip`, `snappy`, `lz4`, or `zstd`. Compression is of full batches of data, so the efficacy of batching will also impact the compression ratio (more batching means better compression).
 
+生成器生成的所有数据的压缩类型。默认值是none(即没有压缩)。有效值是' none '、' gzip '、' snappy '、' lz4 '或' zstd '。压缩是整批的数据，因此批处理的效率也会影响压缩比(批处理越多，压缩效果越好)。
+
 |         Type: | string |
 | ------------: | ------ |
 |      Default: | none   |
@@ -3893,6 +3951,8 @@ Below is the configuration of the producer:
 #### [retries](http://kafka.apache.org/documentation/#retries)
 
   Setting a value greater than zero will cause the client to resend any record whose send fails with a potentially transient error. Note that this retry is no different than if the client resent the record upon receiving the error. Allowing retries without setting `max.in.flight.requests.per.connection` to 1 will potentially change the ordering of records because if two batches are sent to a single partition, and the first fails and is retried but the second succeeds, then the records in the second batch may appear first. Note additionally that produce requests will be failed before the number of retries has been exhausted if the timeout configured by `delivery.timeout.ms` expires first before successful acknowledgement. Users should generally prefer to leave this config unset and instead use `delivery.timeout.ms` to control retry behavior.
+
+设置一个大于零的值将导致客户端重新发送任何发送失败并可能出现瞬态错误的记录。请注意，此重试与客户端在接收到错误后重新发送记录没有区别。允许在没有设置“max.in. flights .requests.per.connection”' to 1的情况下重试可能会改变记录的顺序，因为如果将两个批发送到单个分区，第一个批失败并重试，但是第二个批成功，那么第二个批中的记录可能会首先出现。另外请注意，如果‘delivery.timeout.ms’配置的超时，在重试次数耗尽之前，生成请求将失败。确认成功之前的文件先过期。用户通常应该选择不设置这个配置，而使用“delivery.timeout.ms”。控制重试行为。
 
 |         Type: | int                |
 | ------------: | ------------------ |
@@ -3904,6 +3964,8 @@ Below is the configuration of the producer:
 
   The password of the private key in the key store file. This is optional for client.
 
+密钥存储文件中私钥的密码。这对于客户机是可选的。
+
 |         Type: | password |
 | ------------: | -------- |
 |      Default: | null     |
@@ -3913,6 +3975,8 @@ Below is the configuration of the producer:
 #### [ssl.keystore.location](http://kafka.apache.org/documentation/#ssl.keystore.location)
 
   The location of the key store file. This is optional for client and can be used for two-way authentication for client.
+
+密钥存储文件的位置。这对于客户机是可选的，可以用于客户机的双向身份验证。
 
 |         Type: | string |
 | ------------: | ------ |
@@ -3924,6 +3988,8 @@ Below is the configuration of the producer:
 
   The store password for the key store file. This is optional for client and only needed if ssl.keystore.location is configured.
 
+密钥存储文件的存储密码。这对于客户机是可选的，只有在ssl.keystore中才需要。位置配置。
+
 |         Type: | password |
 | ------------: | -------- |
 |      Default: | null     |
@@ -3933,6 +3999,8 @@ Below is the configuration of the producer:
 #### [ssl.truststore.location](http://kafka.apache.org/documentation/#ssl.truststore.location)
 
   The location of the trust store file.
+
+信任存储库文件的位置。
 
 |         Type: | string |
 | ------------: | ------ |
@@ -3944,6 +4012,8 @@ Below is the configuration of the producer:
 
   The password for the trust store file. If a password is not set access to the truststore is still available, but integrity checking is disabled.
 
+信任存储文件的密码。如果没有设置密码，仍然可以访问信任存储库，但是禁用了完整性检查。
+
 |         Type: | password |
 | ------------: | -------- |
 |      Default: | null     |
@@ -3954,11 +4024,19 @@ Below is the configuration of the producer:
 
   The producer will attempt to batch records together into fewer requests whenever multiple records are being sent to the same partition. This helps performance on both the client and the server. This configuration controls the default batch size in bytes.
 
+每当多个记录被发送到同一个分区时，生成器将尝试将记录批处理成更少的请求。这有助于提高客户机和服务器的性能。此配置以字节为单位控制默认批处理大小。
+
   No attempt will be made to batch records larger than this size.
+
+不会尝试对大于此大小的记录进行批处理。
 
   Requests sent to brokers will contain multiple batches, one for each partition with data available to be sent.
 
+发送到代理的请求将包含多个批处理，每个分区都有一个批处理，其中有可供发送的数据。
+
   A small batch size will make batching less common and may reduce throughput (a batch size of zero will disable batching entirely). A very large batch size may use memory a bit more wastefully as we will always allocate a buffer of the specified batch size in anticipation of additional records.
+
+较小的批处理大小将使批处理不那么常见，并可能降低吞吐量(批处理大小为零将完全禁用批处理)。非常大的批处理可能会更加浪费内存，因为我们总是会分配指定批处理大小的缓冲区，以预期会有更多的记录。
 
 |         Type: | int     |
 | ------------: | ------- |
@@ -3970,6 +4048,8 @@ Below is the configuration of the producer:
 
   Controls how the client uses DNS lookups. If set to `use_all_dns_ips`, connect to each returned IP address in sequence until a successful connection is established. After a disconnection, the next IP is used. Once all IPs have been used once, the client resolves the IP(s) from the hostname again (both the JVM and the OS cache DNS name lookups, however). If set to `resolve_canonical_bootstrap_servers_only`, resolve each bootstrap address into a list of canonical names. After the bootstrap phase, this behaves the same as `use_all_dns_ips`. If set to `default` (deprecated), attempt to connect to the first IP address returned by the lookup, even if the lookup returns multiple IP addresses.
 
+控制客户端如何使用DNS查找。如果设置为' use_all_dns_ips '，依次连接到每个返回的IP地址，直到建立成功的连接。断开连接后，使用下一个IP。一旦所有IP都使用过一次，客户机就会再次从主机名解析IP(不过JVM和OS都会缓存DNS名称查找)。如果设置为' resolve_canonical_bootstrap_servers_only '，则将每个引导程序地址解析为一个规范名称列表。在引导阶段之后，它的行为与' use_all_dns_ips '相同。如果设置为‘default’(不赞成使用)，尝试连接到查找返回的第一个IP地址，即使查找返回多个IP地址。
+
 |         Type: | string                                                       |
 | ------------: | ------------------------------------------------------------ |
 |      Default: | use_all_dns_ips                                              |
@@ -3979,6 +4059,8 @@ Below is the configuration of the producer:
 #### [client.id](http://kafka.apache.org/documentation/#client.id)
 
   An id string to pass to the server when making requests. The purpose of this is to be able to track the source of requests beyond just ip/port by allowing a logical application name to be included in server-side request logging.
+
+在发出请求时传递给服务器的id字符串。这样做的目的是通过允许在服务器端请求日志记录中包含逻辑应用程序名称，从而能够跟踪ip/端口之外的请求源。
 
 |         Type: | string |
 | ------------: | ------ |
@@ -3990,6 +4072,8 @@ Below is the configuration of the producer:
 
   Close idle connections after the number of milliseconds specified by this config.
 
+在此配置指定的毫秒数之后关闭空闲连接。
+
 |         Type: | long               |
 | ------------: | ------------------ |
 |      Default: | 540000 (9 minutes) |
@@ -3999,6 +4083,8 @@ Below is the configuration of the producer:
 #### [delivery.timeout.ms](http://kafka.apache.org/documentation/#delivery.timeout.ms)
 
   An upper bound on the time to report success or failure after a call to `send()` returns. This limits the total time that a record will be delayed prior to sending, the time to await acknowledgement from the broker (if expected), and the time allowed for retriable send failures. The producer may report failure to send a record earlier than this config if either an unrecoverable error is encountered, the retries have been exhausted, or the record is added to a batch which reached an earlier delivery expiration deadline. The value of this config should be greater than or equal to the sum of `request.timeout.ms` and `linger.ms`.
+
+调用' send() '后报告成功或失败的时间上限返回。这限制了记录在发送前延迟的总时间、等待代理确认的时间(如果预期的话)以及可恢复发送失败的允许时间。如果遇到不可恢复的错误，重试已经结束，或者记录被添加到到达较早交付截止日期的批处理中，生产者可能会报告在此配置之前发送记录失败。这个配置的值应该大于或等于' request.timeout '的总和。女士”和“linger.ms”。
 
 |         Type: | int                |
 | ------------: | ------------------ |
@@ -4010,6 +4096,8 @@ Below is the configuration of the producer:
 
   The producer groups together any records that arrive in between request transmissions into a single batched request. Normally this occurs only under load when records arrive faster than they can be sent out. However in some circumstances the client may want to reduce the number of requests even under moderate load. This setting accomplishes this by adding a small amount of artificial delay—that is, rather than immediately sending out a record the producer will wait for up to the given delay to allow other records to be sent so that the sends can be batched together. This can be thought of as analogous to Nagle's algorithm in TCP. This setting gives the upper bound on the delay for batching: once we get `batch.size` worth of records for a partition it will be sent immediately regardless of this setting, however if we have fewer than this many bytes accumulated for this partition we will 'linger' for the specified time waiting for more records to show up. This setting defaults to 0 (i.e. no delay). Setting `linger.ms=5`, for example, would have the effect of reducing the number of requests sent but would add up to 5ms of latency to records sent in the absence of load.
 
+制作人将在请求传输之间到达的任何记录分组为单个批处理请求。通常情况下，只有当记录到达的速度比发送的速度快时，才会发生这种情况。然而，在某些情况下，即使在中等负载下，客户端也可能希望减少请求的数量。此设置通过添加少量的人为延迟来实现这一点，即，不是立即发送一个记录，生产者将等待到给定的延迟，以允许发送其他记录，以便发送的记录可以成批一起发送。这可以看作类似于TCP中的Nagle算法。这个设置给出了批处理延迟的上限:一旦我们得到“batch”。不管这个设置如何，它都会被立即发送，但是如果我们为这个分区积累的字节数少于这个数量，我们就会在指定的时间内等待更多的记录出现。此设置的默认值为0(即没有延迟)。设置的徘徊。例如，ms=5 '可以减少发送的请求数量，但在没有负载的情况下，发送的记录的延迟将增加到5ms。
+
 |         Type: | long    |
 | ------------: | ------- |
 |      Default: | 0       |
@@ -4020,6 +4108,8 @@ Below is the configuration of the producer:
 
   The configuration controls how long `KafkaProducer.send()` and `KafkaProducer.partitionsFor()` will block.These methods can be blocked either because the buffer is full or metadata unavailable.Blocking in the user-supplied serializers or partitioner will not be counted against this timeout.
 
+配置控制' KafkaProducer.send() '和' KafkaProducer.partitionsFor() '将阻塞多长时间。这些方法可能因为缓冲区已满或元数据不可用而被阻塞。用户提供的序列化器或分拆器中的阻塞将不计入此超时。
+
 |         Type: | long             |
 | ------------: | ---------------- |
 |      Default: | 60000 (1 minute) |
@@ -4029,6 +4119,8 @@ Below is the configuration of the producer:
 #### [max.request.size](http://kafka.apache.org/documentation/#max.request.size)
 
   The maximum size of a request in bytes. This setting will limit the number of record batches the producer will send in a single request to avoid sending huge requests. This is also effectively a cap on the maximum uncompressed record batch size. Note that the server has its own cap on the record batch size (after compression if compression is enabled) which may be different from this.
+
+请求的最大大小，以字节为单位。此设置将限制生成程序在单个请求中发送的记录批的数量，以避免发送大量请求。这也有效地限制了未压缩的最大记录批大小。注意，服务器对记录批处理大小有自己的上限(如果启用了压缩，则在压缩之后)，上限可能与此不同。
 
 |         Type: | int     |
 | ------------: | ------- |
@@ -4050,15 +4142,21 @@ Below is the configuration of the producer:
 
   The size of the TCP receive buffer (SO_RCVBUF) to use when reading data. If the value is -1, the OS default will be used.
 
+读取数据时要使用的TCP接收缓冲区(SO_RCVBUF)的大小。如果值为-1，将使用OS默认值。
+
 |         Type: | int                  |
 | ------------: | -------------------- |
 |      Default: | 32768 (32 kibibytes) |
 | Valid Values: | [-1,...]             |
 |   Importance: | medium               |
 
+
+
 #### [request.timeout.ms](http://kafka.apache.org/documentation/#request.timeout.ms)
 
   The configuration controls the maximum amount of time the client will wait for the response of a request. If the response is not received before the timeout elapses the client will resend the request if necessary or fail the request if retries are exhausted. This should be larger than `replica.lag.time.max.ms` (a broker configuration) to reduce the possibility of message duplication due to unnecessary producer retries.
+
+配置控制客户端等待请求响应的最大时间量。如果在超时结束前没有收到响应，客户端将在必要时重新发送请求，或者在重试耗尽时请求失败。这个应该比copy .lag.time.max.ms大。减少由于不必要的生产者重试而导致的消息重复的可能性。
 
 |         Type: | int                |
 | ------------: | ------------------ |
@@ -4070,6 +4168,8 @@ Below is the configuration of the producer:
 
   The fully qualified name of a SASL client callback handler class that implements the AuthenticateCallbackHandler interface.
 
+实现AuthenticateCallbackHandler接口的SASL客户端回调处理程序类的完全限定名
+
 |         Type: | class  |
 | ------------: | ------ |
 |      Default: | null   |
@@ -4079,6 +4179,8 @@ Below is the configuration of the producer:
 #### [sasl.jaas.config](http://kafka.apache.org/documentation/#sasl.jaas.config)
 
   JAAS login context parameters for SASL connections in the format used by JAAS configuration files. JAAS configuration file format is described [here](http://docs.oracle.com/javase/8/docs/technotes/guides/security/jgss/tutorials/LoginConfigFile.html). The format for the value is: '`loginModuleClass controlFlag (optionName=optionValue)*;`'. For brokers, the config must be prefixed with listener prefix and SASL mechanism name in lower-case. For example, listener.name.sasl_ssl.scram-sha-256.sasl.jaas.config=com.example.ScramLoginModule required;
+
+使用JAAS配置文件使用的格式为SASL连接的JAAS登录上下文参数。这里描述了JAAS配置文件格式。该值的格式是:' ' loginModuleClass controlFlag (optionName=optionValue)*; "。对于代理，配置必须使用监听器前缀和小写的SASL机制名称作为前缀。例如，listen .name.sasl_ssl. scramloginmodule required;
 
 |         Type: | password |
 | ------------: | -------- |
@@ -4090,6 +4192,8 @@ Below is the configuration of the producer:
 
   The Kerberos principal name that Kafka runs as. This can be defined either in Kafka's JAAS config or in Kafka's config.
 
+Kafka运行时的Kerberos主体名。这可以在卡夫卡的JAAS配置或卡夫卡的配置中定义
+
 |         Type: | string |
 | ------------: | ------ |
 |      Default: | null   |
@@ -4100,15 +4204,21 @@ Below is the configuration of the producer:
 
   The fully qualified name of a SASL login callback handler class that implements the AuthenticateCallbackHandler interface. For brokers, login callback handler config must be prefixed with listener prefix and SASL mechanism name in lower-case. For example, listener.name.sasl_ssl.scram-sha-256.sasl.login.callback.handler.class=com.example.CustomScramLoginCallbackHandler
 
+实现AuthenticateCallbackHandler接口的SASL登录回调处理程序类的完全限定名。对于代理，登录回调处理程序配置必须使用监听器前缀和小写的SASL机制名称作为前缀。例如,listener.name.sasl_ssl.scram - sha - 256. - sasl.login.callback.handler.class = com.example.CustomScramLoginCallbackHandler
+
 |         Type: | class  |
 | ------------: | ------ |
 |      Default: | null   |
 | Valid Values: |        |
 |   Importance: | medium |
 
+
+
 #### [sasl.login.class](http://kafka.apache.org/documentation/#sasl.login.class)
 
   The fully qualified name of a class that implements the Login interface. For brokers, login config must be prefixed with listener prefix and SASL mechanism name in lower-case. For example, listener.name.sasl_ssl.scram-sha-256.sasl.login.class=com.example.CustomScramLogin
+
+实现登录接口的类的完全限定名。对于代理，登录配置必须使用监听器前缀和小写的SASL机制名称作为前缀。例如,listener.name.sasl_ssl.scram - sha - 256. - sasl.login.class = com.example.CustomScramLogin
 
 |         Type: | class  |
 | ------------: | ------ |
@@ -4120,6 +4230,8 @@ Below is the configuration of the producer:
 
   SASL mechanism used for client connections. This may be any mechanism for which a security provider is available. GSSAPI is the default mechanism.
 
+用于客户端连接的SASL机制。这可以是安全提供程序可用的任何机制。GSSAPI是默认机制。
+
 |         Type: | string |
 | ------------: | ------ |
 |      Default: | GSSAPI |
@@ -4129,6 +4241,8 @@ Below is the configuration of the producer:
 #### [security.protocol](http://kafka.apache.org/documentation/#security.protocol)
 
   Protocol used to communicate with brokers. Valid values are: PLAINTEXT, SSL, SASL_PLAINTEXT, SASL_SSL.
+
+用于与代理通信的协议。有效值是:明文、SSL、sasl_明文、SASL_SSL。
 
 |         Type: | string    |
 | ------------: | --------- |
@@ -4140,6 +4254,8 @@ Below is the configuration of the producer:
 
   The size of the TCP send buffer (SO_SNDBUF) to use when sending data. If the value is -1, the OS default will be used.
 
+发送数据时要使用的TCP发送缓冲区(SO_SNDBUF)的大小。如果值为-1，将使用OS默认值。
+
 |         Type: | int                    |
 | ------------: | ---------------------- |
 |      Default: | 131072 (128 kibibytes) |
@@ -4149,6 +4265,8 @@ Below is the configuration of the producer:
 #### [ssl.enabled.protocols](http://kafka.apache.org/documentation/#ssl.enabled.protocols)
 
   The list of protocols enabled for SSL connections. The default is 'TLSv1.2,TLSv1.3' when running with Java 11 or newer, 'TLSv1.2' otherwise. With the default value for Java 11, clients and servers will prefer TLSv1.3 if both support it and fallback to TLSv1.2 otherwise (assuming both support at least TLSv1.2). This default should be fine for most cases. Also see the config documentation for `ssl.protocol`.
+
+为SSL连接启用的协议列表。在使用Java 11或更新版本运行时，默认为“TLSv1.2,TLSv1.3”，否则为“TLSv1.2”。对于Java 11的默认值，如果客户端和服务器都支持TLSv1.3，那么它们会更喜欢TLSv1.3，否则会退回到TLSv1.2(假设两者都至少支持TLSv1.2)。这个默认值应该适用于大多数情况。另外，请参阅“ssl.protocol”的配置文档。
 
 |         Type: | list    |
 | ------------: | ------- |
@@ -4160,6 +4278,8 @@ Below is the configuration of the producer:
 
   The file format of the key store file. This is optional for client.
 
+密钥存储文件的文件格式。这对于客户机是可选的。
+
 |         Type: | string |
 | ------------: | ------ |
 |      Default: | JKS    |
@@ -4169,6 +4289,8 @@ Below is the configuration of the producer:
 #### [ssl.protocol](http://kafka.apache.org/documentation/#ssl.protocol)
 
   The SSL protocol used to generate the SSLContext. The default is 'TLSv1.3' when running with Java 11 or newer, 'TLSv1.2' otherwise. This value should be fine for most use cases. Allowed values in recent JVMs are 'TLSv1.2' and 'TLSv1.3'. 'TLS', 'TLSv1.1', 'SSL', 'SSLv2' and 'SSLv3' may be supported in older JVMs, but their usage is discouraged due to known security vulnerabilities. With the default value for this config and 'ssl.enabled.protocols', clients will downgrade to 'TLSv1.2' if the server does not support 'TLSv1.3'. If this config is set to 'TLSv1.2', clients will not use 'TLSv1.3' even if it is one of the values in ssl.enabled.protocols and the server only supports 'TLSv1.3'.
+
+用于生成SSLContext的SSL协议。在使用Java 11或更新版本运行时，默认为“TLSv1.3”，否则为“TLSv1.2”。这个值对于大多数用例来说都是合适的。最近的jvm允许的值是“TLSv1.2”和“TLSv1.3”。旧的jvm可能支持“TLS”、“TLSv1.1”、“SSL”、“SSLv2”和“SSLv3”，但由于已知的安全漏洞，不建议使用它们。使用此配置的默认值和'ssl.enabled '。如果服务器不支持“TLSv1.3”，客户端将降级到“TLSv1.2”。如果这个配置被设置为'TLSv1.2'，客户端将不会使用'TLSv1.3'，即使它是ssl.enabled中的值之一。协议和服务器只支持“TLSv1.3”。
 
 |         Type: | string  |
 | ------------: | ------- |
@@ -4180,6 +4302,8 @@ Below is the configuration of the producer:
 
   The name of the security provider used for SSL connections. Default value is the default security provider of the JVM.
 
+用于SSL连接的安全提供程序的名称。缺省值是JVM的缺省安全提供程序。
+
 |         Type: | string |
 | ------------: | ------ |
 |      Default: | null   |
@@ -4189,6 +4313,8 @@ Below is the configuration of the producer:
 #### [ssl.truststore.type](http://kafka.apache.org/documentation/#ssl.truststore.type)
 
   The file format of the trust store file.
+
+信任存储区文件的文件格式
 
 |         Type: | string |
 | ------------: | ------ |
@@ -4200,6 +4326,8 @@ Below is the configuration of the producer:
 
   When set to 'true', the producer will ensure that exactly one copy of each message is written in the stream. If 'false', producer retries due to broker failures, etc., may write duplicates of the retried message in the stream. Note that enabling idempotence requires `max.in.flight.requests.per.connection` to be less than or equal to 5, `retries` to be greater than 0 and `acks` must be 'all'. If these values are not explicitly set by the user, suitable values will be chosen. If incompatible values are set, a `ConfigException` will be thrown.
 
+当设置为“true”时，生成器将确保在流中准确地写入每个消息的一个副本。如果“false”，则由于代理失败等原因，生产者重试，可能会在流中写入重试消息的副本。注意，启用幂等性需要“max.in. flights .requests.per.connection'小于或等于5，'重试'大于0，' acks '必须是'all'。如果用户没有显式地设置这些值，那么将选择合适的值。如果设置了不兼容的值，就会抛出一个' ConfigException '。
+
 |         Type: | boolean |
 | ------------: | ------- |
 |      Default: | false   |
@@ -4209,6 +4337,8 @@ Below is the configuration of the producer:
 #### [interceptor.classes](http://kafka.apache.org/documentation/#interceptor.classes)
 
   A list of classes to use as interceptors. Implementing the `org.apache.kafka.clients.producer.ProducerInterceptor` interface allows you to intercept (and possibly mutate) the records received by the producer before they are published to the Kafka cluster. By default, there are no interceptors.
+
+用作拦截器的类的列表。实施“org.apache.kafka.clients.producer.ProducerInterceptor的接口允许您在将记录发布到Kafka集群之前拦截(并可能更改)生产者收到的记录。默认情况下，没有拦截器。
 
 |         Type: | list            |
 | ------------: | --------------- |
@@ -4220,6 +4350,8 @@ Below is the configuration of the producer:
 
   The maximum number of unacknowledged requests the client will send on a single connection before blocking. Note that if this setting is set to be greater than 1 and there are failed sends, there is a risk of message re-ordering due to retries (i.e., if retries are enabled).
 
+客户端在阻塞之前在单个连接上发送的未确认请求的最大数量。请注意，如果将此设置设置为大于1，并且存在发送失败的情况，那么由于重试(即启用了重试)，将存在消息重新排序的风险。
+
 |         Type: | int     |
 | ------------: | ------- |
 |      Default: | 5       |
@@ -4229,6 +4361,8 @@ Below is the configuration of the producer:
 #### [metadata.max.age.ms](http://kafka.apache.org/documentation/#metadata.max.age.ms)
 
   The period of time in milliseconds after which we force a refresh of metadata even if we haven't seen any partition leadership changes to proactively discover any new brokers or partitions.
+
+一段时间(以毫秒为单位)，在此之后，即使我们没有看到任何分区领导变更，我们也会强制刷新元数据，以主动发现任何新的代理或分区。
 
 |         Type: | long               |
 | ------------: | ------------------ |
@@ -4240,6 +4374,8 @@ Below is the configuration of the producer:
 
   Controls how long the producer will cache metadata for a topic that's idle. If the elapsed time since a topic was last produced to exceeds the metadata idle duration, then the topic's metadata is forgotten and the next access to it will force a metadata fetch request.
 
+控制生成器为空闲主题缓存元数据的时间。如果自上次生成主题以来所经过的时间超过了元数据空闲时间，那么就会忘记该主题的元数据，下一次访问它时将强制执行元数据获取请求。
+
 |         Type: | long               |
 | ------------: | ------------------ |
 |      Default: | 300000 (5 minutes) |
@@ -4249,6 +4385,8 @@ Below is the configuration of the producer:
 #### [metric.reporters](http://kafka.apache.org/documentation/#metric.reporters)
 
   A list of classes to use as metrics reporters. Implementing the `org.apache.kafka.common.metrics.MetricsReporter` interface allows plugging in classes that will be notified of new metric creation. The JmxReporter is always included to register JMX statistics.
+
+用作度量报告器的类列表。实现' org.apache. kafaka .common. metricsreporter '接口允许插入将被通知新度量创建的类。始终包含JmxReporter来注册JMX统计信息。
 
 |         Type: | list            |
 | ------------: | --------------- |
@@ -4260,6 +4398,8 @@ Below is the configuration of the producer:
 
   The number of samples maintained to compute metrics.
 
+为计算指标而维护的样本数量。
+
 |         Type: | int     |
 | ------------: | ------- |
 |      Default: | 2       |
@@ -4269,6 +4409,8 @@ Below is the configuration of the producer:
 #### [metrics.recording.level](http://kafka.apache.org/documentation/#metrics.recording.level)
 
   The highest recording level for metrics.
+
+度量标准的最高记录级别。
 
 |         Type: | string        |
 | ------------: | ------------- |
@@ -4280,6 +4422,8 @@ Below is the configuration of the producer:
 
   The window of time a metrics sample is computed over.
 
+度量样本计算结束的时间窗口。
+
 |         Type: | long               |
 | ------------: | ------------------ |
 |      Default: | 30000 (30 seconds) |
@@ -4289,6 +4433,8 @@ Below is the configuration of the producer:
 #### [reconnect.backoff.max.ms](http://kafka.apache.org/documentation/#reconnect.backoff.max.ms)
 
   The maximum amount of time in milliseconds to wait when reconnecting to a broker that has repeatedly failed to connect. If provided, the backoff per host will increase exponentially for each consecutive connection failure, up to this maximum. After calculating the backoff increase, 20% random jitter is added to avoid connection storms.
+
+重新连接到多次连接失败的代理时等待的最大时间(以毫秒为单位)。如果这样做，每台主机的回退量将在每次连续连接失败时呈指数增长，直到这个最大值。在计算回退增加后，增加了20%的随机抖动以避免连接风暴。
 
 |         Type: | long            |
 | ------------: | --------------- |
@@ -4300,6 +4446,8 @@ Below is the configuration of the producer:
 
   The base amount of time to wait before attempting to reconnect to a given host. This avoids repeatedly connecting to a host in a tight loop. This backoff applies to all connection attempts by the client to a broker.
 
+尝试重新连接到给定主机之前等待的基本时间。这避免了在紧循环中重复连接到主机。此回退适用于客户端对代理的所有连接尝试。
+
 |         Type: | long    |
 | ------------: | ------- |
 |      Default: | 50      |
@@ -4309,6 +4457,8 @@ Below is the configuration of the producer:
 #### [retry.backoff.ms](http://kafka.apache.org/documentation/#retry.backoff.ms)
 
   The amount of time to wait before attempting to retry a failed request to a given topic partition. This avoids repeatedly sending requests in a tight loop under some failure scenarios.
+
+尝试对给定主题分区重试失败的请求之前等待的时间。这避免了在某些故障场景下，在紧密循环中重复发送请求。
 
 |         Type: | long    |
 | ------------: | ------- |
@@ -4320,6 +4470,8 @@ Below is the configuration of the producer:
 
   Kerberos kinit command path.
 
+Kerberos kinit命令路径。
+
 |         Type: | string         |
 | ------------: | -------------- |
 |      Default: | /usr/bin/kinit |
@@ -4329,6 +4481,8 @@ Below is the configuration of the producer:
 #### [sasl.kerberos.min.time.before.relogin](http://kafka.apache.org/documentation/#sasl.kerberos.min.time.before.relogin)
 
   Login thread sleep time between refresh attempts.
+
+刷新尝试之间的登录线程休眠时间。
 
 |         Type: | long  |
 | ------------: | ----- |
@@ -4340,6 +4494,8 @@ Below is the configuration of the producer:
 
   Percentage of random jitter added to the renewal time.
 
+随机抖动的百分比增加到更新时间
+
 |         Type: | double |
 | ------------: | ------ |
 |      Default: | 0.05   |
@@ -4349,6 +4505,8 @@ Below is the configuration of the producer:
 #### [sasl.kerberos.ticket.renew.window.factor](http://kafka.apache.org/documentation/#sasl.kerberos.ticket.renew.window.factor)
 
   Login thread will sleep until the specified window factor of time from last refresh to ticket's expiry has been reached, at which time it will try to renew the ticket.
+
+登录线程将休眠，直到到达从上次刷新到票证到期的指定窗口时间因子，此时它将尝试更新票证。
 
 |         Type: | double |
 | ------------: | ------ |
@@ -4360,6 +4518,8 @@ Below is the configuration of the producer:
 
   The amount of buffer time before credential expiration to maintain when refreshing a credential, in seconds. If a refresh would otherwise occur closer to expiration than the number of buffer seconds then the refresh will be moved up to maintain as much of the buffer time as possible. Legal values are between 0 and 3600 (1 hour); a default value of 300 (5 minutes) is used if no value is specified. This value and sasl.login.refresh.min.period.seconds are both ignored if their sum exceeds the remaining lifetime of a credential. Currently applies only to OAUTHBEARER.
 
+刷新凭据时在凭据过期前要维护的缓冲区时间，以秒为单位。如果刷新发生在接近过期的时间，而不是缓冲区秒数的时间，那么刷新将向上移动，以保持尽可能多的缓冲区时间。合法值在0 ~ 3600(1小时)之间;如果没有指定值，则使用默认值300(5分钟)。这个值和sasl.login.refresh.min.period。如果秒的总和超过了凭据的剩余生命周期，则会忽略秒。目前只适用于oauthholder。
+
 |         Type: | short        |
 | ------------: | ------------ |
 |      Default: | 300          |
@@ -4369,6 +4529,8 @@ Below is the configuration of the producer:
 #### [sasl.login.refresh.min.period.seconds](http://kafka.apache.org/documentation/#sasl.login.refresh.min.period.seconds)
 
   The desired minimum time for the login refresh thread to wait before refreshing a credential, in seconds. Legal values are between 0 and 900 (15 minutes); a default value of 60 (1 minute) is used if no value is specified. This value and sasl.login.refresh.buffer.seconds are both ignored if their sum exceeds the remaining lifetime of a credential. Currently applies only to OAUTHBEARER.
+
+登录刷新线程在刷新凭据之前等待的最小时间，以秒为单位。合法值在0到900之间(15分钟);如果没有指定值，则使用默认值60(1分钟)。此值和sasl.login.refresh.buffer。如果秒的总和超过了凭据的剩余生命周期，则会忽略秒。目前只适用于oauthholder。
 
 |         Type: | short       |
 | ------------: | ----------- |
@@ -4380,6 +4542,8 @@ Below is the configuration of the producer:
 
   Login refresh thread will sleep until the specified window factor relative to the credential's lifetime has been reached, at which time it will try to refresh the credential. Legal values are between 0.5 (50%) and 1.0 (100%) inclusive; a default value of 0.8 (80%) is used if no value is specified. Currently applies only to OAUTHBEARER.
 
+登录刷新线程将处于休眠状态，直到到达与凭据的生存期相关的指定窗口因子，此时它将尝试刷新凭据。合法值在0.5(50%)和1.0(100%)之间;如果没有指定值，则使用缺省值0.8(80%)。目前只适用于oauthholder。
+
 |         Type: | double        |
 | ------------: | ------------- |
 |      Default: | 0.8           |
@@ -4389,6 +4553,8 @@ Below is the configuration of the producer:
 #### [sasl.login.refresh.window.jitter](http://kafka.apache.org/documentation/#sasl.login.refresh.window.jitter)
 
   The maximum amount of random jitter relative to the credential's lifetime that is added to the login refresh thread's sleep time. Legal values are between 0 and 0.25 (25%) inclusive; a default value of 0.05 (5%) is used if no value is specified. Currently applies only to OAUTHBEARER.
+
+添加到登录刷新线程睡眠时间中的相对于凭据生命周期的最大随机抖动量。法定值在0至0.25(含25%)之间;如果没有指定值，则使用默认值0.05(5%)。目前只适用于oauthholder。
 
 |         Type: | double         |
 | ------------: | -------------- |
@@ -4400,15 +4566,21 @@ Below is the configuration of the producer:
 
   A list of configurable creator classes each returning a provider implementing security algorithms. These classes should implement the `org.apache.kafka.common.security.auth.SecurityProviderCreator` interface.
 
+可配置创建器类的列表，每个创建器类返回实现安全算法的提供程序。这些类应该实现' org.apache. kafga .common.security. au.securityprovidercreator '的接口。
+
 |         Type: | string |
 | ------------: | ------ |
 |      Default: | null   |
 | Valid Values: |        |
 |   Importance: | low    |
 
+
+
 #### [ssl.cipher.suites](http://kafka.apache.org/documentation/#ssl.cipher.suites)
 
   A list of cipher suites. This is a named combination of authentication, encryption, MAC and key exchange algorithm used to negotiate the security settings for a network connection using TLS or SSL network protocol. By default all the available cipher suites are supported.
+
+密码套件列表。这是一种命名的身份验证、加密、MAC和密钥交换算法的组合，用于使用TLS或SSL网络协议协商网络连接的安全设置。默认情况下，支持所有可用的密码套件
 
 |         Type: | list |
 | ------------: | ---- |
@@ -4420,6 +4592,8 @@ Below is the configuration of the producer:
 
   The endpoint identification algorithm to validate server hostname using server certificate.
 
+使用服务器证书验证服务器主机名的端点识别算法。
+
 |         Type: | string |
 | ------------: | ------ |
 |      Default: | https  |
@@ -4429,6 +4603,8 @@ Below is the configuration of the producer:
 #### [ssl.engine.factory.class](http://kafka.apache.org/documentation/#ssl.engine.factory.class)
 
   The class of type org.apache.kafka.common.security.auth.SslEngineFactory to provide SSLEngine objects. Default value is org.apache.kafka.common.security.ssl.DefaultSslEngineFactory
+
+org.apache. kafcard .common.security. auc . sslenginefactory类型的类来提供SSLEngine对象。默认值为org.apache.kafka.common.security.ssl.DefaultSslEngineFactory
 
 |         Type: | class |
 | ------------: | ----- |
@@ -4440,6 +4616,8 @@ Below is the configuration of the producer:
 
   The algorithm used by key manager factory for SSL connections. Default value is the key manager factory algorithm configured for the Java Virtual Machine.
 
+密钥管理器工厂用于SSL连接的算法。默认值是为Java虚拟机配置的密钥管理器工厂算法。
+
 |         Type: | string  |
 | ------------: | ------- |
 |      Default: | SunX509 |
@@ -4449,6 +4627,8 @@ Below is the configuration of the producer:
 #### [ssl.secure.random.implementation](http://kafka.apache.org/documentation/#ssl.secure.random.implementation)
 
   The SecureRandom PRNG implementation to use for SSL cryptography operations.
+
+用于SSL加密操作的SecureRandom PRNG实现。
 
 |         Type: | string |
 | ------------: | ------ |
@@ -4460,6 +4640,8 @@ Below is the configuration of the producer:
 
   The algorithm used by trust manager factory for SSL connections. Default value is the trust manager factory algorithm configured for the Java Virtual Machine.
 
+信任管理器工厂用于SSL连接的算法。默认值是为Java虚拟机配置的信任管理器工厂算法。
+
 |         Type: | string |
 | ------------: | ------ |
 |      Default: | PKIX   |
@@ -4470,6 +4652,8 @@ Below is the configuration of the producer:
 
   The maximum amount of time in ms that the transaction coordinator will wait for a transaction status update from the producer before proactively aborting the ongoing transaction.If this value is larger than the transaction.max.timeout.ms setting in the broker, the request will fail with a `InvalidTransactionTimeout` error.
 
+在ms中，事务协调器在主动中止正在进行的事务之前等待来自生成器的事务状态更新的最大时间。如果该值大于事务.max.timeout。在代理中设置ms，请求将失败，并出现“InvalidTransactionTimeout”错误。
+
 |         Type: | int              |
 | ------------: | ---------------- |
 |      Default: | 60000 (1 minute) |
@@ -4479,6 +4663,8 @@ Below is the configuration of the producer:
 #### [transactional.id](http://kafka.apache.org/documentation/#transactional.id)
 
   The TransactionalId to use for transactional delivery. This enables reliability semantics which span multiple producer sessions since it allows the client to guarantee that transactions using the same TransactionalId have been completed prior to starting any new transactions. If no TransactionalId is provided, then the producer is limited to idempotent delivery. If a TransactionalId is configured, `enable.idempotence` is implied. By default the TransactionId is not configured, which means transactions cannot be used. Note that, by default, transactions require a cluster of at least three brokers which is the recommended setting for production; for development you can change this, by adjusting broker setting `transaction.state.log.replication.factor`.
+
+用于事务传递的TransactionalId。这支持跨多个生产者会话的可靠性语义，因为它允许客户端保证使用相同TransactionalId的事务在启动任何新事务之前已经完成。如果没有提供交易立得，则生产者被限制在幂等交付。如果配置了TransactionalId，则“启用”。幂等性”是隐含的。默认情况下，没有配置TransactionId，这意味着不能使用事务。注意，默认情况下，事务需要至少三个代理的集群，这是生产时的建议设置;对于开发，您可以通过调整代理设置' transaction.state.log. copy .factor '来更改这一点。
 
 |         Type: | string           |
 | ------------: | ---------------- |
@@ -7438,13 +7624,17 @@ Below is the configuration of the Kafka Admin client library.
 | Valid Values: |        |
 |   Importance: | low    |
 
-## 
+
 
 ## [4. DESIGN](http://kafka.apache.org/documentation/#design)
 
 ### [4.1 Motivation](http://kafka.apache.org/documentation/#majordesignelements)
 
+动机
+
 We designed Kafka to be able to act as a unified platform for handling all the real-time data feeds [a large company might have](http://kafka.apache.org/documentation/#introduction). To do this we had to think through a fairly broad set of use cases.
+
+我们设计Kafka是为了能够作为一个统一的平台来处理所有的实时数据(一个大公司可能拥有)。要做到这一点，我们必须考虑相当广泛的用例集。
 
 It would have to have high-throughput to support high volume event streams such as real-time log aggregation.
 
@@ -7792,10 +7982,15 @@ Further cleaner configurations are described [here](http://kafka.apache.org/docu
 
 Kafka cluster has the ability to enforce quotas on requests to control the broker resources used by clients. Two types of client quotas can be enforced by Kafka brokers for each group of clients sharing a quota:
 
+Kafka集群能够对请求强制执行配额，以控制客户机使用的代理（broker)资源。Kafka代理（broker)可以为共享配额的每组客户执行两种类型的客户配额:
+
 1. Network bandwidth quotas define byte-rate thresholds (since 0.9)
+
+   网络带宽配额定义字节率阈值(自0.9起)
+
 2. Request rate quotas define CPU utilization thresholds as a percentage of network and I/O threads (since 0.11)
 
-
+   请求率配额将CPU利用率阈值定义为网络和I/O线程的百分比(从0.11开始)
 
 #### [Why are quotas necessary](http://kafka.apache.org/documentation/#design_quotasnecessary)?
 
@@ -8116,6 +8311,8 @@ Implementation-wise, it is generated when a broker with version 0.10.1 or later 
 The broker nodes are basically independent, so they only publish information about what they have. When a broker joins, it registers itself under the broker node registry directory and writes information about its host name and port. The broker also register the list of existing topics and their logical partitions in the broker topic registry. New topics are registered dynamically when they are created on the broker.
 
 ## [6. OPERATIONS](http://kafka.apache.org/documentation/#operations)
+
+操作
 
 Here is some information on actually running Kafka as a production system based on usage and experience at LinkedIn. Please send us any additional tips you know of.
 
