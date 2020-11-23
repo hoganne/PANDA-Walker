@@ -4676,6 +4676,8 @@ org.apache. kafcard .common.security. auc . sslenginefactory类型的类来提�
 
 Below is the configuration for the consumer:
 
+以下是消费者的配置:
+
 #### [key.deserializer](http://kafka.apache.org/documentation/#key.deserializer)
 
   Deserializer class for key that implements the `org.apache.kafka.common.serialization.Deserializer` interface.
@@ -4700,6 +4702,8 @@ Below is the configuration for the consumer:
 
   A list of host/port pairs to use for establishing the initial connection to the Kafka cluster. The client will make use of all servers irrespective of which servers are specified here for bootstrapping—this list only impacts the initial hosts used to discover the full set of servers. This list should be in the form `host1:port1,host2:port2,...`. Since these servers are just used for the initial connection to discover the full cluster membership (which may change dynamically), this list need not contain the full set of servers (you may want more than one, though, in case a server is down).
 
+用于建立到Kafka集群的初始连接的主机/端口对列表。客户机将使用所有服务器，而不管这里为引导指定了哪些服务器——此列表只影响用于发现完整服务器集的初始主机。该列表应该以“host1:port1,host2:port2，…”的形式出现。由于这些服务器仅用于初始连接，以发现完整的集群成员关系(可能会动态更改)，因此此列表不需要包含完整的服务器集(不过，如果服务器宕机，您可能需要多个服务器)。
+
 |         Type: | list            |
 | ------------: | --------------- |
 |      Default: | ""              |
@@ -4709,6 +4713,8 @@ Below is the configuration for the consumer:
 #### [fetch.min.bytes](http://kafka.apache.org/documentation/#fetch.min.bytes)
 
   The minimum amount of data the server should return for a fetch request. If insufficient data is available the request will wait for that much data to accumulate before answering the request. The default setting of 1 byte means that fetch requests are answered as soon as a single byte of data is available or the fetch request times out waiting for data to arrive. Setting this to something greater than 1 will cause the server to wait for larger amounts of data to accumulate which can improve server throughput a bit at the cost of some additional latency.
+
+服务器应该为获取请求返回的最小数据量。如果可用数据不足，请求将等待大量数据累积，然后再响应请求。1字节的默认设置意味着获取请求被回答，当一个数据的单个字节可用或获取请求超时等待数据到达。将这个值设置为大于1的值将导致服务器等待更大数量的数据积累，这会在增加一些延迟的代价下提高服务器吞吐量。
 
 |         Type: | int     |
 | ------------: | ------- |
@@ -4720,6 +4726,8 @@ Below is the configuration for the consumer:
 
   A unique string that identifies the consumer group this consumer belongs to. This property is required if the consumer uses either the group management functionality by using `subscribe(topic)` or the Kafka-based offset management strategy.
 
+标识此使用者所属的使用者组的唯一字符串。如果使用者通过使用“subscribe(topic)”或基于kafka的偏移量管理策略来使用组管理功能，则需要此属性。
+
 |         Type: | string |
 | ------------: | ------ |
 |      Default: | null   |
@@ -4729,6 +4737,8 @@ Below is the configuration for the consumer:
 #### [heartbeat.interval.ms](http://kafka.apache.org/documentation/#heartbeat.interval.ms)
 
   The expected time between heartbeats to the consumer coordinator when using Kafka's group management facilities. Heartbeats are used to ensure that the consumer's session stays active and to facilitate rebalancing when new consumers join or leave the group. The value must be set lower than `session.timeout.ms`, but typically should be set no higher than 1/3 of that value. It can be adjusted even lower to control the expected time for normal rebalances.
+
+使用Kafka的组管理工具时，心跳到使用者协调器之间的预期时间。心跳用于确保使用者会话保持活动状态，并在新使用者加入或离开组时促进再平衡。该值必须设置为低于' session.timeout。ms '，但通常应设置不超过该值的1/3。它可以调整更低，以控制正常重新平衡的预期时间。
 
 |         Type: | int              |
 | ------------: | ---------------- |
@@ -4740,6 +4750,8 @@ Below is the configuration for the consumer:
 
   The maximum amount of data per-partition the server will return. Records are fetched in batches by the consumer. If the first record batch in the first non-empty partition of the fetch is larger than this limit, the batch will still be returned to ensure that the consumer can make progress. The maximum record batch size accepted by the broker is defined via `message.max.bytes` (broker config) or `max.message.bytes` (topic config). See fetch.max.bytes for limiting the consumer request size.
 
+服务器将返回的每个分区的最大数据量。记录由消费者分批提取。如果fetch的第一个非空分区中的第一个记录批大于此限制，则仍将返回批以确保消费者能够继续执行。代理接受的最大记录批处理大小通过' message.max '定义。字节(broker config)或max.message。字节(主题配置)。看到fetch.max。限制使用者请求大小的字节。
+
 |         Type: | int                  |
 | ------------: | -------------------- |
 |      Default: | 1048576 (1 mebibyte) |
@@ -4749,6 +4761,8 @@ Below is the configuration for the consumer:
 #### [session.timeout.ms](http://kafka.apache.org/documentation/#session.timeout.ms)
 
   The timeout used to detect client failures when using Kafka's group management facility. The client sends periodic heartbeats to indicate its liveness to the broker. If no heartbeats are received by the broker before the expiration of this session timeout, then the broker will remove this client from the group and initiate a rebalance. Note that the value must be in the allowable range as configured in the broker configuration by `group.min.session.timeout.ms` and `group.max.session.timeout.ms`.
+
+使用Kafka的组管理工具时用于检测客户端故障的超时。客户端定期向代理发送心跳来表示其活动。如果在此会话超时过期之前代理没有收到心跳，则代理将从组中删除此客户机并启动重新平衡。注意，该值必须在代理配置中' group.min.session.timeout '配置的允许范围内。女士”和“group.max.session.timeout.ms”。
 
 |         Type: | int                |
 | ------------: | ------------------ |
@@ -4760,6 +4774,8 @@ Below is the configuration for the consumer:
 
   The password of the private key in the key store file. This is optional for client.
 
+密钥存储文件中私钥的密码。这对于客户机是可选的。
+
 |         Type: | password |
 | ------------: | -------- |
 |      Default: | null     |
@@ -4769,6 +4785,8 @@ Below is the configuration for the consumer:
 #### [ssl.keystore.location](http://kafka.apache.org/documentation/#ssl.keystore.location)
 
   The location of the key store file. This is optional for client and can be used for two-way authentication for client.
+
+密钥存储文件的位置。这对于客户机是可选的，可以用于客户机的双向身份验证。
 
 |         Type: | string |
 | ------------: | ------ |
@@ -4780,6 +4798,8 @@ Below is the configuration for the consumer:
 
   The store password for the key store file. This is optional for client and only needed if ssl.keystore.location is configured.
 
+密钥存储文件的存储密码。这对于客户机是可选的，只有在ssl.keystore中才需要。位置配置。
+
 |         Type: | password |
 | ------------: | -------- |
 |      Default: | null     |
@@ -4789,6 +4809,8 @@ Below is the configuration for the consumer:
 #### [ssl.truststore.location](http://kafka.apache.org/documentation/#ssl.truststore.location)
 
   The location of the trust store file.
+
+信任存储库文件的位置。
 
 |         Type: | string |
 | ------------: | ------ |
@@ -4800,6 +4822,8 @@ Below is the configuration for the consumer:
 
   The password for the trust store file. If a password is not set access to the truststore is still available, but integrity checking is disabled.
 
+信任存储文件的密码。如果没有设置密码，仍然可以访问信任存储库，但是禁用了完整性检查。
+
 |         Type: | password |
 | ------------: | -------- |
 |      Default: | null     |
@@ -4809,6 +4833,8 @@ Below is the configuration for the consumer:
 #### [allow.auto.create.topics](http://kafka.apache.org/documentation/#allow.auto.create.topics)
 
   Allow automatic topic creation on the broker when subscribing to or assigning a topic. A topic being subscribed to will be automatically created only if the broker allows for it using `auto.create.topics.enable` broker configuration. This configuration must be set to `false` when using brokers older than 0.11.0
+
+当订阅或分配主题时，允许在代理(broker)上自动创建主题。只有在代理允许使用' auto.create.topics '时，订阅的主题才会被自动创建。启用代理配置。当使用大于0.11.0的代理（broker）时，这个配置必须设置为“false”
 
 |         Type: | boolean |
 | ------------: | ------- |
@@ -4820,10 +4846,23 @@ Below is the configuration for the consumer:
 
   What to do when there is no initial offset in Kafka or if the current offset does not exist any more on the server (e.g. because that data has been deleted):
 
+当Kafka中没有初始偏移量或者服务器上的当前偏移量不再存在时(例如，因为数据已经被删除):
+
   - earliest: automatically reset the offset to the earliest offset
+
+    最早:自动重置偏移到最早偏移
+
   - latest: automatically reset the offset to the latest offset
+
+    最新:自动重置偏移量为最新偏移量
+
   - none: throw exception to the consumer if no previous offset is found for the consumer's group
+
+    none:如果没有为使用者的组找到以前的偏移量，则向使用者抛出异常
+
   - anything else: throw exception to the consumer.
+
+    其他:向使用者抛出异常。
 
   
 
@@ -4837,6 +4876,8 @@ Below is the configuration for the consumer:
 
   Controls how the client uses DNS lookups. If set to `use_all_dns_ips`, connect to each returned IP address in sequence until a successful connection is established. After a disconnection, the next IP is used. Once all IPs have been used once, the client resolves the IP(s) from the hostname again (both the JVM and the OS cache DNS name lookups, however). If set to `resolve_canonical_bootstrap_servers_only`, resolve each bootstrap address into a list of canonical names. After the bootstrap phase, this behaves the same as `use_all_dns_ips`. If set to `default` (deprecated), attempt to connect to the first IP address returned by the lookup, even if the lookup returns multiple IP addresses.
 
+控制客户端如何使用DNS查找。如果设置为' use_all_dns_ips '，依次连接到每个返回的IP地址，直到建立成功的连接。断开连接后，使用下一个IP。一旦所有IP都使用过一次，客户机就会再次从主机名解析IP(不过JVM和OS都会缓存DNS名称查找)。如果设置为' resolve_canonical_bootstrap_servers_only '，则将每个引导程序地址解析为一个规范名称列表。在引导阶段之后，它的行为与' use_all_dns_ips '相同。如果设置为‘default’(不赞成使用)，尝试连接到查找返回的第一个IP地址，即使查找返回多个IP地址。
+
 |         Type: | string                                                       |
 | ------------: | ------------------------------------------------------------ |
 |      Default: | use_all_dns_ips                                              |
@@ -4846,6 +4887,8 @@ Below is the configuration for the consumer:
 #### [connections.max.idle.ms](http://kafka.apache.org/documentation/#connections.max.idle.ms)
 
   Close idle connections after the number of milliseconds specified by this config.
+
+在此配置指定的毫秒数之后关闭空闲连接。
 
 |         Type: | long               |
 | ------------: | ------------------ |
@@ -4857,6 +4900,8 @@ Below is the configuration for the consumer:
 
   Specifies the timeout (in milliseconds) for client APIs. This configuration is used as the default timeout for all client operations that do not specify a `timeout` parameter.
 
+指定客户端api的超时(单位为毫秒)。此配置用于未指定“timeout”参数的所有客户端操作的默认超时。
+
 |         Type: | int              |
 | ------------: | ---------------- |
 |      Default: | 60000 (1 minute) |
@@ -4866,6 +4911,8 @@ Below is the configuration for the consumer:
 #### [enable.auto.commit](http://kafka.apache.org/documentation/#enable.auto.commit)
 
   If true the consumer's offset will be periodically committed in the background.
+
+如果为真，消费者的偏移量将定期在后台提交。
 
 |         Type: | boolean |
 | ------------: | ------- |
@@ -4877,6 +4924,8 @@ Below is the configuration for the consumer:
 
   Whether internal topics matching a subscribed pattern should be excluded from the subscription. It is always possible to explicitly subscribe to an internal topic.
 
+是否应该从订阅中排除与订阅模式匹配的内部主题。始终可以显式地订阅内部主题。
+
 |         Type: | boolean |
 | ------------: | ------- |
 |      Default: | true    |
@@ -4886,6 +4935,8 @@ Below is the configuration for the consumer:
 #### [fetch.max.bytes](http://kafka.apache.org/documentation/#fetch.max.bytes)
 
   The maximum amount of data the server should return for a fetch request. Records are fetched in batches by the consumer, and if the first record batch in the first non-empty partition of the fetch is larger than this value, the record batch will still be returned to ensure that the consumer can make progress. As such, this is not a absolute maximum. The maximum record batch size accepted by the broker is defined via `message.max.bytes` (broker config) or `max.message.bytes` (topic config). Note that the consumer performs multiple fetches in parallel.
+
+服务器应该为获取请求返回的最大数据量。记录是由使用者分批获取的，如果获取的第一个非空分区中的第一个记录批大于此值，则仍将返回该记录批，以确保使用者能够继续执行。因此，这不是一个绝对的最大值。代理接受的最大记录批处理大小通过' message.max.btyes(broker config) '定义或max.message.bytes字节(主题配置)。请注意，使用者并行执行多个读取操作。
 
 |         Type: | int                     |
 | ------------: | ----------------------- |
@@ -4897,6 +4948,8 @@ Below is the configuration for the consumer:
 
   A unique identifier of the consumer instance provided by the end user. Only non-empty strings are permitted. If set, the consumer is treated as a static member, which means that only one instance with this ID is allowed in the consumer group at any time. This can be used in combination with a larger session timeout to avoid group rebalances caused by transient unavailability (e.g. process restarts). If not set, the consumer will join the group as a dynamic member, which is the traditional behavior.
 
+最终用户提供的使用者实例的唯一标识符。只允许非空字符串。如果设置，则将使用者视为静态成员，这意味着在任何时候使用者组中只允许一个具有此ID的实例。这可以与更大的会话超时结合使用，以避免由于暂时不可用(例如进程重启)而导致的组重新平衡。如果没有设置，消费者将作为动态成员加入组，这是传统行为。
+
 |         Type: | string |
 | ------------: | ------ |
 |      Default: | null   |
@@ -4907,9 +4960,15 @@ Below is the configuration for the consumer:
 
   Controls how to read messages written transactionally. If set to `read_committed`, consumer.poll() will only return transactional messages which have been committed. If set to `read_uncommitted`' (the default), consumer.poll() will return all messages, even transactional messages which have been aborted. Non-transactional messages will be returned unconditionally in either mode.
 
+控制如何读取以事务方式编写的消息。如果设置为' read_committed '， consumer.poll()将只返回已提交的事务性消息。如果设置为' read_uncommitted "(默认值)，consumer.poll()将返回所有消息，甚至是已经中止的事务性消息。非事务性消息将以两种模式无条件返回。
+
   Messages will always be returned in offset order. Hence, in `read_committed` mode, consumer.poll() will only return messages up to the last stable offset (LSO), which is the one less than the offset of the first open transaction. In particular any messages appearing after messages belonging to ongoing transactions will be withheld until the relevant transaction has been completed. As a result, `read_committed` consumers will not be able to read up to the high watermark when there are in flight transactions.
 
+消息将总是按偏移顺序返回。因此，在' read_committed '模式中，consumer.poll()将只返回到最后一个稳定偏移量(LSO)的消息，LSO小于第一个打开的事务的偏移量。特别是，任何出现在属于正在进行的事务的消息之后的消息都将被扣留，直到相关事务完成。因此，当有飞行事务时，“read_committed”消费者将无法读取高水位。
+
   Further, when in `read_committed` the seekToEnd method will return the LSO
+
+此外，在' read_committed '中，seekToEnd方法将返回LSO
 
 |         Type: | string                             |
 | ------------: | ---------------------------------- |
@@ -4921,6 +4980,8 @@ Below is the configuration for the consumer:
 
   The maximum delay between invocations of poll() when using consumer group management. This places an upper bound on the amount of time that the consumer can be idle before fetching more records. If poll() is not called before expiration of this timeout, then the consumer is considered failed and the group will rebalance in order to reassign the partitions to another member. For consumers using a non-null `group.instance.id` which reach this timeout, partitions will not be immediately reassigned. Instead, the consumer will stop sending heartbeats and partitions will be reassigned after expiration of `session.timeout.ms`. This mirrors the behavior of a static consumer which has shutdown.
 
+使用使用者组管理时poll()调用之间的最大延迟。这就为使用者在获取更多记录之前的空闲时间设置了一个上限。如果在超时结束之前没有调用poll()，则认为使用者失败，组将重新进行平衡，以便将分区重新分配给另一个成员。对于使用非空' group.instance的消费者。如果到达超时，则不会立即重新分配分区。相反，消费者将停止发送心跳，并在' session.timeout.ms '过期后重新分配分区。这反映了已关闭的静态使用者的行为。
+
 |         Type: | int                |
 | ------------: | ------------------ |
 |      Default: | 300000 (5 minutes) |
@@ -4930,6 +4991,8 @@ Below is the configuration for the consumer:
 #### [max.poll.records](http://kafka.apache.org/documentation/#max.poll.records)
 
   The maximum number of records returned in a single call to poll().
+
+对poll()的一次调用中返回的最大记录数。
 
 |         Type: | int     |
 | ------------: | ------- |
@@ -4941,9 +5004,15 @@ Below is the configuration for the consumer:
 
   A list of class names or class types, ordered by preference, of supported partition assignment strategies that the client will use to distribute partition ownership amongst consumer instances when group management is used.
 
+在使用组管理时，客户端将使用所支持的分区分配策略来在消费者实例之间分配分区所有权的类名或类类型列表(按偏好排序)。
+
   In addition to the default class specified below, you can use the `org.apache.kafka.clients.consumer.RoundRobinAssignor`class for round robin assignments of partitions to consumers.
 
+除了下面指定的默认类之外，还可以使用' org.apache.kafka.clients.consumer。用于对分区进行循环分配给使用者的RoundRobinAssignor类。
+
   Implementing the `org.apache.kafka.clients.consumer.ConsumerPartitionAssignor` interface allows you to plug in a custom assignmentstrategy.
+
+实施“org.apache.kafka.clients.consumer。ConsumerPartitionAssignor的接口允许您插入一个定制的分配策略。
 
 |         Type: | list                                                  |
 | ------------: | ----------------------------------------------------- |
@@ -4955,6 +5024,8 @@ Below is the configuration for the consumer:
 
   The size of the TCP receive buffer (SO_RCVBUF) to use when reading data. If the value is -1, the OS default will be used.
 
+读取数据时要使用的TCP接收缓冲区(SO_RCVBUF)的大小。如果值为-1，将使用OS默认值。
+
 |         Type: | int                  |
 | ------------: | -------------------- |
 |      Default: | 65536 (64 kibibytes) |
@@ -4964,6 +5035,8 @@ Below is the configuration for the consumer:
 #### [request.timeout.ms](http://kafka.apache.org/documentation/#request.timeout.ms)
 
   The configuration controls the maximum amount of time the client will wait for the response of a request. If the response is not received before the timeout elapses the client will resend the request if necessary or fail the request if retries are exhausted.
+
+配置控制客户端等待请求响应的最大时间量。如果在超时结束前没有收到响应，客户端将在必要时重新发送请求，或者在重试耗尽时请求失败。
 
 |         Type: | int                |
 | ------------: | ------------------ |
@@ -4975,6 +5048,8 @@ Below is the configuration for the consumer:
 
   The fully qualified name of a SASL client callback handler class that implements the AuthenticateCallbackHandler interface.
 
+实现AuthenticateCallbackHandler接口的SASL客户端回调处理程序类的完全限定名。
+
 |         Type: | class  |
 | ------------: | ------ |
 |      Default: | null   |
@@ -4984,6 +5059,8 @@ Below is the configuration for the consumer:
 #### [sasl.jaas.config](http://kafka.apache.org/documentation/#sasl.jaas.config)
 
   JAAS login context parameters for SASL connections in the format used by JAAS configuration files. JAAS configuration file format is described [here](http://docs.oracle.com/javase/8/docs/technotes/guides/security/jgss/tutorials/LoginConfigFile.html). The format for the value is: '`loginModuleClass controlFlag (optionName=optionValue)*;`'. For brokers, the config must be prefixed with listener prefix and SASL mechanism name in lower-case. For example, listener.name.sasl_ssl.scram-sha-256.sasl.jaas.config=com.example.ScramLoginModule required;
+
+使用JAAS配置文件使用的格式为SASL连接的JAAS登录上下文参数。这里描述了JAAS配置文件格式。该值的格式是:' ' loginModuleClass controlFlag (optionName=optionValue)*; "。对于代理，配置必须使用监听器前缀和小写的SASL机制名称作为前缀。例如，listen .name.sasl_ssl.冲压-sha-256.sasl.jaas.config=com.example.ScramLoginModule是必需的
 
 |         Type: | password |
 | ------------: | -------- |
@@ -4995,6 +5072,8 @@ Below is the configuration for the consumer:
 
   The Kerberos principal name that Kafka runs as. This can be defined either in Kafka's JAAS config or in Kafka's config.
 
+Kafka运行时的Kerberos主体名。这可以在卡夫卡的JAAS配置或卡夫卡的配置中定义。
+
 |         Type: | string |
 | ------------: | ------ |
 |      Default: | null   |
@@ -5004,6 +5083,8 @@ Below is the configuration for the consumer:
 #### [sasl.login.callback.handler.class](http://kafka.apache.org/documentation/#sasl.login.callback.handler.class)
 
   The fully qualified name of a SASL login callback handler class that implements the AuthenticateCallbackHandler interface. For brokers, login callback handler config must be prefixed with listener prefix and SASL mechanism name in lower-case. For example, listener.name.sasl_ssl.scram-sha-256.sasl.login.callback.handler.class=com.example.CustomScramLoginCallbackHandler
+
+实现AuthenticateCallbackHandler接口的SASL登录回调处理程序类的完全限定名。对于代理，登录回调处理程序配置必须使用监听器前缀和小写的SASL机制名称作为前缀。例如,listener.name.sasl_ssl.scram - sha - 256. - sasl.login.callback.handler.class = com.example.CustomScramLoginCallbackHandler
 
 |         Type: | class  |
 | ------------: | ------ |
@@ -5015,6 +5096,8 @@ Below is the configuration for the consumer:
 
   The fully qualified name of a class that implements the Login interface. For brokers, login config must be prefixed with listener prefix and SASL mechanism name in lower-case. For example, listener.name.sasl_ssl.scram-sha-256.sasl.login.class=com.example.CustomScramLogin
 
+实现登录接口的类的完全限定名。对于代理，登录配置必须使用监听器前缀和小写的SASL机制名称作为前缀。例如,listener.name.sasl_ssl.scram - sha - 256. - sasl.login.class = com.example.CustomScramLogin
+
 |         Type: | class  |
 | ------------: | ------ |
 |      Default: | null   |
@@ -5024,6 +5107,8 @@ Below is the configuration for the consumer:
 #### [sasl.mechanism](http://kafka.apache.org/documentation/#sasl.mechanism)
 
   SASL mechanism used for client connections. This may be any mechanism for which a security provider is available. GSSAPI is the default mechanism.
+
+用于客户端连接的SASL机制。这可以是安全提供程序可用的任何机制。GSSAPI是默认机制。
 
 |         Type: | string |
 | ------------: | ------ |
@@ -5035,6 +5120,8 @@ Below is the configuration for the consumer:
 
   Protocol used to communicate with brokers. Valid values are: PLAINTEXT, SSL, SASL_PLAINTEXT, SASL_SSL.
 
+用于与代理通信的协议。有效值是:明文、SSL、sasl_明文、SASL_SSL。
+
 |         Type: | string    |
 | ------------: | --------- |
 |      Default: | PLAINTEXT |
@@ -5044,6 +5131,8 @@ Below is the configuration for the consumer:
 #### [send.buffer.bytes](http://kafka.apache.org/documentation/#send.buffer.bytes)
 
   The size of the TCP send buffer (SO_SNDBUF) to use when sending data. If the value is -1, the OS default will be used.
+
+发送数据时要使用的TCP发送缓冲区(SO_SNDBUF)的大小。如果值为-1，将使用OS默认值。
 
 |         Type: | int                    |
 | ------------: | ---------------------- |
@@ -5055,6 +5144,8 @@ Below is the configuration for the consumer:
 
   The list of protocols enabled for SSL connections. The default is 'TLSv1.2,TLSv1.3' when running with Java 11 or newer, 'TLSv1.2' otherwise. With the default value for Java 11, clients and servers will prefer TLSv1.3 if both support it and fallback to TLSv1.2 otherwise (assuming both support at least TLSv1.2). This default should be fine for most cases. Also see the config documentation for `ssl.protocol`.
 
+为SSL连接启用的协议列表。在使用Java 11或更新版本运行时，默认为“TLSv1.2,TLSv1.3”，否则为“TLSv1.2”。对于Java 11的默认值，如果客户端和服务器都支持TLSv1.3，那么它们会更喜欢TLSv1.3，否则会退回到TLSv1.2(假设两者都至少支持TLSv1.2)。这个默认值应该适用于大多数情况。另外，请参阅“ssl.protocol”的配置文档。
+
 |         Type: | list    |
 | ------------: | ------- |
 |      Default: | TLSv1.2 |
@@ -5064,6 +5155,8 @@ Below is the configuration for the consumer:
 #### [ssl.keystore.type](http://kafka.apache.org/documentation/#ssl.keystore.type)
 
   The file format of the key store file. This is optional for client.
+
+密钥存储文件的文件格式。这对于客户机是可选的
 
 |         Type: | string |
 | ------------: | ------ |
@@ -5075,6 +5168,8 @@ Below is the configuration for the consumer:
 
   The SSL protocol used to generate the SSLContext. The default is 'TLSv1.3' when running with Java 11 or newer, 'TLSv1.2' otherwise. This value should be fine for most use cases. Allowed values in recent JVMs are 'TLSv1.2' and 'TLSv1.3'. 'TLS', 'TLSv1.1', 'SSL', 'SSLv2' and 'SSLv3' may be supported in older JVMs, but their usage is discouraged due to known security vulnerabilities. With the default value for this config and 'ssl.enabled.protocols', clients will downgrade to 'TLSv1.2' if the server does not support 'TLSv1.3'. If this config is set to 'TLSv1.2', clients will not use 'TLSv1.3' even if it is one of the values in ssl.enabled.protocols and the server only supports 'TLSv1.3'.
 
+用于生成SSLContext的SSL协议。在使用Java 11或更新版本运行时，默认为“TLSv1.3”，否则为“TLSv1.2”。这个值对于大多数用例来说都是合适的。最近的jvm允许的值是“TLSv1.2”和“TLSv1.3”。旧的jvm可能支持“TLS”、“TLSv1.1”、“SSL”、“SSLv2”和“SSLv3”，但由于已知的安全漏洞，不建议使用它们。使用此配置的默认值和'ssl.enabled '。如果服务器不支持“TLSv1.3”，客户端将降级到“TLSv1.2”。如果这个配置被设置为'TLSv1.2'，客户端将不会使用'TLSv1.3'，即使它是ssl.enabled中的值之一。协议和服务器只支持“TLSv1.3”。
+
 |         Type: | string  |
 | ------------: | ------- |
 |      Default: | TLSv1.2 |
@@ -5084,6 +5179,8 @@ Below is the configuration for the consumer:
 #### [ssl.provider](http://kafka.apache.org/documentation/#ssl.provider)
 
   The name of the security provider used for SSL connections. Default value is the default security provider of the JVM.
+
+用于SSL连接的安全提供程序的名称。缺省值是JVM的缺省安全提供程序。
 
 |         Type: | string |
 | ------------: | ------ |
@@ -5095,6 +5192,8 @@ Below is the configuration for the consumer:
 
   The file format of the trust store file.
 
+信任存储区文件的文件格式。
+
 |         Type: | string |
 | ------------: | ------ |
 |      Default: | JKS    |
@@ -5104,6 +5203,8 @@ Below is the configuration for the consumer:
 #### [auto.commit.interval.ms](http://kafka.apache.org/documentation/#auto.commit.interval.ms)
 
   The frequency in milliseconds that the consumer offsets are auto-committed to Kafka if `enable.auto.commit` is set to `true`.
+
+如果“enable.auto.commit”设置为“true”，那么消费者偏移量自动提交给Kafka的频率(以毫秒为单位)。
 
 |         Type: | int              |
 | ------------: | ---------------- |
@@ -5115,6 +5216,8 @@ Below is the configuration for the consumer:
 
   Automatically check the CRC32 of the records consumed. This ensures no on-the-wire or on-disk corruption to the messages occurred. This check adds some overhead, so it may be disabled in cases seeking extreme performance.
 
+自动检查所使用记录的CRC32。这确保了消息不会在网络上或磁盘上发生损坏。这个检查会增加一些开销，因此在寻求极端性能的情况下可能会禁用它。
+
 |         Type: | boolean |
 | ------------: | ------- |
 |      Default: | true    |
@@ -5124,6 +5227,8 @@ Below is the configuration for the consumer:
 #### [client.id](http://kafka.apache.org/documentation/#client.id)
 
   An id string to pass to the server when making requests. The purpose of this is to be able to track the source of requests beyond just ip/port by allowing a logical application name to be included in server-side request logging.
+
+在发出请求时传递给服务器的id字符串。这样做的目的是通过允许在服务器端请求日志记录中包含逻辑应用程序名称，从而能够跟踪ip/端口之外的请求源。
 
 |         Type: | string |
 | ------------: | ------ |
@@ -5135,6 +5240,8 @@ Below is the configuration for the consumer:
 
   A rack identifier for this client. This can be any string value which indicates where this client is physically located. It corresponds with the broker config 'broker.rack'
 
+此客户机的机架标识符。它可以是任何字符串值，指示此客户机的物理位置。它与代理配置'broker.rack'相对应。
+
 |         Type: | string |
 | ------------: | ------ |
 |      Default: | ""     |
@@ -5144,6 +5251,8 @@ Below is the configuration for the consumer:
 #### [fetch.max.wait.ms](http://kafka.apache.org/documentation/#fetch.max.wait.ms)
 
   The maximum amount of time the server will block before answering the fetch request if there isn't sufficient data to immediately satisfy the requirement given by fetch.min.bytes.
+
+如果没有足够的数据来立即满足fetch.min.bytes给出的要求，那么服务器在回答取回请求之前阻塞的最大时间。
 
 |         Type: | int     |
 | ------------: | ------- |
@@ -5155,6 +5264,8 @@ Below is the configuration for the consumer:
 
   A list of classes to use as interceptors. Implementing the `org.apache.kafka.clients.consumer.ConsumerInterceptor` interface allows you to intercept (and possibly mutate) records received by the consumer. By default, there are no interceptors.
 
+用作拦截器的类的列表。实施“org.apache.kafka.clients.consumer。客户拦截器的接口允许您拦截(并可能更改)客户接收的记录。默认情况下，没有拦截器。
+
 |         Type: | list            |
 | ------------: | --------------- |
 |      Default: | ""              |
@@ -5164,6 +5275,8 @@ Below is the configuration for the consumer:
 #### [metadata.max.age.ms](http://kafka.apache.org/documentation/#metadata.max.age.ms)
 
   The period of time in milliseconds after which we force a refresh of metadata even if we haven't seen any partition leadership changes to proactively discover any new brokers or partitions.
+
+一段时间(以毫秒为单位)，在此之后，即使我们没有看到任何分区领导变更，我们也会强制刷新元数据，以主动发现任何新的代理或分区。
 
 |         Type: | long               |
 | ------------: | ------------------ |
@@ -5175,6 +5288,8 @@ Below is the configuration for the consumer:
 
   A list of classes to use as metrics reporters. Implementing the `org.apache.kafka.common.metrics.MetricsReporter` interface allows plugging in classes that will be notified of new metric creation. The JmxReporter is always included to register JMX statistics.
 
+用作度量报告器的类列表。实现' org.apache. kafaka .common. metricsreporter '接口允许插入将被通知新度量创建的类。始终包含JmxReporter来注册JMX统计信息。
+
 |         Type: | list            |
 | ------------: | --------------- |
 |      Default: | ""              |
@@ -5184,6 +5299,8 @@ Below is the configuration for the consumer:
 #### [metrics.num.samples](http://kafka.apache.org/documentation/#metrics.num.samples)
 
   The number of samples maintained to compute metrics.
+
+为计算指标而维护的样本数量。
 
 |         Type: | int     |
 | ------------: | ------- |
@@ -5195,6 +5312,8 @@ Below is the configuration for the consumer:
 
   The highest recording level for metrics.
 
+度量标准的最高记录级别。
+
 |         Type: | string        |
 | ------------: | ------------- |
 |      Default: | INFO          |
@@ -5204,6 +5323,8 @@ Below is the configuration for the consumer:
 #### [metrics.sample.window.ms](http://kafka.apache.org/documentation/#metrics.sample.window.ms)
 
   The window of time a metrics sample is computed over.
+
+度量样本计算结束的时间窗口
 
 |         Type: | long               |
 | ------------: | ------------------ |
@@ -5215,6 +5336,8 @@ Below is the configuration for the consumer:
 
   The maximum amount of time in milliseconds to wait when reconnecting to a broker that has repeatedly failed to connect. If provided, the backoff per host will increase exponentially for each consecutive connection failure, up to this maximum. After calculating the backoff increase, 20% random jitter is added to avoid connection storms.
 
+重新连接到多次连接失败的代理时等待的最大时间(以毫秒为单位)。如果这样做，每台主机的回退量将在每次连续连接失败时呈指数增长，直到这个最大值。在计算回退增加后，增加了20%的随机抖动以避免连接风暴。
+
 |         Type: | long            |
 | ------------: | --------------- |
 |      Default: | 1000 (1 second) |
@@ -5224,6 +5347,8 @@ Below is the configuration for the consumer:
 #### [reconnect.backoff.ms](http://kafka.apache.org/documentation/#reconnect.backoff.ms)
 
   The base amount of time to wait before attempting to reconnect to a given host. This avoids repeatedly connecting to a host in a tight loop. This backoff applies to all connection attempts by the client to a broker.
+
+尝试重新连接到给定主机之前等待的基本时间。这避免了在紧循环中重复连接到主机。此回退适用于客户端对代理的所有连接尝试。
 
 |         Type: | long    |
 | ------------: | ------- |
@@ -5235,6 +5360,8 @@ Below is the configuration for the consumer:
 
   The amount of time to wait before attempting to retry a failed request to a given topic partition. This avoids repeatedly sending requests in a tight loop under some failure scenarios.
 
+尝试对给定主题分区重试失败的请求之前等待的时间。这避免了在某些故障场景下，在紧密循环中重复发送请求。
+
 |         Type: | long    |
 | ------------: | ------- |
 |      Default: | 100     |
@@ -5244,6 +5371,8 @@ Below is the configuration for the consumer:
 #### [sasl.kerberos.kinit.cmd](http://kafka.apache.org/documentation/#sasl.kerberos.kinit.cmd)
 
   Kerberos kinit command path.
+
+Kerberos kinit命令路径
 
 |         Type: | string         |
 | ------------: | -------------- |
@@ -5255,6 +5384,8 @@ Below is the configuration for the consumer:
 
   Login thread sleep time between refresh attempts.
 
+刷新尝试之间的登录线程休眠时间。
+
 |         Type: | long  |
 | ------------: | ----- |
 |      Default: | 60000 |
@@ -5264,6 +5395,8 @@ Below is the configuration for the consumer:
 #### [sasl.kerberos.ticket.renew.jitter](http://kafka.apache.org/documentation/#sasl.kerberos.ticket.renew.jitter)
 
   Percentage of random jitter added to the renewal time.
+
+随机抖动的百分比增加到更新时间。
 
 |         Type: | double |
 | ------------: | ------ |
@@ -5275,6 +5408,8 @@ Below is the configuration for the consumer:
 
   Login thread will sleep until the specified window factor of time from last refresh to ticket's expiry has been reached, at which time it will try to renew the ticket.
 
+登录线程将休眠，直到到达从上次刷新到票证到期的指定窗口时间因子，此时它将尝试更新票证。
+
 |         Type: | double |
 | ------------: | ------ |
 |      Default: | 0.8    |
@@ -5284,6 +5419,8 @@ Below is the configuration for the consumer:
 #### [sasl.login.refresh.buffer.seconds](http://kafka.apache.org/documentation/#sasl.login.refresh.buffer.seconds)
 
   The amount of buffer time before credential expiration to maintain when refreshing a credential, in seconds. If a refresh would otherwise occur closer to expiration than the number of buffer seconds then the refresh will be moved up to maintain as much of the buffer time as possible. Legal values are between 0 and 3600 (1 hour); a default value of 300 (5 minutes) is used if no value is specified. This value and sasl.login.refresh.min.period.seconds are both ignored if their sum exceeds the remaining lifetime of a credential. Currently applies only to OAUTHBEARER.
+
+刷新凭据时在凭据过期前要维护的缓冲区时间，以秒为单位。如果刷新发生在接近过期的时间，而不是缓冲区秒数的时间，那么刷新将向上移动，以保持尽可能多的缓冲区时间。合法值在0 ~ 3600(1小时)之间;如果没有指定值，则使用默认值300(5分钟)。这个值和sasl.login.refresh.min.period。如果秒的总和超过了凭据的剩余生命周期，则会忽略秒。目前只适用于oauthholder。
 
 |         Type: | short        |
 | ------------: | ------------ |
@@ -5295,6 +5432,8 @@ Below is the configuration for the consumer:
 
   The desired minimum time for the login refresh thread to wait before refreshing a credential, in seconds. Legal values are between 0 and 900 (15 minutes); a default value of 60 (1 minute) is used if no value is specified. This value and sasl.login.refresh.buffer.seconds are both ignored if their sum exceeds the remaining lifetime of a credential. Currently applies only to OAUTHBEARER.
 
+登录刷新线程在刷新凭据之前等待的最小时间，以秒为单位。合法值在0到900之间(15分钟);如果没有指定值，则使用默认值60(1分钟)。此值和sasl.login.refresh.buffer。如果秒的总和超过了凭据的剩余生命周期，则会忽略秒。目前只适用于oauthholder
+
 |         Type: | short       |
 | ------------: | ----------- |
 |      Default: | 60          |
@@ -5304,6 +5443,8 @@ Below is the configuration for the consumer:
 #### [sasl.login.refresh.window.factor](http://kafka.apache.org/documentation/#sasl.login.refresh.window.factor)
 
   Login refresh thread will sleep until the specified window factor relative to the credential's lifetime has been reached, at which time it will try to refresh the credential. Legal values are between 0.5 (50%) and 1.0 (100%) inclusive; a default value of 0.8 (80%) is used if no value is specified. Currently applies only to OAUTHBEARER.
+
+登录刷新线程将处于休眠状态，直到到达与凭据的生存期相关的指定窗口因子，此时它将尝试刷新凭据。合法值在0.5(50%)和1.0(100%)之间;如果没有指定值，则使用缺省值0.8(80%)。目前只适用于oauthholder。
 
 |         Type: | double        |
 | ------------: | ------------- |
@@ -5315,6 +5456,8 @@ Below is the configuration for the consumer:
 
   The maximum amount of random jitter relative to the credential's lifetime that is added to the login refresh thread's sleep time. Legal values are between 0 and 0.25 (25%) inclusive; a default value of 0.05 (5%) is used if no value is specified. Currently applies only to OAUTHBEARER.
 
+添加到登录刷新线程睡眠时间中的相对于凭据生命周期的最大随机抖动量。法定值在0至0.25(含25%)之间;如果没有指定值，则使用默认值0.05(5%)。目前只适用于oauthholder。
+
 |         Type: | double         |
 | ------------: | -------------- |
 |      Default: | 0.05           |
@@ -5324,6 +5467,8 @@ Below is the configuration for the consumer:
 #### [security.providers](http://kafka.apache.org/documentation/#security.providers)
 
   A list of configurable creator classes each returning a provider implementing security algorithms. These classes should implement the `org.apache.kafka.common.security.auth.SecurityProviderCreator` interface.
+
+可配置创建器类的列表，每个创建器类返回实现安全算法的提供程序。这些类应该实现' org.apache. kafga .common.security. au.securityprovidercreator '的接口。
 
 |         Type: | string |
 | ------------: | ------ |
@@ -5335,6 +5480,8 @@ Below is the configuration for the consumer:
 
   A list of cipher suites. This is a named combination of authentication, encryption, MAC and key exchange algorithm used to negotiate the security settings for a network connection using TLS or SSL network protocol. By default all the available cipher suites are supported.
 
+密码套件列表。这是一种命名的身份验证、加密、MAC和密钥交换算法的组合，用于使用TLS或SSL网络协议协商网络连接的安全设置。默认情况下，支持所有可用的密码套件。
+
 |         Type: | list |
 | ------------: | ---- |
 |      Default: | null |
@@ -5344,6 +5491,8 @@ Below is the configuration for the consumer:
 #### [ssl.endpoint.identification.algorithm](http://kafka.apache.org/documentation/#ssl.endpoint.identification.algorithm)
 
   The endpoint identification algorithm to validate server hostname using server certificate.
+
+使用服务器证书验证服务器主机名的端点识别算法。
 
 |         Type: | string |
 | ------------: | ------ |
@@ -5355,6 +5504,8 @@ Below is the configuration for the consumer:
 
   The class of type org.apache.kafka.common.security.auth.SslEngineFactory to provide SSLEngine objects. Default value is org.apache.kafka.common.security.ssl.DefaultSslEngineFactory
 
+org.apache. kafcard .common.security. auc . sslenginefactory类型的类来提供SSLEngine对象。默认值为org.apache.kafka.common.security.ssl.DefaultSslEngineFactory
+
 |         Type: | class |
 | ------------: | ----- |
 |      Default: | null  |
@@ -5364,6 +5515,8 @@ Below is the configuration for the consumer:
 #### [ssl.keymanager.algorithm](http://kafka.apache.org/documentation/#ssl.keymanager.algorithm)
 
   The algorithm used by key manager factory for SSL connections. Default value is the key manager factory algorithm configured for the Java Virtual Machine.
+
+密钥管理器工厂用于SSL连接的算法。默认值是为Java虚拟机配置的密钥管理器工厂算法。
 
 |         Type: | string  |
 | ------------: | ------- |
@@ -5375,6 +5528,8 @@ Below is the configuration for the consumer:
 
   The SecureRandom PRNG implementation to use for SSL cryptography operations.
 
+用于SSL加密操作的SecureRandom PRNG实现。
+
 |         Type: | string |
 | ------------: | ------ |
 |      Default: | null   |
@@ -5385,13 +5540,13 @@ Below is the configuration for the consumer:
 
   The algorithm used by trust manager factory for SSL connections. Default value is the trust manager factory algorithm configured for the Java Virtual Machine.
 
+信任管理器工厂用于SSL连接的算法。默认值是为Java虚拟机配置的信任管理器工厂算法。
+
 |         Type: | string |
 | ------------: | ------ |
 |      Default: | PKIX   |
 | Valid Values: |        |
 |   Importance: | low    |
-
-
 
 ### [3.5 Kafka Connect Configs](http://kafka.apache.org/documentation/#connectconfigs)
 
@@ -7630,7 +7785,7 @@ Below is the configuration of the Kafka Admin client library.
 
 ### [4.1 Motivation](http://kafka.apache.org/documentation/#majordesignelements)
 
-动机
+目的
 
 We designed Kafka to be able to act as a unified platform for handling all the real-time data feeds [a large company might have](http://kafka.apache.org/documentation/#introduction). To do this we had to think through a fairly broad set of use cases.
 
@@ -7638,44 +7793,83 @@ We designed Kafka to be able to act as a unified platform for handling all the r
 
 It would have to have high-throughput to support high volume event streams such as real-time log aggregation.
 
+它必须具有高吞吐量才能支持大容量事件流，比如实时日志聚合。
+
 It would need to deal gracefully with large data backlogs to be able to support periodic data loads from offline systems.
 
 It also meant the system would have to handle low-latency delivery to handle more traditional messaging use-cases.
 
 We wanted to support partitioned, distributed, real-time processing of these feeds to create new, derived feeds. This motivated our partitioning and consumer model.
 
+它需要优雅地处理大型数据积压，以便能够支持来自脱机系统的周期性数据加载。
+
+这还意味着系统将不得不处理低延迟交付，以处理更传统的消息传递用例。
+
+我们希望支持对这些提要的分区、分布式、实时处理，以创建新的派生提要。这激发了我们的划分和消费者模型
+
 Finally in cases where the stream is fed into other data systems for serving, we knew the system would have to be able to guarantee fault-tolerance in the presence of machine failures.
+
+最后，在将流输入到其他数据系统以提供服务的情况下，我们知道系统必须能够保证出现机器故障时的容错能力。
 
 Supporting these uses led us to a design with a number of unique elements, more akin to a database log than a traditional messaging system. We will outline some elements of the design in the following sections.
 
+对这些用途的支持使我们设计了具有许多独特元素的设计，更类似于数据库日志，而不是传统的消息传递系统。我们将在下面几节中概述设计的一些元素。
+
 ### [4.2 Persistence](http://kafka.apache.org/documentation/#persistence)
+
+持久化
 
 #### [Don't fear the filesystem!](http://kafka.apache.org/documentation/#design_filesystem)
 
 Kafka relies heavily on the filesystem for storing and caching messages. There is a general perception that "disks are slow" which makes people skeptical that a persistent structure can offer competitive performance. In fact disks are both much slower and much faster than people expect depending on how they are used; and a properly designed disk structure can often be as fast as the network.
 
+Kafka非常依赖文件系统来存储和缓存消息。人们普遍认为“磁盘很慢”，这使得人们怀疑持久的结构是否能够提供具有竞争力的性能。实际上，磁盘比人们预期的要慢得多，也快得多，这取决于它们的使用方式;一个适当设计的磁盘结构通常可以和网络一样快。
+
 The key fact about disk performance is that the throughput of hard drives has been diverging from the latency of a disk seek for the last decade. As a result the performance of linear writes on a [JBOD](http://en.wikipedia.org/wiki/Non-RAID_drive_architectures) configuration with six 7200rpm SATA RAID-5 array is about 600MB/sec but the performance of random writes is only about 100k/sec—a difference of over 6000X. These linear reads and writes are the most predictable of all usage patterns, and are heavily optimized by the operating system. A modern operating system provides read-ahead and write-behind techniques that prefetch data in large block multiples and group smaller logical writes into large physical writes. A further discussion of this issue can be found in this [ACM Queue article](http://queue.acm.org/detail.cfm?id=1563874); they actually find that [sequential disk access can in some cases be faster than random memory access!](http://deliveryimages.acm.org/10.1145/1570000/1563874/jacobs3.jpg)
+
+关于磁盘性能的关键事实是，在过去的十年中，硬盘驱动器的吞吐量已经偏离了磁盘查找的延迟。因此，在6个7200rpm的SATA RAID-5阵列上的[JBOD](http://en.wikipedia.org/wiki/nonraid_drive_architectures)配置上线性写操作的性能约为600MB/秒，而随机写操作的性能仅为100k/秒，差异超过6000X。这些线性读和写是所有使用模式中最可预测的，操作系统对它们进行了大量优化。现代操作系统提供了预读和后写技术，这些技术以大量块的倍数预取数据，并将较小的逻辑写入分组为较大的物理写入。关于这个问题的进一步讨论可以在[ACM队列文章]中找到;他们实际上发现[顺序磁盘访问在某些情况下比随机内存访问更快!]
 
 To compensate for this performance divergence, modern operating systems have become increasingly aggressive in their use of main memory for disk caching. A modern OS will happily divert *all* free memory to disk caching with little performance penalty when the memory is reclaimed. All disk reads and writes will go through this unified cache. This feature cannot easily be turned off without using direct I/O, so even if a process maintains an in-process cache of the data, this data will likely be duplicated in OS pagecache, effectively storing everything twice.
 
+为了弥补这种性能差异，现代操作系统越来越积极地使用主存来进行磁盘缓存。现代操作系统会很高兴地将*所有*空闲内存转移到磁盘缓存中，而在回收内存时性能损失很小。所有磁盘读写都将通过这个统一的缓存。如果不使用直接I/O，就无法轻易关闭该特性，因此，即使进程维护了数据的进程内缓存，该数据也可能会在OS pagecache中复制，有效地将所有数据存储两次。
+
 Furthermore, we are building on top of the JVM, and anyone who has spent any time with Java memory usage knows two things:
 
+此外，我们是在JVM之上构建的，任何花过时间研究Java内存使用的人都知道两件事:
+
 1. The memory overhead of objects is very high, often doubling the size of the data stored (or worse).
+
+   对象的内存开销非常高，通常会使存储的数据大小翻倍(或者更糟)。
+
 2. Java garbage collection becomes increasingly fiddly and slow as the in-heap data increases.
+
+   随着堆内数据的增加，Java垃圾收集变得越来越繁琐和缓慢。
 
 As a result of these factors using the filesystem and relying on pagecache is superior to maintaining an in-memory cache or other structure—we at least double the available cache by having automatic access to all free memory, and likely double again by storing a compact byte structure rather than individual objects. Doing so will result in a cache of up to 28-30GB on a 32GB machine without GC penalties. Furthermore, this cache will stay warm even if the service is restarted, whereas the in-process cache will need to be rebuilt in memory (which for a 10GB cache may take 10 minutes) or else it will need to start with a completely cold cache (which likely means terrible initial performance). This also greatly simplifies the code as all logic for maintaining coherency between the cache and filesystem is now in the OS, which tends to do so more efficiently and more correctly than one-off in-process attempts. If your disk usage favors linear reads then read-ahead is effectively pre-populating this cache with useful data on each disk read.
 
+由于这些因素使用文件系统和依赖pagecache优于维护一个内存中的缓存或其他结构我们至少两倍可用缓存通过自动访问所有可用内存,可能再翻一番,存储一个字节结构紧凑而不是单个对象。这样做将在没有GC惩罚的32GB机器上产生高达28-30GB的缓存。此外，即使服务重新启动，这个缓存也会保持热度，而进程内缓存则需要在内存中重新构建(对于10GB的缓存，这可能需要10分钟)，否则它将需要从一个完全冷的缓存开始(这可能意味着糟糕的初始性能)。这也极大地简化了代码，因为所有维护缓存和文件系统之间一致性的逻辑现在都在操作系统中，这样做往往比一次性的进程内尝试更有效、更正确。如果您的磁盘使用倾向于线性读取，那么预读可以有效地在每次磁盘读取时将有用的数据填充到缓存中。
+
 This suggests a design which is very simple: rather than maintain as much as possible in-memory and flush it all out to the filesystem in a panic when we run out of space, we invert that. All data is immediately written to a persistent log on the filesystem without necessarily flushing to disk. In effect this just means that it is transferred into the kernel's pagecache.
 
+这暗示了一种非常简单的设计:与其在内存中维护尽可能多的内存，并在耗尽空间时惊慌地将其全部清除到文件系统中，不如将其倒置。所有数据都立即写入文件系统上的持久日志，而不必刷新到磁盘。实际上，这仅仅意味着它被传输到内核的pagecache中。
+
 This style of pagecache-centric design is described in an [article](http://varnish-cache.org/wiki/ArchitectNotes) on the design of Varnish here (along with a healthy dose of arrogance).
+
+关于Varnish的设计的一篇文章描述了这种以页面为中心的设计风格
 
 #### [Constant Time Suffices](http://kafka.apache.org/documentation/#design_constanttime)
 
 The persistent data structure used in messaging systems are often a per-consumer queue with an associated BTree or other general-purpose random access data structures to maintain metadata about messages. BTrees are the most versatile data structure available, and make it possible to support a wide variety of transactional and non-transactional semantics in the messaging system. They do come with a fairly high cost, though: Btree operations are O(log N). Normally O(log N) is considered essentially equivalent to constant time, but this is not true for disk operations. Disk seeks come at 10 ms a pop, and each disk can do only one seek at a time so parallelism is limited. Hence even a handful of disk seeks leads to very high overhead. Since storage systems mix very fast cached operations with very slow physical disk operations, the observed performance of tree structures is often superlinear as data increases with fixed cache--i.e. doubling your data makes things much worse than twice as slow.
 
+消息传递系统中使用的持久数据结构通常是每个使用者的队列，带有关联的BTree或其他通用的随机访问数据结构，以维护关于消息的元数据。btree是可用的最通用的数据结构，它使得在消息传递系统中支持各种各样的事务和非事务语义成为可能。不过，它们确实有相当高的代价:Btree操作是O(log N)，通常O(log N)被认为本质上等同于常数时间，但这对磁盘操作不成立。磁盘寻道速度为每次10毫秒，而且每个磁盘一次只能执行一次寻道，因此并行性受到限制。因此，即使是少量的磁盘查找也会导致非常高的开销。由于存储系统混合了非常快的缓存操作和非常慢的物理磁盘操作，所以当数据以固定缓存增长时，观察到的树结构的性能通常是超线性的。将你的数据翻倍会比两倍的速度慢得多。
+
 Intuitively a persistent queue could be built on simple reads and appends to files as is commonly the case with logging solutions. This structure has the advantage that all operations are O(1) and reads do not block writes or each other. This has obvious performance advantages since the performance is completely decoupled from the data size—one server can now take full advantage of a number of cheap, low-rotational speed 1+TB SATA drives. Though they have poor seek performance, these drives have acceptable performance for large reads and writes and come at 1/3 the price and 3x the capacity.
 
+直观地说，持久化队列可以构建在简单的读取和附加到文件上，这是日志解决方案的常见情况。这种结构的优点是，所有操作都是O(1)，读操作不会阻塞写操作，也不会相互阻塞写操作。这具有明显的性能优势，因为性能完全与数据大小分离——一台服务器现在可以充分利用大量廉价、低转速1+TB的SATA驱动器。虽然它们的寻道性能很差，但是这些驱动器对于大容量的读和写具有可接受的性能，并且价格是它的1/3，容量是它的3倍。
+
 Having access to virtually unlimited disk space without any performance penalty means that we can provide some features not usually found in a messaging system. For example, in Kafka, instead of attempting to delete messages as soon as they are consumed, we can retain messages for a relatively long period (say a week). This leads to a great deal of flexibility for consumers, as we will describe.
+
+可以访问几乎不受限制的磁盘空间而不会损害性能，这意味着我们可以提供消息传递系统中不常见的一些特性。例如，在Kafka中，我们可以保留消息一段相对较长的时间(比如一周)，而不是试图在消息被消费后立即删除消息。这为消费者带来了极大的灵活性，我们将对此进行描述。
 
 ### [4.3 Efficiency](http://kafka.apache.org/documentation/#maximizingefficiency)
 
