@@ -444,11 +444,11 @@ The essential configurations are the following:
 - `log.dirs`
 - `zookeeper.connect`
 
-Topic-level configurations and defaults are discussed in more detail [below](http://kafka.apache.org/documentation/#topicconfigs).
+Topic#### [below](http://kafka.apache.org/documentation/#topicconfigs).
 
 主题级别的配置和默认设置将在下面详细讨论。
 
-- #### [zookeeper.connect](http://kafka.apache.org/documentation/#zookeeper.connect)
+#### [zookeeper.connect](http://kafka.apache.org/documentation/#zookeeper.connect)
 
   Specifies the ZooKeeper connection string in the form `hostname:port` where host and port are the host and port of a ZooKeeper server. To allow connecting through other ZooKeeper nodes when that ZooKeeper machine is down you can also specify multiple hosts in the form `hostname1:port1,hostname2:port2,hostname3:port3`.
   The server can also have a ZooKeeper chroot path as part of its ZooKeeper connection string which puts its data under some path in the global ZooKeeper namespace. For example to give a chroot path of `/chroot/path` you would give the connection string as `hostname1:port1,hostname2:port2,hostname3:port3/chroot/path`.
@@ -456,14 +456,14 @@ Topic-level configurations and defaults are discussed in more detail [below](htt
   以`hostname:port`的形式指定ZooKeeper连接字符串，其中host和port是ZooKeeper服务器的主机和端口。要允许当ZooKeeper机器关闭时通过其他ZooKeeper节点进行连接，您还可以以`hostname1：port1，hostname2：port2，hostname3：port3`的形式指定多个主机。
     服务器还可以在其ZooKeeper连接字符串中包含一个ZooKeeper chroot路径，该路径将其数据放在全局ZooKeeper命名空间中的某个路径下。例如，要给chroot路径指定` / chroot / path`，您可以将连接字符串指定为` hostname1：port1，hostname2：port2，hostname3：port3 / chroot / path`。
 
-  |         Type: | string    |
-  | ------------: | --------- |
-  |      Default: |           |
-  | Valid Values: |           |
-  |   Importance: | high      |
-  |  Update Mode: | read-only |
+|         Type: | string    |
+| ------------: | --------- |
+|      Default: |           |
+| Valid Values: |           |
+|   Importance: | high      |
+|  Update Mode: | read-only |
 
-- #### [advertised.host.name](http://kafka.apache.org/documentation/#advertised.host.name)
+#### [advertised.host.name](http://kafka.apache.org/documentation/#advertised.host.name)
 
   DEPRECATED: only used when `advertised.listeners` or `listeners` are not set. Use `advertised.listeners` instead.
 
@@ -473,27 +473,27 @@ Topic-level configurations and defaults are discussed in more detail [below](htt
 
     要发布给ZooKeeper的主机名，供客户端使用。在IaaS环境中，这可能需要与代理(broker)绑定的接口不同。如果未设置，则将使用` host.name`的值（如果已配置）。否则，它将使用从java.net.InetAddress.getCanonicalHostName()返回的值。
 
-  |         Type: | string    |
-  | ------------: | --------- |
-  |      Default: | null      |
-  | Valid Values: |           |
-  |   Importance: | high      |
-  |  Update Mode: | read-only |
+|         Type: | string    |
+| ------------: | --------- |
+|      Default: | null      |
+| Valid Values: |           |
+|   Importance: | high      |
+|  Update Mode: | read-only |
 
-- #### [advertised.listeners](http://kafka.apache.org/documentation/#advertised.listeners)
+#### [advertised.listeners](http://kafka.apache.org/documentation/#advertised.listeners)
 
   Listeners to publish to ZooKeeper for clients to use, if different than the `listeners` config property. In IaaS environments, this may need to be different from the interface to which the broker binds. If this is not set, the value for `listeners` will be used. Unlike `listeners` it is not valid to advertise the 0.0.0.0 meta-address.
 
     如果监听器配置与`listeners`配置属性不同，则发布给ZooKeeper的监听器供客户端使用。在IaaS环境中，这可能需要与代理绑定的接口不同。如果未设置，将使用` listeners`的值。与`listeners`不同，它不能有效地宣传0.0.0.0元地址。
 
-  |         Type: | string     |
-  | ------------: | ---------- |
-  |      Default: | null       |
-  | Valid Values: |            |
-  |   Importance: | high       |
-  |  Update Mode: | per-broker |
+|         Type: | string     |
+| ------------: | ---------- |
+|      Default: | null       |
+| Valid Values: |            |
+|   Importance: | high       |
+|  Update Mode: | per-broker |
 
-- #### [advertised.port](http://kafka.apache.org/documentation/#advertised.port)
+#### [advertised.port](http://kafka.apache.org/documentation/#advertised.port)
 
   DEPRECATED: only used when `advertised.listeners` or `listeners` are not set. Use `advertised.listeners` instead.
   The port to publish to ZooKeeper for clients to use. In IaaS environments, this may need to be different from the port to which the broker binds. If this is not set, it will publish the same port that the broker binds to.
@@ -502,79 +502,79 @@ Topic-level configurations and defaults are discussed in more detail [below](htt
 
     发布到ZooKeeper供客户端使用的端口。在IaaS环境中，这可能需要与代理绑定的端口不同。如果未设置，它将发布代理绑定到的相同端口。
 
-  |         Type: | int       |
-  | ------------: | --------- |
-  |      Default: | null      |
-  | Valid Values: |           |
-  |   Importance: | high      |
-  |  Update Mode: | read-only |
+|         Type: | int       |
+| ------------: | --------- |
+|      Default: | null      |
+| Valid Values: |           |
+|   Importance: | high      |
+|  Update Mode: | read-only |
 
-- #### [auto.create.topics.enable](http://kafka.apache.org/documentation/#auto.create.topics.enable)
+#### [auto.create.topics.enable](http://kafka.apache.org/documentation/#auto.create.topics.enable)
 
   Enable auto creation of topic on the server
 
   在服务器上启用主题自动创建
 
-  |         Type: | boolean   |
-  | ------------: | --------- |
-  |      Default: | true      |
-  | Valid Values: |           |
-  |   Importance: | high      |
-  |  Update Mode: | read-only |
+|         Type: | boolean   |
+| ------------: | --------- |
+|      Default: | true      |
+| Valid Values: |           |
+|   Importance: | high      |
+|  Update Mode: | read-only |
 
-- #### [auto.leader.rebalance.enable](http://kafka.apache.org/documentation/#auto.leader.rebalance.enable)
+#### [auto.leader.rebalance.enable](http://kafka.apache.org/documentation/#auto.leader.rebalance.enable)
 
   Enables auto leader balancing. A background thread checks the distribution of partition leaders at regular intervals, configurable by `leader.imbalance.check.interval.seconds`. If the leader imbalance exceeds `leader.imbalance.per.broker.percentage`, leader rebalance to the preferred leader for partitions is triggered.
 
     启用自动领导者平衡。后台线程定期检查分区领导者的分布，可通过` leader.imbalance.check.interval.seconds`进行配置。如果领导者不平衡超过` leader.imbalance.per.broker.percentage`，则会导致领导者重新平衡到分区的首选领导者。
 
-  |         Type: | boolean   |
-  | ------------: | --------- |
-  |      Default: | true      |
-  | Valid Values: |           |
-  |   Importance: | high      |
-  |  Update Mode: | read-only |
+|         Type: | boolean   |
+| ------------: | --------- |
+|      Default: | true      |
+| Valid Values: |           |
+|   Importance: | high      |
+|  Update Mode: | read-only |
 
-- #### [background.threads](http://kafka.apache.org/documentation/#background.threads)
+#### [background.threads](http://kafka.apache.org/documentation/#background.threads)
 
   The number of threads to use for various background processing tasks
 
   用于各种后台处理任务的线程数
 
-  |         Type: | int          |
-  | ------------: | ------------ |
-  |      Default: | 10           |
-  | Valid Values: | [1,...]      |
-  |   Importance: | high         |
-  |  Update Mode: | cluster-wide |
+|         Type: | int          |
+| ------------: | ------------ |
+|      Default: | 10           |
+| Valid Values: | [1,...]      |
+|   Importance: | high         |
+|  Update Mode: | cluster-wide |
 
-- #### [broker.id](http://kafka.apache.org/documentation/#broker.id)
+#### [broker.id](http://kafka.apache.org/documentation/#broker.id)
 
   The broker id for this server. If unset, a unique broker id will be generated.To avoid conflicts between zookeeper generated broker id's and user configured broker id's, generated broker ids start from reserved.broker.max.id + 1.
 
     该服务器的代理标识。如果未设置，将生成一个唯一的代理ID。为避免Zookeeper生成的代理ID与用户配置的 ID之间发生冲突，生成的代理ID从reserved.broker.max.id +1开始。
 
-  |         Type: | int       |
-  | ------------: | --------- |
-  |      Default: | -1        |
-  | Valid Values: |           |
-  |   Importance: | high      |
-  |  Update Mode: | read-only |
+|         Type: | int       |
+| ------------: | --------- |
+|      Default: | -1        |
+| Valid Values: |           |
+|   Importance: | high      |
+|  Update Mode: | read-only |
 
-- #### [compression.type](http://kafka.apache.org/documentation/#compression.type)
+#### [compression.type](http://kafka.apache.org/documentation/#compression.type)
 
   Specify the final compression type for a given topic. This configuration accepts the standard compression codecs ('gzip', 'snappy', 'lz4', 'zstd'). It additionally accepts 'uncompressed' which is equivalent to no compression; and 'producer' which means retain the original compression codec set by the producer.
 
     指定给定主题的最终压缩类型。此配置接受标准压缩编解码器（` gzip`，` snappy`，` lz4`，` zstd`）。此外，它接受`未压缩（uncompressed）`，等同于不压缩。和`生产者(producer)`，表示保留生产者设置的原始压缩编解码器。
 
-  |         Type: | string       |
-  | ------------: | ------------ |
-  |      Default: | producer     |
-  | Valid Values: |              |
-  |   Importance: | high         |
-  |  Update Mode: | cluster-wide |
+|         Type: | string       |
+| ------------: | ------------ |
+|      Default: | producer     |
+| Valid Values: |              |
+|   Importance: | high         |
+|  Update Mode: | cluster-wide |
 
-- #### [control.plane.listener.name](http://kafka.apache.org/documentation/#control.plane.listener.name)
+#### [control.plane.listener.name](http://kafka.apache.org/documentation/#control.plane.listener.name)
 
   Name of listener used for communication between controller and brokers. Broker will use the control.plane.listener.name to locate the endpoint in listeners list, to listen for connections from the controller. For example, if a broker's config is :
 
@@ -605,27 +605,27 @@ Topic-level configurations and defaults are discussed in more detail [below](htt
   然后控制器将使用带有安全协议` SSL`的` broker1.example.com:9094`来连接到代理。如果未明确配置，则默认值将为null，并且将没有用于控制器连接的专用端点。
   ```
 
-  |         Type: | string    |
-  | ------------: | --------- |
-  |      Default: | null      |
-  | Valid Values: |           |
-  |   Importance: | high      |
-  |  Update Mode: | read-only |
+|         Type: | string    |
+| ------------: | --------- |
+|      Default: | null      |
+| Valid Values: |           |
+|   Importance: | high      |
+|  Update Mode: | read-only |
 
-- #### [delete.topic.enable](http://kafka.apache.org/documentation/#delete.topic.enable)
+#### [delete.topic.enable](http://kafka.apache.org/documentation/#delete.topic.enable)
 
   Enables delete topic. Delete topic through the admin tool will have no effect if this config is turned off
 
   启用删除主题。如果关闭此配置，则通过管理工具删除主题将无效。
 
-  |         Type: | boolean   |
-  | ------------: | --------- |
-  |      Default: | true      |
-  | Valid Values: |           |
-  |   Importance: | high      |
-  |  Update Mode: | read-only |
+|         Type: | boolean   |
+| ------------: | --------- |
+|      Default: | true      |
+| Valid Values: |           |
+|   Importance: | high      |
+|  Update Mode: | read-only |
 
-- #### [host.name](http://kafka.apache.org/documentation/#host.name)
+#### [host.name](http://kafka.apache.org/documentation/#host.name)
 
   DEPRECATED: only used when `listeners` is not set. Use `listeners` instead.
   hostname of broker. If this is set, it will only bind to this address. If this is not set, it will bind to all interfaces
@@ -634,40 +634,40 @@ Topic-level configurations and defaults are discussed in more detail [below](htt
 
   代理的主机名。如果设置此选项，它将仅绑定到该地址。如果未设置，它将绑定到所有接口
 
-  |         Type: | string    |
-  | ------------: | --------- |
-  |      Default: | ""        |
-  | Valid Values: |           |
-  |   Importance: | high      |
-  |  Update Mode: | read-only |
+|         Type: | string    |
+| ------------: | --------- |
+|      Default: | ""        |
+| Valid Values: |           |
+|   Importance: | high      |
+|  Update Mode: | read-only |
 
-- #### [leader.imbalance.check.interval.seconds](http://kafka.apache.org/documentation/#leader.imbalance.check.interval.seconds)
+#### [leader.imbalance.check.interval.seconds](http://kafka.apache.org/documentation/#leader.imbalance.check.interval.seconds)
 
   The frequency with which the partition rebalance check is triggered by the controller
 
   控制器触发分区重新平衡检查的频率
 
-  |         Type: | long      |
-  | ------------: | --------- |
-  |      Default: | 300       |
-  | Valid Values: |           |
-  |   Importance: | high      |
-  |  Update Mode: | read-only |
+|         Type: | long      |
+| ------------: | --------- |
+|      Default: | 300       |
+| Valid Values: |           |
+|   Importance: | high      |
+|  Update Mode: | read-only |
 
-- #### [leader.imbalance.per.broker.percentage](http://kafka.apache.org/documentation/#leader.imbalance.per.broker.percentage)
+#### [leader.imbalance.per.broker.percentage](http://kafka.apache.org/documentation/#leader.imbalance.per.broker.percentage)
 
   The ratio of leader imbalance allowed per broker. The controller would trigger a leader balance if it goes above this value per broker. The value is specified in percentage.
 
   每个代理允许的领导者失衡比率。如果控制器超出每个代理的该值，则它将触发领导者余额。该值以百分比指定。
 
-  |         Type: | int       |
-  | ------------: | --------- |
-  |      Default: | 10        |
-  | Valid Values: |           |
-  |   Importance: | high      |
-  |  Update Mode: | read-only |
+|         Type: | int       |
+| ------------: | --------- |
+|      Default: | 10        |
+| Valid Values: |           |
+|   Importance: | high      |
+|  Update Mode: | read-only |
 
-- #### [listeners](http://kafka.apache.org/documentation/#listeners)
+#### [listeners](http://kafka.apache.org/documentation/#listeners)
 
   Listener List - Comma-separated list of URIs we will listen on and the listener names. If the listener name is not a security protocol, listener.security.protocol.map must also be set.
 
@@ -685,250 +685,250 @@ Topic-level configurations and defaults are discussed in more detail [below](htt
   PLAINTEXT://myhost:9092,SSL://:9091
   CLIENT://0.0.0.0:9092,REPLICATION://localhost:9093
 
-  |         Type: | string     |
-  | ------------: | ---------- |
-  |      Default: | null       |
-  | Valid Values: |            |
-  |   Importance: | high       |
-  |  Update Mode: | per-broker |
+|         Type: | string     |
+| ------------: | ---------- |
+|      Default: | null       |
+| Valid Values: |            |
+|   Importance: | high       |
+|  Update Mode: | per-broker |
 
-- #### [log.dir](http://kafka.apache.org/documentation/#log.dir)
+#### [log.dir](http://kafka.apache.org/documentation/#log.dir)
 
   The directory in which the log data is kept (supplemental for log.dirs property)
 
     保留日志数据的目录（log.dirs属性的补充）
 
-  |         Type: | string          |
-  | ------------: | --------------- |
-  |      Default: | /tmp/kafka-logs |
-  | Valid Values: |                 |
-  |   Importance: | high            |
-  |  Update Mode: | read-only       |
+|         Type: | string          |
+| ------------: | --------------- |
+|      Default: | /tmp/kafka-logs |
+| Valid Values: |                 |
+|   Importance: | high            |
+|  Update Mode: | read-only       |
 
-- #### [log.dirs](http://kafka.apache.org/documentation/#log.dirs)
+#### [log.dirs](http://kafka.apache.org/documentation/#log.dirs)
 
   The directories in which the log data is kept. If not set, the value in log.dir is used
 
     保留日志数据的目录。如果未设置，则使用log.dir中的值
 
-  |         Type: | string    |
-  | ------------: | --------- |
-  |      Default: | null      |
-  | Valid Values: |           |
-  |   Importance: | high      |
-  |  Update Mode: | read-only |
+|         Type: | string    |
+| ------------: | --------- |
+|      Default: | null      |
+| Valid Values: |           |
+|   Importance: | high      |
+|  Update Mode: | read-only |
 
-- #### [log.flush.interval.messages](http://kafka.apache.org/documentation/#log.flush.interval.messages)
+#### [log.flush.interval.messages](http://kafka.apache.org/documentation/#log.flush.interval.messages)
 
   The number of messages accumulated on a log partition before messages are flushed to disk
 
   将消息刷新到磁盘之前，在日志分区上累积的消息数
 
-  |         Type: | long                |
-  | ------------: | ------------------- |
-  |      Default: | 9223372036854775807 |
-  | Valid Values: | [1,...]             |
-  |   Importance: | high                |
-  |  Update Mode: | cluster-wide        |
+|         Type: | long                |
+| ------------: | ------------------- |
+|      Default: | 9223372036854775807 |
+| Valid Values: | [1,...]             |
+|   Importance: | high                |
+|  Update Mode: | cluster-wide        |
 
-- #### [log.flush.interval.ms](http://kafka.apache.org/documentation/#log.flush.interval.ms)
+#### [log.flush.interval.ms](http://kafka.apache.org/documentation/#log.flush.interval.ms)
 
   The maximum time in ms that a message in any topic is kept in memory before flushed to disk. If not set, the value in log.flush.scheduler.interval.ms is used
 
     刷新到磁盘之前，任何主题中的消息在内存中保留的最长时间（以毫秒为单位）。如果未设置，则使用log.flush.scheduler.interval.ms中的值
 
-  |         Type: | long         |
-  | ------------: | ------------ |
-  |      Default: | null         |
-  | Valid Values: |              |
-  |   Importance: | high         |
-  |  Update Mode: | cluster-wide |
+|         Type: | long         |
+| ------------: | ------------ |
+|      Default: | null         |
+| Valid Values: |              |
+|   Importance: | high         |
+|  Update Mode: | cluster-wide |
 
-- #### [log.flush.offset.checkpoint.interval.ms](http://kafka.apache.org/documentation/#log.flush.offset.checkpoint.interval.ms)
+#### [log.flush.offset.checkpoint.interval.ms](http://kafka.apache.org/documentation/#log.flush.offset.checkpoint.interval.ms)
 
   The frequency with which we update the persistent record of the last flush which acts as the log recovery point
 
     我们更新上次刷新的持久记录的频率，该刷新作为日志恢复点
 
-  |         Type: | int              |
-  | ------------: | ---------------- |
-  |      Default: | 60000 (1 minute) |
-  | Valid Values: | [0,...]          |
-  |   Importance: | high             |
-  |  Update Mode: | read-only        |
+|         Type: | int              |
+| ------------: | ---------------- |
+|      Default: | 60000 (1 minute) |
+| Valid Values: | [0,...]          |
+|   Importance: | high             |
+|  Update Mode: | read-only        |
 
-- #### [log.flush.scheduler.interval.ms](http://kafka.apache.org/documentation/#log.flush.scheduler.interval.ms)
+#### [log.flush.scheduler.interval.ms](http://kafka.apache.org/documentation/#log.flush.scheduler.interval.ms)
 
   The frequency in ms that the log flusher checks whether any log needs to be flushed to disk
 
   日志刷新程序检查是否需要将任何日志刷新到磁盘的频率（毫秒）
 
-  |         Type: | long                |
-  | ------------: | ------------------- |
-  |      Default: | 9223372036854775807 |
-  | Valid Values: |                     |
-  |   Importance: | high                |
-  |  Update Mode: | read-only           |
+|         Type: | long                |
+| ------------: | ------------------- |
+|      Default: | 9223372036854775807 |
+| Valid Values: |                     |
+|   Importance: | high                |
+|  Update Mode: | read-only           |
 
-- #### [log.flush.start.offset.checkpoint.interval.ms](http://kafka.apache.org/documentation/#log.flush.start.offset.checkpoint.interval.ms)
+#### [log.flush.start.offset.checkpoint.interval.ms](http://kafka.apache.org/documentation/#log.flush.start.offset.checkpoint.interval.ms)
 
   The frequency with which we update the persistent record of log start offset
 
     更新日志开始偏移的持久记录的频率
 
-  |         Type: | int              |
-  | ------------: | ---------------- |
-  |      Default: | 60000 (1 minute) |
-  | Valid Values: | [0,...]          |
-  |   Importance: | high             |
-  |  Update Mode: | read-only        |
+|         Type: | int              |
+| ------------: | ---------------- |
+|      Default: | 60000 (1 minute) |
+| Valid Values: | [0,...]          |
+|   Importance: | high             |
+|  Update Mode: | read-only        |
 
-- #### [log.retention.bytes](http://kafka.apache.org/documentation/#log.retention.bytes)
+#### [log.retention.bytes](http://kafka.apache.org/documentation/#log.retention.bytes)
 
   The maximum size of the log before deleting it
 
   删除日志前的最大日志大小
 
-  |         Type: | long         |
-  | ------------: | ------------ |
-  |      Default: | -1           |
-  | Valid Values: |              |
-  |   Importance: | high         |
-  |  Update Mode: | cluster-wide |
+|         Type: | long         |
+| ------------: | ------------ |
+|      Default: | -1           |
+| Valid Values: |              |
+|   Importance: | high         |
+|  Update Mode: | cluster-wide |
 
-- #### [log.retention.hours](http://kafka.apache.org/documentation/#log.retention.hours)
+#### [log.retention.hours](http://kafka.apache.org/documentation/#log.retention.hours)
 
   The number of hours to keep a log file before deleting it (in hours), tertiary to log.retention.ms property
 
     删除日志文件之前保留日志文件的小时数（小时），与log.retention.ms属性对应。
 
-  |         Type: | int       |
-  | ------------: | --------- |
-  |      Default: | 168       |
-  | Valid Values: |           |
-  |   Importance: | high      |
-  |  Update Mode: | read-only |
+|         Type: | int       |
+| ------------: | --------- |
+|      Default: | 168       |
+| Valid Values: |           |
+|   Importance: | high      |
+|  Update Mode: | read-only |
 
-- #### [log.retention.minutes](http://kafka.apache.org/documentation/#log.retention.minutes)
+#### [log.retention.minutes](http://kafka.apache.org/documentation/#log.retention.minutes)
 
   The number of minutes to keep a log file before deleting it (in minutes), secondary to log.retention.ms property. If not set, the value in log.retention.hours is used
 
     保留日志文件之前删除日志文件的分钟数（以分钟为单位），仅次于log.retention.ms属性。如果未设置，则使用log.retention.hours中的值
 
-  |         Type: | int       |
-  | ------------: | --------- |
-  |      Default: | null      |
-  | Valid Values: |           |
-  |   Importance: | high      |
-  |  Update Mode: | read-only |
+|         Type: | int       |
+| ------------: | --------- |
+|      Default: | null      |
+| Valid Values: |           |
+|   Importance: | high      |
+|  Update Mode: | read-only |
 
-- #### [log.retention.ms](http://kafka.apache.org/documentation/#log.retention.ms)
+#### [log.retention.ms](http://kafka.apache.org/documentation/#log.retention.ms)
 
   The number of milliseconds to keep a log file before deleting it (in milliseconds), If not set, the value in log.retention.minutes is used. If set to -1, no time limit is applied.
 
     删除日志文件之前保留日志文件的毫秒数（以毫秒为单位）。如果未设置，则使用log.retention.minutes中的值。如果设置为-1，则不应用时间限制。
 
-  |         Type: | long         |
-  | ------------: | ------------ |
-  |      Default: | null         |
-  | Valid Values: |              |
-  |   Importance: | high         |
-  |  Update Mode: | cluster-wide |
+|         Type: | long         |
+| ------------: | ------------ |
+|      Default: | null         |
+| Valid Values: |              |
+|   Importance: | high         |
+|  Update Mode: | cluster-wide |
 
-- #### [log.roll.hours](http://kafka.apache.org/documentation/#log.roll.hours)
+#### [log.roll.hours](http://kafka.apache.org/documentation/#log.roll.hours)
 
   The maximum time before a new log segment is rolled out (in hours), secondary to log.roll.ms property
 
     新日志段推出之前的最长时间（以小时为单位），仅次于log.roll.ms属性
 
-  |         Type: | int       |
-  | ------------: | --------- |
-  |      Default: | 168       |
-  | Valid Values: | [1,...]   |
-  |   Importance: | high      |
-  |  Update Mode: | read-only |
+|         Type: | int       |
+| ------------: | --------- |
+|      Default: | 168       |
+| Valid Values: | [1,...]   |
+|   Importance: | high      |
+|  Update Mode: | read-only |
 
 - 
 
-- #### [log.roll.jitter.hours](http://kafka.apache.org/documentation/#log.roll.jitter.hours)
+#### [log.roll.jitter.hours](http://kafka.apache.org/documentation/#log.roll.jitter.hours)
 
   The maximum jitter to subtract from logRollTimeMillis (in hours), secondary to log.roll.jitter.ms property
 
     从logRollTimeMillis中减去的最大抖动（以小时为单位），仅次于log.roll.jitter.ms属性
 
-  |         Type: | int       |
-  | ------------: | --------- |
-  |      Default: | 0         |
-  | Valid Values: | [0,...]   |
-  |   Importance: | high      |
-  |  Update Mode: | read-only |
+|         Type: | int       |
+| ------------: | --------- |
+|      Default: | 0         |
+| Valid Values: | [0,...]   |
+|   Importance: | high      |
+|  Update Mode: | read-only |
 
-- #### [log.roll.jitter.ms](http://kafka.apache.org/documentation/#log.roll.jitter.ms)
+#### [log.roll.jitter.ms](http://kafka.apache.org/documentation/#log.roll.jitter.ms)
 
   The maximum jitter to subtract from logRollTimeMillis (in milliseconds). If not set, the value in log.roll.jitter.hours is used
 
     从logRollTimeMillis中减去的最大抖动（以毫秒为单位）。如果未设置，则使用log.roll.jitter.hours中的值
 
-  |         Type: | long         |
-  | ------------: | ------------ |
-  |      Default: | null         |
-  | Valid Values: |              |
-  |   Importance: | high         |
-  |  Update Mode: | cluster-wide |
+|         Type: | long         |
+| ------------: | ------------ |
+|      Default: | null         |
+| Valid Values: |              |
+|   Importance: | high         |
+|  Update Mode: | cluster-wide |
 
-- #### [log.roll.ms](http://kafka.apache.org/documentation/#log.roll.ms)
+#### [log.roll.ms](http://kafka.apache.org/documentation/#log.roll.ms)
 
   The maximum time before a new log segment is rolled out (in milliseconds). If not set, the value in log.roll.hours is used
 
     推出新的日志段之前的最长时间（以毫秒为单位）。如果未设置，则使用log.roll.hours中的值
 
-  |         Type: | long         |
-  | ------------: | ------------ |
-  |      Default: | null         |
-  | Valid Values: |              |
-  |   Importance: | high         |
-  |  Update Mode: | cluster-wide |
+|         Type: | long         |
+| ------------: | ------------ |
+|      Default: | null         |
+| Valid Values: |              |
+|   Importance: | high         |
+|  Update Mode: | cluster-wide |
 
-- #### [log.segment.bytes](http://kafka.apache.org/documentation/#log.segment.bytes)
+#### [log.segment.bytes](http://kafka.apache.org/documentation/#log.segment.bytes)
 
   The maximum size of a single log file
 
   单个日志文件的最大大小
 
-  |         Type: | int                     |
-  | ------------: | ----------------------- |
-  |      Default: | 1073741824 (1 gibibyte) |
-  | Valid Values: | [14,...]                |
-  |   Importance: | high                    |
-  |  Update Mode: | cluster-wide            |
+|         Type: | int                     |
+| ------------: | ----------------------- |
+|      Default: | 1073741824 (1 gibibyte) |
+| Valid Values: | [14,...]                |
+|   Importance: | high                    |
+|  Update Mode: | cluster-wide            |
 
-- #### [log.segment.delete.delay.ms](http://kafka.apache.org/documentation/#log.segment.delete.delay.ms)
+#### [log.segment.delete.delay.ms](http://kafka.apache.org/documentation/#log.segment.delete.delay.ms)
 
   The amount of time to wait before deleting a file from the filesystem
 
   从文件系统删除文件之前要等待的时间
 
-  |         Type: | long             |
-  | ------------: | ---------------- |
-  |      Default: | 60000 (1 minute) |
-  | Valid Values: | [0,...]          |
-  |   Importance: | high             |
-  |  Update Mode: | cluster-wide     |
+|         Type: | long             |
+| ------------: | ---------------- |
+|      Default: | 60000 (1 minute) |
+| Valid Values: | [0,...]          |
+|   Importance: | high             |
+|  Update Mode: | cluster-wide     |
 
-- #### [message.max.bytes](http://kafka.apache.org/documentation/#message.max.bytes)
+#### [message.max.bytes](http://kafka.apache.org/documentation/#message.max.bytes)
 
   The largest record batch size allowed by Kafka (after compression if compression is enabled). If this is increased and there are consumers older than 0.10.2, the consumers' fetch size must also be increased so that they can fetch record batches this large. In the latest message format version, records are always grouped into batches for efficiency. In previous message format versions, uncompressed records are not grouped into batches and this limit only applies to a single record in that case.This can be set per topic with the topic level `max.message.bytes` config.
 
     Kafka允许的最大记录批处理大小（如果启用了压缩，则压缩后）。如果增加了此数量，并且某些消费者的年龄大于0.10.2，则还必须增加消费者的获取大小，以便他们可以获取如此大的记录批次。在最新的消息格式版本中，为了提高效率，总是将记录分组。在以前的消息格式版本中，未压缩的记录不会分组，并且在这种情况下，此限制仅适用于单个记录。可以使用主题级别` max.message.bytes`配置对每个主题进行设置。
 
-  |         Type: | int          |
-  | ------------: | ------------ |
-  |      Default: | 1048588      |
-  | Valid Values: | [0,...]      |
-  |   Importance: | high         |
-  |  Update Mode: | cluster-wide |
+|         Type: | int          |
+| ------------: | ------------ |
+|      Default: | 1048588      |
+| Valid Values: | [0,...]      |
+|   Importance: | high         |
+|  Update Mode: | cluster-wide |
 
-- #### [min.insync.replicas](http://kafka.apache.org/documentation/#min.insync.replicas)
+#### [min.insync.replicas](http://kafka.apache.org/documentation/#min.insync.replicas)
 
   When a producer sets acks to "all" (or "-1"), min.insync.replicas specifies the minimum number of replicas that must acknowledge a write for the write to be considered successful. If this minimum cannot be met, then the producer will raise an exception (either NotEnoughReplicas or NotEnoughReplicasAfterAppend).
 
@@ -938,209 +938,209 @@ Topic-level configurations and defaults are discussed in more detail [below](htt
 
     一起使用时，min.insync.replicas和acks可使您实施更大的耐用性保证。典型的情况是创建一个复制因子为3的主题，将min.insync.replicas设置为2，并生产者设为` all`。如果大多数副本未收到写入，这将确保生产者引发异常。
 
-  |         Type: | int          |
-  | ------------: | ------------ |
-  |      Default: | 1            |
-  | Valid Values: | [1,...]      |
-  |   Importance: | high         |
-  |  Update Mode: | cluster-wide |
+|         Type: | int          |
+| ------------: | ------------ |
+|      Default: | 1            |
+| Valid Values: | [1,...]      |
+|   Importance: | high         |
+|  Update Mode: | cluster-wide |
 
-- #### [num.io.threads](http://kafka.apache.org/documentation/#num.io.threads)
+#### [num.io.threads](http://kafka.apache.org/documentation/#num.io.threads)
 
   The number of threads that the server uses for processing requests, which may include disk I/O
 
     服务器用于处理请求的线程数，其中可能包括磁盘I / O
 
-  |         Type: | int          |
-  | ------------: | ------------ |
-  |      Default: | 8            |
-  | Valid Values: | [1,...]      |
-  |   Importance: | high         |
-  |  Update Mode: | cluster-wide |
+|         Type: | int          |
+| ------------: | ------------ |
+|      Default: | 8            |
+| Valid Values: | [1,...]      |
+|   Importance: | high         |
+|  Update Mode: | cluster-wide |
 
-- #### [num.network.threads](http://kafka.apache.org/documentation/#num.network.threads)
+#### [num.network.threads](http://kafka.apache.org/documentation/#num.network.threads)
 
   The number of threads that the server uses for receiving requests from the network and sending responses to the network
 
   服务器用于接收来自网络的请求并向网络发送响应的线程数
 
-  |         Type: | int          |
-  | ------------: | ------------ |
-  |      Default: | 3            |
-  | Valid Values: | [1,...]      |
-  |   Importance: | high         |
-  |  Update Mode: | cluster-wide |
+|         Type: | int          |
+| ------------: | ------------ |
+|      Default: | 3            |
+| Valid Values: | [1,...]      |
+|   Importance: | high         |
+|  Update Mode: | cluster-wide |
 
-- #### [num.recovery.threads.per.data.dir](http://kafka.apache.org/documentation/#num.recovery.threads.per.data.dir)
+#### [num.recovery.threads.per.data.dir](http://kafka.apache.org/documentation/#num.recovery.threads.per.data.dir)
 
   The number of threads per data directory to be used for log recovery at startup and flushing at shutdown
 
   每个数据目录在启动时用于日志恢复以及在关机时用于刷新的线程数
 
-  |         Type: | int          |
-  | ------------: | ------------ |
-  |      Default: | 1            |
-  | Valid Values: | [1,...]      |
-  |   Importance: | high         |
-  |  Update Mode: | cluster-wide |
+|         Type: | int          |
+| ------------: | ------------ |
+|      Default: | 1            |
+| Valid Values: | [1,...]      |
+|   Importance: | high         |
+|  Update Mode: | cluster-wide |
 
-- #### [num.replica.alter.log.dirs.threads](http://kafka.apache.org/documentation/#num.replica.alter.log.dirs.threads)
+#### [num.replica.alter.log.dirs.threads](http://kafka.apache.org/documentation/#num.replica.alter.log.dirs.threads)
 
   The number of threads that can move replicas between log directories, which may include disk I/O
 
     可以在日志目录之间移动副本的线程数，其中可能包括磁盘I / O
 
-  |         Type: | int       |
-  | ------------: | --------- |
-  |      Default: | null      |
-  | Valid Values: |           |
-  |   Importance: | high      |
-  |  Update Mode: | read-only |
+|         Type: | int       |
+| ------------: | --------- |
+|      Default: | null      |
+| Valid Values: |           |
+|   Importance: | high      |
+|  Update Mode: | read-only |
 
-- #### [num.replica.fetchers](http://kafka.apache.org/documentation/#num.replica.fetchers)
+#### [num.replica.fetchers](http://kafka.apache.org/documentation/#num.replica.fetchers)
 
   Number of fetcher threads used to replicate messages from a source broker. Increasing this value can increase the degree of I/O parallelism in the follower broker.
 
     用于复制来自源代理的消息的访存线程的数量。增大此值可以增加关注代理中的I / O并行度。
 
-  |         Type: | int          |
-  | ------------: | ------------ |
-  |      Default: | 1            |
-  | Valid Values: |              |
-  |   Importance: | high         |
-  |  Update Mode: | cluster-wide |
+|         Type: | int          |
+| ------------: | ------------ |
+|      Default: | 1            |
+| Valid Values: |              |
+|   Importance: | high         |
+|  Update Mode: | cluster-wide |
 
-- #### [offset.metadata.max.bytes](http://kafka.apache.org/documentation/#offset.metadata.max.bytes)
+#### [offset.metadata.max.bytes](http://kafka.apache.org/documentation/#offset.metadata.max.bytes)
 
   The maximum size for a metadata entry associated with an offset commit
 
   与偏移量提交关联的元数据条目的最大大小
 
-  |         Type: | int                |
-  | ------------: | ------------------ |
-  |      Default: | 4096 (4 kibibytes) |
-  | Valid Values: |                    |
-  |   Importance: | high               |
-  |  Update Mode: | read-only          |
+|         Type: | int                |
+| ------------: | ------------------ |
+|      Default: | 4096 (4 kibibytes) |
+| Valid Values: |                    |
+|   Importance: | high               |
+|  Update Mode: | read-only          |
 
-- #### [offsets.commit.required.acks](http://kafka.apache.org/documentation/#offsets.commit.required.acks)
+#### [offsets.commit.required.acks](http://kafka.apache.org/documentation/#offsets.commit.required.acks)
 
   The required acks before the commit can be accepted. In general, the default (-1) should not be overridden
 
     可以接受提交之前所需的确认。通常，不应覆盖默认值（-1）
 
-  |         Type: | short     |
-  | ------------: | --------- |
-  |      Default: | -1        |
-  | Valid Values: |           |
-  |   Importance: | high      |
-  |  Update Mode: | read-only |
+|         Type: | short     |
+| ------------: | --------- |
+|      Default: | -1        |
+| Valid Values: |           |
+|   Importance: | high      |
+|  Update Mode: | read-only |
 
-- #### [offsets.commit.timeout.ms](http://kafka.apache.org/documentation/#offsets.commit.timeout.ms)
+#### [offsets.commit.timeout.ms](http://kafka.apache.org/documentation/#offsets.commit.timeout.ms)
 
   Offset commit will be delayed until all replicas for the offsets topic receive the commit or this timeout is reached. This is similar to the producer request timeout.
 
   偏移提交将被延迟，直到偏移主题的所有副本都收到提交或达到此超时为止。这类似于生产者请求超时。
 
-  |         Type: | int              |
-  | ------------: | ---------------- |
-  |      Default: | 5000 (5 seconds) |
-  | Valid Values: | [1,...]          |
-  |   Importance: | high             |
-  |  Update Mode: | read-only        |
+|         Type: | int              |
+| ------------: | ---------------- |
+|      Default: | 5000 (5 seconds) |
+| Valid Values: | [1,...]          |
+|   Importance: | high             |
+|  Update Mode: | read-only        |
 
-- #### [offsets.load.buffer.size](http://kafka.apache.org/documentation/#offsets.load.buffer.size)
+#### [offsets.load.buffer.size](http://kafka.apache.org/documentation/#offsets.load.buffer.size)
 
   Batch size for reading from the offsets segments when loading offsets into the cache (soft-limit, overridden if records are too large).
 
   将偏移量加载到缓存中时从偏移量段读取的批处理大小（软限制，如果记录太大，则覆盖）。
 
-  |         Type: | int       |
-  | ------------: | --------- |
-  |      Default: | 5242880   |
-  | Valid Values: | [1,...]   |
-  |   Importance: | high      |
-  |  Update Mode: | read-only |
+|         Type: | int       |
+| ------------: | --------- |
+|      Default: | 5242880   |
+| Valid Values: | [1,...]   |
+|   Importance: | high      |
+|  Update Mode: | read-only |
 
-- #### [offsets.retention.check.interval.ms](http://kafka.apache.org/documentation/#offsets.retention.check.interval.ms)
+#### [offsets.retention.check.interval.ms](http://kafka.apache.org/documentation/#offsets.retention.check.interval.ms)
 
   Frequency at which to check for stale offsets
 
   检查陈旧偏移的频率
 
-  |         Type: | long                |
-  | ------------: | ------------------- |
-  |      Default: | 600000 (10 minutes) |
-  | Valid Values: | [1,...]             |
-  |   Importance: | high                |
-  |  Update Mode: | read-only           |
+|         Type: | long                |
+| ------------: | ------------------- |
+|      Default: | 600000 (10 minutes) |
+| Valid Values: | [1,...]             |
+|   Importance: | high                |
+|  Update Mode: | read-only           |
 
-- #### [offsets.retention.minutes](http://kafka.apache.org/documentation/#offsets.retention.minutes)
+#### [offsets.retention.minutes](http://kafka.apache.org/documentation/#offsets.retention.minutes)
 
   After a consumer group loses all its consumers (i.e. becomes empty) its offsets will be kept for this retention period before getting discarded. For standalone consumers (using manual assignment), offsets will be expired after the time of last commit plus this retention period.
 
   消费群体失去所有消费群体（即变空）后，其抵销将在此保留期内保留，直到被丢弃。对于独立使用者（使用手动分配），偏移量将在上次提交时间加上此保留期后过期。
 
-  |         Type: | int       |
-  | ------------: | --------- |
-  |      Default: | 10080     |
-  | Valid Values: | [1,...]   |
-  |   Importance: | high      |
-  |  Update Mode: | read-only |
+|         Type: | int       |
+| ------------: | --------- |
+|      Default: | 10080     |
+| Valid Values: | [1,...]   |
+|   Importance: | high      |
+|  Update Mode: | read-only |
 
-- #### [offsets.topic.compression.codec](http://kafka.apache.org/documentation/#offsets.topic.compression.codec)
+#### [offsets.topic.compression.codec](http://kafka.apache.org/documentation/#offsets.topic.compression.codec)
 
   Compression codec for the offsets topic - compression may be used to achieve "atomic" commits
 
     偏移主题的压缩编解码器-压缩可用于实现`atomic`提交
 
-  |         Type: | int       |
-  | ------------: | --------- |
-  |      Default: | 0         |
-  | Valid Values: |           |
-  |   Importance: | high      |
-  |  Update Mode: | read-only |
+|         Type: | int       |
+| ------------: | --------- |
+|      Default: | 0         |
+| Valid Values: |           |
+|   Importance: | high      |
+|  Update Mode: | read-only |
 
-- #### [offsets.topic.num.partitions](http://kafka.apache.org/documentation/#offsets.topic.num.partitions)
+#### [offsets.topic.num.partitions](http://kafka.apache.org/documentation/#offsets.topic.num.partitions)
 
   The number of partitions for the offset commit topic (should not change after deployment)
 
   偏移提交主题的分区数（部署后不应更改）
 
-  |         Type: | int       |
-  | ------------: | --------- |
-  |      Default: | 50        |
-  | Valid Values: | [1,...]   |
-  |   Importance: | high      |
-  |  Update Mode: | read-only |
+|         Type: | int       |
+| ------------: | --------- |
+|      Default: | 50        |
+| Valid Values: | [1,...]   |
+|   Importance: | high      |
+|  Update Mode: | read-only |
 
-- #### [offsets.topic.replication.factor](http://kafka.apache.org/documentation/#offsets.topic.replication.factor)
+#### [offsets.topic.replication.factor](http://kafka.apache.org/documentation/#offsets.topic.replication.factor)
 
   The replication factor for the offsets topic (set higher to ensure availability). Internal topic creation will fail until the cluster size meets this replication factor requirement.
 
   偏移量主题的复制因子（设置较高以确保可用性）。内部主题创建将失败，直到群集大小满足此复制因子要求为止。
 
-  |         Type: | short     |
-  | ------------: | --------- |
-  |      Default: | 3         |
-  | Valid Values: | [1,...]   |
-  |   Importance: | high      |
-  |  Update Mode: | read-only |
+|         Type: | short     |
+| ------------: | --------- |
+|      Default: | 3         |
+| Valid Values: | [1,...]   |
+|   Importance: | high      |
+|  Update Mode: | read-only |
 
-- #### [offsets.topic.segment.bytes](http://kafka.apache.org/documentation/#offsets.topic.segment.bytes)
+#### [offsets.topic.segment.bytes](http://kafka.apache.org/documentation/#offsets.topic.segment.bytes)
 
   The offsets topic segment bytes should be kept relatively small in order to facilitate faster log compaction and cache loads
 
   偏移量主题段字节应保持相对较小，以促进更快的日志压缩和缓存加载
 
-  |         Type: | int                       |
-  | ------------: | ------------------------- |
-  |      Default: | 104857600 (100 mebibytes) |
-  | Valid Values: | [1,...]                   |
-  |   Importance: | high                      |
-  |  Update Mode: | read-only                 |
+|         Type: | int                       |
+| ------------: | ------------------------- |
+|      Default: | 104857600 (100 mebibytes) |
+| Valid Values: | [1,...]                   |
+|   Importance: | high                      |
+|  Update Mode: | read-only                 |
 
-- #### [port](http://kafka.apache.org/documentation/#port)
+#### [port](http://kafka.apache.org/documentation/#port)
 
   DEPRECATED: only used when `listeners` is not set. Use `listeners` instead.
   the port to listen and accept connections on
@@ -1148,599 +1148,599 @@ Topic-level configurations and defaults are discussed in more detail [below](htt
   已弃用：仅在未设置`监听器`时使用。改用`listeners`。
     用于侦听并接受连接的端口
 
-  |         Type: | int       |
-  | ------------: | --------- |
-  |      Default: | 9092      |
-  | Valid Values: |           |
-  |   Importance: | high      |
-  |  Update Mode: | read-only |
+|         Type: | int       |
+| ------------: | --------- |
+|      Default: | 9092      |
+| Valid Values: |           |
+|   Importance: | high      |
+|  Update Mode: | read-only |
 
-- #### [queued.max.requests](http://kafka.apache.org/documentation/#queued.max.requests)
+#### [queued.max.requests](http://kafka.apache.org/documentation/#queued.max.requests)
 
   The number of queued requests allowed for data-plane, before blocking the network threads
 
   阻塞网络线程之前允许数据平面排队的请求数
 
-  |         Type: | int       |
-  | ------------: | --------- |
-  |      Default: | 500       |
-  | Valid Values: | [1,...]   |
-  |   Importance: | high      |
-  |  Update Mode: | read-only |
+|         Type: | int       |
+| ------------: | --------- |
+|      Default: | 500       |
+| Valid Values: | [1,...]   |
+|   Importance: | high      |
+|  Update Mode: | read-only |
 
-- #### [quota.consumer.default](http://kafka.apache.org/documentation/#quota.consumer.default)
+#### [quota.consumer.default](http://kafka.apache.org/documentation/#quota.consumer.default)
 
   DEPRECATED: Used only when dynamic default quotas are not configured for or in Zookeeper. Any consumer distinguished by clientId/consumer group will get throttled if it fetches more bytes than this value per-second
 
     已弃用：仅当未为Zookeeper或在Zookeeper中配置动态默认配额时使用。如果clientId / consumer组所区分的任何使用者每秒获取的字节数超过此值，则将受到限制
 
-  |         Type: | long                |
-  | ------------: | ------------------- |
-  |      Default: | 9223372036854775807 |
-  | Valid Values: | [1,...]             |
-  |   Importance: | high                |
-  |  Update Mode: | read-only           |
+|         Type: | long                |
+| ------------: | ------------------- |
+|      Default: | 9223372036854775807 |
+| Valid Values: | [1,...]             |
+|   Importance: | high                |
+|  Update Mode: | read-only           |
 
-- #### [quota.producer.default](http://kafka.apache.org/documentation/#quota.producer.default)
+#### [quota.producer.default](http://kafka.apache.org/documentation/#quota.producer.default)
 
   DEPRECATED: Used only when dynamic default quotas are not configured for , or in Zookeeper. Any producer distinguished by clientId will get throttled if it produces more bytes than this value per-second
 
   不推荐使用：仅当未为或在Zookeeper中配置动态默认配额时使用。如果由clientId区分的任何生产者每秒产生的字节数超过此值，则将受到限制
 
-  |         Type: | long                |
-  | ------------: | ------------------- |
-  |      Default: | 9223372036854775807 |
-  | Valid Values: | [1,...]             |
-  |   Importance: | high                |
-  |  Update Mode: | read-only           |
+|         Type: | long                |
+| ------------: | ------------------- |
+|      Default: | 9223372036854775807 |
+| Valid Values: | [1,...]             |
+|   Importance: | high                |
+|  Update Mode: | read-only           |
 
-- #### [replica.fetch.min.bytes](http://kafka.apache.org/documentation/#replica.fetch.min.bytes)
+#### [replica.fetch.min.bytes](http://kafka.apache.org/documentation/#replica.fetch.min.bytes)
 
   Minimum bytes expected for each fetch response. If not enough bytes, wait up to replicaMaxWaitTimeMs
 
   每个提取响应的最小字节数。如果没有足够的字节，请等待直到copyMaxMaxWaitTimeMs
 
-  |         Type: | int       |
-  | ------------: | --------- |
-  |      Default: | 1         |
-  | Valid Values: |           |
-  |   Importance: | high      |
-  |  Update Mode: | read-only |
+|         Type: | int       |
+| ------------: | --------- |
+|      Default: | 1         |
+| Valid Values: |           |
+|   Importance: | high      |
+|  Update Mode: | read-only |
 
-- #### [replica.fetch.wait.max.ms](http://kafka.apache.org/documentation/#replica.fetch.wait.max.ms)
+#### [replica.fetch.wait.max.ms](http://kafka.apache.org/documentation/#replica.fetch.wait.max.ms)
 
   max wait time for each fetcher request issued by follower replicas. This value should always be less than the replica.lag.time.max.ms at all times to prevent frequent shrinking of ISR for low throughput topics
 
     追随者副本发出的每个提取器请求的最大等待时间。此值应始终始终小于复制副本replica.lag.time.max.ms，以防止由于低吞吐量主题而导致ISR频繁缩小
 
-  |         Type: | int       |
-  | ------------: | --------- |
-  |      Default: | 500       |
-  | Valid Values: |           |
-  |   Importance: | high      |
-  |  Update Mode: | read-only |
+|         Type: | int       |
+| ------------: | --------- |
+|      Default: | 500       |
+| Valid Values: |           |
+|   Importance: | high      |
+|  Update Mode: | read-only |
 
-- #### [replica.high.watermark.checkpoint.interval.ms](http://kafka.apache.org/documentation/#replica.high.watermark.checkpoint.interval.ms)
+#### [replica.high.watermark.checkpoint.interval.ms](http://kafka.apache.org/documentation/#replica.high.watermark.checkpoint.interval.ms)
 
   The frequency with which the high watermark is saved out to disk
 
   高水印保存到磁盘的频率
 
-  |         Type: | long             |
-  | ------------: | ---------------- |
-  |      Default: | 5000 (5 seconds) |
-  | Valid Values: |                  |
-  |   Importance: | high             |
-  |  Update Mode: | read-only        |
+|         Type: | long             |
+| ------------: | ---------------- |
+|      Default: | 5000 (5 seconds) |
+| Valid Values: |                  |
+|   Importance: | high             |
+|  Update Mode: | read-only        |
 
-- #### [replica.lag.time.max.ms](http://kafka.apache.org/documentation/#replica.lag.time.max.ms)
+#### [replica.lag.time.max.ms](http://kafka.apache.org/documentation/#replica.lag.time.max.ms)
 
   If a follower hasn't sent any fetch requests or hasn't consumed up to the leaders log end offset for at least this time, the leader will remove the follower from isr
 
   如果follower没有发送任何fetch请求，或者至少在这一次没有消耗到leader的日志结束偏移量，leader将从isr中删除follower
 
-  |         Type: | long               |
-  | ------------: | ------------------ |
-  |      Default: | 30000 (30 seconds) |
-  | Valid Values: |                    |
-  |   Importance: | high               |
-  |  Update Mode: | read-only          |
+|         Type: | long               |
+| ------------: | ------------------ |
+|      Default: | 30000 (30 seconds) |
+| Valid Values: |                    |
+|   Importance: | high               |
+|  Update Mode: | read-only          |
 
-- #### [replica.socket.receive.buffer.bytes](http://kafka.apache.org/documentation/#replica.socket.receive.buffer.bytes)
+#### [replica.socket.receive.buffer.bytes](http://kafka.apache.org/documentation/#replica.socket.receive.buffer.bytes)
 
   The socket receive buffer for network requests
 
   套接字接收网络请求的缓冲区
 
-  |         Type: | int                  |
-  | ------------: | -------------------- |
-  |      Default: | 65536 (64 kibibytes) |
-  | Valid Values: |                      |
-  |   Importance: | high                 |
-  |  Update Mode: | read-only            |
+|         Type: | int                  |
+| ------------: | -------------------- |
+|      Default: | 65536 (64 kibibytes) |
+| Valid Values: |                      |
+|   Importance: | high                 |
+|  Update Mode: | read-only            |
 
-- #### [replica.socket.timeout.ms](http://kafka.apache.org/documentation/#replica.socket.timeout.ms)
+#### [replica.socket.timeout.ms](http://kafka.apache.org/documentation/#replica.socket.timeout.ms)
 
   The socket timeout for network requests. Its value should be at least replica.fetch.wait.max.ms
 
     网络请求的套接字超时。它的值至少应为replica.fetch.wait.max.ms
 
-  |         Type: | int                |
-  | ------------: | ------------------ |
-  |      Default: | 30000 (30 seconds) |
-  | Valid Values: |                    |
-  |   Importance: | high               |
-  |  Update Mode: | read-only          |
+|         Type: | int                |
+| ------------: | ------------------ |
+|      Default: | 30000 (30 seconds) |
+| Valid Values: |                    |
+|   Importance: | high               |
+|  Update Mode: | read-only          |
 
-- #### [request.timeout.ms](http://kafka.apache.org/documentation/#request.timeout.ms)
+#### [request.timeout.ms](http://kafka.apache.org/documentation/#request.timeout.ms)
 
   The configuration controls the maximum amount of time the client will wait for the response of a request. If the response is not received before the timeout elapses the client will resend the request if necessary or fail the request if retries are exhausted.
 
   该配置控制客户端等待请求响应的最长时间。如果超时之前仍未收到响应，则客户端将在必要时重新发送请求，如果重试已用尽，则会使请求失败。
 
-  |         Type: | int                |
-  | ------------: | ------------------ |
-  |      Default: | 30000 (30 seconds) |
-  | Valid Values: |                    |
-  |   Importance: | high               |
-  |  Update Mode: | read-only          |
+|         Type: | int                |
+| ------------: | ------------------ |
+|      Default: | 30000 (30 seconds) |
+| Valid Values: |                    |
+|   Importance: | high               |
+|  Update Mode: | read-only          |
 
-- #### [socket.receive.buffer.bytes](http://kafka.apache.org/documentation/#socket.receive.buffer.bytes)
+#### [socket.receive.buffer.bytes](http://kafka.apache.org/documentation/#socket.receive.buffer.bytes)
 
   The SO_RCVBUF buffer of the socket server sockets. If the value is -1, the OS default will be used.
 
     套接字服务器套接字的SO_RCVBUF缓冲区。如果值为-1，则将使用操作系统默认值。
 
-  |         Type: | int                    |
-  | ------------: | ---------------------- |
-  |      Default: | 102400 (100 kibibytes) |
-  | Valid Values: |                        |
-  |   Importance: | high                   |
-  |  Update Mode: | read-only              |
+|         Type: | int                    |
+| ------------: | ---------------------- |
+|      Default: | 102400 (100 kibibytes) |
+| Valid Values: |                        |
+|   Importance: | high                   |
+|  Update Mode: | read-only              |
 
-- #### [socket.request.max.bytes](http://kafka.apache.org/documentation/#socket.request.max.bytes)
+#### [socket.request.max.bytes](http://kafka.apache.org/documentation/#socket.request.max.bytes)
 
   The maximum number of bytes in a socket request
 
   套接字请求中的最大字节数
 
-  |         Type: | int                       |
-  | ------------: | ------------------------- |
-  |      Default: | 104857600 (100 mebibytes) |
-  | Valid Values: | [1,...]                   |
-  |   Importance: | high                      |
-  |  Update Mode: | read-only                 |
+|         Type: | int                       |
+| ------------: | ------------------------- |
+|      Default: | 104857600 (100 mebibytes) |
+| Valid Values: | [1,...]                   |
+|   Importance: | high                      |
+|  Update Mode: | read-only                 |
 
-- #### [socket.send.buffer.bytes](http://kafka.apache.org/documentation/#socket.send.buffer.bytes)
+#### [socket.send.buffer.bytes](http://kafka.apache.org/documentation/#socket.send.buffer.bytes)
 
   The SO_SNDBUF buffer of the socket server sockets. If the value is -1, the OS default will be used.
 
     套接字服务器套接字的SO_SNDBUF缓冲区。如果值为-1，则将使用操作系统默认值。
 
-  |         Type: | int                    |
-  | ------------: | ---------------------- |
-  |      Default: | 102400 (100 kibibytes) |
-  | Valid Values: |                        |
-  |   Importance: | high                   |
-  |  Update Mode: | read-only              |
+|         Type: | int                    |
+| ------------: | ---------------------- |
+|      Default: | 102400 (100 kibibytes) |
+| Valid Values: |                        |
+|   Importance: | high                   |
+|  Update Mode: | read-only              |
 
-- #### [transaction.max.timeout.ms](http://kafka.apache.org/documentation/#transaction.max.timeout.ms)
+#### [transaction.max.timeout.ms](http://kafka.apache.org/documentation/#transaction.max.timeout.ms)
 
   The maximum allowed timeout for transactions. If a client’s requested transaction time exceed this, then the broker will return an error in InitProducerIdRequest. This prevents a client from too large of a timeout, which can stall consumers reading from topics included in the transaction.
 
   事务允许的最大超时。如果客户请求的交易时间超过此时间，则代理将在InitProducerIdRequest中返回错误。这样可以防止客户的超时过大，否则可能会使消费者无法阅读交易中包含的主题。
 
-  |         Type: | int                 |
-  | ------------: | ------------------- |
-  |      Default: | 900000 (15 minutes) |
-  | Valid Values: | [1,...]             |
-  |   Importance: | high                |
-  |  Update Mode: | read-only           |
+|         Type: | int                 |
+| ------------: | ------------------- |
+|      Default: | 900000 (15 minutes) |
+| Valid Values: | [1,...]             |
+|   Importance: | high                |
+|  Update Mode: | read-only           |
 
-- #### [transaction.state.log.load.buffer.size](http://kafka.apache.org/documentation/#transaction.state.log.load.buffer.size)
+#### [transaction.state.log.load.buffer.size](http://kafka.apache.org/documentation/#transaction.state.log.load.buffer.size)
 
   Batch size for reading from the transaction log segments when loading producer ids and transactions into the cache (soft-limit, overridden if records are too large).
 
   将生产者ID和事务加载到缓存中时从事务日志段读取的批处理大小（软限制，如果记录太大则覆盖）。
 
-  |         Type: | int       |
-  | ------------: | --------- |
-  |      Default: | 5242880   |
-  | Valid Values: | [1,...]   |
-  |   Importance: | high      |
-  |  Update Mode: | read-only |
+|         Type: | int       |
+| ------------: | --------- |
+|      Default: | 5242880   |
+| Valid Values: | [1,...]   |
+|   Importance: | high      |
+|  Update Mode: | read-only |
 
-- #### [transaction.state.log.min.isr](http://kafka.apache.org/documentation/#transaction.state.log.min.isr)
+#### [transaction.state.log.min.isr](http://kafka.apache.org/documentation/#transaction.state.log.min.isr)
 
   Overridden min.insync.replicas config for the transaction topic.
 
     事务主题已覆盖min.insync.replicas配置。
 
-  |         Type: | int       |
-  | ------------: | --------- |
-  |      Default: | 2         |
-  | Valid Values: | [1,...]   |
-  |   Importance: | high      |
-  |  Update Mode: | read-only |
+|         Type: | int       |
+| ------------: | --------- |
+|      Default: | 2         |
+| Valid Values: | [1,...]   |
+|   Importance: | high      |
+|  Update Mode: | read-only |
 
-- #### [transaction.state.log.num.partitions](http://kafka.apache.org/documentation/#transaction.state.log.num.partitions)
+#### [transaction.state.log.num.partitions](http://kafka.apache.org/documentation/#transaction.state.log.num.partitions)
 
   The number of partitions for the transaction topic (should not change after deployment).
 
   事务主题的分区数（部署后不应更改）。
 
-  |         Type: | int       |
-  | ------------: | --------- |
-  |      Default: | 50        |
-  | Valid Values: | [1,...]   |
-  |   Importance: | high      |
-  |  Update Mode: | read-only |
+|         Type: | int       |
+| ------------: | --------- |
+|      Default: | 50        |
+| Valid Values: | [1,...]   |
+|   Importance: | high      |
+|  Update Mode: | read-only |
 
-- #### [transaction.state.log.replication.factor](http://kafka.apache.org/documentation/#transaction.state.log.replication.factor)
+#### [transaction.state.log.replication.factor](http://kafka.apache.org/documentation/#transaction.state.log.replication.factor)
 
   The replication factor for the transaction topic (set higher to ensure availability). Internal topic creation will fail until the cluster size meets this replication factor requirement.
 
   事务主题的复制因子（设置较高以确保可用性）。内部主题创建将失败，直到群集大小满足此复制因子要求为止。
 
-  |         Type: | short     |
-  | ------------: | --------- |
-  |      Default: | 3         |
-  | Valid Values: | [1,...]   |
-  |   Importance: | high      |
-  |  Update Mode: | read-only |
+|         Type: | short     |
+| ------------: | --------- |
+|      Default: | 3         |
+| Valid Values: | [1,...]   |
+|   Importance: | high      |
+|  Update Mode: | read-only |
 
-- #### [transaction.state.log.segment.bytes](http://kafka.apache.org/documentation/#transaction.state.log.segment.bytes)
+#### [transaction.state.log.segment.bytes](http://kafka.apache.org/documentation/#transaction.state.log.segment.bytes)
 
   The transaction topic segment bytes should be kept relatively small in order to facilitate faster log compaction and cache loads
 
   事务主题段字节应保持相对较小，以促进更快的日志压缩和缓存加载
 
-  |         Type: | int                       |
-  | ------------: | ------------------------- |
-  |      Default: | 104857600 (100 mebibytes) |
-  | Valid Values: | [1,...]                   |
-  |   Importance: | high                      |
-  |  Update Mode: | read-only                 |
+|         Type: | int                       |
+| ------------: | ------------------------- |
+|      Default: | 104857600 (100 mebibytes) |
+| Valid Values: | [1,...]                   |
+|   Importance: | high                      |
+|  Update Mode: | read-only                 |
 
-- #### [transactional.id.expiration.ms](http://kafka.apache.org/documentation/#transactional.id.expiration.ms)
+#### [transactional.id.expiration.ms](http://kafka.apache.org/documentation/#transactional.id.expiration.ms)
 
   The time in ms that the transaction coordinator will wait without receiving any transaction status updates for the current transaction before expiring its transactional id. This setting also influences producer id expiration - producer ids are expired once this time has elapsed after the last write with the given producer id. Note that producer ids may expire sooner if the last write from the producer id is deleted due to the topic's retention settings.
 
     事务协调器等待的时间（以毫秒为单位），直到该事务的事务ID到期之前，该事务协调器将不接收当前事务的任何事务状态更新。此设置还会影响生产者ID的到期时间-在使用给定生产者ID的最后一次写入之后，经过此时间，生产者ID就会过期。请注意，由于主题的保留设置，如果删除生产者ID的最后一次写操作，生产者ID可能会更快过期。
 
-  |         Type: | int                |
-  | ------------: | ------------------ |
-  |      Default: | 604800000 (7 days) |
-  | Valid Values: | [1,...]            |
-  |   Importance: | high               |
-  |  Update Mode: | read-only          |
+|         Type: | int                |
+| ------------: | ------------------ |
+|      Default: | 604800000 (7 days) |
+| Valid Values: | [1,...]            |
+|   Importance: | high               |
+|  Update Mode: | read-only          |
 
-- #### [unclean.leader.election.enable](http://kafka.apache.org/documentation/#unclean.leader.election.enable)
+#### [unclean.leader.election.enable](http://kafka.apache.org/documentation/#unclean.leader.election.enable)
 
   Indicates whether to enable replicas not in the ISR set to be elected as leader as a last resort, even though doing so may result in data loss
 
   指示是否启用不在ISR集中的副本以选作领导者，即使这样做可能会导致数据丢失
 
-  |         Type: | boolean      |
-  | ------------: | ------------ |
-  |      Default: | false        |
-  | Valid Values: |              |
-  |   Importance: | high         |
-  |  Update Mode: | cluster-wide |
+|         Type: | boolean      |
+| ------------: | ------------ |
+|      Default: | false        |
+| Valid Values: |              |
+|   Importance: | high         |
+|  Update Mode: | cluster-wide |
 
-- #### [zookeeper.connection.timeout.ms](http://kafka.apache.org/documentation/#zookeeper.connection.timeout.ms)
+#### [zookeeper.connection.timeout.ms](http://kafka.apache.org/documentation/#zookeeper.connection.timeout.ms)
 
   The max time that the client waits to establish a connection to zookeeper. If not set, the value in zookeeper.session.timeout.ms is used
 
     客户端等待与Zookeeper建立连接的最长时间。如果未设置，则使用zookeeper.session.timeout.ms中的值
 
-  |         Type: | int       |
-  | ------------: | --------- |
-  |      Default: | null      |
-  | Valid Values: |           |
-  |   Importance: | high      |
-  |  Update Mode: | read-only |
+|         Type: | int       |
+| ------------: | --------- |
+|      Default: | null      |
+| Valid Values: |           |
+|   Importance: | high      |
+|  Update Mode: | read-only |
 
-- #### [zookeeper.max.in.flight.requests](http://kafka.apache.org/documentation/#zookeeper.max.in.flight.requests)
+#### [zookeeper.max.in.flight.requests](http://kafka.apache.org/documentation/#zookeeper.max.in.flight.requests)
 
   The maximum number of unacknowledged requests the client will send to Zookeeper before blocking.
 
   客户端在阻止之前将发送给Zookeeper的未确认请求的最大数量。
 
-  |         Type: | int       |
-  | ------------: | --------- |
-  |      Default: | 10        |
-  | Valid Values: | [1,...]   |
-  |   Importance: | high      |
-  |  Update Mode: | read-only |
+|         Type: | int       |
+| ------------: | --------- |
+|      Default: | 10        |
+| Valid Values: | [1,...]   |
+|   Importance: | high      |
+|  Update Mode: | read-only |
 
-- #### [zookeeper.session.timeout.ms](http://kafka.apache.org/documentation/#zookeeper.session.timeout.ms)
+#### [zookeeper.session.timeout.ms](http://kafka.apache.org/documentation/#zookeeper.session.timeout.ms)
 
   Zookeeper session timeout
 
   Zookeeper会话超时
 
-  |         Type: | int                |
-  | ------------: | ------------------ |
-  |      Default: | 18000 (18 seconds) |
-  | Valid Values: |                    |
-  |   Importance: | high               |
-  |  Update Mode: | read-only          |
+|         Type: | int                |
+| ------------: | ------------------ |
+|      Default: | 18000 (18 seconds) |
+| Valid Values: |                    |
+|   Importance: | high               |
+|  Update Mode: | read-only          |
 
-- #### [zookeeper.set.acl](http://kafka.apache.org/documentation/#zookeeper.set.acl)
+#### [zookeeper.set.acl](http://kafka.apache.org/documentation/#zookeeper.set.acl)
 
   Set client to use secure ACLs
 
   将客户端设置为使用安全ACL
 
-  |         Type: | boolean   |
-  | ------------: | --------- |
-  |      Default: | false     |
-  | Valid Values: |           |
-  |   Importance: | high      |
-  |  Update Mode: | read-only |
+|         Type: | boolean   |
+| ------------: | --------- |
+|      Default: | false     |
+| Valid Values: |           |
+|   Importance: | high      |
+|  Update Mode: | read-only |
 
-- #### [broker.id.generation.enable](http://kafka.apache.org/documentation/#broker.id.generation.enable)
+#### [broker.id.generation.enable](http://kafka.apache.org/documentation/#broker.id.generation.enable)
 
   Enable automatic broker id generation on the server. When enabled the value configured for reserved.broker.max.id should be reviewed.
 
     在服务器上启用自动代理ID生成。启用后，应检查为reserved.broker.max.id配置的值。
 
-  |         Type: | boolean   |
-  | ------------: | --------- |
-  |      Default: | true      |
-  | Valid Values: |           |
-  |   Importance: | medium    |
-  |  Update Mode: | read-only |
+|         Type: | boolean   |
+| ------------: | --------- |
+|      Default: | true      |
+| Valid Values: |           |
+|   Importance: | medium    |
+|  Update Mode: | read-only |
 
-- #### [broker.rack](http://kafka.apache.org/documentation/#broker.rack)
+#### [broker.rack](http://kafka.apache.org/documentation/#broker.rack)
 
   Rack of the broker. This will be used in rack aware replication assignment for fault tolerance. Examples: `RACK1`, `us-east-1d`
 
   代理的架子。这将用于机架感知复制分配中以实现容错功能。例如：`RACK1`，`us-east-1d`
 
-  |         Type: | string    |
-  | ------------: | --------- |
-  |      Default: | null      |
-  | Valid Values: |           |
-  |   Importance: | medium    |
-  |  Update Mode: | read-only |
+|         Type: | string    |
+| ------------: | --------- |
+|      Default: | null      |
+| Valid Values: |           |
+|   Importance: | medium    |
+|  Update Mode: | read-only |
 
-- #### [connections.max.idle.ms](http://kafka.apache.org/documentation/#connections.max.idle.ms)
+#### [connections.max.idle.ms](http://kafka.apache.org/documentation/#connections.max.idle.ms)
 
   Idle connections timeout: the server socket processor threads close the connections that idle more than this
 
   空闲连接超时：服务器套接字处理器线程关闭的空闲连接超过此数量
 
-  |         Type: | long                |
-  | ------------: | ------------------- |
-  |      Default: | 600000 (10 minutes) |
-  | Valid Values: |                     |
-  |   Importance: | medium              |
-  |  Update Mode: | read-only           |
+|         Type: | long                |
+| ------------: | ------------------- |
+|      Default: | 600000 (10 minutes) |
+| Valid Values: |                     |
+|   Importance: | medium              |
+|  Update Mode: | read-only           |
 
-- #### [connections.max.reauth.ms](http://kafka.apache.org/documentation/#connections.max.reauth.ms)
+#### [connections.max.reauth.ms](http://kafka.apache.org/documentation/#connections.max.reauth.ms)
 
   When explicitly set to a positive number (the default is 0, not a positive number), a session lifetime that will not exceed the configured value will be communicated to v2.2.0 or later clients when they authenticate. The broker will disconnect any such connection that is not re-authenticated within the session lifetime and that is then subsequently used for any purpose other than re-authentication. Configuration names can optionally be prefixed with listener prefix and SASL mechanism name in lower-case. For example, listener.name.sasl_ssl.oauthbearer.connections.max.reauth.ms=3600000
 
     当显式设置为正数（默认为0，而不是正数）时，会话寿命将不超过配置的值，并在进行身份验证时与v2.2.0或更高版本的客户端进行通信。代理将断开在会话生存期内未重新进行身份验证的任何此类连接，然后将该连接随后用于除重新身份验证以外的任何目的。可以选择为配置名称加上小写的侦听器前缀和SASL机制名称。例如，listener.name.sasl_ssl.oauthbearer.connections.max.reauth.ms = 3600000
 
-  |         Type: | long      |
-  | ------------: | --------- |
-  |      Default: | 0         |
-  | Valid Values: |           |
-  |   Importance: | medium    |
-  |  Update Mode: | read-only |
+|         Type: | long      |
+| ------------: | --------- |
+|      Default: | 0         |
+| Valid Values: |           |
+|   Importance: | medium    |
+|  Update Mode: | read-only |
 
-- #### [controlled.shutdown.enable](http://kafka.apache.org/documentation/#controlled.shutdown.enable)
+#### [controlled.shutdown.enable](http://kafka.apache.org/documentation/#controlled.shutdown.enable)
 
   Enable controlled shutdown of the server
 
   启用服务器的受控关闭
 
-  |         Type: | boolean   |
-  | ------------: | --------- |
-  |      Default: | true      |
-  | Valid Values: |           |
-  |   Importance: | medium    |
-  |  Update Mode: | read-only |
+|         Type: | boolean   |
+| ------------: | --------- |
+|      Default: | true      |
+| Valid Values: |           |
+|   Importance: | medium    |
+|  Update Mode: | read-only |
 
-- #### [controlled.shutdown.max.retries](http://kafka.apache.org/documentation/#controlled.shutdown.max.retries)
+#### [controlled.shutdown.max.retries](http://kafka.apache.org/documentation/#controlled.shutdown.max.retries)
 
   Controlled shutdown can fail for multiple reasons. This determines the number of retries when such failure happens
 
   受控关机可能由于多种原因而失败。这确定了发生此类故障时的重试次数
 
-  |         Type: | int       |
-  | ------------: | --------- |
-  |      Default: | 3         |
-  | Valid Values: |           |
-  |   Importance: | medium    |
-  |  Update Mode: | read-only |
+|         Type: | int       |
+| ------------: | --------- |
+|      Default: | 3         |
+| Valid Values: |           |
+|   Importance: | medium    |
+|  Update Mode: | read-only |
 
-- #### [controlled.shutdown.retry.backoff.ms](http://kafka.apache.org/documentation/#controlled.shutdown.retry.backoff.ms)
+#### [controlled.shutdown.retry.backoff.ms](http://kafka.apache.org/documentation/#controlled.shutdown.retry.backoff.ms)
 
   Before each retry, the system needs time to recover from the state that caused the previous failure (Controller fail over, replica lag etc). This config determines the amount of time to wait before retrying.
 
   在每次重试之前，系统需要时间从引起先前故障的状态中恢复（控制器故障转移，副本滞后等）。此配置确定重试之前要等待的时间。
 
-  |         Type: | long             |
-  | ------------: | ---------------- |
-  |      Default: | 5000 (5 seconds) |
-  | Valid Values: |                  |
-  |   Importance: | medium           |
-  |  Update Mode: | read-only        |
+|         Type: | long             |
+| ------------: | ---------------- |
+|      Default: | 5000 (5 seconds) |
+| Valid Values: |                  |
+|   Importance: | medium           |
+|  Update Mode: | read-only        |
 
-- #### [controller.socket.timeout.ms](http://kafka.apache.org/documentation/#controller.socket.timeout.ms)
+#### [controller.socket.timeout.ms](http://kafka.apache.org/documentation/#controller.socket.timeout.ms)
 
   The socket timeout for controller-to-broker channels
 
   控制器到代理通道的套接字超时
 
-  |         Type: | int                |
-  | ------------: | ------------------ |
-  |      Default: | 30000 (30 seconds) |
-  | Valid Values: |                    |
-  |   Importance: | medium             |
-  |  Update Mode: | read-only          |
+|         Type: | int                |
+| ------------: | ------------------ |
+|      Default: | 30000 (30 seconds) |
+| Valid Values: |                    |
+|   Importance: | medium             |
+|  Update Mode: | read-only          |
 
-- #### [default.replication.factor](http://kafka.apache.org/documentation/#default.replication.factor)
+#### [default.replication.factor](http://kafka.apache.org/documentation/#default.replication.factor)
 
   default replication factors for automatically created topics
 
   自动创建的主题的默认复制因子
 
-  |         Type: | int       |
-  | ------------: | --------- |
-  |      Default: | 1         |
-  | Valid Values: |           |
-  |   Importance: | medium    |
-  |  Update Mode: | read-only |
+|         Type: | int       |
+| ------------: | --------- |
+|      Default: | 1         |
+| Valid Values: |           |
+|   Importance: | medium    |
+|  Update Mode: | read-only |
 
-- #### [delegation.token.expiry.time.ms](http://kafka.apache.org/documentation/#delegation.token.expiry.time.ms)
+#### [delegation.token.expiry.time.ms](http://kafka.apache.org/documentation/#delegation.token.expiry.time.ms)
 
   The token validity time in miliseconds before the token needs to be renewed. Default value 1 day.
 
   需要更新令牌之前的令牌有效时间（以毫秒为单位）。默认值1天。
 
-  |         Type: | long             |
-  | ------------: | ---------------- |
-  |      Default: | 86400000 (1 day) |
-  | Valid Values: | [1,...]          |
-  |   Importance: | medium           |
-  |  Update Mode: | read-only        |
+|         Type: | long             |
+| ------------: | ---------------- |
+|      Default: | 86400000 (1 day) |
+| Valid Values: | [1,...]          |
+|   Importance: | medium           |
+|  Update Mode: | read-only        |
 
-- #### [delegation.token.master.key](http://kafka.apache.org/documentation/#delegation.token.master.key)
+#### [delegation.token.master.key](http://kafka.apache.org/documentation/#delegation.token.master.key)
 
   Master/secret key to generate and verify delegation tokens. Same key must be configured across all the brokers. If the key is not set or set to empty string, brokers will disable the delegation token support.
 
   主密钥/密钥，用于生成和验证委派令牌。必须在所有代理之间配置相同的密钥。如果未设置密钥或将密钥设置为空字符串，则代理将禁用委托令牌支持
 
-  |         Type: | password  |
-  | ------------: | --------- |
-  |      Default: | null      |
-  | Valid Values: |           |
-  |   Importance: | medium    |
-  |  Update Mode: | read-only |
+|         Type: | password  |
+| ------------: | --------- |
+|      Default: | null      |
+| Valid Values: |           |
+|   Importance: | medium    |
+|  Update Mode: | read-only |
 
-- #### [delegation.token.max.lifetime.ms](http://kafka.apache.org/documentation/#delegation.token.max.lifetime.ms)
+#### [delegation.token.max.lifetime.ms](http://kafka.apache.org/documentation/#delegation.token.max.lifetime.ms)
 
   The token has a maximum lifetime beyond which it cannot be renewed anymore. Default value 7 days.
 
   令牌具有最大使用寿命，超过该期限将无法续签。默认值7天。
 
-  |         Type: | long               |
-  | ------------: | ------------------ |
-  |      Default: | 604800000 (7 days) |
-  | Valid Values: | [1,...]            |
-  |   Importance: | medium             |
-  |  Update Mode: | read-only          |
+|         Type: | long               |
+| ------------: | ------------------ |
+|      Default: | 604800000 (7 days) |
+| Valid Values: | [1,...]            |
+|   Importance: | medium             |
+|  Update Mode: | read-only          |
 
-- #### [delete.records.purgatory.purge.interval.requests](http://kafka.apache.org/documentation/#delete.records.purgatory.purge.interval.requests)
+#### [delete.records.purgatory.purge.interval.requests](http://kafka.apache.org/documentation/#delete.records.purgatory.purge.interval.requests)
 
   The purge interval (in number of requests) of the delete records request purgatory
 
   删除记录请求炼狱的清除时间间隔（以请求数为单位）
 
-  |         Type: | int       |
-  | ------------: | --------- |
-  |      Default: | 1         |
-  | Valid Values: |           |
-  |   Importance: | medium    |
-  |  Update Mode: | read-only |
+|         Type: | int       |
+| ------------: | --------- |
+|      Default: | 1         |
+| Valid Values: |           |
+|   Importance: | medium    |
+|  Update Mode: | read-only |
 
-- #### [fetch.max.bytes](http://kafka.apache.org/documentation/#fetch.max.bytes)
+#### [fetch.max.bytes](http://kafka.apache.org/documentation/#fetch.max.bytes)
 
   The maximum number of bytes we will return for a fetch request. Must be at least 1024.
 
   我们将为获取请求返回的最大字节数。必须至少为1024。
 
-  |         Type: | int                     |
-  | ------------: | ----------------------- |
-  |      Default: | 57671680 (55 mebibytes) |
-  | Valid Values: | [1024,...]              |
-  |   Importance: | medium                  |
-  |  Update Mode: | read-only               |
+|         Type: | int                     |
+| ------------: | ----------------------- |
+|      Default: | 57671680 (55 mebibytes) |
+| Valid Values: | [1024,...]              |
+|   Importance: | medium                  |
+|  Update Mode: | read-only               |
 
-- #### [fetch.purgatory.purge.interval.requests](http://kafka.apache.org/documentation/#fetch.purgatory.purge.interval.requests)
+#### [fetch.purgatory.purge.interval.requests](http://kafka.apache.org/documentation/#fetch.purgatory.purge.interval.requests)
 
   The purge interval (in number of requests) of the fetch request purgatory
 
   提取请求炼狱的清除间隔（以请求数为单位）
 
-  |         Type: | int       |
-  | ------------: | --------- |
-  |      Default: | 1000      |
-  | Valid Values: |           |
-  |   Importance: | medium    |
-  |  Update Mode: | read-only |
+|         Type: | int       |
+| ------------: | --------- |
+|      Default: | 1000      |
+| Valid Values: |           |
+|   Importance: | medium    |
+|  Update Mode: | read-only |
 
-- #### [group.initial.rebalance.delay.ms](http://kafka.apache.org/documentation/#group.initial.rebalance.delay.ms)
+#### [group.initial.rebalance.delay.ms](http://kafka.apache.org/documentation/#group.initial.rebalance.delay.ms)
 
   The amount of time the group coordinator will wait for more consumers to join a new group before performing the first rebalance. A longer delay means potentially fewer rebalances, but increases the time until processing begins.
 
   组协调员在执行第一次重新平衡之前将等待更多消费者加入新组的时间。较长的延迟可能意味着较少的重新平衡，但会增加开始处理之前的时间。
 
-  |         Type: | int              |
-  | ------------: | ---------------- |
-  |      Default: | 3000 (3 seconds) |
-  | Valid Values: |                  |
-  |   Importance: | medium           |
-  |  Update Mode: | read-only        |
+|         Type: | int              |
+| ------------: | ---------------- |
+|      Default: | 3000 (3 seconds) |
+| Valid Values: |                  |
+|   Importance: | medium           |
+|  Update Mode: | read-only        |
 
-- #### [group.max.session.timeout.ms](http://kafka.apache.org/documentation/#group.max.session.timeout.ms)
+#### [group.max.session.timeout.ms](http://kafka.apache.org/documentation/#group.max.session.timeout.ms)
 
   The maximum allowed session timeout for registered consumers. Longer timeouts give consumers more time to process messages in between heartbeats at the cost of a longer time to detect failures.
 
   注册使用者的最大允许会话超时。较长的超时时间使消费者有更多的时间来处理心跳之间的消息，但要花费较长的时间来检测故障。
 
-  |         Type: | int                  |
-  | ------------: | -------------------- |
-  |      Default: | 1800000 (30 minutes) |
-  | Valid Values: |                      |
-  |   Importance: | medium               |
-  |  Update Mode: | read-only            |
+|         Type: | int                  |
+| ------------: | -------------------- |
+|      Default: | 1800000 (30 minutes) |
+| Valid Values: |                      |
+|   Importance: | medium               |
+|  Update Mode: | read-only            |
 
-- #### [group.max.size](http://kafka.apache.org/documentation/#group.max.size)
+#### [group.max.size](http://kafka.apache.org/documentation/#group.max.size)
 
   The maximum number of consumers that a single consumer group can accommodate.
 
   单个消费者组可以容纳的最大消费者数量。
 
-  |         Type: | int        |
-  | ------------: | ---------- |
-  |      Default: | 2147483647 |
-  | Valid Values: | [1,...]    |
-  |   Importance: | medium     |
-  |  Update Mode: | read-only  |
+|         Type: | int        |
+| ------------: | ---------- |
+|      Default: | 2147483647 |
+| Valid Values: | [1,...]    |
+|   Importance: | medium     |
+|  Update Mode: | read-only  |
 
-- #### [group.min.session.timeout.ms](http://kafka.apache.org/documentation/#group.min.session.timeout.ms)
+#### [group.min.session.timeout.ms](http://kafka.apache.org/documentation/#group.min.session.timeout.ms)
 
   The minimum allowed session timeout for registered consumers. Shorter timeouts result in quicker failure detection at the cost of more frequent consumer heartbeating, which can overwhelm broker resources.
 
   注册使用者的最小允许会话超时。较短的超时可以更快地进行故障检测，但需要付出更频繁的消费者心跳，这可能会使代理资源不堪重负。
 
-  |         Type: | int              |
-  | ------------: | ---------------- |
-  |      Default: | 6000 (6 seconds) |
-  | Valid Values: |                  |
-  |   Importance: | medium           |
-  |  Update Mode: | read-only        |
+|         Type: | int              |
+| ------------: | ---------------- |
+|      Default: | 6000 (6 seconds) |
+| Valid Values: |                  |
+|   Importance: | medium           |
+|  Update Mode: | read-only        |
 
-- #### [inter.broker.listener.name](http://kafka.apache.org/documentation/#inter.broker.listener.name)
+#### [inter.broker.listener.name](http://kafka.apache.org/documentation/#inter.broker.listener.name)
 
   Name of listener used for communication between brokers. If this is unset, the listener name is defined by security.inter.broker.protocol. It is an error to set this and security.inter.broker.protocol properties at the same time.
 
     代理之间进行通信所使用的侦听器的名称。如果未设置，则侦听器名称由security.inter.broker.protocol定义。同时设置此属性和security.inter.broker.protocol属性是错误的。
 
-  |         Type: | string    |
-  | ------------: | --------- |
-  |      Default: | null      |
-  | Valid Values: |           |
-  |   Importance: | medium    |
-  |  Update Mode: | read-only |
+|         Type: | string    |
+| ------------: | --------- |
+|      Default: | null      |
+| Valid Values: |           |
+|   Importance: | medium    |
+|  Update Mode: | read-only |
 
-- #### [inter.broker.protocol.version](http://kafka.apache.org/documentation/#inter.broker.protocol.version)
+#### [inter.broker.protocol.version](http://kafka.apache.org/documentation/#inter.broker.protocol.version)
 
   Specify which version of the inter-broker protocol will be used.
   This is typically bumped after all brokers were upgraded to a new version.
@@ -1750,144 +1750,144 @@ Topic-level configurations and defaults are discussed in more detail [below](htt
     在将所有代理升级到新版本后，通常会遇到这种情况。
     一些有效值的示例是：0.8.0、0.8.1、0.8.1.1、0.8.2、0.8.2.0、0.8.2.1、0.9.0.0、0.9.0.1检查ApiVersion的完整列表。
 
-  |         Type: | string                                                       |
-  | ------------: | ------------------------------------------------------------ |
-  |      Default: | 2.6-IV0                                                      |
-  | Valid Values: | [0.8.0, 0.8.1, 0.8.2, 0.9.0, 0.10.0-IV0, 0.10.0-IV1, 0.10.1-IV0, 0.10.1-IV1, 0.10.1-IV2, 0.10.2-IV0, 0.11.0-IV0, 0.11.0-IV1, 0.11.0-IV2, 1.0-IV0, 1.1-IV0, 2.0-IV0, 2.0-IV1, 2.1-IV0, 2.1-IV1, 2.1-IV2, 2.2-IV0, 2.2-IV1, 2.3-IV0, 2.3-IV1, 2.4-IV0, 2.4-IV1, 2.5-IV0, 2.6-IV0] |
-  |   Importance: | medium                                                       |
-  |  Update Mode: | read-only                                                    |
+|         Type: | string                                                       |
+| ------------: | ------------------------------------------------------------ |
+|      Default: | 2.6-IV0                                                      |
+| Valid Values: | [0.8.0, 0.8.1, 0.8.2, 0.9.0, 0.10.0-IV0, 0.10.0-IV1, 0.10.1-IV0, 0.10.1-IV1, 0.10.1-IV2, 0.10.2-IV0, 0.11.0-IV0, 0.11.0-IV1, 0.11.0-IV2, 1.0-IV0, 1.1-IV0, 2.0-IV0, 2.0-IV1, 2.1-IV0, 2.1-IV1, 2.1-IV2, 2.2-IV0, 2.2-IV1, 2.3-IV0, 2.3-IV1, 2.4-IV0, 2.4-IV1, 2.5-IV0, 2.6-IV0] |
+|   Importance: | medium                                                       |
+|  Update Mode: | read-only                                                    |
 
-- #### [log.cleaner.backoff.ms](http://kafka.apache.org/documentation/#log.cleaner.backoff.ms)
+#### [log.cleaner.backoff.ms](http://kafka.apache.org/documentation/#log.cleaner.backoff.ms)
 
   The amount of time to sleep when there are no logs to clean
 
   没有日志可清理时的睡眠时间
 
-  |         Type: | long               |
-  | ------------: | ------------------ |
-  |      Default: | 15000 (15 seconds) |
-  | Valid Values: | [0,...]            |
-  |   Importance: | medium             |
-  |  Update Mode: | cluster-wide       |
+|         Type: | long               |
+| ------------: | ------------------ |
+|      Default: | 15000 (15 seconds) |
+| Valid Values: | [0,...]            |
+|   Importance: | medium             |
+|  Update Mode: | cluster-wide       |
 
-- #### [log.cleaner.dedupe.buffer.size](http://kafka.apache.org/documentation/#log.cleaner.dedupe.buffer.size)
+#### [log.cleaner.dedupe.buffer.size](http://kafka.apache.org/documentation/#log.cleaner.dedupe.buffer.size)
 
   The total memory used for log deduplication across all cleaner threads
 
   所有更干净的线程中用于日志重复数据删除的总内存
 
-  |         Type: | long         |
-  | ------------: | ------------ |
-  |      Default: | 134217728    |
-  | Valid Values: |              |
-  |   Importance: | medium       |
-  |  Update Mode: | cluster-wide |
+|         Type: | long         |
+| ------------: | ------------ |
+|      Default: | 134217728    |
+| Valid Values: |              |
+|   Importance: | medium       |
+|  Update Mode: | cluster-wide |
 
-- #### [log.cleaner.delete.retention.ms](http://kafka.apache.org/documentation/#log.cleaner.delete.retention.ms)
+#### [log.cleaner.delete.retention.ms](http://kafka.apache.org/documentation/#log.cleaner.delete.retention.ms)
 
   How long are delete records retained?
 
   删除记录会保留多长时间？
 
-  |         Type: | long             |
-  | ------------: | ---------------- |
-  |      Default: | 86400000 (1 day) |
-  | Valid Values: |                  |
-  |   Importance: | medium           |
-  |  Update Mode: | cluster-wide     |
+|         Type: | long             |
+| ------------: | ---------------- |
+|      Default: | 86400000 (1 day) |
+| Valid Values: |                  |
+|   Importance: | medium           |
+|  Update Mode: | cluster-wide     |
 
-- #### [log.cleaner.enable](http://kafka.apache.org/documentation/#log.cleaner.enable)
+#### [log.cleaner.enable](http://kafka.apache.org/documentation/#log.cleaner.enable)
 
   Enable the log cleaner process to run on the server. Should be enabled if using any topics with a cleanup.policy=compact including the internal offsets topic. If disabled those topics will not be compacted and continually grow in size.
 
     启用日志清除器进程以在服务器上运行。如果使用带有cleanup.policy = compact的任何主题（包括内部偏移量主题），则应启用该选项。如果禁用，这些主题将不会被压缩，并且会不断增长。
 
-  |         Type: | boolean   |
-  | ------------: | --------- |
-  |      Default: | true      |
-  | Valid Values: |           |
-  |   Importance: | medium    |
-  |  Update Mode: | read-only |
+|         Type: | boolean   |
+| ------------: | --------- |
+|      Default: | true      |
+| Valid Values: |           |
+|   Importance: | medium    |
+|  Update Mode: | read-only |
 
-- #### [log.cleaner.io.buffer.load.factor](http://kafka.apache.org/documentation/#log.cleaner.io.buffer.load.factor)
+#### [log.cleaner.io.buffer.load.factor](http://kafka.apache.org/documentation/#log.cleaner.io.buffer.load.factor)
 
   Log cleaner dedupe buffer load factor. The percentage full the dedupe buffer can become. A higher value will allow more log to be cleaned at once but will lead to more hash collisions
 
   日志清除程序重复数据删除缓冲区负载系数。重复数据删除缓冲区可以充满的百分比。较高的值将允许立即清除更多日志，但会导致更多哈希冲突
 
-  |         Type: | double       |
-  | ------------: | ------------ |
-  |      Default: | 0.9          |
-  | Valid Values: |              |
-  |   Importance: | medium       |
-  |  Update Mode: | cluster-wide |
+|         Type: | double       |
+| ------------: | ------------ |
+|      Default: | 0.9          |
+| Valid Values: |              |
+|   Importance: | medium       |
+|  Update Mode: | cluster-wide |
 
-- #### [log.cleaner.io.buffer.size](http://kafka.apache.org/documentation/#log.cleaner.io.buffer.size)
+#### [log.cleaner.io.buffer.size](http://kafka.apache.org/documentation/#log.cleaner.io.buffer.size)
 
   The total memory used for log cleaner I/O buffers across all cleaner threads
 
     所有清理程序线程中用于日志清理程序I / O缓冲区的总内存
 
-  |         Type: | int          |
-  | ------------: | ------------ |
-  |      Default: | 524288       |
-  | Valid Values: | [0,...]      |
-  |   Importance: | medium       |
-  |  Update Mode: | cluster-wide |
+|         Type: | int          |
+| ------------: | ------------ |
+|      Default: | 524288       |
+| Valid Values: | [0,...]      |
+|   Importance: | medium       |
+|  Update Mode: | cluster-wide |
 
-- #### [log.cleaner.io.max.bytes.per.second](http://kafka.apache.org/documentation/#log.cleaner.io.max.bytes.per.second)
+#### [log.cleaner.io.max.bytes.per.second](http://kafka.apache.org/documentation/#log.cleaner.io.max.bytes.per.second)
 
   The log cleaner will be throttled so that the sum of its read and write i/o will be less than this value on average
 
     日志清除器将受到限制，以使其读和写I / O的总和平均小于该值
 
-  |         Type: | double                 |
-  | ------------: | ---------------------- |
-  |      Default: | 1.7976931348623157E308 |
-  | Valid Values: |                        |
-  |   Importance: | medium                 |
-  |  Update Mode: | cluster-wide           |
+|         Type: | double                 |
+| ------------: | ---------------------- |
+|      Default: | 1.7976931348623157E308 |
+| Valid Values: |                        |
+|   Importance: | medium                 |
+|  Update Mode: | cluster-wide           |
 
-- #### [log.cleaner.max.compaction.lag.ms](http://kafka.apache.org/documentation/#log.cleaner.max.compaction.lag.ms)
+#### [log.cleaner.max.compaction.lag.ms](http://kafka.apache.org/documentation/#log.cleaner.max.compaction.lag.ms)
 
   The maximum time a message will remain ineligible for compaction in the log. Only applicable for logs that are being compacted.
 
   消息将不符合日志压缩条件的最长时间。仅适用于正在压缩的日志。
 
-  |         Type: | long                |
-  | ------------: | ------------------- |
-  |      Default: | 9223372036854775807 |
-  | Valid Values: |                     |
-  |   Importance: | medium              |
-  |  Update Mode: | cluster-wide        |
+|         Type: | long                |
+| ------------: | ------------------- |
+|      Default: | 9223372036854775807 |
+| Valid Values: |                     |
+|   Importance: | medium              |
+|  Update Mode: | cluster-wide        |
 
-- #### [log.cleaner.min.cleanable.ratio](http://kafka.apache.org/documentation/#log.cleaner.min.cleanable.ratio)
+#### [log.cleaner.min.cleanable.ratio](http://kafka.apache.org/documentation/#log.cleaner.min.cleanable.ratio)
 
   The minimum ratio of dirty log to total log for a log to eligible for cleaning. If the log.cleaner.max.compaction.lag.ms or the log.cleaner.min.compaction.lag.ms configurations are also specified, then the log compactor considers the log eligible for compaction as soon as either: (i) the dirty ratio threshold has been met and the log has had dirty (uncompacted) records for at least the log.cleaner.min.compaction.lag.ms duration, or (ii) if the log has had dirty (uncompacted) records for at most the log.cleaner.max.compaction.lag.ms period.
 
     符合清除条件的日志的脏日志与总日志的最小比率。如果还指定了log.cleaner.max.compaction.lag.ms或log.cleaner.min.compaction.lag.ms配置，则日志压缩程序将在以下任一情况下立即认为该日志符合压缩条件：（i）已达到脏率阈值，并且日志至少在log.cleaner.min.compaction.lag.ms持续时间内具有脏（未压缩）记录，或者（ii）日志最多具有脏（未压缩）记录log.cleaner.max.compaction.lag.ms周期。
 
-  |         Type: | double       |
-  | ------------: | ------------ |
-  |      Default: | 0.5          |
-  | Valid Values: |              |
-  |   Importance: | medium       |
-  |  Update Mode: | cluster-wide |
+|         Type: | double       |
+| ------------: | ------------ |
+|      Default: | 0.5          |
+| Valid Values: |              |
+|   Importance: | medium       |
+|  Update Mode: | cluster-wide |
 
-- #### [log.cleaner.min.compaction.lag.ms](http://kafka.apache.org/documentation/#log.cleaner.min.compaction.lag.ms)
+#### [log.cleaner.min.compaction.lag.ms](http://kafka.apache.org/documentation/#log.cleaner.min.compaction.lag.ms)
 
   The minimum time a message will remain uncompacted in the log. Only applicable for logs that are being compacted.
 
   消息在日志中保持不压缩的最短时间。仅适用于正在压缩的日志。
 
-  |         Type: | long         |
-  | ------------: | ------------ |
-  |      Default: | 0            |
-  | Valid Values: |              |
-  |   Importance: | medium       |
-  |  Update Mode: | cluster-wide |
+|         Type: | long         |
+| ------------: | ------------ |
+|      Default: | 0            |
+| Valid Values: |              |
+|   Importance: | medium       |
+|  Update Mode: | cluster-wide |
 
-- #### [log.cleaner.threads](http://kafka.apache.org/documentation/#log.cleaner.threads)
+#### [log.cleaner.threads](http://kafka.apache.org/documentation/#log.cleaner.threads)
 
   The number of background threads to use for log cleaning
 
@@ -1895,560 +1895,560 @@ Topic-level configurations and defaults are discussed in more detail [below](htt
 
   用于日志清理的后台线程数
 
-  |         Type: | int          |
-  | ------------: | ------------ |
-  |      Default: | 1            |
-  | Valid Values: | [0,...]      |
-  |   Importance: | medium       |
-  |  Update Mode: | cluster-wide |
+|         Type: | int          |
+| ------------: | ------------ |
+|      Default: | 1            |
+| Valid Values: | [0,...]      |
+|   Importance: | medium       |
+|  Update Mode: | cluster-wide |
 
-- #### [log.cleanup.policy](http://kafka.apache.org/documentation/#log.cleanup.policy)
+#### [log.cleanup.policy](http://kafka.apache.org/documentation/#log.cleanup.policy)
 
   The default cleanup policy for segments beyond the retention window. A comma separated list of valid policies. Valid policies are: "delete" and "compact"
 
     保留窗口之外的段的默认清除策略。以逗号分隔的有效策略列表。有效策略为：`删除`和`紧凑`
 
-  |         Type: | list              |
-  | ------------: | ----------------- |
-  |      Default: | delete            |
-  | Valid Values: | [compact, delete] |
-  |   Importance: | medium            |
-  |  Update Mode: | cluster-wide      |
+|         Type: | list              |
+| ------------: | ----------------- |
+|      Default: | delete            |
+| Valid Values: | [compact, delete] |
+|   Importance: | medium            |
+|  Update Mode: | cluster-wide      |
 
-- #### [log.index.interval.bytes](http://kafka.apache.org/documentation/#log.index.interval.bytes)
+#### [log.index.interval.bytes](http://kafka.apache.org/documentation/#log.index.interval.bytes)
 
   The interval with which we add an entry to the offset index
 
   我们向偏移量索引添加条目的时间间隔
 
-  |         Type: | int                |
-  | ------------: | ------------------ |
-  |      Default: | 4096 (4 kibibytes) |
-  | Valid Values: | [0,...]            |
-  |   Importance: | medium             |
-  |  Update Mode: | cluster-wide       |
+|         Type: | int                |
+| ------------: | ------------------ |
+|      Default: | 4096 (4 kibibytes) |
+| Valid Values: | [0,...]            |
+|   Importance: | medium             |
+|  Update Mode: | cluster-wide       |
 
-- #### [log.index.size.max.bytes](http://kafka.apache.org/documentation/#log.index.size.max.bytes)
+#### [log.index.size.max.bytes](http://kafka.apache.org/documentation/#log.index.size.max.bytes)
 
   The maximum size in bytes of the offset index
 
     偏移索引的最大大小（以字节为单位）
 
-  |         Type: | int                     |
-  | ------------: | ----------------------- |
-  |      Default: | 10485760 (10 mebibytes) |
-  | Valid Values: | [4,...]                 |
-  |   Importance: | medium                  |
-  |  Update Mode: | cluster-wide            |
+|         Type: | int                     |
+| ------------: | ----------------------- |
+|      Default: | 10485760 (10 mebibytes) |
+| Valid Values: | [4,...]                 |
+|   Importance: | medium                  |
+|  Update Mode: | cluster-wide            |
 
-- #### [log.message.format.version](http://kafka.apache.org/documentation/#log.message.format.version)
+#### [log.message.format.version](http://kafka.apache.org/documentation/#log.message.format.version)
 
   Specify the message format version the broker will use to append messages to the logs. The value should be a valid ApiVersion. Some examples are: 0.8.2, 0.9.0.0, 0.10.0, check ApiVersion for more details. By setting a particular message format version, the user is certifying that all the existing messages on disk are smaller or equal than the specified version. Setting this value incorrectly will cause consumers with older versions to break as they will receive messages with a format that they don't understand.
 
     指定代理将消息添加到日志时将使用的消息格式版本。该值应为有效的ApiVersion。一些示例是：0.8.2、0.9.0.0、0.10.0，请检查ApiVersion以获取更多详细信息。通过设置特定的消息格式版本，用户可以证明磁盘上的所有现有消息均小于或等于指定的版本。错误地设置此值将导致使用较旧版本的使用者中断，因为他们将收到他们不理解的格式的消息。
 
-  |         Type: | string                                                       |
-  | ------------: | ------------------------------------------------------------ |
-  |      Default: | 2.6-IV0                                                      |
-  | Valid Values: | [0.8.0, 0.8.1, 0.8.2, 0.9.0, 0.10.0-IV0, 0.10.0-IV1, 0.10.1-IV0, 0.10.1-IV1, 0.10.1-IV2, 0.10.2-IV0, 0.11.0-IV0, 0.11.0-IV1, 0.11.0-IV2, 1.0-IV0, 1.1-IV0, 2.0-IV0, 2.0-IV1, 2.1-IV0, 2.1-IV1, 2.1-IV2, 2.2-IV0, 2.2-IV1, 2.3-IV0, 2.3-IV1, 2.4-IV0, 2.4-IV1, 2.5-IV0, 2.6-IV0] |
-  |   Importance: | medium                                                       |
-  |  Update Mode: | read-only                                                    |
+|         Type: | string                                                       |
+| ------------: | ------------------------------------------------------------ |
+|      Default: | 2.6-IV0                                                      |
+| Valid Values: | [0.8.0, 0.8.1, 0.8.2, 0.9.0, 0.10.0-IV0, 0.10.0-IV1, 0.10.1-IV0, 0.10.1-IV1, 0.10.1-IV2, 0.10.2-IV0, 0.11.0-IV0, 0.11.0-IV1, 0.11.0-IV2, 1.0-IV0, 1.1-IV0, 2.0-IV0, 2.0-IV1, 2.1-IV0, 2.1-IV1, 2.1-IV2, 2.2-IV0, 2.2-IV1, 2.3-IV0, 2.3-IV1, 2.4-IV0, 2.4-IV1, 2.5-IV0, 2.6-IV0] |
+|   Importance: | medium                                                       |
+|  Update Mode: | read-only                                                    |
 
-- #### [log.message.timestamp.difference.max.ms](http://kafka.apache.org/documentation/#log.message.timestamp.difference.max.ms)
+#### [log.message.timestamp.difference.max.ms](http://kafka.apache.org/documentation/#log.message.timestamp.difference.max.ms)
 
   The maximum difference allowed between the timestamp when a broker receives a message and the timestamp specified in the message. If log.message.timestamp.type=CreateTime, a message will be rejected if the difference in timestamp exceeds this threshold. This configuration is ignored if log.message.timestamp.type=LogAppendTime.The maximum timestamp difference allowed should be no greater than log.retention.ms to avoid unnecessarily frequent log rolling.
 
     代理收到消息的时间戳与消息中指定的时间戳之间允许的最大差异。如果log.message.timestamp.type = CreateTime，则时间戳差异超过此阈值时，将拒绝一条消息。如果log.message.timestamp.type = LogAppendTime，则忽略此配置。允许的最大时间戳差异应不大于log.retention.ms，以避免不必要的频繁滚动日志。
 
-  |         Type: | long                |
-  | ------------: | ------------------- |
-  |      Default: | 9223372036854775807 |
-  | Valid Values: |                     |
-  |   Importance: | medium              |
-  |  Update Mode: | cluster-wide        |
+|         Type: | long                |
+| ------------: | ------------------- |
+|      Default: | 9223372036854775807 |
+| Valid Values: |                     |
+|   Importance: | medium              |
+|  Update Mode: | cluster-wide        |
 
-- #### [log.message.timestamp.type](http://kafka.apache.org/documentation/#log.message.timestamp.type)
+#### [log.message.timestamp.type](http://kafka.apache.org/documentation/#log.message.timestamp.type)
 
   Define whether the timestamp in the message is message create time or log append time. The value should be either `CreateTime` or `LogAppendTime`
 
     定义消息中的时间戳是消息创建时间还是日志追加时间。该值应为` CreateTime`或` LogAppendTime`
 
-  |         Type: | string                      |
-  | ------------: | --------------------------- |
-  |      Default: | CreateTime                  |
-  | Valid Values: | [CreateTime, LogAppendTime] |
-  |   Importance: | medium                      |
-  |  Update Mode: | cluster-wide                |
+|         Type: | string                      |
+| ------------: | --------------------------- |
+|      Default: | CreateTime                  |
+| Valid Values: | [CreateTime, LogAppendTime] |
+|   Importance: | medium                      |
+|  Update Mode: | cluster-wide                |
 
-- #### [log.preallocate](http://kafka.apache.org/documentation/#log.preallocate)
+#### [log.preallocate](http://kafka.apache.org/documentation/#log.preallocate)
 
   Should pre allocate file when create new segment? If you are using Kafka on Windows, you probably need to set it to true.
 
   创建新段时应该预分配文件吗？如果您在Windows上使用Kafka，则可能需要将其设置为true。
 
-  |         Type: | boolean      |
-  | ------------: | ------------ |
-  |      Default: | false        |
-  | Valid Values: |              |
-  |   Importance: | medium       |
-  |  Update Mode: | cluster-wide |
+|         Type: | boolean      |
+| ------------: | ------------ |
+|      Default: | false        |
+| Valid Values: |              |
+|   Importance: | medium       |
+|  Update Mode: | cluster-wide |
 
-- #### [log.retention.check.interval.ms](http://kafka.apache.org/documentation/#log.retention.check.interval.ms)
+#### [log.retention.check.interval.ms](http://kafka.apache.org/documentation/#log.retention.check.interval.ms)
 
   The frequency in milliseconds that the log cleaner checks whether any log is eligible for deletion
 
   日志清除器检查是否有资格删除日志的频率（以毫秒为单位）
 
-  |         Type: | long               |
-  | ------------: | ------------------ |
-  |      Default: | 300000 (5 minutes) |
-  | Valid Values: | [1,...]            |
-  |   Importance: | medium             |
-  |  Update Mode: | read-only          |
+|         Type: | long               |
+| ------------: | ------------------ |
+|      Default: | 300000 (5 minutes) |
+| Valid Values: | [1,...]            |
+|   Importance: | medium             |
+|  Update Mode: | read-only          |
 
-- #### [max.connections](http://kafka.apache.org/documentation/#max.connections)
+#### [max.connections](http://kafka.apache.org/documentation/#max.connections)
 
   The maximum number of connections we allow in the broker at any time. This limit is applied in addition to any per-ip limits configured using max.connections.per.ip. Listener-level limits may also be configured by prefixing the config name with the listener prefix, for example, `listener.name.internal.max.connections`. Broker-wide limit should be configured based on broker capacity while listener limits should be configured based on application requirements. New connections are blocked if either the listener or broker limit is reached. Connections on the inter-broker listener are permitted even if broker-wide limit is reached. The least recently used connection on another listener will be closed in this case.
 
     我们随时允许在代理中允许的最大连接数。除了使用max.connections.per.ip配置的每个IP限制之外，还应用此限制。侦听器级别的限制也可以通过在配置名称前添加侦听器前缀来配置，例如` listener.name.internal.max.connections`。应基于代理容量配置代理范围的限制，而应根据应用程序要求配置侦听器的限制。如果达到侦听器或代理限制，则新连接被阻止。即使已达到代理范围的限制，也允许在代理中间侦听器上进行连接。在这种情况下，将关闭另一个监听器上最近最少使用的连接。
 
-  |         Type: | int          |
-  | ------------: | ------------ |
-  |      Default: | 2147483647   |
-  | Valid Values: | [0,...]      |
-  |   Importance: | medium       |
-  |  Update Mode: | cluster-wide |
+|         Type: | int          |
+| ------------: | ------------ |
+|      Default: | 2147483647   |
+| Valid Values: | [0,...]      |
+|   Importance: | medium       |
+|  Update Mode: | cluster-wide |
 
-- #### [max.connections.per.ip](http://kafka.apache.org/documentation/#max.connections.per.ip)
+#### [max.connections.per.ip](http://kafka.apache.org/documentation/#max.connections.per.ip)
 
   The maximum number of connections we allow from each ip address. This can be set to 0 if there are overrides configured using max.connections.per.ip.overrides property. New connections from the ip address are dropped if the limit is reached.
 
     每个IP地址允许的最大连接数。如果使用max.connections.per.ip.overrides属性配置了替代，则可以将其设置为0。如果达到限制，则将丢弃来自IP地址的新连接。
 
-  |         Type: | int          |
-  | ------------: | ------------ |
-  |      Default: | 2147483647   |
-  | Valid Values: | [0,...]      |
-  |   Importance: | medium       |
-  |  Update Mode: | cluster-wide |
+|         Type: | int          |
+| ------------: | ------------ |
+|      Default: | 2147483647   |
+| Valid Values: | [0,...]      |
+|   Importance: | medium       |
+|  Update Mode: | cluster-wide |
 
-- #### [max.connections.per.ip.overrides](http://kafka.apache.org/documentation/#max.connections.per.ip.overrides)
+#### [max.connections.per.ip.overrides](http://kafka.apache.org/documentation/#max.connections.per.ip.overrides)
 
   A comma-separated list of per-ip or hostname overrides to the default maximum number of connections. An example value is "hostName:100,127.0.0.1:200"
 
     每个IP或主机名的逗号分隔列表将覆盖默认的最大连接数。一个示例值是` hostName：100,127.0.0.1：200`
 
-  |         Type: | string       |
-  | ------------: | ------------ |
-  |      Default: | ""           |
-  | Valid Values: |              |
-  |   Importance: | medium       |
-  |  Update Mode: | cluster-wide |
+|         Type: | string       |
+| ------------: | ------------ |
+|      Default: | ""           |
+| Valid Values: |              |
+|   Importance: | medium       |
+|  Update Mode: | cluster-wide |
 
-- #### [max.incremental.fetch.session.cache.slots](http://kafka.apache.org/documentation/#max.incremental.fetch.session.cache.slots)
+#### [max.incremental.fetch.session.cache.slots](http://kafka.apache.org/documentation/#max.incremental.fetch.session.cache.slots)
 
   The maximum number of incremental fetch sessions that we will maintain.
 
   我们将维护的最大增量获取会话数。
 
-  |         Type: | int       |
-  | ------------: | --------- |
-  |      Default: | 1000      |
-  | Valid Values: | [0,...]   |
-  |   Importance: | medium    |
-  |  Update Mode: | read-only |
+|         Type: | int       |
+| ------------: | --------- |
+|      Default: | 1000      |
+| Valid Values: | [0,...]   |
+|   Importance: | medium    |
+|  Update Mode: | read-only |
 
-- #### [num.partitions](http://kafka.apache.org/documentation/#num.partitions)
+#### [num.partitions](http://kafka.apache.org/documentation/#num.partitions)
 
   The default number of log partitions per topic
 
   每个主题的默认日志分区数
 
-  |         Type: | int       |
-  | ------------: | --------- |
-  |      Default: | 1         |
-  | Valid Values: | [1,...]   |
-  |   Importance: | medium    |
-  |  Update Mode: | read-only |
+|         Type: | int       |
+| ------------: | --------- |
+|      Default: | 1         |
+| Valid Values: | [1,...]   |
+|   Importance: | medium    |
+|  Update Mode: | read-only |
 
-- #### [password.encoder.old.secret](http://kafka.apache.org/documentation/#password.encoder.old.secret)
+#### [password.encoder.old.secret](http://kafka.apache.org/documentation/#password.encoder.old.secret)
 
   The old secret that was used for encoding dynamically configured passwords. This is required only when the secret is updated. If specified, all dynamically encoded passwords are decoded using this old secret and re-encoded using password.encoder.secret when broker starts up.
 
     用于对动态配置的密码进行编码的旧机密。仅在更新机密时才需要。如果指定，则在代理启动时，将使用此旧机密对所有动态编码的密码进行解码，并使用password.encoder.secret重新编码。
 
-  |         Type: | password  |
-  | ------------: | --------- |
-  |      Default: | null      |
-  | Valid Values: |           |
-  |   Importance: | medium    |
-  |  Update Mode: | read-only |
+|         Type: | password  |
+| ------------: | --------- |
+|      Default: | null      |
+| Valid Values: |           |
+|   Importance: | medium    |
+|  Update Mode: | read-only |
 
-- #### [password.encoder.secret](http://kafka.apache.org/documentation/#password.encoder.secret)
+#### [password.encoder.secret](http://kafka.apache.org/documentation/#password.encoder.secret)
 
   The secret used for encoding dynamically configured passwords for this broker.
 
   用于编码此代理的动态配置的密码的机密。
 
-  |         Type: | password  |
-  | ------------: | --------- |
-  |      Default: | null      |
-  | Valid Values: |           |
-  |   Importance: | medium    |
-  |  Update Mode: | read-only |
+|         Type: | password  |
+| ------------: | --------- |
+|      Default: | null      |
+| Valid Values: |           |
+|   Importance: | medium    |
+|  Update Mode: | read-only |
 
-- #### [principal.builder.class](http://kafka.apache.org/documentation/#principal.builder.class)
+#### [principal.builder.class](http://kafka.apache.org/documentation/#principal.builder.class)
 
   The fully qualified name of a class that implements the KafkaPrincipalBuilder interface, which is used to build the KafkaPrincipal object used during authorization. This config also supports the deprecated PrincipalBuilder interface which was previously used for client authentication over SSL. If no principal builder is defined, the default behavior depends on the security protocol in use. For SSL authentication, the principal will be derived using the rules defined by `ssl.principal.mapping.rules` applied on the distinguished name from the client certificate if one is provided; otherwise, if client authentication is not required, the principal name will be ANONYMOUS. For SASL authentication, the principal will be derived using the rules defined by `sasl.kerberos.principal.to.local.rules` if GSSAPI is in use, and the SASL authentication ID for other mechanisms. For PLAINTEXT, the principal will be ANONYMOUS.
 
     实现KafkaPrincipalBuilder接口的类的全限定名，该接口用于构建授权期间使用的KafkaPrincipal对象。此配置还支持不赞成使用的PrincipalBuilder接口，该接口以前用于通过SSL进行客户端身份验证。如果未定义任何主体构建器，则默认行为取决于所使用的安全协议。对于SSL身份验证，将使用由ssl.principal.mapping.rules定义的规则派生主体，该规则适用于来自客户端证书的专有名称（如果提供）；否则，如果不需要客户端身份验证，则主体名称将为匿名。对于SASL身份验证，如果正在使用GSSAPI，则将使用` sasl.kerberos.principal.to.local.rules`定义的规则派生主体，并使用其他机制的SASL身份验证ID。对于PLAINTEXT，主体将是匿名的。
 
-  |         Type: | class      |
-  | ------------: | ---------- |
-  |      Default: | null       |
-  | Valid Values: |            |
-  |   Importance: | medium     |
-  |  Update Mode: | per-broker |
+|         Type: | class      |
+| ------------: | ---------- |
+|      Default: | null       |
+| Valid Values: |            |
+|   Importance: | medium     |
+|  Update Mode: | per-broker |
 
-- #### [producer.purgatory.purge.interval.requests](http://kafka.apache.org/documentation/#producer.purgatory.purge.interval.requests)
+#### [producer.purgatory.purge.interval.requests](http://kafka.apache.org/documentation/#producer.purgatory.purge.interval.requests)
 
   The purge interval (in number of requests) of the producer request purgatory
 
   生产者请求炼狱的清除间隔（以请求数为单位）
 
-  |         Type: | int       |
-  | ------------: | --------- |
-  |      Default: | 1000      |
-  | Valid Values: |           |
-  |   Importance: | medium    |
-  |  Update Mode: | read-only |
+|         Type: | int       |
+| ------------: | --------- |
+|      Default: | 1000      |
+| Valid Values: |           |
+|   Importance: | medium    |
+|  Update Mode: | read-only |
 
-- #### [queued.max.request.bytes](http://kafka.apache.org/documentation/#queued.max.request.bytes)
+#### [queued.max.request.bytes](http://kafka.apache.org/documentation/#queued.max.request.bytes)
 
   The number of queued bytes allowed before no more requests are read
 
   读取更多请求之前允许的排队字节数
 
-  |         Type: | long      |
-  | ------------: | --------- |
-  |      Default: | -1        |
-  | Valid Values: |           |
-  |   Importance: | medium    |
-  |  Update Mode: | read-only |
+|         Type: | long      |
+| ------------: | --------- |
+|      Default: | -1        |
+| Valid Values: |           |
+|   Importance: | medium    |
+|  Update Mode: | read-only |
 
-- #### [replica.fetch.backoff.ms](http://kafka.apache.org/documentation/#replica.fetch.backoff.ms)
+#### [replica.fetch.backoff.ms](http://kafka.apache.org/documentation/#replica.fetch.backoff.ms)
 
   The amount of time to sleep when fetch partition error occurs.
 
   发生提取分区错误时的睡眠时间。
 
-  |         Type: | int             |
-  | ------------: | --------------- |
-  |      Default: | 1000 (1 second) |
-  | Valid Values: | [0,...]         |
-  |   Importance: | medium          |
-  |  Update Mode: | read-only       |
+|         Type: | int             |
+| ------------: | --------------- |
+|      Default: | 1000 (1 second) |
+| Valid Values: | [0,...]         |
+|   Importance: | medium          |
+|  Update Mode: | read-only       |
 
-- #### [replica.fetch.max.bytes](http://kafka.apache.org/documentation/#replica.fetch.max.bytes)
+#### [replica.fetch.max.bytes](http://kafka.apache.org/documentation/#replica.fetch.max.bytes)
 
   The number of bytes of messages to attempt to fetch for each partition. This is not an absolute maximum, if the first record batch in the first non-empty partition of the fetch is larger than this value, the record batch will still be returned to ensure that progress can be made. The maximum record batch size accepted by the broker is defined via `message.max.bytes` (broker config) or `max.message.bytes` (topic config).
 
     尝试为每个分区获取的消息的字节数。这不是绝对最大值，如果获取的第一个非空分区中的第一个记录批处理大于此值，那么仍将返回记录批处理以确保进度。代理可接受的最大记录批处理大小是通过` message.max.bytes`（代理配置）或` max.message.bytes`（主题配置）定义的。
 
-  |         Type: | int                  |
-  | ------------: | -------------------- |
-  |      Default: | 1048576 (1 mebibyte) |
-  | Valid Values: | [0,...]              |
-  |   Importance: | medium               |
-  |  Update Mode: | read-only            |
+|         Type: | int                  |
+| ------------: | -------------------- |
+|      Default: | 1048576 (1 mebibyte) |
+| Valid Values: | [0,...]              |
+|   Importance: | medium               |
+|  Update Mode: | read-only            |
 
-- #### [replica.fetch.response.max.bytes](http://kafka.apache.org/documentation/#replica.fetch.response.max.bytes)
+#### [replica.fetch.response.max.bytes](http://kafka.apache.org/documentation/#replica.fetch.response.max.bytes)
 
   Maximum bytes expected for the entire fetch response. Records are fetched in batches, and if the first record batch in the first non-empty partition of the fetch is larger than this value, the record batch will still be returned to ensure that progress can be made. As such, this is not an absolute maximum. The maximum record batch size accepted by the broker is defined via `message.max.bytes` (broker config) or `max.message.bytes` (topic config).
 
     整个读取响应的最大预期字节数。记录是分批提取的，并且如果所提取的第一个非空分区中的第一个记录批处理大于此值，那么仍将返回记录批处理以确保进度。因此，这不是绝对最大值。代理可接受的最大记录批处理大小是通过` message.max.bytes`（代理配置）或` max.message.bytes`（主题配置）定义的。
 
-  |         Type: | int                     |
-  | ------------: | ----------------------- |
-  |      Default: | 10485760 (10 mebibytes) |
-  | Valid Values: | [0,...]                 |
-  |   Importance: | medium                  |
-  |  Update Mode: | read-only               |
+|         Type: | int                     |
+| ------------: | ----------------------- |
+|      Default: | 10485760 (10 mebibytes) |
+| Valid Values: | [0,...]                 |
+|   Importance: | medium                  |
+|  Update Mode: | read-only               |
 
-- #### [replica.selector.class](http://kafka.apache.org/documentation/#replica.selector.class)
+#### [replica.selector.class](http://kafka.apache.org/documentation/#replica.selector.class)
 
   The fully qualified class name that implements ReplicaSelector. This is used by the broker to find the preferred read replica. By default, we use an implementation that returns the leader.
 
   实现ReplicaSelector的完全限定的类名。代理使用它来查找首选的只读副本。默认情况下，我们使用返回领导者的实现。
 
-  |         Type: | string    |
-  | ------------: | --------- |
-  |      Default: | null      |
-  | Valid Values: |           |
-  |   Importance: | medium    |
-  |  Update Mode: | read-only |
+|         Type: | string    |
+| ------------: | --------- |
+|      Default: | null      |
+| Valid Values: |           |
+|   Importance: | medium    |
+|  Update Mode: | read-only |
 
-- #### [reserved.broker.max.id](http://kafka.apache.org/documentation/#reserved.broker.max.id)
+#### [reserved.broker.max.id](http://kafka.apache.org/documentation/#reserved.broker.max.id)
 
   Max number that can be used for a broker.id
 
     可以用于broker.id的最大数量
 
-  |         Type: | int       |
-  | ------------: | --------- |
-  |      Default: | 1000      |
-  | Valid Values: | [0,...]   |
-  |   Importance: | medium    |
-  |  Update Mode: | read-only |
+|         Type: | int       |
+| ------------: | --------- |
+|      Default: | 1000      |
+| Valid Values: | [0,...]   |
+|   Importance: | medium    |
+|  Update Mode: | read-only |
 
-- #### [sasl.client.callback.handler.class](http://kafka.apache.org/documentation/#sasl.client.callback.handler.class)
+#### [sasl.client.callback.handler.class](http://kafka.apache.org/documentation/#sasl.client.callback.handler.class)
 
   The fully qualified name of a SASL client callback handler class that implements the AuthenticateCallbackHandler interface.
 
   实现AuthenticateCallbackHandler接口的SASL客户端回调处理程序类的全限定名称。
 
-  |         Type: | class     |
-  | ------------: | --------- |
-  |      Default: | null      |
-  | Valid Values: |           |
-  |   Importance: | medium    |
-  |  Update Mode: | read-only |
+|         Type: | class     |
+| ------------: | --------- |
+|      Default: | null      |
+| Valid Values: |           |
+|   Importance: | medium    |
+|  Update Mode: | read-only |
 
-- #### [sasl.enabled.mechanisms](http://kafka.apache.org/documentation/#sasl.enabled.mechanisms)
+#### [sasl.enabled.mechanisms](http://kafka.apache.org/documentation/#sasl.enabled.mechanisms)
 
   The list of SASL mechanisms enabled in the Kafka server. The list may contain any mechanism for which a security provider is available. Only GSSAPI is enabled by default.
 
   Kafka服务器中启用的SASL机制列表。该列表可以包含安全提供程序可用的任何机制。默认情况下，仅启用GSSAPI。
 
-  |         Type: | list       |
-  | ------------: | ---------- |
-  |      Default: | GSSAPI     |
-  | Valid Values: |            |
-  |   Importance: | medium     |
-  |  Update Mode: | per-broker |
+|         Type: | list       |
+| ------------: | ---------- |
+|      Default: | GSSAPI     |
+| Valid Values: |            |
+|   Importance: | medium     |
+|  Update Mode: | per-broker |
 
-- #### [sasl.jaas.config](http://kafka.apache.org/documentation/#sasl.jaas.config)
+#### [sasl.jaas.config](http://kafka.apache.org/documentation/#sasl.jaas.config)
 
   JAAS login context parameters for SASL connections in the format used by JAAS configuration files. JAAS configuration file format is described [here](http://docs.oracle.com/javase/8/docs/technotes/guides/security/jgss/tutorials/LoginConfigFile.html). The format for the value is: '`loginModuleClass controlFlag (optionName=optionValue)*;`'. For brokers, the config must be prefixed with listener prefix and SASL mechanism name in lower-case. For example, listener.name.sasl_ssl.scram-sha-256.sasl.jaas.config=com.example.ScramLoginModule required;
 
     SASL连接的JAAS登录上下文参数，采用JAAS配置文件使用的格式。 [此处]（http://docs.oracle.com/javase/8/docs/technotes/guides/security/jgss/tutorials/LoginConfigFile.html）中描述了JAAS配置文件格式。该值的格式为：`loginModuleClass controlFlag（optionName = optionValue）*;``。对于代理，配置必须以小写的前缀加上侦听器前缀和SASL机制名称。例如，需要listener.name.sasl_ssl.scram-sha-256.sasl.jaas.config = com.example.ScramLoginModule；
 
-  |         Type: | password   |
-  | ------------: | ---------- |
-  |      Default: | null       |
-  | Valid Values: |            |
-  |   Importance: | medium     |
-  |  Update Mode: | per-broker |
+|         Type: | password   |
+| ------------: | ---------- |
+|      Default: | null       |
+| Valid Values: |            |
+|   Importance: | medium     |
+|  Update Mode: | per-broker |
 
-- #### [sasl.kerberos.kinit.cmd](http://kafka.apache.org/documentation/#sasl.kerberos.kinit.cmd)
+#### [sasl.kerberos.kinit.cmd](http://kafka.apache.org/documentation/#sasl.kerberos.kinit.cmd)
 
   Kerberos kinit command path.
 
     Kerberos kinit命令路径。
 
-  |         Type: | string         |
-  | ------------: | -------------- |
-  |      Default: | /usr/bin/kinit |
-  | Valid Values: |                |
-  |   Importance: | medium         |
-  |  Update Mode: | per-broker     |
+|         Type: | string         |
+| ------------: | -------------- |
+|      Default: | /usr/bin/kinit |
+| Valid Values: |                |
+|   Importance: | medium         |
+|  Update Mode: | per-broker     |
 
-- #### [sasl.kerberos.min.time.before.relogin](http://kafka.apache.org/documentation/#sasl.kerberos.min.time.before.relogin)
+#### [sasl.kerberos.min.time.before.relogin](http://kafka.apache.org/documentation/#sasl.kerberos.min.time.before.relogin)
 
   Login thread sleep time between refresh attempts.
 
   两次刷新尝试之间的登录线程睡眠时间。
 
-  |         Type: | long       |
-  | ------------: | ---------- |
-  |      Default: | 60000      |
-  | Valid Values: |            |
-  |   Importance: | medium     |
-  |  Update Mode: | per-broker |
+|         Type: | long       |
+| ------------: | ---------- |
+|      Default: | 60000      |
+| Valid Values: |            |
+|   Importance: | medium     |
+|  Update Mode: | per-broker |
 
-- #### [sasl.kerberos.principal.to.local.rules](http://kafka.apache.org/documentation/#sasl.kerberos.principal.to.local.rules)
+#### [sasl.kerberos.principal.to.local.rules](http://kafka.apache.org/documentation/#sasl.kerberos.principal.to.local.rules)
 
   A list of rules for mapping from principal names to short names (typically operating system usernames). The rules are evaluated in order and the first rule that matches a principal name is used to map it to a short name. Any later rules in the list are ignored. By default, principal names of the form {username}/{hostname}@{REALM} are mapped to {username}. For more details on the format please see [security authorization and acls](http://kafka.apache.org/documentation/#security_authz). Note that this configuration is ignored if an extension of KafkaPrincipalBuilder is provided by the `principal.builder.class` configuration.
 
     从主体名称到简称（通常是操作系统用户名）的映射规则列表。将按顺序评估规则，并且使用与主体名称匹配的第一条规则将其映射为简称。列表中以后的所有规则都将被忽略。默认情况下，格式为{username} / {hostname} @ {REALM}的主体名称映射到{username}。有关格式的更多详细信息，请参见[安全授权和ACL]（http://kafka.apache.org/documentation/#security_authz）。请注意，如果`principal.builder.class`配置提供了KafkaPrincipalBuilder的扩展名，则将忽略此配置。
 
-  |         Type: | list       |
-  | ------------: | ---------- |
-  |      Default: | DEFAULT    |
-  | Valid Values: |            |
-  |   Importance: | medium     |
-  |  Update Mode: | per-broker |
+|         Type: | list       |
+| ------------: | ---------- |
+|      Default: | DEFAULT    |
+| Valid Values: |            |
+|   Importance: | medium     |
+|  Update Mode: | per-broker |
 
-- #### [sasl.kerberos.service.name](http://kafka.apache.org/documentation/#sasl.kerberos.service.name)
+#### [sasl.kerberos.service.name](http://kafka.apache.org/documentation/#sasl.kerberos.service.name)
 
   The Kerberos principal name that Kafka runs as. This can be defined either in Kafka's JAAS config or in Kafka's config.
 
   Kafka运行时使用的Kerberos主体名称。这可以在Kafka的JAAS配置或Kafka的配置中定义。
 
-  |         Type: | string     |
-  | ------------: | ---------- |
-  |      Default: | null       |
-  | Valid Values: |            |
-  |   Importance: | medium     |
-  |  Update Mode: | per-broker |
+|         Type: | string     |
+| ------------: | ---------- |
+|      Default: | null       |
+| Valid Values: |            |
+|   Importance: | medium     |
+|  Update Mode: | per-broker |
 
-- #### [sasl.kerberos.ticket.renew.jitter](http://kafka.apache.org/documentation/#sasl.kerberos.ticket.renew.jitter)
+#### [sasl.kerberos.ticket.renew.jitter](http://kafka.apache.org/documentation/#sasl.kerberos.ticket.renew.jitter)
 
   Percentage of random jitter added to the renewal time.
 
   添加到续订时间的随机抖动百分比。
 
-  |         Type: | double     |
-  | ------------: | ---------- |
-  |      Default: | 0.05       |
-  | Valid Values: |            |
-  |   Importance: | medium     |
-  |  Update Mode: | per-broker |
+|         Type: | double     |
+| ------------: | ---------- |
+|      Default: | 0.05       |
+| Valid Values: |            |
+|   Importance: | medium     |
+|  Update Mode: | per-broker |
 
-- #### [sasl.kerberos.ticket.renew.window.factor](http://kafka.apache.org/documentation/#sasl.kerberos.ticket.renew.window.factor)
+#### [sasl.kerberos.ticket.renew.window.factor](http://kafka.apache.org/documentation/#sasl.kerberos.ticket.renew.window.factor)
 
   Login thread will sleep until the specified window factor of time from last refresh to ticket's expiry has been reached, at which time it will try to renew the ticket.
 
   登录线程将一直休眠，直到达到从上次刷新到票证到期的指定时间窗因素为止，此时它将尝试续订票证。
 
-  |         Type: | double     |
-  | ------------: | ---------- |
-  |      Default: | 0.8        |
-  | Valid Values: |            |
-  |   Importance: | medium     |
-  |  Update Mode: | per-broker |
+|         Type: | double     |
+| ------------: | ---------- |
+|      Default: | 0.8        |
+| Valid Values: |            |
+|   Importance: | medium     |
+|  Update Mode: | per-broker |
 
-- #### [sasl.login.callback.handler.class](http://kafka.apache.org/documentation/#sasl.login.callback.handler.class)
+#### [sasl.login.callback.handler.class](http://kafka.apache.org/documentation/#sasl.login.callback.handler.class)
 
   The fully qualified name of a SASL login callback handler class that implements the AuthenticateCallbackHandler interface. For brokers, login callback handler config must be prefixed with listener prefix and SASL mechanism name in lower-case. For example, listener.name.sasl_ssl.scram-sha-256.sasl.login.callback.handler.class=com.example.CustomScramLoginCallbackHandler
 
     实现AuthenticateCallbackHandler接口的SASL登录回调处理程序类的全限定名。对于代理，登录回调处理程序配置必须以侦听器前缀和小写的SASL机制名称作为前缀。例如，listener.name.sasl_ssl.scram-sha-256.sasl.login.callback.handler.class = com.example.CustomScramLoginCallbackHandler
 
-  |         Type: | class     |
-  | ------------: | --------- |
-  |      Default: | null      |
-  | Valid Values: |           |
-  |   Importance: | medium    |
-  |  Update Mode: | read-only |
+|         Type: | class     |
+| ------------: | --------- |
+|      Default: | null      |
+| Valid Values: |           |
+|   Importance: | medium    |
+|  Update Mode: | read-only |
 
-- #### [sasl.login.class](http://kafka.apache.org/documentation/#sasl.login.class)
+#### [sasl.login.class](http://kafka.apache.org/documentation/#sasl.login.class)
 
   The fully qualified name of a class that implements the Login interface. For brokers, login config must be prefixed with listener prefix and SASL mechanism name in lower-case. For example, listener.name.sasl_ssl.scram-sha-256.sasl.login.class=com.example.CustomScramLogin
 
     实现Login接口的类的完全限定名称。对于代理，登录配置必须以侦听器前缀和小写的SASL机制名称作为前缀。例如，listener.name.sasl_ssl.scram-sha-256.sasl.login.class = com.example.CustomScramLogin
 
-  |         Type: | class     |
-  | ------------: | --------- |
-  |      Default: | null      |
-  | Valid Values: |           |
-  |   Importance: | medium    |
-  |  Update Mode: | read-only |
+|         Type: | class     |
+| ------------: | --------- |
+|      Default: | null      |
+| Valid Values: |           |
+|   Importance: | medium    |
+|  Update Mode: | read-only |
 
-- #### [sasl.login.refresh.buffer.seconds](http://kafka.apache.org/documentation/#sasl.login.refresh.buffer.seconds)
+#### [sasl.login.refresh.buffer.seconds](http://kafka.apache.org/documentation/#sasl.login.refresh.buffer.seconds)
 
   The amount of buffer time before credential expiration to maintain when refreshing a credential, in seconds. If a refresh would otherwise occur closer to expiration than the number of buffer seconds then the refresh will be moved up to maintain as much of the buffer time as possible. Legal values are between 0 and 3600 (1 hour); a default value of 300 (5 minutes) is used if no value is specified. This value and sasl.login.refresh.min.period.seconds are both ignored if their sum exceeds the remaining lifetime of a credential. Currently applies only to OAUTHBEARER.
 
     刷新凭证时要保留的凭证过期前的缓冲时间（以秒为单位）。如果否则刷新将比缓冲区秒数更接近到期，则刷新将上移以保持尽可能多的缓冲区时间。合法值介于0到3600（1小时）之间；如果未指定任何值，则使用默认值300（5分钟）。如果此值和sasl.login.refresh.min.period.seconds的总和超过凭据的剩余生存期，则两者都将被忽略。当前仅适用于OAUTHBEARER。
 
-  |         Type: | short      |
-  | ------------: | ---------- |
-  |      Default: | 300        |
-  | Valid Values: |            |
-  |   Importance: | medium     |
-  |  Update Mode: | per-broker |
+|         Type: | short      |
+| ------------: | ---------- |
+|      Default: | 300        |
+| Valid Values: |            |
+|   Importance: | medium     |
+|  Update Mode: | per-broker |
 
-- #### [sasl.login.refresh.min.period.seconds](http://kafka.apache.org/documentation/#sasl.login.refresh.min.period.seconds)
+#### [sasl.login.refresh.min.period.seconds](http://kafka.apache.org/documentation/#sasl.login.refresh.min.period.seconds)
 
   The desired minimum time for the login refresh thread to wait before refreshing a credential, in seconds. Legal values are between 0 and 900 (15 minutes); a default value of 60 (1 minute) is used if no value is specified. This value and sasl.login.refresh.buffer.seconds are both ignored if their sum exceeds the remaining lifetime of a credential. Currently applies only to OAUTHBEARER.
 
     登录刷新线程在刷新凭证之前等待的最短时间（以秒为单位）。合法值在0到900之间（15分钟）；如果未指定任何值，则使用默认值60（1分钟）。如果此值和sasl.login.refresh.buffer.seconds的总和超过凭据的剩余生存期，则两者都将被忽略。当前仅适用于OAUTHBEARER。
 
-  |         Type: | short      |
-  | ------------: | ---------- |
-  |      Default: | 60         |
-  | Valid Values: |            |
-  |   Importance: | medium     |
-  |  Update Mode: | per-broker |
+|         Type: | short      |
+| ------------: | ---------- |
+|      Default: | 60         |
+| Valid Values: |            |
+|   Importance: | medium     |
+|  Update Mode: | per-broker |
 
-- #### [sasl.login.refresh.window.factor](http://kafka.apache.org/documentation/#sasl.login.refresh.window.factor)
+#### [sasl.login.refresh.window.factor](http://kafka.apache.org/documentation/#sasl.login.refresh.window.factor)
 
   Login refresh thread will sleep until the specified window factor relative to the credential's lifetime has been reached, at which time it will try to refresh the credential. Legal values are between 0.5 (50%) and 1.0 (100%) inclusive; a default value of 0.8 (80%) is used if no value is specified. Currently applies only to OAUTHBEARER.
 
     登录刷新线程将休眠，直到达到相对于凭据的生存期的指定窗口因子为止，此时它将尝试刷新凭据。合法值介于0.5（50％）至1.0（100％）之间；如果未指定任何值，则使用默认值0.8（80％）。当前仅适用于OAUTHBEARER。
 
-  |         Type: | double     |
-  | ------------: | ---------- |
-  |      Default: | 0.8        |
-  | Valid Values: |            |
-  |   Importance: | medium     |
-  |  Update Mode: | per-broker |
+|         Type: | double     |
+| ------------: | ---------- |
+|      Default: | 0.8        |
+| Valid Values: |            |
+|   Importance: | medium     |
+|  Update Mode: | per-broker |
 
-- #### [sasl.login.refresh.window.jitter](http://kafka.apache.org/documentation/#sasl.login.refresh.window.jitter)
+#### [sasl.login.refresh.window.jitter](http://kafka.apache.org/documentation/#sasl.login.refresh.window.jitter)
 
   The maximum amount of random jitter relative to the credential's lifetime that is added to the login refresh thread's sleep time. Legal values are between 0 and 0.25 (25%) inclusive; a default value of 0.05 (5%) is used if no value is specified. Currently applies only to OAUTHBEARER.
 
     相对于凭证生存期的最大随机抖动量，添加到登录刷新线程的睡眠时间中。合法值介于0到0.25（25％）之间（含）；如果未指定任何值，则使用默认值0.05（5％）。当前仅适用于OAUTHBEARER。
 
-  |         Type: | double     |
-  | ------------: | ---------- |
-  |      Default: | 0.05       |
-  | Valid Values: |            |
-  |   Importance: | medium     |
-  |  Update Mode: | per-broker |
+|         Type: | double     |
+| ------------: | ---------- |
+|      Default: | 0.05       |
+| Valid Values: |            |
+|   Importance: | medium     |
+|  Update Mode: | per-broker |
 
-- #### [sasl.mechanism.inter.broker.protocol](http://kafka.apache.org/documentation/#sasl.mechanism.inter.broker.protocol)
+#### [sasl.mechanism.inter.broker.protocol](http://kafka.apache.org/documentation/#sasl.mechanism.inter.broker.protocol)
 
   SASL mechanism used for inter-broker communication. Default is GSSAPI.
 
   用于经纪人之间通信的SASL机制。默认值为GSSAPI。
 
-  |         Type: | string     |
-  | ------------: | ---------- |
-  |      Default: | GSSAPI     |
-  | Valid Values: |            |
-  |   Importance: | medium     |
-  |  Update Mode: | per-broker |
+|         Type: | string     |
+| ------------: | ---------- |
+|      Default: | GSSAPI     |
+| Valid Values: |            |
+|   Importance: | medium     |
+|  Update Mode: | per-broker |
 
-- #### [sasl.server.callback.handler.class](http://kafka.apache.org/documentation/#sasl.server.callback.handler.class)
+#### [sasl.server.callback.handler.class](http://kafka.apache.org/documentation/#sasl.server.callback.handler.class)
 
   The fully qualified name of a SASL server callback handler class that implements the AuthenticateCallbackHandler interface. Server callback handlers must be prefixed with listener prefix and SASL mechanism name in lower-case. For example, listener.name.sasl_ssl.plain.sasl.server.callback.handler.class=com.example.CustomPlainCallbackHandler.
 
     实现AuthenticateCallbackHandler接口的SASL服务器回调处理程序类的全限定名。服务器回调处理程序必须使用小写的侦听器前缀和SASL机制名称作为前缀。例如，listener.name.sasl_ssl.plain.sasl.server.callback.handler.class = com.example.CustomPlainCallbackHandler。
 
-  |         Type: | class     |
-  | ------------: | --------- |
-  |      Default: | null      |
-  | Valid Values: |           |
-  |   Importance: | medium    |
-  |  Update Mode: | read-only |
+|         Type: | class     |
+| ------------: | --------- |
+|      Default: | null      |
+| Valid Values: |           |
+|   Importance: | medium    |
+|  Update Mode: | read-only |
 
-- #### [security.inter.broker.protocol](http://kafka.apache.org/documentation/#security.inter.broker.protocol)
+#### [security.inter.broker.protocol](http://kafka.apache.org/documentation/#security.inter.broker.protocol)
 
   Security protocol used to communicate between brokers. Valid values are: PLAINTEXT, SSL, SASL_PLAINTEXT, SASL_SSL. It is an error to set this and inter.broker.listener.name properties at the same time.
 
     用于在代理之间进行通信的安全协议。有效值为：PLAINTEXT，SSL，SASL_PLAINTEXT，SASL_SSL。同时设置此属性和inter.broker.listener.name属性是错误的。
 
-  |         Type: | string    |
-  | ------------: | --------- |
-  |      Default: | PLAINTEXT |
-  | Valid Values: |           |
-  |   Importance: | medium    |
-  |  Update Mode: | read-only |
+|         Type: | string    |
+| ------------: | --------- |
+|      Default: | PLAINTEXT |
+| Valid Values: |           |
+|   Importance: | medium    |
+|  Update Mode: | read-only |
 
-- #### [ssl.cipher.suites](http://kafka.apache.org/documentation/#ssl.cipher.suites)
+#### [ssl.cipher.suites](http://kafka.apache.org/documentation/#ssl.cipher.suites)
 
   A list of cipher suites. This is a named combination of authentication, encryption, MAC and key exchange algorithm used to negotiate the security settings for a network connection using TLS or SSL network protocol. By default all the available cipher suites are supported.
 
   
 
-  |         Type: | list       |
-  | ------------: | ---------- |
-  |      Default: | ""         |
-  | Valid Values: |            |
-  |   Importance: | medium     |
-  |  Update Mode: | per-broker |
+|         Type: | list       |
+| ------------: | ---------- |
+|      Default: | ""         |
+| Valid Values: |            |
+|   Importance: | medium     |
+|  Update Mode: | per-broker |
 
-- #### [ssl.client.auth](http://kafka.apache.org/documentation/#ssl.client.auth)
+#### [ssl.client.auth](http://kafka.apache.org/documentation/#ssl.client.auth)
 
   Configures kafka broker to request client authentication. The following settings are common:
 
@@ -2462,766 +2462,766 @@ Topic-level configurations and defaults are discussed in more detail [below](htt
     -`ssl.client.auth = requested`这意味着客户端身份验证是可选的。与请求不同，如果设置了此选项，则客户端可以选择不提供有关其自身的身份验证信息
     -`ssl.client.auth = none`这意味着不需要客户端认证。
 
-  |         Type: | string                      |
-  | ------------: | --------------------------- |
-  |      Default: | none                        |
-  | Valid Values: | [required, requested, none] |
-  |   Importance: | medium                      |
-  |  Update Mode: | per-broker                  |
+|         Type: | string                      |
+| ------------: | --------------------------- |
+|      Default: | none                        |
+| Valid Values: | [required, requested, none] |
+|   Importance: | medium                      |
+|  Update Mode: | per-broker                  |
 
-- #### [ssl.enabled.protocols](http://kafka.apache.org/documentation/#ssl.enabled.protocols)
+#### [ssl.enabled.protocols](http://kafka.apache.org/documentation/#ssl.enabled.protocols)
 
   The list of protocols enabled for SSL connections. The default is 'TLSv1.2,TLSv1.3' when running with Java 11 or newer, 'TLSv1.2' otherwise. With the default value for Java 11, clients and servers will prefer TLSv1.3 if both support it and fallback to TLSv1.2 otherwise (assuming both support at least TLSv1.2). This default should be fine for most cases. Also see the config documentation for `ssl.protocol`.
 
     为SSL连接启用的协议列表。与Java 11或更高版本一起运行时，默认值为` TLSv1.2，TLSv1.3`，否则为` TLSv1.2`。如果使用Java 11的默认值，则如果客户端和服务器均支持TLSv1.3，则它们将优先使用TLSv1.3，否则，将优先使用TLSv1.2（假设两者均至少支持TLSv1.2）。在大多数情况下，此默认值应该很好。另请参阅ssl.protocol的配置文档。
 
-  |         Type: | list       |
-  | ------------: | ---------- |
-  |      Default: | TLSv1.2    |
-  | Valid Values: |            |
-  |   Importance: | medium     |
-  |  Update Mode: | per-broker |
+|         Type: | list       |
+| ------------: | ---------- |
+|      Default: | TLSv1.2    |
+| Valid Values: |            |
+|   Importance: | medium     |
+|  Update Mode: | per-broker |
 
-- #### [ssl.key.password](http://kafka.apache.org/documentation/#ssl.key.password)
+#### [ssl.key.password](http://kafka.apache.org/documentation/#ssl.key.password)
 
   The password of the private key in the key store file. This is optional for client.
 
   密钥存储文件中私钥的密码。这对于客户端是可选的。
 
-  |         Type: | password   |
-  | ------------: | ---------- |
-  |      Default: | null       |
-  | Valid Values: |            |
-  |   Importance: | medium     |
-  |  Update Mode: | per-broker |
+|         Type: | password   |
+| ------------: | ---------- |
+|      Default: | null       |
+| Valid Values: |            |
+|   Importance: | medium     |
+|  Update Mode: | per-broker |
 
-- #### [ssl.keymanager.algorithm](http://kafka.apache.org/documentation/#ssl.keymanager.algorithm)
+#### [ssl.keymanager.algorithm](http://kafka.apache.org/documentation/#ssl.keymanager.algorithm)
 
   The algorithm used by key manager factory for SSL connections. Default value is the key manager factory algorithm configured for the Java Virtual Machine.
 
   密钥管理器工厂用于SSL连接的算法。默认值是为Java虚拟机配置的密钥管理器工厂算法。
 
-  |         Type: | string     |
-  | ------------: | ---------- |
-  |      Default: | SunX509    |
-  | Valid Values: |            |
-  |   Importance: | medium     |
-  |  Update Mode: | per-broker |
+|         Type: | string     |
+| ------------: | ---------- |
+|      Default: | SunX509    |
+| Valid Values: |            |
+|   Importance: | medium     |
+|  Update Mode: | per-broker |
 
-- #### [ssl.keystore.location](http://kafka.apache.org/documentation/#ssl.keystore.location)
+#### [ssl.keystore.location](http://kafka.apache.org/documentation/#ssl.keystore.location)
 
   The location of the key store file. This is optional for client and can be used for two-way authentication for client.
 
   密钥库文件的位置。这对于客户端是可选的，并且可以用于客户端的双向身份验证。
 
-  |         Type: | string     |
-  | ------------: | ---------- |
-  |      Default: | null       |
-  | Valid Values: |            |
-  |   Importance: | medium     |
-  |  Update Mode: | per-broker |
+|         Type: | string     |
+| ------------: | ---------- |
+|      Default: | null       |
+| Valid Values: |            |
+|   Importance: | medium     |
+|  Update Mode: | per-broker |
 
-- #### [ssl.keystore.password](http://kafka.apache.org/documentation/#ssl.keystore.password)
+#### [ssl.keystore.password](http://kafka.apache.org/documentation/#ssl.keystore.password)
 
   The store password for the key store file. This is optional for client and only needed if ssl.keystore.location is configured.
 
     密钥存储文件的存储密码。这对于客户端是可选的，并且仅在配置了ssl.keystore.location时才需要。
 
-  |         Type: | password   |
-  | ------------: | ---------- |
-  |      Default: | null       |
-  | Valid Values: |            |
-  |   Importance: | medium     |
-  |  Update Mode: | per-broker |
+|         Type: | password   |
+| ------------: | ---------- |
+|      Default: | null       |
+| Valid Values: |            |
+|   Importance: | medium     |
+|  Update Mode: | per-broker |
 
-- #### [ssl.keystore.type](http://kafka.apache.org/documentation/#ssl.keystore.type)
+#### [ssl.keystore.type](http://kafka.apache.org/documentation/#ssl.keystore.type)
 
   The file format of the key store file. This is optional for client.
 
   密钥存储文件的文件格式。这对于客户端是可选的。
 
-  |         Type: | string     |
-  | ------------: | ---------- |
-  |      Default: | JKS        |
-  | Valid Values: |            |
-  |   Importance: | medium     |
-  |  Update Mode: | per-broker |
+|         Type: | string     |
+| ------------: | ---------- |
+|      Default: | JKS        |
+| Valid Values: |            |
+|   Importance: | medium     |
+|  Update Mode: | per-broker |
 
-- #### [ssl.protocol](http://kafka.apache.org/documentation/#ssl.protocol)
+#### [ssl.protocol](http://kafka.apache.org/documentation/#ssl.protocol)
 
   The SSL protocol used to generate the SSLContext. The default is 'TLSv1.3' when running with Java 11 or newer, 'TLSv1.2' otherwise. This value should be fine for most use cases. Allowed values in recent JVMs are 'TLSv1.2' and 'TLSv1.3'. 'TLS', 'TLSv1.1', 'SSL', 'SSLv2' and 'SSLv3' may be supported in older JVMs, but their usage is discouraged due to known security vulnerabilities. With the default value for this config and 'ssl.enabled.protocols', clients will downgrade to 'TLSv1.2' if the server does not support 'TLSv1.3'. If this config is set to 'TLSv1.2', clients will not use 'TLSv1.3' even if it is one of the values in ssl.enabled.protocols and the server only supports 'TLSv1.3'.
 
     用于生成SSLContext的SSL协议。与Java 11或更高版本一起运行时，默认值为` TLSv1.3`，否则为` TLSv1.2`。对于大多数用例，此值应该合适。最近的JVM中允许的值为` TLSv1.2`和` TLSv1.3`。较早的JVM中可能支持`TLS`，`TLSv1.1`，`SSL`，`SSLv2`和`SSLv3`，但是由于已知的安全漏洞，不鼓励使用它们。使用此配置的默认值和` ssl.enabled.protocols`，如果服务器不支持` TLSv1.3`，则客户端将降级到` TLSv1.2`。如果此配置设置为` TLSv1.2`，则即使它是ssl.enabled.protocols中的值之一，并且服务器仅支持` TLSv1.3`，客户端也不会使用` TLSv1.3`。
 
-  |         Type: | string     |
-  | ------------: | ---------- |
-  |      Default: | TLSv1.2    |
-  | Valid Values: |            |
-  |   Importance: | medium     |
-  |  Update Mode: | per-broker |
+|         Type: | string     |
+| ------------: | ---------- |
+|      Default: | TLSv1.2    |
+| Valid Values: |            |
+|   Importance: | medium     |
+|  Update Mode: | per-broker |
 
-- #### [ssl.provider](http://kafka.apache.org/documentation/#ssl.provider)
+#### [ssl.provider](http://kafka.apache.org/documentation/#ssl.provider)
 
   The name of the security provider used for SSL connections. Default value is the default security provider of the JVM.
 
   用于SSL连接的安全提供程序的名称。缺省值是JVM的缺省安全提供程序。
 
-  |         Type: | string     |
-  | ------------: | ---------- |
-  |      Default: | null       |
-  | Valid Values: |            |
-  |   Importance: | medium     |
-  |  Update Mode: | per-broker |
+|         Type: | string     |
+| ------------: | ---------- |
+|      Default: | null       |
+| Valid Values: |            |
+|   Importance: | medium     |
+|  Update Mode: | per-broker |
 
-- #### [ssl.trustmanager.algorithm](http://kafka.apache.org/documentation/#ssl.trustmanager.algorithm)
+#### [ssl.trustmanager.algorithm](http://kafka.apache.org/documentation/#ssl.trustmanager.algorithm)
 
   The algorithm used by trust manager factory for SSL connections. Default value is the trust manager factory algorithm configured for the Java Virtual Machine.
 
   信任管理器工厂用于SSL连接的算法。默认值是为Java虚拟机配置的信任管理器工厂算法。
 
-  |         Type: | string     |
-  | ------------: | ---------- |
-  |      Default: | PKIX       |
-  | Valid Values: |            |
-  |   Importance: | medium     |
-  |  Update Mode: | per-broker |
+|         Type: | string     |
+| ------------: | ---------- |
+|      Default: | PKIX       |
+| Valid Values: |            |
+|   Importance: | medium     |
+|  Update Mode: | per-broker |
 
-- #### [ssl.truststore.location](http://kafka.apache.org/documentation/#ssl.truststore.location)
+#### [ssl.truststore.location](http://kafka.apache.org/documentation/#ssl.truststore.location)
 
   The location of the trust store file.
 
   信任库文件的位置。
 
-  |         Type: | string     |
-  | ------------: | ---------- |
-  |      Default: | null       |
-  | Valid Values: |            |
-  |   Importance: | medium     |
-  |  Update Mode: | per-broker |
+|         Type: | string     |
+| ------------: | ---------- |
+|      Default: | null       |
+| Valid Values: |            |
+|   Importance: | medium     |
+|  Update Mode: | per-broker |
 
-- #### [ssl.truststore.password](http://kafka.apache.org/documentation/#ssl.truststore.password)
+#### [ssl.truststore.password](http://kafka.apache.org/documentation/#ssl.truststore.password)
 
   The password for the trust store file. If a password is not set access to the truststore is still available, but integrity checking is disabled.
 
   信任库文件的密码。如果未设置密码，则仍然可以访问信任库，但是将禁用完整性检查。
 
-  |         Type: | password   |
-  | ------------: | ---------- |
-  |      Default: | null       |
-  | Valid Values: |            |
-  |   Importance: | medium     |
-  |  Update Mode: | per-broker |
+|         Type: | password   |
+| ------------: | ---------- |
+|      Default: | null       |
+| Valid Values: |            |
+|   Importance: | medium     |
+|  Update Mode: | per-broker |
 
-- #### [ssl.truststore.type](http://kafka.apache.org/documentation/#ssl.truststore.type)
+#### [ssl.truststore.type](http://kafka.apache.org/documentation/#ssl.truststore.type)
 
   The file format of the trust store file.
 
   信任库文件的文件格式。
 
-  |         Type: | string     |
-  | ------------: | ---------- |
-  |      Default: | JKS        |
-  | Valid Values: |            |
-  |   Importance: | medium     |
-  |  Update Mode: | per-broker |
+|         Type: | string     |
+| ------------: | ---------- |
+|      Default: | JKS        |
+| Valid Values: |            |
+|   Importance: | medium     |
+|  Update Mode: | per-broker |
 
-- #### [zookeeper.clientCnxnSocket](http://kafka.apache.org/documentation/#zookeeper.clientCnxnSocket)
+#### [zookeeper.clientCnxnSocket](http://kafka.apache.org/documentation/#zookeeper.clientCnxnSocket)
 
   Typically set to `org.apache.zookeeper.ClientCnxnSocketNetty` when using TLS connectivity to ZooKeeper. Overrides any explicit value set via the same-named `zookeeper.clientCnxnSocket` system property.
 
     当使用到ZooKeeper的TLS连接时，通常设置为org.apache.zookeeper.ClientCnxnSocketNetty。覆盖通过相同的`zookeeper.clientCnxnSocket`系统属性设置的任何显式值。
 
-  |         Type: | string    |
-  | ------------: | --------- |
-  |      Default: | null      |
-  | Valid Values: |           |
-  |   Importance: | medium    |
-  |  Update Mode: | read-only |
+|         Type: | string    |
+| ------------: | --------- |
+|      Default: | null      |
+| Valid Values: |           |
+|   Importance: | medium    |
+|  Update Mode: | read-only |
 
-- #### [zookeeper.ssl.client.enable](http://kafka.apache.org/documentation/#zookeeper.ssl.client.enable)
+#### [zookeeper.ssl.client.enable](http://kafka.apache.org/documentation/#zookeeper.ssl.client.enable)
 
   Set client to use TLS when connecting to ZooKeeper. An explicit value overrides any value set via the `zookeeper.client.secure` system property (note the different name). Defaults to false if neither is set; when true, `zookeeper.clientCnxnSocket` must be set (typically to `org.apache.zookeeper.ClientCnxnSocketNetty`); other values to set may include `zookeeper.ssl.cipher.suites`, `zookeeper.ssl.crl.enable`, `zookeeper.ssl.enabled.protocols`, `zookeeper.ssl.endpoint.identification.algorithm`, `zookeeper.ssl.keystore.location`, `zookeeper.ssl.keystore.password`, `zookeeper.ssl.keystore.type`, `zookeeper.ssl.ocsp.enable`, `zookeeper.ssl.protocol`, `zookeeper.ssl.truststore.location`, `zookeeper.ssl.truststore.password`, `zookeeper.ssl.truststore.type`
 
     将客户端设置为在连接到ZooKeeper时使用TLS。显式值会覆盖通过` zookeeper.client.secure`系统属性设置的任何值（请注意其他名称）。如果两者均未设置，则默认为false；否则为false。如果为true，则必须设置` zookeeper.clientCnxnSocket`（通常设置为` org.apache.zookeeper.ClientCnxnSocketNetty`）；要设置的其他值可能包括` zookeeper.ssl.cipher.suites`，` zookeeper.ssl.crl.enable`，` zookeeper.ssl.enabled.protocols`，` zookeeper.ssl.endpoint.identification.algorithm`，` zookeeper` .ssl.keystore.location`，`zookeeper.ssl.keystore.password`，`zookeeper.ssl.keystore.type`，`zookeeper.ssl.ocsp.enable`，`zookeeper.ssl.protocol`，`zookeeper.ssl .truststore.location`，`zookeeper.ssl.truststore.password`，`zookeeper.ssl.truststore.type`
 
-  |         Type: | boolean   |
-  | ------------: | --------- |
-  |      Default: | false     |
-  | Valid Values: |           |
-  |   Importance: | medium    |
-  |  Update Mode: | read-only |
+|         Type: | boolean   |
+| ------------: | --------- |
+|      Default: | false     |
+| Valid Values: |           |
+|   Importance: | medium    |
+|  Update Mode: | read-only |
 
-- #### [zookeeper.ssl.keystore.location](http://kafka.apache.org/documentation/#zookeeper.ssl.keystore.location)
+#### [zookeeper.ssl.keystore.location](http://kafka.apache.org/documentation/#zookeeper.ssl.keystore.location)
 
   Keystore location when using a client-side certificate with TLS connectivity to ZooKeeper. Overrides any explicit value set via the `zookeeper.ssl.keyStore.location` system property (note the camelCase).
 
     使用客户端证书和TLS连接到ZooKeeper时的密钥库位置。覆盖通过` zookeeper.ssl.keyStore.location`系统属性设置的任何显式值（请注意camelCase）。
 
-  |         Type: | string    |
-  | ------------: | --------- |
-  |      Default: | null      |
-  | Valid Values: |           |
-  |   Importance: | medium    |
-  |  Update Mode: | read-only |
+|         Type: | string    |
+| ------------: | --------- |
+|      Default: | null      |
+| Valid Values: |           |
+|   Importance: | medium    |
+|  Update Mode: | read-only |
 
-- #### [zookeeper.ssl.keystore.password](http://kafka.apache.org/documentation/#zookeeper.ssl.keystore.password)
+#### [zookeeper.ssl.keystore.password](http://kafka.apache.org/documentation/#zookeeper.ssl.keystore.password)
 
   Keystore password when using a client-side certificate with TLS connectivity to ZooKeeper. Overrides any explicit value set via the `zookeeper.ssl.keyStore.password` system property (note the camelCase). Note that ZooKeeper does not support a key password different from the keystore password, so be sure to set the key password in the keystore to be identical to the keystore password; otherwise the connection attempt to Zookeeper will fail.
 
     使用通过TLS连接到ZooKeeper的客户端证书时的密钥库密码。覆盖通过“ zookeeper.ssl.keyStore.password”系统属性设置的任何显式值（请注意camelCase）。
 
-  |         Type: | password  |
-  | ------------: | --------- |
-  |      Default: | null      |
-  | Valid Values: |           |
-  |   Importance: | medium    |
-  |  Update Mode: | read-only |
+|         Type: | password  |
+| ------------: | --------- |
+|      Default: | null      |
+| Valid Values: |           |
+|   Importance: | medium    |
+|  Update Mode: | read-only |
 
-- #### [zookeeper.ssl.keystore.type](http://kafka.apache.org/documentation/#zookeeper.ssl.keystore.type)
+#### [zookeeper.ssl.keystore.type](http://kafka.apache.org/documentation/#zookeeper.ssl.keystore.type)
 
   Keystore type when using a client-side certificate with TLS connectivity to ZooKeeper. Overrides any explicit value set via the `zookeeper.ssl.keyStore.type` system property (note the camelCase). The default value of `null` means the type will be auto-detected based on the filename extension of the keystore.
 
     使用客户端证书和TLS连接到ZooKeeper时的密钥库类型。覆盖通过“ zookeeper.ssl.keyStore.type”系统属性设置的任何显式值（请注意camelCase）。默认值'null'表示将根据密钥库的文件扩展名自动检测类型。
 
-  |         Type: | string    |
-  | ------------: | --------- |
-  |      Default: | null      |
-  | Valid Values: |           |
-  |   Importance: | medium    |
-  |  Update Mode: | read-only |
+|         Type: | string    |
+| ------------: | --------- |
+|      Default: | null      |
+| Valid Values: |           |
+|   Importance: | medium    |
+|  Update Mode: | read-only |
 
-- #### [zookeeper.ssl.truststore.location](http://kafka.apache.org/documentation/#zookeeper.ssl.truststore.location)
+#### [zookeeper.ssl.truststore.location](http://kafka.apache.org/documentation/#zookeeper.ssl.truststore.location)
 
   Truststore location when using TLS connectivity to ZooKeeper. Overrides any explicit value set via the `zookeeper.ssl.trustStore.location` system property (note the camelCase).
 
     使用TLS连接到ZooKeeper时的信任库位置。覆盖通过“ zookeeper.ssl.trustStore.location”系统属性设置的任何显式值（请注意camelCase）。
 
-  |         Type: | string    |
-  | ------------: | --------- |
-  |      Default: | null      |
-  | Valid Values: |           |
-  |   Importance: | medium    |
-  |  Update Mode: | read-only |
+|         Type: | string    |
+| ------------: | --------- |
+|      Default: | null      |
+| Valid Values: |           |
+|   Importance: | medium    |
+|  Update Mode: | read-only |
 
-- #### [zookeeper.ssl.truststore.password](http://kafka.apache.org/documentation/#zookeeper.ssl.truststore.password)
+#### [zookeeper.ssl.truststore.password](http://kafka.apache.org/documentation/#zookeeper.ssl.truststore.password)
 
   Truststore password when using TLS connectivity to ZooKeeper. Overrides any explicit value set via the `zookeeper.ssl.trustStore.password` system property (note the camelCase).
 
     使用TLS连接到ZooKeeper时的信任库密码。覆盖通过“ zookeeper.ssl.trustStore.password”系统属性设置的任何显式值（请注意camelCase）。
 
-  |         Type: | password  |
-  | ------------: | --------- |
-  |      Default: | null      |
-  | Valid Values: |           |
-  |   Importance: | medium    |
-  |  Update Mode: | read-only |
+|         Type: | password  |
+| ------------: | --------- |
+|      Default: | null      |
+| Valid Values: |           |
+|   Importance: | medium    |
+|  Update Mode: | read-only |
 
-- #### [zookeeper.ssl.truststore.type](http://kafka.apache.org/documentation/#zookeeper.ssl.truststore.type)
+#### [zookeeper.ssl.truststore.type](http://kafka.apache.org/documentation/#zookeeper.ssl.truststore.type)
 
   Truststore type when using TLS connectivity to ZooKeeper. Overrides any explicit value set via the `zookeeper.ssl.trustStore.type` system property (note the camelCase). The default value of `null` means the type will be auto-detected based on the filename extension of the truststore.
 
     使用TLS连接到ZooKeeper时的信任库类型。覆盖通过“ zookeeper.ssl.trustStore.type”系统属性设置的任何显式值（请注意camelCase）。默认值'null'表示将根据信任库的文件扩展名自动检测类型。
 
-  |         Type: | string    |
-  | ------------: | --------- |
-  |      Default: | null      |
-  | Valid Values: |           |
-  |   Importance: | medium    |
-  |  Update Mode: | read-only |
+|         Type: | string    |
+| ------------: | --------- |
+|      Default: | null      |
+| Valid Values: |           |
+|   Importance: | medium    |
+|  Update Mode: | read-only |
 
-- #### [alter.config.policy.class.name](http://kafka.apache.org/documentation/#alter.config.policy.class.name)
+#### [alter.config.policy.class.name](http://kafka.apache.org/documentation/#alter.config.policy.class.name)
 
   The alter configs policy class that should be used for validation. The class should implement the `org.apache.kafka.server.policy.AlterConfigPolicy` interface.
 
     应该用于验证的alter configs策略类。该类应该实现org.apache.kafka.server.policy.AlterConfigPolicy接口。
 
-  |         Type: | class     |
-  | ------------: | --------- |
-  |      Default: | null      |
-  | Valid Values: |           |
-  |   Importance: | low       |
-  |  Update Mode: | read-only |
+|         Type: | class     |
+| ------------: | --------- |
+|      Default: | null      |
+| Valid Values: |           |
+|   Importance: | low       |
+|  Update Mode: | read-only |
 
-- #### [alter.log.dirs.replication.quota.window.num](http://kafka.apache.org/documentation/#alter.log.dirs.replication.quota.window.num)
+#### [alter.log.dirs.replication.quota.window.num](http://kafka.apache.org/documentation/#alter.log.dirs.replication.quota.window.num)
 
   The number of samples to retain in memory for alter log dirs replication quotas
 
   为更改日志目录复制配额而保留在内存中的样本数
 
-  |         Type: | int       |
-  | ------------: | --------- |
-  |      Default: | 11        |
-  | Valid Values: | [1,...]   |
-  |   Importance: | low       |
-  |  Update Mode: | read-only |
+|         Type: | int       |
+| ------------: | --------- |
+|      Default: | 11        |
+| Valid Values: | [1,...]   |
+|   Importance: | low       |
+|  Update Mode: | read-only |
 
-- #### [alter.log.dirs.replication.quota.window.size.seconds](http://kafka.apache.org/documentation/#alter.log.dirs.replication.quota.window.size.seconds)
+#### [alter.log.dirs.replication.quota.window.size.seconds](http://kafka.apache.org/documentation/#alter.log.dirs.replication.quota.window.size.seconds)
 
   The time span of each sample for alter log dirs replication quotas
 
   更改日志目录复制配额的每个样本的时间跨度
 
-  |         Type: | int       |
-  | ------------: | --------- |
-  |      Default: | 1         |
-  | Valid Values: | [1,...]   |
-  |   Importance: | low       |
-  |  Update Mode: | read-only |
+|         Type: | int       |
+| ------------: | --------- |
+|      Default: | 1         |
+| Valid Values: | [1,...]   |
+|   Importance: | low       |
+|  Update Mode: | read-only |
 
-- #### [authorizer.class.name](http://kafka.apache.org/documentation/#authorizer.class.name)
+#### [authorizer.class.name](http://kafka.apache.org/documentation/#authorizer.class.name)
 
   The fully qualified name of a class that implements sorg.apache.kafka.server.authorizer.Authorizer interface, which is used by the broker for authorization. This config also supports authorizers that implement the deprecated kafka.security.auth.Authorizer trait which was previously used for authorization.
 
     实现sorg.apache.kafka.server.authorizer.Authorizer接口的类的标准名称，该接口由代理用于授权。此配置还支持授权者，这些授权者实现了过时的kafka.security.auth.Authorizer特性，该特性以前用于授权。
 
-  |         Type: | string    |
-  | ------------: | --------- |
-  |      Default: | ""        |
-  | Valid Values: |           |
-  |   Importance: | low       |
-  |  Update Mode: | read-only |
+|         Type: | string    |
+| ------------: | --------- |
+|      Default: | ""        |
+| Valid Values: |           |
+|   Importance: | low       |
+|  Update Mode: | read-only |
 
-- #### [client.quota.callback.class](http://kafka.apache.org/documentation/#client.quota.callback.class)
+#### [client.quota.callback.class](http://kafka.apache.org/documentation/#client.quota.callback.class)
 
   The fully qualified name of a class that implements the ClientQuotaCallback interface, which is used to determine quota limits applied to client requests. By default, , or quotas stored in ZooKeeper are applied. For any given request, the most specific quota that matches the user principal of the session and the client-id of the request is applied.
 
   实现ClientQuotaCallback接口的类的全限定名，该接口用于确定应用于客户端请求的配额限制。默认情况下，应用或存储在ZooKeeper中的配额。对于任何给定的请求，将应用与会话的用户主体和请求的客户端ID相匹配的最具体的配额。
 
-  |         Type: | class     |
-  | ------------: | --------- |
-  |      Default: | null      |
-  | Valid Values: |           |
-  |   Importance: | low       |
-  |  Update Mode: | read-only |
+|         Type: | class     |
+| ------------: | --------- |
+|      Default: | null      |
+| Valid Values: |           |
+|   Importance: | low       |
+|  Update Mode: | read-only |
 
-- #### [connection.failed.authentication.delay.ms](http://kafka.apache.org/documentation/#connection.failed.authentication.delay.ms)
+#### [connection.failed.authentication.delay.ms](http://kafka.apache.org/documentation/#connection.failed.authentication.delay.ms)
 
   Connection close delay on failed authentication: this is the time (in milliseconds) by which connection close will be delayed on authentication failure. This must be configured to be less than connections.max.idle.ms to prevent connection timeout.
 
     身份验证失败时的连接关闭延迟：这是身份验证失败时延迟连接关闭的时间（以毫秒为单位）。必须将其配置为小于connections.max.idle.ms，以防止连接超时。
 
-  |         Type: | int       |
-  | ------------: | --------- |
-  |      Default: | 100       |
-  | Valid Values: | [0,...]   |
-  |   Importance: | low       |
-  |  Update Mode: | read-only |
+|         Type: | int       |
+| ------------: | --------- |
+|      Default: | 100       |
+| Valid Values: | [0,...]   |
+|   Importance: | low       |
+|  Update Mode: | read-only |
 
-- #### [create.topic.policy.class.name](http://kafka.apache.org/documentation/#create.topic.policy.class.name)
+#### [create.topic.policy.class.name](http://kafka.apache.org/documentation/#create.topic.policy.class.name)
 
   The create topic policy class that should be used for validation. The class should implement the `org.apache.kafka.server.policy.CreateTopicPolicy` interface.
 
     应该用于验证的创建主题策略类。该类应实现org.apache.kafka.server.policy.CreateTopicPolicy接口。
 
-  |         Type: | class     |
-  | ------------: | --------- |
-  |      Default: | null      |
-  | Valid Values: |           |
-  |   Importance: | low       |
-  |  Update Mode: | read-only |
+|         Type: | class     |
+| ------------: | --------- |
+|      Default: | null      |
+| Valid Values: |           |
+|   Importance: | low       |
+|  Update Mode: | read-only |
 
-- #### [delegation.token.expiry.check.interval.ms](http://kafka.apache.org/documentation/#delegation.token.expiry.check.interval.ms)
+#### [delegation.token.expiry.check.interval.ms](http://kafka.apache.org/documentation/#delegation.token.expiry.check.interval.ms)
 
   Scan interval to remove expired delegation tokens.
 
   扫描间隔以删除过期的委托令牌。
 
-  |         Type: | long             |
-  | ------------: | ---------------- |
-  |      Default: | 3600000 (1 hour) |
-  | Valid Values: | [1,...]          |
-  |   Importance: | low              |
-  |  Update Mode: | read-only        |
+|         Type: | long             |
+| ------------: | ---------------- |
+|      Default: | 3600000 (1 hour) |
+| Valid Values: | [1,...]          |
+|   Importance: | low              |
+|  Update Mode: | read-only        |
 
-- #### [kafka.metrics.polling.interval.secs](http://kafka.apache.org/documentation/#kafka.metrics.polling.interval.secs)
+#### [kafka.metrics.polling.interval.secs](http://kafka.apache.org/documentation/#kafka.metrics.polling.interval.secs)
 
   The metrics polling interval (in seconds) which can be used in kafka.metrics.reporters implementations.
 
     可以在kafka.metrics.reporters实现中使用的指标轮询间隔（以秒为单位）。
 
-  |         Type: | int       |
-  | ------------: | --------- |
-  |      Default: | 10        |
-  | Valid Values: | [1,...]   |
-  |   Importance: | low       |
-  |  Update Mode: | read-only |
+|         Type: | int       |
+| ------------: | --------- |
+|      Default: | 10        |
+| Valid Values: | [1,...]   |
+|   Importance: | low       |
+|  Update Mode: | read-only |
 
-- #### [kafka.metrics.reporters](http://kafka.apache.org/documentation/#kafka.metrics.reporters)
+#### [kafka.metrics.reporters](http://kafka.apache.org/documentation/#kafka.metrics.reporters)
 
   A list of classes to use as Yammer metrics custom reporters. The reporters should implement `kafka.metrics.KafkaMetricsReporter` trait. If a client wants to expose JMX operations on a custom reporter, the custom reporter needs to additionally implement an MBean trait that extends `kafka.metrics.KafkaMetricsReporterMBean` trait so that the registered MBean is compliant with the standard MBean convention.
 
     用作Yammer指标自定义报告程序的类的列表。报告者应实现“ kafka.metrics.KafkaMetricsReporter”特征。如果客户希望在自定义报告程序上公开JMX操作，则自定义报告程序还需要实现扩展`kafka.metrics.KafkaMetricsReporterMBean'特征的MBean特征，以使注册的MBean符合标准MBean约定。
 
-  |         Type: | list      |
-  | ------------: | --------- |
-  |      Default: | ""        |
-  | Valid Values: |           |
-  |   Importance: | low       |
-  |  Update Mode: | read-only |
+|         Type: | list      |
+| ------------: | --------- |
+|      Default: | ""        |
+| Valid Values: |           |
+|   Importance: | low       |
+|  Update Mode: | read-only |
 
-- #### [listener.security.protocol.map](http://kafka.apache.org/documentation/#listener.security.protocol.map)
+#### [listener.security.protocol.map](http://kafka.apache.org/documentation/#listener.security.protocol.map)
 
   Map between listener names and security protocols. This must be defined for the same security protocol to be usable in more than one port or IP. For example, internal and external traffic can be separated even if SSL is required for both. Concretely, the user could define listeners with names INTERNAL and EXTERNAL and this property as: `INTERNAL:SSL,EXTERNAL:SSL`. As shown, key and value are separated by a colon and map entries are separated by commas. Each listener name should only appear once in the map. Different security (SSL and SASL) settings can be configured for each listener by adding a normalised prefix (the listener name is lowercased) to the config name. For example, to set a different keystore for the INTERNAL listener, a config with name `listener.name.internal.ssl.keystore.location` would be set. If the config for the listener name is not set, the config will fallback to the generic config (i.e. `ssl.keystore.location`).
 
     侦听器名称和安全协议之间的映射。必须对同一安全协议进行定义，才能在多个端口或IP中使用同一安全协议。例如，即使两者都需要SSL，也可以将内部和外部流量分开。具体来说，用户可以使用名称INTERNAL和EXTERNAL定义侦听器，并将此属性定义为：“ INTERNAL：SSL，EXTERNAL：SSL”。如图所示，键和值之间用冒号分隔，而地图项则用逗号分隔。每个侦听器名称在地图中应该只出现一次。通过在配置名称中添加规范化前缀（侦听器名称为小写），可以为每个侦听器配置不同的安全性（SSL和SASL）设置。例如，要为内部侦听器设置不同的密钥库，将设置名称为“ listener.name.internal.ssl.keystore.location”的配置。如果未设置侦听器名称的配置，则该配置将回退到通用配置（即ssl.keystore.location）。
 
-  |         Type: | string                                                       |
-  | ------------: | ------------------------------------------------------------ |
-  |      Default: | PLAINTEXT:PLAINTEXT,SSL:SSL,SASL_PLAINTEXT:SASL_PLAINTEXT,SASL_SSL:SASL_SSL |
-  | Valid Values: |                                                              |
-  |   Importance: | low                                                          |
-  |  Update Mode: | per-broker                                                   |
+|         Type: | string                                                       |
+| ------------: | ------------------------------------------------------------ |
+|      Default: | PLAINTEXT:PLAINTEXT,SSL:SSL,SASL_PLAINTEXT:SASL_PLAINTEXT,SASL_SSL:SASL_SSL |
+| Valid Values: |                                                              |
+|   Importance: | low                                                          |
+|  Update Mode: | per-broker                                                   |
 
-- #### [log.message.downconversion.enable](http://kafka.apache.org/documentation/#log.message.downconversion.enable)
+#### [log.message.downconversion.enable](http://kafka.apache.org/documentation/#log.message.downconversion.enable)
 
   This configuration controls whether down-conversion of message formats is enabled to satisfy consume requests. When set to `false`, broker will not perform down-conversion for consumers expecting an older message format. The broker responds with `UNSUPPORTED_VERSION` error for consume requests from such older clients. This configurationdoes not apply to any message format conversion that might be required for replication to followers.
 
     此配置控制是否启用消息格式的下转换以满足消费请求。当设置为“ false”时，代理将不为期望旧消息格式的消费者执行下转换。对于此类较旧客户端的使用请求，代理会以“ UNSUPPORTED_VERSION”错误响应。此配置不适用于复制到关注者所需的任何消息格式转换。
 
-  |         Type: | boolean      |
-  | ------------: | ------------ |
-  |      Default: | true         |
-  | Valid Values: |              |
-  |   Importance: | low          |
-  |  Update Mode: | cluster-wide |
+|         Type: | boolean      |
+| ------------: | ------------ |
+|      Default: | true         |
+| Valid Values: |              |
+|   Importance: | low          |
+|  Update Mode: | cluster-wide |
 
-- #### [metric.reporters](http://kafka.apache.org/documentation/#metric.reporters)
+#### [metric.reporters](http://kafka.apache.org/documentation/#metric.reporters)
 
   A list of classes to use as metrics reporters. Implementing the `org.apache.kafka.common.metrics.MetricsReporter` interface allows plugging in classes that will be notified of new metric creation. The JmxReporter is always included to register JMX statistics.
 
     用作指标报告者的类列表。实现org.apache.kafka.common.metrics.MetricsReporter接口允许插入将通知新度量标准的类。始终包含JmxReporter来注册JMX统计信息。
 
-  |         Type: | list         |
-  | ------------: | ------------ |
-  |      Default: | ""           |
-  | Valid Values: |              |
-  |   Importance: | low          |
-  |  Update Mode: | cluster-wide |
+|         Type: | list         |
+| ------------: | ------------ |
+|      Default: | ""           |
+| Valid Values: |              |
+|   Importance: | low          |
+|  Update Mode: | cluster-wide |
 
-- #### [metrics.num.samples](http://kafka.apache.org/documentation/#metrics.num.samples)
+#### [metrics.num.samples](http://kafka.apache.org/documentation/#metrics.num.samples)
 
   The number of samples maintained to compute metrics.
 
   维护以计算指标的样本数。
 
-  |         Type: | int       |
-  | ------------: | --------- |
-  |      Default: | 2         |
-  | Valid Values: | [1,...]   |
-  |   Importance: | low       |
-  |  Update Mode: | read-only |
+|         Type: | int       |
+| ------------: | --------- |
+|      Default: | 2         |
+| Valid Values: | [1,...]   |
+|   Importance: | low       |
+|  Update Mode: | read-only |
 
-- #### [metrics.recording.level](http://kafka.apache.org/documentation/#metrics.recording.level)
+#### [metrics.recording.level](http://kafka.apache.org/documentation/#metrics.recording.level)
 
   The highest recording level for metrics.
 
   指标的最高记录级别。
 
-  |         Type: | string    |
-  | ------------: | --------- |
-  |      Default: | INFO      |
-  | Valid Values: |           |
-  |   Importance: | low       |
-  |  Update Mode: | read-only |
+|         Type: | string    |
+| ------------: | --------- |
+|      Default: | INFO      |
+| Valid Values: |           |
+|   Importance: | low       |
+|  Update Mode: | read-only |
 
-- #### [metrics.sample.window.ms](http://kafka.apache.org/documentation/#metrics.sample.window.ms)
+#### [metrics.sample.window.ms](http://kafka.apache.org/documentation/#metrics.sample.window.ms)
 
   The window of time a metrics sample is computed over.
 
   计算指标样本的时间窗口。
 
-  |         Type: | long               |
-  | ------------: | ------------------ |
-  |      Default: | 30000 (30 seconds) |
-  | Valid Values: | [1,...]            |
-  |   Importance: | low                |
-  |  Update Mode: | read-only          |
+|         Type: | long               |
+| ------------: | ------------------ |
+|      Default: | 30000 (30 seconds) |
+| Valid Values: | [1,...]            |
+|   Importance: | low                |
+|  Update Mode: | read-only          |
 
-- #### [password.encoder.cipher.algorithm](http://kafka.apache.org/documentation/#password.encoder.cipher.algorithm)
+#### [password.encoder.cipher.algorithm](http://kafka.apache.org/documentation/#password.encoder.cipher.algorithm)
 
   The Cipher algorithm used for encoding dynamically configured passwords.
 
   用于对动态配置的密码进行编码的密码算法。
 
-  |         Type: | string               |
-  | ------------: | -------------------- |
-  |      Default: | AES/CBC/PKCS5Padding |
-  | Valid Values: |                      |
-  |   Importance: | low                  |
-  |  Update Mode: | read-only            |
+|         Type: | string               |
+| ------------: | -------------------- |
+|      Default: | AES/CBC/PKCS5Padding |
+| Valid Values: |                      |
+|   Importance: | low                  |
+|  Update Mode: | read-only            |
 
-- #### [password.encoder.iterations](http://kafka.apache.org/documentation/#password.encoder.iterations)
+#### [password.encoder.iterations](http://kafka.apache.org/documentation/#password.encoder.iterations)
 
   The iteration count used for encoding dynamically configured passwords.
 
   用于对动态配置的密码进行编码的迭代计数。
 
-  |         Type: | int        |
-  | ------------: | ---------- |
-  |      Default: | 4096       |
-  | Valid Values: | [1024,...] |
-  |   Importance: | low        |
-  |  Update Mode: | read-only  |
+|         Type: | int        |
+| ------------: | ---------- |
+|      Default: | 4096       |
+| Valid Values: | [1024,...] |
+|   Importance: | low        |
+|  Update Mode: | read-only  |
 
-- #### [password.encoder.key.length](http://kafka.apache.org/documentation/#password.encoder.key.length)
+#### [password.encoder.key.length](http://kafka.apache.org/documentation/#password.encoder.key.length)
 
   The key length used for encoding dynamically configured passwords.
 
   用于对动态配置的密码进行编码的密钥长度。
 
-  |         Type: | int       |
-  | ------------: | --------- |
-  |      Default: | 128       |
-  | Valid Values: | [8,...]   |
-  |   Importance: | low       |
-  |  Update Mode: | read-only |
+|         Type: | int       |
+| ------------: | --------- |
+|      Default: | 128       |
+| Valid Values: | [8,...]   |
+|   Importance: | low       |
+|  Update Mode: | read-only |
 
-- #### [password.encoder.keyfactory.algorithm](http://kafka.apache.org/documentation/#password.encoder.keyfactory.algorithm)
+#### [password.encoder.keyfactory.algorithm](http://kafka.apache.org/documentation/#password.encoder.keyfactory.algorithm)
 
   The SecretKeyFactory algorithm used for encoding dynamically configured passwords. Default is PBKDF2WithHmacSHA512 if available and PBKDF2WithHmacSHA1 otherwise.
 
   SecretKeyFactory算法用于对动态配置的密码进行编码。如果可用，默认值为PBKDF2WithHmacSHA512，否则为PBKDF2WithHmacSHA1。s
 
-  |         Type: | string    |
-  | ------------: | --------- |
-  |      Default: | null      |
-  | Valid Values: |           |
-  |   Importance: | low       |
-  |  Update Mode: | read-only |
+|         Type: | string    |
+| ------------: | --------- |
+|      Default: | null      |
+| Valid Values: |           |
+|   Importance: | low       |
+|  Update Mode: | read-only |
 
-- #### [quota.window.num](http://kafka.apache.org/documentation/#quota.window.num)
+#### [quota.window.num](http://kafka.apache.org/documentation/#quota.window.num)
 
   The number of samples to retain in memory for client quotas
 
   保留在内存中以供客户端配额使用的样本数
 
-  |         Type: | int       |
-  | ------------: | --------- |
-  |      Default: | 11        |
-  | Valid Values: | [1,...]   |
-  |   Importance: | low       |
-  |  Update Mode: | read-only |
+|         Type: | int       |
+| ------------: | --------- |
+|      Default: | 11        |
+| Valid Values: | [1,...]   |
+|   Importance: | low       |
+|  Update Mode: | read-only |
 
-- #### [quota.window.size.seconds](http://kafka.apache.org/documentation/#quota.window.size.seconds)
+#### [quota.window.size.seconds](http://kafka.apache.org/documentation/#quota.window.size.seconds)
 
   The time span of each sample for client quotas
 
   每个客户配额样本的时间跨度
 
-  |         Type: | int       |
-  | ------------: | --------- |
-  |      Default: | 1         |
-  | Valid Values: | [1,...]   |
-  |   Importance: | low       |
-  |  Update Mode: | read-only |
+|         Type: | int       |
+| ------------: | --------- |
+|      Default: | 1         |
+| Valid Values: | [1,...]   |
+|   Importance: | low       |
+|  Update Mode: | read-only |
 
-- #### [replication.quota.window.num](http://kafka.apache.org/documentation/#replication.quota.window.num)
+#### [replication.quota.window.num](http://kafka.apache.org/documentation/#replication.quota.window.num)
 
   The number of samples to retain in memory for replication quotas
 
   为复制配额保留在内存中的样本数
 
-  |         Type: | int       |
-  | ------------: | --------- |
-  |      Default: | 11        |
-  | Valid Values: | [1,...]   |
-  |   Importance: | low       |
-  |  Update Mode: | read-only |
+|         Type: | int       |
+| ------------: | --------- |
+|      Default: | 11        |
+| Valid Values: | [1,...]   |
+|   Importance: | low       |
+|  Update Mode: | read-only |
 
-- #### [replication.quota.window.size.seconds](http://kafka.apache.org/documentation/#replication.quota.window.size.seconds)
+#### [replication.quota.window.size.seconds](http://kafka.apache.org/documentation/#replication.quota.window.size.seconds)
 
   The time span of each sample for replication quotas
 
   每个样本用于复制配额的时间跨度
 
-  |         Type: | int       |
-  | ------------: | --------- |
-  |      Default: | 1         |
-  | Valid Values: | [1,...]   |
-  |   Importance: | low       |
-  |  Update Mode: | read-only |
+|         Type: | int       |
+| ------------: | --------- |
+|      Default: | 1         |
+| Valid Values: | [1,...]   |
+|   Importance: | low       |
+|  Update Mode: | read-only |
 
-- #### [security.providers](http://kafka.apache.org/documentation/#security.providers)
+#### [security.providers](http://kafka.apache.org/documentation/#security.providers)
 
   A list of configurable creator classes each returning a provider implementing security algorithms. These classes should implement the `org.apache.kafka.common.security.auth.SecurityProviderCreator` interface.
 
     一组可配置的创建者类的列表，每个创建者类返回一个实现安全算法的提供者。这些类应实现org.apache.kafka.common.security.auth.SecurityProviderCreator接口。
 
-  |         Type: | string    |
-  | ------------: | --------- |
-  |      Default: | null      |
-  | Valid Values: |           |
-  |   Importance: | low       |
-  |  Update Mode: | read-only |
+|         Type: | string    |
+| ------------: | --------- |
+|      Default: | null      |
+| Valid Values: |           |
+|   Importance: | low       |
+|  Update Mode: | read-only |
 
-- #### [ssl.endpoint.identification.algorithm](http://kafka.apache.org/documentation/#ssl.endpoint.identification.algorithm)
+#### [ssl.endpoint.identification.algorithm](http://kafka.apache.org/documentation/#ssl.endpoint.identification.algorithm)
 
   The endpoint identification algorithm to validate server hostname using server certificate.
 
   使用服务器证书验证服务器主机名的端点标识算法。
 
-  |         Type: | string     |
-  | ------------: | ---------- |
-  |      Default: | https      |
-  | Valid Values: |            |
-  |   Importance: | low        |
-  |  Update Mode: | per-broker |
+|         Type: | string     |
+| ------------: | ---------- |
+|      Default: | https      |
+| Valid Values: |            |
+|   Importance: | low        |
+|  Update Mode: | per-broker |
 
-- #### [ssl.engine.factory.class](http://kafka.apache.org/documentation/#ssl.engine.factory.class)
+#### [ssl.engine.factory.class](http://kafka.apache.org/documentation/#ssl.engine.factory.class)
 
   The class of type org.apache.kafka.common.security.auth.SslEngineFactory to provide SSLEngine objects. Default value is org.apache.kafka.common.security.ssl.DefaultSslEngineFactory
 
     用于提供SSLEngine对象的org.apache.kafka.common.security.auth.SslEngineFactory类型的类。默认值为org.apache.kafka.common.security.ssl.DefaultSslEngineFactory
 
-  |         Type: | class      |
-  | ------------: | ---------- |
-  |      Default: | null       |
-  | Valid Values: |            |
-  |   Importance: | low        |
-  |  Update Mode: | per-broker |
+|         Type: | class      |
+| ------------: | ---------- |
+|      Default: | null       |
+| Valid Values: |            |
+|   Importance: | low        |
+|  Update Mode: | per-broker |
 
-- #### [ssl.principal.mapping.rules](http://kafka.apache.org/documentation/#ssl.principal.mapping.rules)
+#### [ssl.principal.mapping.rules](http://kafka.apache.org/documentation/#ssl.principal.mapping.rules)
 
   A list of rules for mapping from distinguished name from the client certificate to short name. The rules are evaluated in order and the first rule that matches a principal name is used to map it to a short name. Any later rules in the list are ignored. By default, distinguished name of the X.500 certificate will be the principal. For more details on the format please see [security authorization and acls](http://kafka.apache.org/documentation/#security_authz). Note that this configuration is ignored if an extension of KafkaPrincipalBuilder is provided by the `principal.builder.class` configuration.
 
     从客户端证书的专有名称到短名称的映射规则列表。将按顺序评估规则，并且使用与主体名称匹配的第一条规则将其映射为简称。列表中以后的所有规则都将被忽略。默认情况下，X.500证书的专有名称将是主体。有关格式的更多详细信息，请参见[安全授权和ACL]（http://kafka.apache.org/documentation/#security_authz）。请注意，如果`principal.builder.class`配置提供了KafkaPrincipalBuilder的扩展名，则将忽略此配置。
 
-  |         Type: | string    |
-  | ------------: | --------- |
-  |      Default: | DEFAULT   |
-  | Valid Values: |           |
-  |   Importance: | low       |
-  |  Update Mode: | read-only |
+|         Type: | string    |
+| ------------: | --------- |
+|      Default: | DEFAULT   |
+| Valid Values: |           |
+|   Importance: | low       |
+|  Update Mode: | read-only |
 
-- #### [ssl.secure.random.implementation](http://kafka.apache.org/documentation/#ssl.secure.random.implementation)
+#### [ssl.secure.random.implementation](http://kafka.apache.org/documentation/#ssl.secure.random.implementation)
 
   The SecureRandom PRNG implementation to use for SSL cryptography operations.
 
     用于SSL加密操作的SecureRandom PRNG实现。
 
-  |         Type: | string     |
-  | ------------: | ---------- |
-  |      Default: | null       |
-  | Valid Values: |            |
-  |   Importance: | low        |
-  |  Update Mode: | per-broker |
+|         Type: | string     |
+| ------------: | ---------- |
+|      Default: | null       |
+| Valid Values: |            |
+|   Importance: | low        |
+|  Update Mode: | per-broker |
 
-- #### [transaction.abort.timed.out.transaction.cleanup.interval.ms](http://kafka.apache.org/documentation/#transaction.abort.timed.out.transaction.cleanup.interval.ms)
+#### [transaction.abort.timed.out.transaction.cleanup.interval.ms](http://kafka.apache.org/documentation/#transaction.abort.timed.out.transaction.cleanup.interval.ms)
 
   The interval at which to rollback transactions that have timed out
 
   回滚已超时的事务的时间间隔
 
-  |         Type: | int                |
-  | ------------: | ------------------ |
-  |      Default: | 10000 (10 seconds) |
-  | Valid Values: | [1,...]            |
-  |   Importance: | low                |
-  |  Update Mode: | read-only          |
+|         Type: | int                |
+| ------------: | ------------------ |
+|      Default: | 10000 (10 seconds) |
+| Valid Values: | [1,...]            |
+|   Importance: | low                |
+|  Update Mode: | read-only          |
 
-- #### [transaction.remove.expired.transaction.cleanup.interval.ms](http://kafka.apache.org/documentation/#transaction.remove.expired.transaction.cleanup.interval.ms)
+#### [transaction.remove.expired.transaction.cleanup.interval.ms](http://kafka.apache.org/documentation/#transaction.remove.expired.transaction.cleanup.interval.ms)
 
   The interval at which to remove transactions that have expired due to `transactional.id.expiration.ms` passing
 
     删除由于`transactional.id.expiration.ms`传递而过期的交易的时间间隔
 
-  |         Type: | int              |
-  | ------------: | ---------------- |
-  |      Default: | 3600000 (1 hour) |
-  | Valid Values: | [1,...]          |
-  |   Importance: | low              |
-  |  Update Mode: | read-only        |
+|         Type: | int              |
+| ------------: | ---------------- |
+|      Default: | 3600000 (1 hour) |
+| Valid Values: | [1,...]          |
+|   Importance: | low              |
+|  Update Mode: | read-only        |
 
-- #### [zookeeper.ssl.cipher.suites](http://kafka.apache.org/documentation/#zookeeper.ssl.cipher.suites)
+#### [zookeeper.ssl.cipher.suites](http://kafka.apache.org/documentation/#zookeeper.ssl.cipher.suites)
 
   Specifies the enabled cipher suites to be used in ZooKeeper TLS negotiation (csv). Overrides any explicit value set via the `zookeeper.ssl.ciphersuites` system property (note the single word "ciphersuites"). The default value of `null` means the list of enabled cipher suites is determined by the Java runtime being used.
 
     指定在ZooKeeper TLS协商（csv）中使用的已启用密码套件。覆盖通过“ zookeeper.ssl.ciphersuites”系统属性设置的任何显式值（请注意单词“ ciphersuites”）。默认值'null'表示启用的密码套件列表由所使用的Java运行时确定。
 
-  |         Type: | list      |
-  | ------------: | --------- |
-  |      Default: | null      |
-  | Valid Values: |           |
-  |   Importance: | low       |
-  |  Update Mode: | read-only |
+|         Type: | list      |
+| ------------: | --------- |
+|      Default: | null      |
+| Valid Values: |           |
+|   Importance: | low       |
+|  Update Mode: | read-only |
 
-- #### [zookeeper.ssl.crl.enable](http://kafka.apache.org/documentation/#zookeeper.ssl.crl.enable)
+#### [zookeeper.ssl.crl.enable](http://kafka.apache.org/documentation/#zookeeper.ssl.crl.enable)
 
   Specifies whether to enable Certificate Revocation List in the ZooKeeper TLS protocols. Overrides any explicit value set via the `zookeeper.ssl.crl` system property (note the shorter name).
 
     指定是否在ZooKeeper TLS协议中启用证书吊销列表。覆盖通过“ zookeeper.ssl.crl”系统属性设置的任何显式值（请注意简称）。
 
-  |         Type: | boolean   |
-  | ------------: | --------- |
-  |      Default: | false     |
-  | Valid Values: |           |
-  |   Importance: | low       |
-  |  Update Mode: | read-only |
+|         Type: | boolean   |
+| ------------: | --------- |
+|      Default: | false     |
+| Valid Values: |           |
+|   Importance: | low       |
+|  Update Mode: | read-only |
 
-- #### [zookeeper.ssl.enabled.protocols](http://kafka.apache.org/documentation/#zookeeper.ssl.enabled.protocols)
+#### [zookeeper.ssl.enabled.protocols](http://kafka.apache.org/documentation/#zookeeper.ssl.enabled.protocols)
 
   Specifies the enabled protocol(s) in ZooKeeper TLS negotiation (csv). Overrides any explicit value set via the `zookeeper.ssl.enabledProtocols` system property (note the camelCase). The default value of `null` means the enabled protocol will be the value of the `zookeeper.ssl.protocol` configuration property.
 
     指定ZooKeeper TLS协商（csv）中启用的协议。覆盖通过“ zookeeper.ssl.enabledProtocols”系统属性设置的任何显式值（请注意camelCase）。默认值为“ null”表示启用的协议将为“ zookeeper.ssl.protocol”配置属性的值。
 
-  |         Type: | list      |
-  | ------------: | --------- |
-  |      Default: | null      |
-  | Valid Values: |           |
-  |   Importance: | low       |
-  |  Update Mode: | read-only |
+|         Type: | list      |
+| ------------: | --------- |
+|      Default: | null      |
+| Valid Values: |           |
+|   Importance: | low       |
+|  Update Mode: | read-only |
 
-- #### [zookeeper.ssl.endpoint.identification.algorithm](http://kafka.apache.org/documentation/#zookeeper.ssl.endpoint.identification.algorithm)
+#### [zookeeper.ssl.endpoint.identification.algorithm](http://kafka.apache.org/documentation/#zookeeper.ssl.endpoint.identification.algorithm)
 
   Specifies whether to enable hostname verification in the ZooKeeper TLS negotiation process, with (case-insensitively) "https" meaning ZooKeeper hostname verification is enabled and an explicit blank value meaning it is disabled (disabling it is only recommended for testing purposes). An explicit value overrides any "true" or "false" value set via the `zookeeper.ssl.hostnameVerification` system property (note the different name and values; true implies https and false implies blank).
 
     指定是否在ZooKeeper TLS协商过程中启用主机名验证，（不区分大小写）“ https”表示启用ZooKeeper主机名验证，而明确的空白值表示已禁用（仅出于测试目的，建议禁用该值）。显式值会覆盖通过“ zookeeper.ssl.hostnameVerification”系统属性设置的任何“ true”或“ false”值（请注意不同的名称和值； true表示https，false表示空白）。
 
-  |         Type: | string    |
-  | ------------: | --------- |
-  |      Default: | HTTPS     |
-  | Valid Values: |           |
-  |   Importance: | low       |
-  |  Update Mode: | read-only |
+|         Type: | string    |
+| ------------: | --------- |
+|      Default: | HTTPS     |
+| Valid Values: |           |
+|   Importance: | low       |
+|  Update Mode: | read-only |
 
-- #### [zookeeper.ssl.ocsp.enable](http://kafka.apache.org/documentation/#zookeeper.ssl.ocsp.enable)
+#### [zookeeper.ssl.ocsp.enable](http://kafka.apache.org/documentation/#zookeeper.ssl.ocsp.enable)
 
   Specifies whether to enable Online Certificate Status Protocol in the ZooKeeper TLS protocols. Overrides any explicit value set via the `zookeeper.ssl.ocsp` system property (note the shorter name).
 
     指定是否在ZooKeeper TLS协议中启用“在线证书状态协议”。覆盖通过“ zookeeper.ssl.ocsp”系统属性设置的任何显式值（请注意简称）。
 
-  |         Type: | boolean   |
-  | ------------: | --------- |
-  |      Default: | false     |
-  | Valid Values: |           |
-  |   Importance: | low       |
-  |  Update Mode: | read-only |
+|         Type: | boolean   |
+| ------------: | --------- |
+|      Default: | false     |
+| Valid Values: |           |
+|   Importance: | low       |
+|  Update Mode: | read-only |
 
-- #### [zookeeper.ssl.protocol](http://kafka.apache.org/documentation/#zookeeper.ssl.protocol)
+#### [zookeeper.ssl.protocol](http://kafka.apache.org/documentation/#zookeeper.ssl.protocol)
 
   Specifies the protocol to be used in ZooKeeper TLS negotiation. An explicit value overrides any value set via the same-named `zookeeper.ssl.protocol` system property.
 
     指定在ZooKeeper TLS协商中使用的协议。显式值会覆盖通过相同的`zookeeper.ssl.protocol`系统属性设置的任何值。
 
-  |         Type: | string    |
-  | ------------: | --------- |
-  |      Default: | TLSv1.2   |
-  | Valid Values: |           |
-  |   Importance: | low       |
-  |  Update Mode: | read-only |
+|         Type: | string    |
+| ------------: | --------- |
+|      Default: | TLSv1.2   |
+| Valid Values: |           |
+|   Importance: | low       |
+|  Update Mode: | read-only |
 
-- #### [zookeeper.sync.time.ms](http://kafka.apache.org/documentation/#zookeeper.sync.time.ms)
+#### [zookeeper.sync.time.ms](http://kafka.apache.org/documentation/#zookeeper.sync.time.ms)
 
   How far a ZK follower can be behind a ZK leader
 
   ZK追随者可以落后ZK领导者多远
-  
-  |         Type: | int              |
-  | ------------: | ---------------- |
-  |      Default: | 2000 (2 seconds) |
-  | Valid Values: |                  |
-  |   Importance: | low              |
-  |  Update Mode: | read-only        |
+
+|         Type: | int              |
+| ------------: | ---------------- |
+|      Default: | 2000 (2 seconds) |
+| Valid Values: |                  |
+|   Importance: | low              |
+|  Update Mode: | read-only        |
 
 More details about broker configuration can be found in the scala class `kafka.server.KafkaConfig`.
 
@@ -5552,9 +5552,13 @@ org.apache. kafcard .common.security. auc . sslenginefactory类型的类来提�
 
 Below is the configuration of the Kafka Connect framework.
 
+下面是Kafka Connect框架的配置。
+
 #### [config.storage.topic](http://kafka.apache.org/documentation/#config.storage.topic)
 
   The name of the Kafka topic where connector configurations are stored
+
+存储连接器配置的Kafka主题的名称
 
 |         Type: | string |
 | ------------: | ------ |
@@ -5566,6 +5570,8 @@ Below is the configuration of the Kafka Connect framework.
 
   A unique string that identifies the Connect cluster group this worker belongs to.
 
+标识此工作者所属的连接集群组的唯一字符串。
+
 |         Type: | string |
 | ------------: | ------ |
 |      Default: |        |
@@ -5575,6 +5581,8 @@ Below is the configuration of the Kafka Connect framework.
 #### [key.converter](http://kafka.apache.org/documentation/#key.converter)
 
   Converter class used to convert between Kafka Connect format and the serialized form that is written to Kafka. This controls the format of the keys in messages written to or read from Kafka, and since this is independent of connectors it allows any connector to work with any serialization format. Examples of common formats include JSON and Avro.
+
+转换器类，用于在Kafka连接格式和写入Kafka的序列化格式之间进行转换。它控制写入或从Kafka读取的消息中的键的格式，并且由于它独立于连接器，它允许任何连接器使用任何序列化格式。常见格式的例子包括JSON和Avro
 
 |         Type: | class |
 | ------------: | ----- |
@@ -5586,6 +5594,8 @@ Below is the configuration of the Kafka Connect framework.
 
   The name of the Kafka topic where connector offsets are stored
 
+存储连接器偏移量的Kafka主题的名称
+
 |         Type: | string |
 | ------------: | ------ |
 |      Default: |        |
@@ -5595,6 +5605,8 @@ Below is the configuration of the Kafka Connect framework.
 #### [status.storage.topic](http://kafka.apache.org/documentation/#status.storage.topic)
 
   The name of the Kafka topic where connector and task status are stored
+
+存储连接器和任务状态的Kafka主题的名称
 
 |         Type: | string |
 | ------------: | ------ |
@@ -5606,6 +5618,8 @@ Below is the configuration of the Kafka Connect framework.
 
   Converter class used to convert between Kafka Connect format and the serialized form that is written to Kafka. This controls the format of the values in messages written to or read from Kafka, and since this is independent of connectors it allows any connector to work with any serialization format. Examples of common formats include JSON and Avro.
 
+转换器类，用于在Kafka连接格式和写入Kafka的序列化格式之间进行转换。它控制写入或从Kafka读取的消息中的值的格式，并且由于它独立于连接器，所以它允许任何连接器使用任何序列化格式。常见格式的例子包括JSON和Avro。
+
 |         Type: | class |
 | ------------: | ----- |
 |      Default: |       |
@@ -5615,6 +5629,8 @@ Below is the configuration of the Kafka Connect framework.
 #### [bootstrap.servers](http://kafka.apache.org/documentation/#bootstrap.servers)
 
   A list of host/port pairs to use for establishing the initial connection to the Kafka cluster. The client will make use of all servers irrespective of which servers are specified here for bootstrapping—this list only impacts the initial hosts used to discover the full set of servers. This list should be in the form `host1:port1,host2:port2,...`. Since these servers are just used for the initial connection to discover the full cluster membership (which may change dynamically), this list need not contain the full set of servers (you may want more than one, though, in case a server is down).
+
+用于建立到Kafka集群的初始连接的主机/端口对列表。客户机将使用所有服务器，而不管这里为引导指定了哪些服务器——此列表只影响用于发现完整服务器集的初始主机。该列表应该以“host1:port1,host2:port2，…”的形式出现。由于这些服务器仅用于初始连接，以发现完整的集群成员关系(可能会动态更改)，因此此列表不需要包含完整的服务器集(不过，如果服务器宕机，您可能需要多个服务器)。
 
 |         Type: | list           |
 | ------------: | -------------- |
@@ -5626,6 +5642,8 @@ Below is the configuration of the Kafka Connect framework.
 
   The expected time between heartbeats to the group coordinator when using Kafka's group management facilities. Heartbeats are used to ensure that the worker's session stays active and to facilitate rebalancing when new members join or leave the group. The value must be set lower than `session.timeout.ms`, but typically should be set no higher than 1/3 of that value. It can be adjusted even lower to control the expected time for normal rebalances.
 
+使用Kafka的组管理工具时心跳到组协调器之间的预期时间。心跳用于确保工作者会话保持活动状态，并在新成员加入或离开组时促进重新平衡。该值必须设置为低于' session.timeout.ms '，但通常应设置不超过该值的1/3。它可以调整更低，以控制正常重新平衡的预期时间。
+
 |         Type: | int              |
 | ------------: | ---------------- |
 |      Default: | 3000 (3 seconds) |
@@ -5635,6 +5653,8 @@ Below is the configuration of the Kafka Connect framework.
 #### [rebalance.timeout.ms](http://kafka.apache.org/documentation/#rebalance.timeout.ms)
 
   The maximum allowed time for each worker to join the group once a rebalance has begun. This is basically a limit on the amount of time needed for all tasks to flush any pending data and commit offsets. If the timeout is exceeded, then the worker will be removed from the group, which will cause offset commit failures.
+
+再平衡开始后，允许每个员工加入团队的最大时间。这基本上是对所有任务刷新任何挂起数据和提交偏移量所需的时间量的限制。如果超过超时，那么工作者将从组中删除，这将导致偏移提交失败。
 
 |         Type: | int              |
 | ------------: | ---------------- |
@@ -5646,6 +5666,8 @@ Below is the configuration of the Kafka Connect framework.
 
   The timeout used to detect worker failures. The worker sends periodic heartbeats to indicate its liveness to the broker. If no heartbeats are received by the broker before the expiration of this session timeout, then the broker will remove the worker from the group and initiate a rebalance. Note that the value must be in the allowable range as configured in the broker configuration by `group.min.session.timeout.ms` and `group.max.session.timeout.ms`.
 
+用于检测工作人员故障的超时。工人定期发送心跳，以表明其活跃的经纪人。如果在此会话超时过期之前代理没有收到心跳，则代理将从组中删除worker并启动重新平衡。注意，该值必须在代理配置中' group.min.session.timeout '配置的允许范围内。女士”和“group.max.session.timeout.ms”。
+
 |         Type: | int                |
 | ------------: | ------------------ |
 |      Default: | 10000 (10 seconds) |
@@ -5655,6 +5677,8 @@ Below is the configuration of the Kafka Connect framework.
 #### [ssl.key.password](http://kafka.apache.org/documentation/#ssl.key.password)
 
   The password of the private key in the key store file. This is optional for client.
+
+密钥存储文件中私钥的密码。这对于客户机是可选的
 
 |         Type: | password |
 | ------------: | -------- |
@@ -5666,6 +5690,8 @@ Below is the configuration of the Kafka Connect framework.
 
   The location of the key store file. This is optional for client and can be used for two-way authentication for client.
 
+密钥存储文件的位置。这对于客户机是可选的，可以用于客户机的双向身份验证。
+
 |         Type: | string |
 | ------------: | ------ |
 |      Default: | null   |
@@ -5675,6 +5701,8 @@ Below is the configuration of the Kafka Connect framework.
 #### [ssl.keystore.password](http://kafka.apache.org/documentation/#ssl.keystore.password)
 
   The store password for the key store file. This is optional for client and only needed if ssl.keystore.location is configured.
+
+密钥存储文件的存储密码。这对于客户机是可选的，只有在ssl.keystore中才需要。位置配置。
 
 |         Type: | password |
 | ------------: | -------- |
@@ -5686,6 +5714,8 @@ Below is the configuration of the Kafka Connect framework.
 
   The location of the trust store file.
 
+信任存储库文件的位置。
+
 |         Type: | string |
 | ------------: | ------ |
 |      Default: | null   |
@@ -5696,6 +5726,8 @@ Below is the configuration of the Kafka Connect framework.
 
   The password for the trust store file. If a password is not set access to the truststore is still available, but integrity checking is disabled.
 
+信任存储文件的密码。如果没有设置密码，仍然可以访问信任存储库，但是禁用了完整性检查。
+
 |         Type: | password |
 | ------------: | -------- |
 |      Default: | null     |
@@ -5705,6 +5737,8 @@ Below is the configuration of the Kafka Connect framework.
 #### [client.dns.lookup](http://kafka.apache.org/documentation/#client.dns.lookup)
 
   Controls how the client uses DNS lookups. If set to `use_all_dns_ips`, connect to each returned IP address in sequence until a successful connection is established. After a disconnection, the next IP is used. Once all IPs have been used once, the client resolves the IP(s) from the hostname again (both the JVM and the OS cache DNS name lookups, however). If set to `resolve_canonical_bootstrap_servers_only`, resolve each bootstrap address into a list of canonical names. After the bootstrap phase, this behaves the same as `use_all_dns_ips`. If set to `default` (deprecated), attempt to connect to the first IP address returned by the lookup, even if the lookup returns multiple IP addresses.
+
+控制客户端如何使用DNS查找。如果设置为' use_all_dns_ips '，依次连接到每个返回的IP地址，直到建立成功的连接。断开连接后，使用下一个IP。一旦所有IP都使用过一次，客户机就会再次从主机名解析IP(不过JVM和OS都会缓存DNS名称查找)。如果设置为' resolve_canonical_bootstrap_servers_only '，则将每个引导程序地址解析为一个规范名称列表。在引导阶段之后，它的行为与' use_all_dns_ips '相同。如果设置为‘default’(不赞成使用)，尝试连接到查找返回的第一个IP地址，即使查找返回多个IP地址。
 
 |         Type: | string                                                       |
 | ------------: | ------------------------------------------------------------ |
@@ -8093,15 +8127,15 @@ Now that we understand a little about how producers and consumers work, let's di
 
 It's worth noting that this breaks down into two problems: the durability guarantees for publishing a message and the guarantees when consuming a message.
 
-值得注意的是，这可以分解为两个问题:发布消息的持久性保证和使用消息时的持久性保证。
+值得注意的是，这可以分解为两个问题:持久性保证了消息的发布 和 使用消息时的保证。。
 
 Many systems claim to provide "exactly once" delivery semantics, but it is important to read the fine print, most of these claims are misleading (i.e. they don't translate to the case where consumers or producers can fail, cases where there are multiple consumer processes, or cases where data written to disk can be lost).
 
-许多系统要求提供“完全一次”传递语义,但重要的是阅读小字,大多数这些说法误导(即他们不翻译的情况下消费者或生产者可以失败,有多个使用者流程的情况下,或情况的数据写入磁盘可能会丢失)。
+许多系统声称提供“精确一次”的交付语义，,但重要的是要阅读细则，大多数这些说法都是误导(它们不会转化为消费者或生产者可能失败的情况，有多个使用者进程的情况，或写入磁盘的数据可能丢失的情况)。
 
 Kafka's semantics are straight-forward. When publishing a message we have a notion of the message being "committed" to the log. Once a published message is committed it will not be lost as long as one broker that replicates the partition to which this message was written remains "alive". The definition of committed message, alive partition as well as a description of which types of failures we attempt to handle will be described in more detail in the next section. For now let's assume a perfect, lossless broker and try to understand the guarantees to the producer and consumer. If a producer attempts to publish a message and experiences a network error it cannot be sure if this error happened before or after the message was committed. This is similar to the semantics of inserting into a database table with an autogenerated key.
 
-卡夫卡的语义学是直截了当的。当发布一条消息时，我们有一个消息被“提交”到日志的概念。一旦发布的消息被提交，只要复制该消息写入到的分区的代理保持“活动”，该消息就不会丢失。下一节将更详细地描述提交消息、活动分区的定义以及我们试图处理的失败类型的描述。现在，让我们假设一个完美的、无损失的经纪人，并尝试理解对生产者和消费者的保证。如果生产者试图发布消息并遇到网络错误，则不能确定该错误是在消息提交之前还是之后发生的。这类似于使用自动生成的键插入数据库表的语义。
+kafka的语义学是直截了当的。当发布一条消息时，我们有一个消息被“提交”到日志的概念。一旦发布的消息被提交，只要复制该消息写入到的分区的代理保持“活动”，该消息就不会丢失。下一节将更详细地描述提交消息、活动分区的定义以及我们试图处理的失败类型的描述。现在，让我们假设一个完美的、无损失的broker，并尝试理解对生产者和消费者的保证。如果生产者试图发布消息并遇到网络错误，则不能确定该错误是在消息提交之前还是之后发生的。这类似于使用自动生成的键插入数据库表的语义。
 
 Prior to 0.11.0.0, if a producer failed to receive a response indicating that a message was committed, it had little choice but to resend the message. This provides at-least-once delivery semantics since the message may be written to the log again during resending if the original request had in fact succeeded. Since 0.11.0.0, the Kafka producer also supports an idempotent delivery option which guarantees that resending will not result in duplicate entries in the log. To achieve this, the broker assigns each producer an ID and deduplicates messages using a sequence number that is sent by the producer along with every message. Also beginning with 0.11.0.0, the producer supports the ability to send messages to multiple topic partitions using transaction-like semantics: i.e. either all messages are successfully written or none of them are. The main use case for this is exactly-once processing between Kafka topics (described below).
 
@@ -8125,11 +8159,11 @@ Now let's describe the semantics from the point-of-view of the consumer. All rep
 
 So what about exactly once semantics (i.e. the thing you actually want)? When consuming from a Kafka topic and producing to another topic (as in a [Kafka Streams](https://kafka.apache.org/documentation/streams) application), we can leverage the new transactional producer capabilities in 0.11.0.0 that were mentioned above. The consumer's position is stored as a message in a topic, so we can write the offset to Kafka in the same transaction as the output topics receiving the processed data. If the transaction is aborted, the consumer's position will revert to its old value and the produced data on the output topics will not be visible to other consumers, depending on their "isolation level." In the default "read_uncommitted" isolation level, all messages are visible to consumers even if they were part of an aborted transaction, but in "read_committed," the consumer will only return messages from transactions which were committed (and any messages which were not part of a transaction).
 
-那么，确切地说一次语义(即你真正想要的东西)怎么样?当从Kafka主题消费并生成到另一个主题(在[Kafka Streams](https://kafka.apache.org/documentation/streams)应用程序中)时，我们可以利用上面提到的0.11.0.0中的新的事务生成功能。消费者的位置作为消息存储在主题中，因此我们可以在接收处理数据的输出主题的同一个事务中将偏移量写入Kafka。如果事务中止，使用者的位置将恢复到原来的值，并且根据其他使用者的“隔离级别”，在输出主题上生成的数据对其他使用者将不可见。在默认的“read_uncommitted”隔离级别中，所有消息对于使用者都是可见的，即使它们是中止的事务的一部分，但是在“read_committed”中，使用者将只返回来自已提交事务的消息(以及任何不属于事务的消息)。
+那么仅仅一次语义呢(即你真正想要的东西)怎么样?当从Kafka主题消费并生成到另一个主题(在[Kafka Streams](https://kafka.apache.org/documentation/streams)应用程序中)时，我们可以利用上面提到的0.11.0.0中的新的事务生成功能。消费者的位置作为消息存储在主题中，因此我们可以在接收处理数据的输出主题的同一个事务中将偏移量写入Kafka。如果事务中止，使用者的位置将恢复到原来的值，并且根据其他使用者的“隔离级别”，在输出主题上生成的数据对其他使用者将不可见。在默认的“read_uncommitted”隔离级别中，所有消息对于使用者都是可见的，即使它们是中止的事务的一部分，但是在“read_committed”中，使用者将只返回来自已提交事务的消息(以及任何不属于事务的消息)。
 
 When writing to an external system, the limitation is in the need to coordinate the consumer's position with what is actually stored as output. The classic way of achieving this would be to introduce a two-phase commit between the storage of the consumer position and the storage of the consumers output. But this can be handled more simply and generally by letting the consumer store its offset in the same place as its output. This is better because many of the output systems a consumer might want to write to will not support a two-phase commit. As an example of this, consider a [Kafka Connect](https://kafka.apache.org/documentation/#connect) connector which populates data in HDFS along with the offsets of the data it reads so that it is guaranteed that either data and offsets are both updated or neither is. We follow similar patterns for many other data systems which require these stronger semantics and for which the messages do not have a primary key to allow for deduplication.
 
-当向外部系统写入时，限制在于需要协调用户的位置和实际存储为输出的内容。实现这一点的经典方法是在使用者位置的存储和使用者输出的存储之间引入两阶段提交。但这可以通过让使用者将其偏移量存储在与其输出相同的位置来更简单地处理。这样做更好，因为消费者可能希望写入的许多输出系统都不支持两阶段提交。作为一个例子，考虑一个[Kafka Connect](https://kafka.apache.org/documentation/#connect)连接器，它在HDFS中填充数据以及它读取的数据的偏移量，这样就保证了数据和偏移量要么都更新了，要么都没有更新。我们对许多其他数据系统遵循类似的模式，这些系统需要这些更强的语义，并且消息没有主键来支持重复数据删除。
+当向外部系统写入时，限制在于需要协调消费者的位置和实际存储为输出的内容。实现这一点的经典方法是在消费者位置的存储和使用者输出的存储之间引入两阶段提交。但这可以通过让使用者将其偏移量存储在与其输出相同的位置来更简单地处理。这样做更好，因为消费者可能希望写入的许多输出系统都不支持两阶段提交。作为一个例子，考虑一个[Kafka Connect](https://kafka.apache.org/documentation/#connect)连接器，它在HDFS中填充数据以及它读取的数据的偏移量，这样就保证了数据和偏移量要么都更新了，要么都没有更新。我们对许多其他数据系统遵循类似的模式，这些系统需要这些更强的语义，并且消息没有主键来支持重复数据删除。
 
 So effectively Kafka supports exactly-once delivery in [Kafka Streams](https://kafka.apache.org/documentation/streams), and the transactional producer/consumer can be used generally to provide exactly-once delivery when transferring and processing data between Kafka topics. Exactly-once delivery for other destination systems generally requires cooperation with such systems, but Kafka provides the offset which makes implementing this feasible (see also [Kafka Connect](https://kafka.apache.org/documentation/#connect)). Otherwise, Kafka guarantees at-least-once delivery by default, and allows the user to implement at-most-once delivery by disabling retries on the producer and committing offsets in the consumer prior to processing a batch of messages.
 
@@ -8165,9 +8199,9 @@ As with most distributed systems automatically handling failures requires having
 
    如果它是一个追随者，它必须复制发生在领导者身上的书写，而不是“远远”落在后面
 
-We refer to nodes satisfying these two conditions as being "in sync" to avoid the vagueness of "alive" or "failed". The leader keeps track of the set of "in sync" nodes. If a follower dies, gets stuck, or falls behind, the leader will remove it from the list of in sync replicas. The determination of stuck and lagging replicas is controlled by the replica.lag.time.max.ms configuration.
+We refer to nodes satisfying these two conditions as being "in sync" to avoid the vagueness of "alive" or "failed". The leader keeps track of the set of "in sync" nodes. If a follower dies, gets stuck, or falls behind, the leader will remove it from the list of in sync replicas. The determination of stuck and lagging replicas is controlled by the `replica.lag.time.max.ms `configuration.
 
-我们将满足这两个条件的节点称为“同步”，以避免“活着”或“失败”的模糊性。leader跟踪“同步”节点的集合。如果一个追随者死了，卡住了，或者落后了，领导者将把它从同步副本列表中删除。卡滞系数的确定由卡滞系数控制。时滞。时间。最大值。女士的配置。
+我们将满足这两个条件的节点称为“同步”，以避免“活着”或“失败”的模糊性。leader跟踪“同步”节点的集合。如果一个追随者死了，卡住了，或者落后了，领导者将把它从同步副本列表中删除。粘滞复制的测定由replica.lag.time.max.ms配置文件控制
 
 In distributed systems terminology we only attempt to handle a "fail/recover" model of failures where nodes suddenly cease working and then later recover (perhaps without knowing that they have died). Kafka does not handle so-called "Byzantine" failures in which nodes produce arbitrary or malicious responses (perhaps due to bugs or foul play).
 
@@ -8179,13 +8213,15 @@ We can now more precisely define that a message is considered committed when all
 
 The guarantee that Kafka offers is that a committed message will not be lost, as long as there is at least one in sync replica alive, at all times.
 
-卡夫卡提供的保证是，一个承诺的消息不会丢失，只要至少有一个同步副本活着，在任何时候。
+kafka提供的保证是，只要至少有一个同步副本在任何时候都是活动的，提交的消息就不会丢失。
 
 Kafka will remain available in the presence of node failures after a short fail-over period, but may not remain available in the presence of network partitions.
 
 在短暂的故障转移周期后，Kafka将在存在的节点故障中保持可用，但可能在存在的网络分区中不保持可用。
 
 #### [Replicated Logs: Quorums, ISRs, and State Machines (Oh my!)](http://kafka.apache.org/documentation/#design_replicatedlog)
+
+复制日志:Quorums、ISRs和状态机
 
 At its heart a Kafka partition is a replicated log. The replicated log is one of the most basic primitives in distributed data systems, and there are many approaches for implementing one. A replicated log can be used by other systems as a primitive for implementing other distributed systems in the [state-machine style](http://en.wikipedia.org/wiki/State_machine_replication).
 
@@ -8197,7 +8233,7 @@ A replicated log models the process of coming into consensus on the order of a s
 
 Of course if leaders didn't fail we wouldn't need followers! When the leader does die we need to choose a new leader from among the followers. But followers themselves may fall behind or crash so we must ensure we choose an up-to-date follower. The fundamental guarantee a log replication algorithm must provide is that if we tell the client a message is committed, and the leader fails, the new leader we elect must also have that message. This yields a tradeoff: if the leader waits for more followers to acknowledge a message before declaring it committed then there will be more potentially electable leaders.
 
-当然，如果领导者没有失败，我们就不需要追随者!当领袖死了，我们需要从追随者中选择一个新的领袖。但是跟随者本身可能会落后或者崩溃，所以我们必须确保我们选择一个最新的跟随者。日志复制算法必须提供的基本保证是，如果我们告诉客户机一条消息已经提交，而leader失败了，那么我们选出的新leader也必须拥有那条消息。这就产生了一种权衡:如果领导人要等待更多的追随者承认一个信息，然后才宣布它已承诺，那么就会有更多潜在的当选领导人。
+当然，如果领导者没有失败，我们就不需要追随者!当领导者死了，我们需要从追随者中选择一个新的领导者。但是跟随者本身可能会落后或者崩溃，所以我们必须确保我们选择一个最新的跟随者。日志复制算法必须提供的基本保证是，如果我们告诉客户机一条消息已经提交，而leader失败了，那么我们选出的新leader也必须拥有那条消息。这就产生了一种权衡:如果领导人要等待更多的追随者承认一个信息，然后才宣布它已承诺，那么就会有更多潜在的当选领导人。
 
 If you choose the number of acknowledgements required and the number of logs that must be compared to elect a leader such that there is guaranteed to be an overlap, then this is called a Quorum.
 
@@ -8205,13 +8241,15 @@ If you choose the number of acknowledgements required and the number of logs tha
 
 A common approach to this tradeoff is to use a majority vote for both the commit decision and the leader election. This is not what Kafka does, but let's explore it anyway to understand the tradeoffs. Let's say we have 2*f*+1 replicas. If *f*+1 replicas must receive a message prior to a commit being declared by the leader, and if we elect a new leader by electing the follower with the most complete log from at least *f*+1 replicas, then, with no more than *f* failures, the leader is guaranteed to have all committed messages. This is because among any *f*+1 replicas, there must be at least one replica that contains all committed messages. That replica's log will be the most complete and therefore will be selected as the new leader. There are many remaining details that each algorithm must handle (such as precisely defined what makes a log more complete, ensuring log consistency during leader failure or changing the set of servers in the replica set) but we will ignore these for now.
 
-一种常见的折衷方法是在commit决策和领导人选举中都使用多数票。这不是卡夫卡所做的，但让我们无论如何探索它来理解权衡。假设有2*f*+1个副本。如果f * * + 1副本提交前必须收到消息宣布的领袖,如果我们通过选举选出一位新领袖的追随者与最完整的日志至少* f * + 1副本,然后,不超过* f *失败,领导人保证所有提交消息。这是因为在任何*f*+1副本中，必须至少有一个副本包含所有提交的消息。该副本的日志将是最完整的，因此将被选为新的领导者。每个算法都必须处理许多剩余的细节(比如精确定义什么使日志更完整，在leader故障期间确保日志的一致性，或者更改副本集中的服务器集)，但是我们现在将忽略这些。
+一种常见的折衷方法是在commit决策和领导人选举中都使用多数票。这不是kafka所做的，但让我们无论如何探索它来理解权衡。假设有2*f*+1个副本。如果*f*+1副本必须在leader声明提交之前接收消息,如果我们通过从至少*f*+1个副本中选出日志最完整的follower来选出新的leader,然后,不超过* f *失败,保证领导拥有所有已提交的信息。这是因为在任何*f*+1副本中，必须至少有一个副本包含所有提交的消息。该副本的日志将是最完整的，因此将被选为新的领导者。每个算法都必须处理许多剩余的细节(比如精确定义什么使日志更完整，在leader故障期间确保日志的一致性，或者更改副本集中的服务器集)，但是我们现在将忽略这些。
 
 This majority vote approach has a very nice property: the latency is dependent on only the fastest servers. That is, if the replication factor is three, the latency is determined by the faster follower not the slower one.
 
 这种多数投票的方法有一个很好的特性:延迟只依赖于最快的服务器。也就是说，如果复制因子为3，则延迟由更快的追随者决定，而不是由更慢的追随者决定。
 
 There are a rich variety of algorithms in this family including ZooKeeper's [Zab](http://web.archive.org/web/20140602093727/http://www.stanford.edu/class/cs347/reading/zab.pdf), [Raft](https://www.usenix.org/system/files/conference/atc14/atc14-paper-ongaro.pdf), and [Viewstamped Replication](http://pmg.csail.mit.edu/papers/vr-revisited.pdf). The most similar academic publication we are aware of to Kafka's actual implementation is [PacificA](http://research.microsoft.com/apps/pubs/default.aspx?id=66814) from Microsoft.
+
+这类算法种类繁多，包括ZooKeeper's [Zab](http://web.archive.org/web/20140602093727/http://www.stanford.edu/class/cs347/reading/zab.pdf), [Raft](https://www.usenix.org/system/files/conference/atc14/atc14-paper-ongaro.pdf), and [Viewstamped Replication](http://pmg.csail.mit.edu/papers/vr-revisited.pdf)我们所知道的与Kafka实际实现最相似的学术出版物是来自微软的[PacificA]
 
 The downside of majority vote is that it doesn't take many failures to leave you with no electable leaders. To tolerate one failure requires three copies of the data, and to tolerate two failures requires five copies of the data. In our experience having only enough redundancy to tolerate a single failure is not enough for a practical system, but doing every write five times, with 5x the disk space requirements and 1/5th the throughput, is not very practical for large volume data problems. This is likely why quorum algorithms more commonly appear for shared cluster configuration such as ZooKeeper but are less common for primary data storage. For example in HDFS the namenode's high-availability feature is built on a [majority-vote-based journal](http://blog.cloudera.com/blog/2012/10/quorum-based-journaling-in-cdh4-1), but this more expensive approach is not used for the data itself.
 
@@ -8223,7 +8261,7 @@ Kafka采用一种稍微不同的方法来选择它的quorum集。Kafka动态地�
 
 For most use cases we hope to handle, we think this tradeoff is a reasonable one. In practice, to tolerate *f* failures, both the majority vote and the ISR approach will wait for the same number of replicas to acknowledge before committing a message (e.g. to survive one failure a majority quorum needs three replicas and one acknowledgement and the ISR approach requires two replicas and one acknowledgement). The ability to commit without the slowest servers is an advantage of the majority vote approach. However, we think it is ameliorated by allowing the client to choose whether they block on the message commit or not, and the additional throughput and disk space due to the lower required replication factor is worth it.
 
-对于我们希望处理的大多数用例，我们认为这种权衡是合理的。容忍* f *失败,在实践中,多数投票和ISR方法将等待相同数量的副本承认之前的消息(例如生存一个失败大多数群体需要三个副本和一个确认和ISR方法需要两个副本,一个确认)。能够在不使用最慢服务器的情况下提交是多数投票方式的一个优点。但是，我们认为，通过允许客户机选择是否阻塞消息提交，可以改善这种情况，并且由于所需复制因子较低而增加的吞吐量和磁盘空间是值得的。
+对于我们希望处理的大多数用例，我们认为这种权衡是合理的。容忍* f *失败,在实践中,多数投票和ISR方法将等待相同数量的副本承认之前的消息(要在一个失败中存活，多数仲裁需要三个副本和一个确认，而ISR方法需要两个副本和一个确认)。能够在不使用最慢服务器的情况下提交是多数投票方式的一个优点。但是，我们认为，通过允许客户机选择是否阻塞消息提交，可以改善这种情况，并且由于所需复制因子较低而增加的吞吐量和磁盘空间是值得的。
 
 Another important design distinction is that Kafka does not require that crashed nodes recover with all their data intact. It is not uncommon for replication algorithms in this space to depend on the existence of "stable storage" that cannot be lost in any failure-recovery scenario without potential consistency violations. There are two primary problems with this assumption. First, disk errors are the most common problem we observe in real operation of persistent data systems and they often do not leave data intact. Secondly, even if this were not a problem, we do not want to require the use of fsync on every write for our consistency guarantees as this can reduce performance by two to three orders of magnitude. Our protocol for allowing a replica to rejoin the ISR ensures that before rejoining, it must fully re-sync again even if it lost unflushed data in its crash.
 
@@ -8245,31 +8283,35 @@ However a practical system needs to do something reasonable when all the replica
 
 2. Choose the first replica (not necessarily in the ISR) that comes back to life as the leader.
 
-   选择第一个副本(不一定是在ISR中)作为领袖复活。
+   选择第一个副本(不一定是在ISR中)作为leader复活。
 
 This is a simple tradeoff between availability and consistency. If we wait for replicas in the ISR, then we will remain unavailable as long as those replicas are down. If such replicas were destroyed or their data was lost, then we are permanently down. If, on the other hand, a non-in-sync replica comes back to life and we allow it to become leader, then its log becomes the source of truth even though it is not guaranteed to have every committed message. By default from version 0.11.0.0, Kafka chooses the first strategy and favor waiting for a consistent replica. This behavior can be changed using configuration property unclean.leader.election.enable, to support use cases where uptime is preferable to consistency.
 
-这是可用性和一致性之间的一个简单的权衡。如果我们在ISR中等待副本，那么只要这些副本关闭，我们就会一直不可用。如果这样的副本被销毁或它们的数据丢失，那么我们将永久停机。另一方面，如果一个非同步的副本复活了，而我们允许它成为领导者，那么它的日志就会成为真相的来源，尽管它不能保证拥有所有承诺的信息。默认情况下，从版本0.11.0.0开始，Kafka选择第一种策略，并倾向于等待一致的副本。可以使用配置属性unclean.leader.election更改此行为。启用，以支持正常运行时间优于一致性的用例。
+这是可用性和一致性之间的一个简单的权衡。如果我们在ISR中等待副本，那么只要这些副本关闭，我们就会一直不可用。如果这样的副本被销毁或它们的数据丢失，那么我们将永久停机。另一方面，如果一个非同步的副本复活了，而我们允许它成为领导者，那么它的日志就会成为真相的来源，尽管它不能保证拥有所有承诺的信息。默认情况下，从版本0.11.0.0开始，Kafka选择第一种策略，并倾向于等待一致的副本。可以使用配置属性`unclean.leader.election`更改此行为。启用，以支持正常运行时间优于一致性的用例。
 
 This dilemma is not specific to Kafka. It exists in any quorum-based scheme. For example in a majority voting scheme, if a majority of servers suffer a permanent failure, then you must either choose to lose 100% of your data or violate consistency by taking what remains on an existing server as your new source of truth.
 
-这种困境并不是卡夫卡特有的。它存在于任何基于quorum的方案中。例如，在多数投票方案中，如果大多数服务器遭受永久故障，那么您必须选择要么丢失100%的数据，要么违反一致性，将现有服务器上的剩余数据作为新的真相来源。
+这种困境并不是kafka特有的。它存在于任何基于quorum(大多数投票机制)的方案中。例如，在多数投票方案中，如果大多数服务器遭受永久故障，那么您必须选择要么丢失100%的数据，要么违反一致性，将现有服务器上的剩余数据作为新的真相来源。
 
 #### [Availability and Durability Guarantees](http://kafka.apache.org/documentation/#design_ha)
 
+可用性和持久性保证
+
 When writing to Kafka, producers can choose whether they wait for the message to be acknowledged by 0,1 or all (-1) replicas. Note that "acknowledgement by all replicas" does not guarantee that the full set of assigned replicas have received the message. By default, when acks=all, acknowledgement happens as soon as all the current in-sync replicas have received the message. For example, if a topic is configured with only two replicas and one fails (i.e., only one in sync replica remains), then writes that specify acks=all will succeed. However, these writes could be lost if the remaining replica also fails. Although this ensures maximum availability of the partition, this behavior may be undesirable to some users who prefer durability over availability. Therefore, we provide two topic-level configurations that can be used to prefer message durability over availability:
 
-当写信给Kafka时，生产者可以选择他们是否等待消息被0,1或所有(-1)副本确认。注意，“所有副本的确认”并不保证已分配的副本的全部集合已接收到消息。默认情况下，当acks=all时，在所有当前同步副本收到消息后立即确认。例如，如果一个主题只配置了两个副本，而其中一个失败(即，只保留一个同步副本)，那么指定ack =的写入操作将会成功。但是，如果剩余的副本也失败，这些写操作可能会丢失。尽管这确保了分区的最大可用性，但对于一些更喜欢持久性而不是可用性的用户来说，这种行为可能不受欢迎。因此，我们提供了两种主题级配置，可用于优先考虑消息的持久性而不是可用性
+当写给Kafka时，生产者可以选择他们是否等待消息被0,1或所有(-1)副本确认。注意，“所有副本的确认”并不保证已分配的副本的全部集合已接收到消息。默认情况下，当acks=all时，在所有当前`同步副本收`到消息后立即确认。例如，如果一个主题只配置了两个副本，而其中一个失败(即，只保留一个同步副本)，那么指定ack =all的写入操作将会成功。但是，如果剩余的副本也失败，这些写操作可能会丢失。尽管这确保了分区的最大可用性，但对于一些更喜欢持久性而不是可用性的用户来说，这种行为可能不受欢迎。因此，我们提供了两种主题级配置，可用于优先考虑消息的(p)持久性而不是(a)可用性
 
-1. Disable unclean leader election - if all replicas become unavailable, then the partition will remain unavailable until the most recent leader becomes available again. This effectively prefers unavailability over the risk of message loss. See the previous section on Unclean Leader Election for clarification.
+1. Disable `unclean leader election` - if all replicas become unavailable, then the partition will remain unavailable until the most recent leader becomes available again. This effectively prefers unavailability over the risk of message loss. See the previous section on Unclean Leader Election for clarification.
 
    禁用不干净leader选择——如果所有副本都不可用，那么分区将保持不可用，直到最近的leader再次可用。这实际上更倾向于不可用性，而不是消息丢失的风险。请参阅前一节关于不洁净领袖选举的说明。
 
 2. Specify a minimum ISR size - the partition will only accept writes if the size of the ISR is above a certain minimum, in order to prevent the loss of messages that were written to just a single replica, which subsequently becomes unavailable. This setting only takes effect if the producer uses acks=all and guarantees that the message will be acknowledged by at least this many in-sync replicas. This setting offers a trade-off between consistency and availability. A higher setting for minimum ISR size guarantees better consistency since the message is guaranteed to be written to more replicas which reduces the probability that it will be lost. However, it reduces availability since the partition will be unavailable for writes if the number of in-sync replicas drops below the minimum threshold.
 
-   指定最小ISR大小——如果ISR的大小超过某个最小值，分区将只接受写操作，以防止将消息写入到单个副本中，而该副本随后变得不可用。只有当生产者使用acks=all并保证消息至少被这么多同步副本确认时，此设置才会生效。此设置提供了一致性和可用性之间的权衡。更高的最小ISR大小设置可以保证更好的一致性，因为可以保证将消息写入更多的副本，从而降低丢失消息的概率。但是，它降低了可用性，因为如果同步副本的数量低于最小阈值，分区将不可用于写操作。
+   指定最小ISR大小——如果ISR的大小大于某个最小值，分区将只接受写操作，以防止将消息写入到单个副本中，而该副本随后变得不可用。只有当生产者使用acks=all并保证消息至少被这么多同步副本确认时，此设置才会生效。此设置提供了一致性和可用性之间的权衡。更高的最小ISR大小设置可以保证更好的一致性，因为可以保证将消息写入更多的副本，从而降低丢失消息的概率。但是，它降低了可用性，因为如果同步副本的数量低于最小阈值，分区将不可用于写操作。
 
 #### [Replica Management](http://kafka.apache.org/documentation/#design_replicamanagment)
+
+复制管理
 
 The above discussion on replicated logs really covers only a single log, i.e. one topic partition. However a Kafka cluster will manage hundreds or thousands of these partitions. We attempt to balance partitions within a cluster in a round-robin fashion to avoid clustering all partitions for high-volume topics on a small number of nodes. Likewise we try to balance leadership so that each node is the leader for a proportional share of its partitions.
 
@@ -8742,8 +8784,7 @@ You have the option of either adding topics manually or having them be created a
 Topics are added and modified using the topic tool:
 
 ```bash
-  > bin/kafka-topics.sh --bootstrap-server broker_host:port --create --topic my_topic_name \
-        --partitions 20 --replication-factor 3 --config x=y
+  > bin/kafka-topics.sh --bootstrap-server broker_host:port --create --topic my_topic_name \ --partitions 20 --replication-factor 3 --config x=y
 ```
 
 The replication factor controls how many servers will replicate each message that is written. If you have a replication factor of 3 then up to 2 servers can fail before you will lose access to your data. We recommend you use a replication factor of 2 or 3 so that you can transparently bounce machines without interrupting data consumption.
