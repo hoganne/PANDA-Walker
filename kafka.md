@@ -8323,6 +8323,8 @@ It is also important to optimize the leadership election process as that is the 
 
 ### [4.8 Log Compaction](http://kafka.apache.org/documentation/#compaction)
 
+log压缩
+
 Log compaction ensures that Kafka will always retain at least the last known value for each message key within the log of data for a single topic partition. It addresses use cases and scenarios such as restoring state after application crashes or system failure, or reloading caches after application restarts during operational maintenance. Let's dive into these use cases in more detail and then describe how compaction works.
 
 日志压缩确保Kafka将始终至少保留单个主题分区数据日志中每个消息键的最新已知值。它处理用例和场景，例如在应用程序崩溃或系统故障后恢复状态，或在操作维护期间重新启动应用程序后重新加载缓存。让我们更详细地研究这些用例，然后描述压缩是如何工作的。
@@ -8356,10 +8358,20 @@ Let's start by looking at a few use cases where this is useful, then we'll see h
 让我们从一些有用的用例开始，然后我们将看到如何使用它。
 
 1. *Database change subscription*. It is often necessary to have a data set in multiple data systems, and often one of these systems is a database of some kind (either a RDBMS or perhaps a new-fangled key-value store). For example you might have a database, a cache, a search cluster, and a Hadoop cluster. Each change to the database will need to be reflected in the cache, the search cluster, and eventually in Hadoop. In the case that one is only handling the real-time updates you only need recent log. But if you want to be able to reload the cache or restore a failed search node you may need a complete data set.
+
+   数据库更改订阅。在多个数据系统中通常需要有一个数据集，其中一个系统通常是某种类型的数据库(RDBMS或新型的键-值存储)。例如，您可能有一个数据库、一个缓存、一个搜索集群和一个Hadoop集群。对数据库的每次更改都需要反映在缓存、搜索集群中，最终还需要反映在Hadoop中。在只处理实时更新的情况下，您只需要最近的日志。但是，如果希望能够重新加载缓存或恢复失败的搜索节点，则可能需要一个完整的数据集
+
 2. *Event sourcing*. This is a style of application design which co-locates query processing with application design and uses a log of changes as the primary store for the application.
+
+   事件采购。这是一种应用程序设计风格，它将查询处理与应用程序设计共存，并使用更改日志作为应用程序的主要存储。
+
 3. *Journaling for high-availability*. A process that does local computation can be made fault-tolerant by logging out changes that it makes to its local state so another process can reload these changes and carry on if it should fail. A concrete example of this is handling counts, aggregations, and other "group by"-like processing in a stream query system. Samza, a real-time stream-processing framework, [uses this feature](http://samza.apache.org/learn/documentation/0.7.0/container/state-management.html) for exactly this purpose.
 
+   日志记录的高可用性。执行本地计算的进程可以通过注销它对其本地状态所做的更改来实现容错，这样，另一个进程可以重新加载这些更改，并在它失败时继续执行。这方面的一个具体示例是在流查询系统中处理计数、聚合和其他类似“分组”的处理。实时流处理框架Samza[使用了这个特性](http://samza.apache.org/learn/documentation/0.7.0/container/state-management.html)正是为了这个目的。
+
 In each of these cases one needs primarily to handle the real-time feed of changes, but occasionally, when a machine crashes or data needs to be re-loaded or re-processed, one needs to do a full load. Log compaction allows feeding both of these use cases off the same backing topic. This style of usage of a log is described in more detail in [this blog post](http://engineering.linkedin.com/distributed-systems/log-what-every-software-engineer-should-know-about-real-time-datas-unifying).
+
+在每种情况下，主要需要处理更改的实时反馈，但偶尔，当机器崩溃或需要重新加载或重新处理数据时，需要进行完全加载。日志压缩允许从相同的后备主题提供这两个用例。这种日志的使用方式在[这篇博客文章]中有更详细的描述 )。
 
 The general idea is quite simple. If we had infinite log retention, and we logged each change in the above cases, then we would have captured the state of the system at each time from when it first began. Using this complete log, we could restore to any point in time by replaying the first N records in the log. This hypothetical complete log is not very practical for systems that update a single record many times as the log will grow without bound even for a stable dataset. The simple log retention mechanism which throws away old updates will bound space but the log is no longer a way to restore the current state—now restoring from the beginning of the log no longer recreates the current state as old updates may not be captured at all.
 
@@ -8421,13 +8433,19 @@ The `log.cleanup.policy` property is a broker configuration setting defined in t
 
 This can be used to prevent messages newer than a minimum message age from being subject to compaction. If not set, all log segments are eligible for compaction except for the last segment, i.e. the one currently being written to. The active segment will not be compacted even if all of its messages are older than the minimum compaction time lag. The log cleaner can be configured to ensure a maximum delay after which the uncompacted "head" of the log becomes eligible for log compaction.
 
+这可以用来防止比最小消息年龄更新的消息被压缩。如果没有设置，除最后一个段(即当前写入的那个)外，所有日志段都可以进行压缩。即使活动段的所有消息都大于最小压缩时间延迟，活动段也不会被压缩。可以配置日志清理器，以确保在未压缩的日志“头”符合日志压缩条件后的最大延迟。
+
 ```text
   log.cleaner.max.compaction.lag.ms
 ```
 
 This can be used to prevent log with low produce rate from remaining ineligible for compaction for an unbounded duration. If not set, logs that do not exceed min.cleanable.dirty.ratio are not compacted. Note that this compaction deadline is not a hard guarantee since it is still subjected to the availability of log cleaner threads and the actual compaction time. You will want to monitor the uncleanable-partitions-count, max-clean-time-secs and max-compaction-delay-secs metrics.
 
+这可用于防止生成率低的日志在一段不受限制的时间内不符合压缩条件。如果未设置，则不超过min.clean .dirty的日志。比例没有压实。请注意，这个压缩最后期限并不是一个硬性保证，因为它仍然取决于日志清理器线程的可用性和实际压缩时间。您将需要监视不可清理分区计数、最大清理时间秒和最大压缩延迟秒指标
+
 Further cleaner configurations are described [here](http://kafka.apache.org/documentation.html#brokerconfigs).
+
+这里描述了更干净的配置。
 
 ### [4.9 Quotas](http://kafka.apache.org/documentation/#design_quotas)
 
