@@ -8467,17 +8467,30 @@ Kafka集群能够对请求强制执行配额，以控制客户机使用的代理
 
 It is possible for producers and consumers to produce/consume very high volumes of data or generate requests at a very high rate and thus monopolize broker resources, cause network saturation and generally DOS other clients and the brokers themselves. Having quotas protects against these issues and is all the more important in large multi-tenant clusters where a small set of badly behaved clients can degrade user experience for the well behaved ones. In fact, when running Kafka as a service this even makes it possible to enforce API limits according to an agreed upon contract.
 
+生产者和消费者有可能生产/消费大量数据或以非常高的速率生成请求，从而垄断代理资源，导致网络饱和，并且通常导致DOS其他客户端和代理本身。拥有配额可以避免这些问题，并且在大型多租户群集中尤为重要，在该群集中，一小组行为不佳的客户端可能会降低行为良好的客户端的用户体验。实际上，当将Kafka作为服务运行时，甚至可以根据约定的合同强制执行API限制。
+
 #### [Client groups](http://kafka.apache.org/documentation/#design_quotasgroups)
 
 The identity of Kafka clients is the user principal which represents an authenticated user in a secure cluster. In a cluster that supports unauthenticated clients, user principal is a grouping of unauthenticated users chosen by the broker using a configurable `PrincipalBuilder`. Client-id is a logical grouping of clients with a meaningful name chosen by the client application. The tuple (user, client-id) defines a secure logical group of clients that share both user principal and client-id.
 
+Kafka客户端的身份是用户主体，它代表安全集群中已通过身份验证的用户。在支持未经身份验证的客户端的集群中，用户主体是由代理使用可配置的` PrincipalBuilder`选择的未经身份验证的用户的分组。客户端ID是客户端的逻辑分组，其中客户端应用程序选择了有意义的名称。元组（用户，客户端ID）定义了共享用户主体和客户端ID的客户端安全逻辑组。
+
 Quotas can be applied to (user, client-id), user or client-id groups. For a given connection, the most specific quota matching the connection is applied. All connections of a quota group share the quota configured for the group. For example, if (user="test-user", client-id="test-client") has a produce quota of 10MB/sec, this is shared across all producer instances of user "test-user" with the client-id "test-client".
+
+配额可以应用于（用户，客户端ID），用户或客户端ID组。对于给定的连接，将应用与该连接匹配的最具体的配额。配额组的所有连接共享为该组配置的配额。例如，如果
+（user =` test-user`，client-id =` test-client`）的生产配额为10MB /秒，则该配额在用户` test-user`的所有生产者实例中与client- id `test-client`。
 
 #### [Quota Configuration](http://kafka.apache.org/documentation/#design_quotasconfig)
 
+配额配置
+
 Quota configuration may be defined for (user, client-id), user and client-id groups. It is possible to override the default quota at any of the quota levels that needs a higher (or even lower) quota. The mechanism is similar to the per-topic log config overrides. User and (user, client-id) quota overrides are written to ZooKeeper under ***/config/users*** and client-id quota overrides are written under ***/config/clients***. These overrides are read by all brokers and are effective immediately. This lets us change quotas without having to do a rolling restart of the entire cluster. See [here](http://kafka.apache.org/documentation/#quotas) for details. Default quotas for each group may also be updated dynamically using the same mechanism.
 
+配额配置可以为(用户、客户端id)、用户和客户端id组定义。可以在任何需要更高(甚至更低)配额的配额级别上覆盖缺省配额。这种机制类似于每个主题的日志配置覆盖。用户和(用户，客户端id)配额覆盖被写入ZooKeeper/config/users 和客户端id配额覆盖被写入/config/clients.所有brokers都要阅读这些条款并立即生效，这允许我们更改配额，而不必滚动重启整个集群。详细信息请参见[此处](http://kafka.apache.org/documentation/#quota)。每个组的默认配额也可以使用相同的机制动态更新。
+
 The order of precedence for quota configuration is:
+
+配额配置的优先顺序为:
 
 1. /config/users/<user>/clients/<client-id>
 2. /config/users/<user>/clients/<default>
@@ -8490,39 +8503,67 @@ The order of precedence for quota configuration is:
 
 Broker properties (quota.producer.default, quota.consumer.default) can also be used to set defaults of network bandwidth quotas for client-id groups. These properties are being deprecated and will be removed in a later release. Default quotas for client-id can be set in Zookeeper similar to the other quota overrides and defaults.
 
-
+代理属性(quota.producer.default, quota.consumer.default)还可以用于为客户端id组设置默认的网络带宽配额。这些属性已经不推荐使用，将在以后的版本中删除.客户端id的默认配额可以在Zookeeper中设置，类似于其他配额覆盖和默认配额。
 
 #### [Network Bandwidth Quotas](http://kafka.apache.org/documentation/#design_quotasbandwidth)
 
+网络带宽配额
+
 Network bandwidth quotas are defined as the byte rate threshold for each group of clients sharing a quota. By default, each unique client group receives a fixed quota in bytes/sec as configured by the cluster. This quota is defined on a per-broker basis. Each group of clients can publish/fetch a maximum of X bytes/sec per broker before clients are throttled.
+
+网络带宽配额定义为共享配额的每组客户端的字节速率阈值。默认情况下，每个唯一的客户端组都会收到由群集配置的固定配额（以字节/秒为单位）。此配额是根据每个broker定义的。在限制客户端之前，每组客户端最多可以为每个broker发布/获取X个字节/秒。
 
 #### [Request Rate Quotas](http://kafka.apache.org/documentation/#design_quotascpu)
 
+请求速率配额
+
 Request rate quotas are defined as the percentage of time a client can utilize on request handler I/O threads and network threads of each broker within a quota window. A quota of `n%` represents `n%` of one thread, so the quota is out of a total capacity of `((num.io.threads + num.network.threads) * 100)%`. Each group of clients may use a total percentage of upto `n%` across all I/O and network threads in a quota window before being throttled. Since the number of threads allocated for I/O and network threads are typically based on the number of cores available on the broker host, request rate quotas represent the total percentage of CPU that may be used by each group of clients sharing the quota.
+
+请求速率配额定义为客户端可以在配额窗口内利用每个代理的请求处理程序I / O线程和网络线程的时间百分比。配额` n％`表示一个线程的` n％`，因此配额超出了总容量`（（num.io.threads + num.network.threads）* 100）％`。在限制之前，每组客户端可以在配额窗口中的所有I / O和网络线程中使用总计不超过n％的百分比。由于分配给I / O和网络线程的线程数通常是基于代理主机上可用内核的数量，因此请求速率配额表示共享配额的每组客户端可以使用的CPU的总百分比。
 
 #### [Enforcement](http://kafka.apache.org/documentation/#design_quotasenforcement)
 
+执行
+
 By default, each unique client group receives a fixed quota as configured by the cluster. This quota is defined on a per-broker basis. Each client can utilize this quota per broker before it gets throttled. We decided that defining these quotas per broker is much better than having a fixed cluster wide bandwidth per client because that would require a mechanism to share client quota usage among all the brokers. This can be harder to get right than the quota implementation itself!
+
+默认情况下，每个唯一客户端组都会收到由群集配置的固定配额。此配额是根据每个broker定义的。每个客户可以在限制每个broker之前使用此配额。我们认为，为每个broker定义这些配额比为每个客户端具有固定的群集宽带带宽要好得多，因为这将需要一种在所有broker之间共享客户端配额使用情况的机制。比配额实现本身更难解决问题！
 
 How does a broker react when it detects a quota violation? In our solution, the broker first computes the amount of delay needed to bring the violating client under its quota and returns a response with the delay immediately. In case of a fetch request, the response will not contain any data. Then, the broker mutes the channel to the client, not to process requests from the client anymore, until the delay is over. Upon receiving a response with a non-zero delay duration, the Kafka client will also refrain from sending further requests to the broker during the delay. Therefore, requests from a throttled client are effectively blocked from both sides. Even with older client implementations that do not respect the delay response from the broker, the back pressure applied by the broker via muting its socket channel can still handle the throttling of badly behaving clients. Those clients who sent further requests to the throttled channel will receive responses only after the delay is over.
 
+broker检测到配额违反情况时会如何反应？在我们的解决方案中，broker首先计算将违规客户端置于其配额之下所需的延迟量，然后立即返回具有延迟的响应。在获取请求的情况下，响应将不包含任何数据。然后，broker将通向客户端的通道静音，不再处理来自客户端的请求，直到延迟结束。在收到具有非零延迟持续时间的响应时，Kafka客户端还将避免在延迟期间向broker发送进一步的请求。因此，来自受限制客户端的请求被有效地从双方阻止。即使使用不遵循broker延迟响应的较旧客户端实现，broker通过静默其套接字通道而施加的反压力仍可以处理行为不佳的客户端的限制。向延迟通道发送了更多请求的那些客户端仅在延迟结束后才接收响应。
+
 Byte-rate and thread utilization are measured over multiple small windows (e.g. 30 windows of 1 second each) in order to detect and correct quota violations quickly. Typically, having large measurement windows (for e.g. 10 windows of 30 seconds each) leads to large bursts of traffic followed by long delays which is not great in terms of user experience.
+
+字节率和线程利用率是在多个小窗口（例如30个窗口，每个窗口1秒）上测量的，以便快速检测和纠正配额违规。典型地，具有大的测量窗口（例如，每个30秒的10个窗口）导致大的业务量突发，继之以长的延迟，这对于用户体验而言不是很大。
 
 ## [5. IMPLEMENTATION](http://kafka.apache.org/documentation/#implementation)
 
+实现
+
 ### [5.1 Network Layer](http://kafka.apache.org/documentation/#networklayer)
+
+网络层
 
 The network layer is a fairly straight-forward NIO server, and will not be described in great detail. The sendfile implementation is done by giving the `MessageSet` interface a `writeTo` method. This allows the file-backed message set to use the more efficient `transferTo` implementation instead of an in-process buffered write. The threading model is a single acceptor thread and *N* processor threads which handle a fixed number of connections each. This design has been pretty thoroughly tested [elsewhere](http://sna-projects.com/blog/2009/08/introducing-the-nio-socketserver-implementation) and found to be simple to implement and fast. The protocol is kept quite simple to allow for future implementation of clients in other languages.
 
+
+
 ### [5.2 Messages](http://kafka.apache.org/documentation/#messages)
+
+消息
 
 Messages consist of a variable-length header, a variable-length opaque key byte array and a variable-length opaque value byte array. The format of the header is described in the following section. Leaving the key and value opaque is the right decision: there is a great deal of progress being made on serialization libraries right now, and any particular choice is unlikely to be right for all uses. Needless to say a particular application using Kafka would likely mandate a particular serialization type as part of its usage. The `RecordBatch` interface is simply an iterator over messages with specialized methods for bulk reading and writing to an NIO `Channel`.
 
 ### [5.3 Message Format](http://kafka.apache.org/documentation/#messageformat)
 
+消息格式
+
 Messages (aka Records) are always written in batches. The technical term for a batch of messages is a record batch, and a record batch contains one or more records. In the degenerate case, we could have a record batch containing a single record. Record batches and records have their own headers. The format of each is described below.
 
 #### [5.3.1 Record Batch](http://kafka.apache.org/documentation/#recordbatch)
+
+记录批处理
 
 The following is the on-disk format of a RecordBatch.
 
@@ -8564,6 +8605,8 @@ On compaction: unlike the older message formats, magic v2 and above preserves th
 
 ##### [5.3.1.1 Control Batches](http://kafka.apache.org/documentation/#controlbatch)
 
+控制批次
+
 A control batch contains a single record called the control record. Control records should not be passed on to applications. Instead, they are used by consumers to filter out aborted transactional messages.
 
 The key of a control record conforms to the following schema:
@@ -8580,6 +8623,8 @@ The key of a control record conforms to the following schema:
 The schema for the value of a control record is dependent on the type. The value is opaque to clients.
 
 #### [5.3.2 Record](http://kafka.apache.org/documentation/#record)
+
+记录
 
 Record level headers were introduced in Kafka 0.11.0. The on-disk format of a record with Headers is delineated below.
 
@@ -8602,7 +8647,7 @@ Record level headers were introduced in Kafka 0.11.0. The on-disk format of a re
 
 ##### [5.3.2.1 Record Header](http://kafka.apache.org/documentation/#recordheader)
 
-
+记录标题
 
 ```java
 		headerKeyLength: varint
@@ -8616,6 +8661,8 @@ Record level headers were introduced in Kafka 0.11.0. The on-disk format of a re
 We use the same varint encoding as Protobuf. More information on the latter can be found [here](https://developers.google.com/protocol-buffers/docs/encoding#varints). The count of headers in a record is also encoded as a varint.
 
 #### [5.3.3 Old Message Format](http://kafka.apache.org/documentation/#messageset)
+
+旧邮件格式
 
 Prior to Kafka 0.11, messages were transferred and stored in *message sets*. In a message set, each message has its own metadata. Note that although message sets are represented as an array, they are not preceded by an int32 array size like other array elements in the protocol.
 
@@ -8684,6 +8731,8 @@ The crc field contains the CRC32 (and not CRC-32C) of the subsequent message byt
 
 ### [5.4 Log](http://kafka.apache.org/documentation/#log)
 
+日志
+
 A log for a topic named "my_topic" with two partitions consists of two directories (namely `my_topic_0` and `my_topic_1`) populated with data files containing the messages for that topic. The format of the log files is a sequence of "log entries""; each log entry is a 4 byte integer *N* storing the message length which is followed by the *N* message bytes. Each message is uniquely identified by a 64-bit integer *offset* giving the byte position of the start of this message in the stream of all messages ever sent to that topic on that partition. The on-disk format of each message is given below. Each log file is named with the offset of the first message it contains. So the first file created will be 00000000000.kafka, and each additional file will have an integer name roughly *S* bytes from the previous file where *S* is the max log file size given in the configuration.
 
 The exact binary format for records is versioned and maintained as a standard interface so record batches can be transferred between producer, broker, and client without recopying or conversion when desirable. The previous section included details about the on-disk format of records.
@@ -8739,6 +8788,8 @@ Note that two kinds of corruption must be handled: truncation in which an unwrit
 
 #### [Consumer Offset Tracking](http://kafka.apache.org/documentation/#impl_offsettracking)
 
+消费抵销跟踪
+
 Kafka consumer tracks the maximum offset it has consumed in each partition and has the capability to commit offsets so that it can resume from those offsets in the event of a restart. Kafka provides the option to store all the offsets for a given consumer group in a designated broker (for that group) called the group coordinator. i.e., any consumer instance in that consumer group should send its offset commits and fetches to that group coordinator (broker). Consumer groups are assigned to coordinators based on their group names. A consumer can look up its coordinator by issuing a FindCoordinatorRequest to any Kafka broker and reading the FindCoordinatorResponse which will contain the coordinator details. The consumer can then proceed to commit or fetch offsets from the coordinator broker. In case the coordinator moves, the consumer will need to rediscover the coordinator. Offset commits can be done automatically or manually by consumer instance.
 
 When the group coordinator receives an OffsetCommitRequest, it appends the request to a special [compacted](http://kafka.apache.org/documentation/#compaction) Kafka topic named *__consumer_offsets*. The broker sends a successful offset commit response to the consumer only after all the replicas of the offsets topic receive the offsets. In case the offsets fail to replicate within a configurable timeout, the offset commit will fail and the consumer may retry the commit after backing off. The brokers periodically compact the offsets topic since it only needs to maintain the most recent offset commit per partition. The coordinator also caches the offsets in an in-memory table in order to serve offset fetches quickly.
@@ -8747,6 +8798,8 @@ When the coordinator receives an offset fetch request, it simply returns the las
 
 #### [ZooKeeper Directories](http://kafka.apache.org/documentation/#impl_zookeeper)
 
+ZooKeeper目录
+
 The following gives the ZooKeeper structures and algorithms used for co-ordination between consumers and brokers.
 
 #### [Notation](http://kafka.apache.org/documentation/#impl_zknotation)
@@ -8754,6 +8807,8 @@ The following gives the ZooKeeper structures and algorithms used for co-ordinati
 When an element in a path is denoted `[xyz]`, that means that the value of xyz is not fixed and there is in fact a ZooKeeper znode for each possible value of xyz. For example `/topics/[topic]` would be a directory named /topics containing a sub-directory for each topic name. Numerical ranges are also given such as `[0...5]` to indicate the subdirectories 0, 1, 2, 3, 4. An arrow `->` is used to indicate the contents of a znode. For example `/hello -> world` would indicate a znode /hello containing the value "world".
 
 #### [Broker Node Registry](http://kafka.apache.org/documentation/#impl_zkbroker)
+
+代理节点注册表
 
 ```json
     /brokers/ids/[0...N] --> {"jmx_port":...,"timestamp":...,"endpoints":[...],"host":...,"version":...,"port":...} (ephemeral node)
@@ -8764,6 +8819,8 @@ This is a list of all present broker nodes, each of which provides a unique logi
 Since the broker registers itself in ZooKeeper using ephemeral znodes, this registration is dynamic and will disappear if the broker is shutdown or dies (thus notifying consumers it is no longer available).
 
 #### [Broker Topic Registry](http://kafka.apache.org/documentation/#impl_zktopic)
+
+代理主题注册表
 
 ```json
     /brokers/topics/[topic]/partitions/[0...N]/state --> {"controller_epoch":...,"leader":...,"version":...,"leader_epoch":...,"isr":[...]} (ephemeral node)
@@ -8778,6 +8835,8 @@ The cluster id is a unique and immutable identifier assigned to a Kafka cluster.
 Implementation-wise, it is generated when a broker with version 0.10.1 or later is successfully started for the first time. The broker tries to get the cluster id from the `/cluster/id` znode during startup. If the znode does not exist, the broker generates a new cluster id and creates the znode with this cluster id.
 
 #### [Broker node registration](http://kafka.apache.org/documentation/#impl_brokerregistration)
+
+代理节点注册
 
 The broker nodes are basically independent, so they only publish information about what they have. When a broker joins, it registers itself under the broker node registry directory and writes information about its host name and port. The broker also register the list of existing topics and their logical partitions in the broker topic registry. New topics are registered dynamically when they are created on the broker.
 
@@ -8799,7 +8858,11 @@ This section will review the most common operations you will perform on your Kaf
 
 You have the option of either adding topics manually or having them be created automatically when data is first published to a non-existent topic. If topics are auto-created then you may want to tune the default [topic configurations](http://kafka.apache.org/documentation/#topicconfigs) used for auto-created topics.
 
+您可以选择手动添加主题，或者在数据首次发布到不存在的主题时自动创建主题。如果主题是自动创建的，那么您可能需要调优用于自动创建主题的默认[主题配置](http://kafka.apache.org/documentation/#topicconfigs)。
+
 Topics are added and modified using the topic tool:
+
+使用topic工具添加和修改主题:
 
 ```bash
   > bin/kafka-topics.sh --bootstrap-server broker_host:port --create --topic my_topic_name \ --partitions 20 --replication-factor 3 --config x=y
@@ -8807,13 +8870,23 @@ Topics are added and modified using the topic tool:
 
 The replication factor controls how many servers will replicate each message that is written. If you have a replication factor of 3 then up to 2 servers can fail before you will lose access to your data. We recommend you use a replication factor of 2 or 3 so that you can transparently bounce machines without interrupting data consumption.
 
+复制因子控制有多少服务器将复制写入的每条消息。如果您的复制因子为3，那么在您失去对数据的访问权之前，最多有2台服务器会发生故障。我们建议您使用2或3的复制因子，这样您就可以在不中断数据消耗的情况下透明地弹跳机器。
+
 The partition count controls how many logs the topic will be sharded into. There are several impacts of the partition count. First each partition must fit entirely on a single server. So if you have 20 partitions the full data set (and read and write load) will be handled by no more than 20 servers (not counting replicas). Finally the partition count impacts the maximum parallelism of your consumers. This is discussed in greater detail in the [concepts section](http://kafka.apache.org/documentation/#intro_consumers).
+
+分区计数控制将该主题分割成多少个日志。分区计数有几个影响。首先，每个分区必须完全适合单个服务器。因此，如果您有20个分区，那么完整的数据集(以及读写负载)将由不超过20台服务器处理(不包括副本)。最后，分区计数影响用户的最大并行度。在[概念部分](http://kafka.apache.org/documentation/#intro_consumer)中对此进行了更详细的讨论。
 
 Each sharded partition log is placed into its own folder under the Kafka log directory. The name of such folders consists of the topic name, appended by a dash (-) and the partition id. Since a typical folder name can not be over 255 characters long, there will be a limitation on the length of topic names. We assume the number of partitions will not ever be above 100,000. Therefore, topic names cannot be longer than 249 characters. This leaves just enough room in the folder name for a dash and a potentially 5 digit long partition id.
 
+每个分片分区日志都放在Kafka日志目录下自己的文件夹中。这类文件夹的名称由主题名称，加上破折号(-)和分区id组成。由于典型的文件夹名称不能超过255个字符，所以主题名称的长度是有限制的。我们假设分区的数量永远不会超过100,000。因此，主题名称不能超过249个字符。这样就在文件夹名中留下了足够的空间，可以使用破折号和可能有5位数字的长分区id。
+
 The configurations added on the command line override the default settings the server has for things like the length of time data should be retained. The complete set of per-topic configurations is documented [here](http://kafka.apache.org/documentation/#topicconfigs).
 
+在命令行上添加的配置覆盖了服务器对于数据应该保留的时间长度等内容的默认设置。每个主题配置的完整集合被记录[此处](http://kafka.apache.org/documentation/#topicconfigs)。
+
 #### [Modifying topics](http://kafka.apache.org/documentation/#basic_ops_modify_topic)
+
+修改主题
 
 You can change the configuration or partitioning of a topic using the same topic tool.
 
@@ -8826,7 +8899,11 @@ To add partitions you can do
 
 Be aware that one use case for partitions is to semantically partition data, and adding partitions doesn't change the partitioning of existing data so this may disturb consumers if they rely on that partition. That is if data is partitioned by `hash(key) % number_of_partitions` then this partitioning will potentially be shuffled by adding partitions but Kafka will not attempt to automatically redistribute data in any way.
 
+请注意，分区的一个用例是对数据进行语义分区，添加分区并不会改变现有数据的分区，因此如果用户依赖该分区，则可能会受到干扰。也就是说，如果数据被“hash(key) % number_of_partitions”分区，那么这个分区可能会被添加分区打乱，但是Kafka不会尝试以任何方式自动重新分配数据。
+
 To add configs:
+
+添加配置:
 
 ```bash
   > bin/kafka-configs.sh --bootstrap-server broker_host:port --entity-type topics --entity-name my_topic_name --alter --add-config x=y
@@ -8840,6 +8917,8 @@ To remove a config:
 
 And finally deleting a topic:
 
+最后删除一个主题:
+
 ```bash
   > bin/kafka-topics.sh --bootstrap-server broker_host:port --delete --topic my_topic_name
 ```
@@ -8848,7 +8927,13 @@ Kafka does not currently support reducing the number of partitions for a topic.
 
 Instructions for changing the replication factor of a topic can be found [here](http://kafka.apache.org/documentation/#basic_ops_increase_replication_factor).
 
+Kafka目前不支持减少主题的分区数量。
+
+可以在[此处]找到更改主题复制因子的说明。
+
 #### [Graceful shutdown](http://kafka.apache.org/documentation/#basic_ops_restarting)
+
+平滑关闭
 
 The Kafka cluster will automatically detect any broker shutdown or failure and elect new leaders for the partitions on that machine. This will occur whether a server fails or it is brought down intentionally for maintenance or configuration changes. For the latter cases Kafka supports a more graceful mechanism for stopping a server than just killing it. When a server is stopped gracefully it has two optimizations it will take advantage of:
 
@@ -8865,6 +8950,8 @@ Note that controlled shutdown will only succeed if *all* the partitions hosted o
 
 #### [Balancing leadership](http://kafka.apache.org/documentation/#basic_ops_leader_balancing)
 
+平衡的领导
+
 Whenever a broker stops or crashes, leadership for that broker's partitions transfers to other replicas. When the broker is restarted it will only be a follower for all its partitions, meaning it will not be used for client reads and writes.
 
 To avoid this imbalance, Kafka has a notion of preferred replicas. If the list of replicas for a partition is 1,5,9 then node 1 is preferred as the leader to either node 5 or 9 because it is earlier in the replica list. By default the Kafka cluster will try to restore leadership to the restored replicas. This behaviour is configured with:
@@ -8880,6 +8967,8 @@ You can also set this to false, but you will then need to manually restore leade
 ```
 
 #### [Balancing Replicas Across Racks](http://kafka.apache.org/documentation/#basic_ops_racks)
+
+跨机架平衡副本
 
 The rack awareness feature spreads replicas of the same partition across different racks. This extends the guarantees Kafka provides for broker-failure to cover rack-failure, limiting the risk of data loss should all the brokers on a rack fail at once. The feature can also be applied to other broker groupings such as availability zones in EC2.
 
@@ -8903,6 +8992,8 @@ However if racks are assigned different numbers of brokers, the assignment of re
 
 #### [Mirroring data between clusters](http://kafka.apache.org/documentation/#basic_ops_mirror_maker)
 
+在集群之间镜像数据
+
 We refer to the process of replicating data *between* Kafka clusters "mirroring" to avoid confusion with the replication that happens amongst the nodes in a single cluster. Kafka comes with a tool for mirroring data between Kafka clusters. The tool consumes from a source cluster and produces to a destination cluster. A common use case for this kind of mirroring is to provide a replica in another datacenter. This scenario will be discussed in more detail in the next section.
 
 You can run many such mirroring processes to increase throughput and for fault-tolerance (if one process dies, the others will take overs the additional load).
@@ -8923,6 +9014,8 @@ Note that we specify the list of topics with the `--whitelist` option. This opti
 
 #### [Checking consumer position](http://kafka.apache.org/documentation/#basic_ops_consumer_lag)
 
+检查消费者位置
+
 Sometimes it's useful to see the position of your consumers. We have a tool that will show the position of all consumers in a consumer group as well as how far behind the end of the log they are. To run this tool on a consumer group named *my-group* consuming a topic named *my-topic* would look like this:
 
 ```bash
@@ -8938,6 +9031,8 @@ Sometimes it's useful to see the position of your consumers. We have a tool that
 
 With the ConsumerGroupCommand tool, we can list, describe, or delete the consumer groups. The consumer group can be deleted manually, or automatically when the last committed offset for that group expires. Manual deletion works only if the group does not have any active members. For example, to list all consumer groups across all topics:
 
+使用ConsumerGroupCommand工具，我们可以列出、描述或删除消费者组。使用者组可以手动删除，也可以在该组最后一次提交的偏移量到期时自动删除。手动删除仅在组中没有任何活动成员时有效。例如，要列出所有主题的所有消费者组:
+
 ```bash
   > bin/kafka-consumer-groups.sh --bootstrap-server localhost:9092 --list
 
@@ -8945,6 +9040,8 @@ With the ConsumerGroupCommand tool, we can list, describe, or delete the consume
 ```
 
 To view offsets, as mentioned earlier, we "describe" the consumer group like this:
+
+如前所述，为了查看偏移量，我们这样“描述”消费者群体:
 
 ```bash
   > bin/kafka-consumer-groups.sh --bootstrap-server localhost:9092 --describe --group my-group
@@ -8960,7 +9057,11 @@ To view offsets, as mentioned earlier, we "describe" the consumer group like thi
 
 There are a number of additional "describe" options that can be used to provide more detailed information about a consumer group:
 
+有许多额外的“描述”选项，可用于提供关于消费者组的更详细的信息:
+
 - --members: This option provides the list of all active members in the consumer group.
+
+  members:此选项提供使用者组中所有活动成员的列表
 
   ```bash
         > bin/kafka-consumer-groups.sh --bootstrap-server localhost:9092 --describe --group my-group --members
@@ -8973,6 +9074,8 @@ There are a number of additional "describe" options that can be used to provide 
   ```
 
 - --members --verbose: On top of the information reported by the "--members" options above, this option also provides the partitions assigned to each member.
+
+  在上面的“——members”选项所报告的信息之上，该选项还提供了分配给每个成员的分区。
 
   ```bash
         > bin/kafka-consumer-groups.sh --bootstrap-server localhost:9092 --describe --group my-group --members --verbose
@@ -9433,6 +9536,8 @@ Note that these properties are being deprecated and may be removed in a future r
 
 ### [6.2 Datacenters](http://kafka.apache.org/documentation/#datacenters)
 
+技术支持
+
 Some deployments will need to manage a data pipeline that spans multiple datacenters. Our recommended approach to this is to deploy a local Kafka cluster in each datacenter with application instances in each datacenter interacting only with their local cluster and mirroring between clusters (see the documentation on the [mirror maker tool](http://kafka.apache.org/documentation/#basic_ops_mirror_maker) for how to do this).
 
 This deployment pattern allows datacenters to act as independent entities and allows us to manage and tune inter-datacenter replication centrally. This allows each facility to stand alone and operate even if the inter-datacenter links are unavailable: when this occurs the mirroring falls behind until the link is restored at which time it catches up.
@@ -9505,7 +9610,11 @@ All of the brokers in that cluster have a 90% GC pause time of about 21ms with l
 
 ### [6.5 Hardware and OS](http://kafka.apache.org/documentation/#hwandos)
 
+硬件和操作系统
+
 We are using dual quad-core Intel Xeon machines with 24GB of memory.
+
+我们使用24GB内存的Intel Xeon双四核机器。
 
 You need sufficient memory to buffer active readers and writers. You can do a back-of-the-envelope estimate of memory needs by assuming you want to be able to buffer for 30 seconds and compute your memory need as write_throughput*30.
 
@@ -9599,6 +9708,8 @@ EXT4 is a serviceable choice of filesystem for the Kafka data directories, howev
 - delalloc: Delayed allocation means that the filesystem avoid allocating any blocks until the physical write occurs. This allows ext4 to allocate a large extent instead of smaller pages and helps ensure the data is written sequentially. This feature is great for throughput. It does seem to involve some locking in the filesystem which adds a bit of latency variance.
 
 ### [6.6 Monitoring](http://kafka.apache.org/documentation/#monitoring)
+
+监控
 
 Kafka uses Yammer Metrics for metrics reporting in the server. The Java clients use Kafka Metrics, a built-in metrics registry that minimizes transitive dependencies pulled into client applications. Both expose metrics via JMX and can be configured to report stats using pluggable stats reporters to hook up to your monitoring system.
 
