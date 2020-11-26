@@ -6878,11 +6878,7 @@ What if you need to proxy a class, rather than one or more interfaces?
 
 Imagine that in our earlier example, there was no `Person` interface. We needed to advise a class called `Person` that did not implement any business interface. In this case, you can configure Spring to use CGLIB proxying rather than dynamic proxies. To do so, set the `proxyTargetClass` property on the `ProxyFactoryBean` shown earlier to `true`. While it is best to program to interfaces rather than classes, the ability to advise classes that do not implement interfaces can be useful when working with legacy code. (In general, Spring is not prescriptive. While it makes it easy to apply good practices, it avoids forcing a particular approach.)
 
-<<<<<<< HEAD
-想象一下，在我们之前的示例中，没有`person`接口，要建议一个名为` Person`的类，该类没有实现任何业务接口。在这种情况下，您可以配置Spring以使用CGLIB代理而不是动态代理。为此，请将前面显示的` ProxyFactoryBean`上的` proxyTargetClass`属性设置为` true`。尽管最好对接口而不是对类进行编程，但是在处理遗留代码时，建议未实现接口的类的功能可能会很有用。 （通常，Spring并不是规定性的。虽然可以轻松地应用良好实践，但可以避免强制采用特定方法。）
-=======
 想象一下，在我们之前的示例中，没有`person`界面。我们需要建议一个名为` Person`的类，该类没有实现任何业务接口。在这种情况下，您可以配置Spring以使用CGLIB代理而不是动态代理。为此，请将前面显示的` ProxyFactoryBean`上的` proxyTargetClass`属性设置为` true`。尽管最好对接口而不是对类进行编程，但是在处理遗留代码时，通知（增强）未实现接口的类的功能可能会很有用。 （通常，Spring并不是规定性的。虽然可以轻松地应用良好实践，但可以避免强制采用特定方法。）
->>>>>>> 5337e1c61d148307059012c399ace45c874c719d
 
 If you want to, you can force the use of CGLIB in any case, even if you do have interfaces.
 
@@ -6898,11 +6894,7 @@ CGLIB代理通常应对用户透明。但是，有一些问题要考虑：
 
 - `Final` methods cannot be advised, as they cannot be overridden.
 
-<<<<<<< HEAD
   -不能通知使用`final`方法，因为它们不能被覆盖。
-=======
-  -不能建议`final`方法，因为它们不能被覆盖。
->>>>>>> 5337e1c61d148307059012c399ace45c874c719d
 
 - There is no need to add CGLIB to your classpath. As of Spring 3.2, CGLIB is repackaged and included in the spring-core JAR. In other words, CGLIB-based AOP works “out of the box”, as do JDK dynamic proxies.
 
