@@ -3398,11 +3398,11 @@ Other methods let you obtain an actual `URL` or `File` object representing the r
 
 Spring itself uses the `Resource` abstraction extensively, as an argument type in many method signatures when a resource is needed. Other methods in some Spring APIs (such as the constructors to various `ApplicationContext` implementations) take a `String` which in unadorned or simple form is used to create a `Resource` appropriate to that context implementation or, via special prefixes on the `String` path, let the caller specify that a specific `Resource` implementation must be created and used.
 
-当需要资源时，Spring本身广泛使用Resource抽象作为许多方法签名中的参数类型。一些Spring API中的其他方法（例如，各种ApplicationContext实现的构造函数）采用String形式，该字符串以未经修饰或简单的形式用于创建适合该上下文实现的Resource，或者通过String路径上的特殊前缀，让调用者指定必须创建并使用特定的资源实现。
+当需要资源时，Spring本身广泛使用Resource抽象作为许多方法签名中的参数类型。一些Spring API中的其他方法（例如，各种ApplicationContext实现的构造函数）采用String形式，该字符串以未经修饰或简单的形式用于创建适合该上下文实现的Resource，或者通过String路径上的特殊前缀，让调用者指定必须创建并使用特定的resource实现。
 
 While the `Resource` interface is used a lot with Spring and by Spring, it is actually very useful to use as a general utility class by itself in your own code, for access to resources, even when your code does not know or care about any other parts of Spring. While this couples your code to Spring, it really only couples it to this small set of utility classes, which serve as a more capable replacement for `URL` and can be considered equivalent to any other library you would use for this purpose.
 
-尽管Spring和Spring经常使用Resource接口，但实际上，在您自己的代码中单独用作通用实用工具类来访问资源也非常有用，即使您的代码不了解或不关心其他任何东西春天的一部分。虽然这会将您的代码耦合到Spring，但实际上仅将其耦合到这套实用程序类，它们充当URL的更强大替代，并且可以被认为等同于您将用于此目的的任何其他库。
+尽管`Spring`和`Spring`经常使用`Resource`接口，但实际上，在您自己的代码中单独用作通用实用工具类来访问资源也非常有用，即使您的代码不了解或不关心其他任何东西spring的一部分。虽然这会将您的代码耦合到Spring，但实际上仅将其耦合到这套实用程序类，它们充当URL的更强大替代，并且可以被认为等同于您将用于此目的的任何其他库。
 
 |      | The `Resource` abstraction does not replace functionality. It wraps it where possible. For example, a `UrlResource` wraps a URL and uses the wrapped `URL` to do its work. |
 | ---- | ------------------------------------------------------------ |
@@ -3429,9 +3429,9 @@ Spring包含以下资源实现：
 
 A `UrlResource` is created by Java code by explicitly using the `UrlResource` constructor but is often created implicitly when you call an API method that takes a `String` argument meant to represent a path. For the latter case, a JavaBeans `PropertyEditor` ultimately decides which type of `Resource` to create. If the path string contains well-known (to it, that is) prefix (such as `classpath:`), it creates an appropriate specialized `Resource` for that prefix. However, if it does not recognize the prefix, it assume the string is a standard URL string and creates a `UrlResource`.
 
-UrlResource包装了java.net.URL，可用于访问通常可以通过URL访问的任何对象，例如文件，HTTP目标，FTP目标等。所有URL都具有标准化的String表示形式，因此使用适当的标准化前缀来指示另一种URL类型。这包括file：用于访问文件系统路径，http：通过HTTP协议访问资源，ftp：通过FTP访问资源等。
+`UrlResource`包装了`java.net.URL`，可用于访问通常可以通过URL访问的任何对象，例如文件，HTTP目标，FTP目标等。所有URL都具有标准化的String表示形式，因此使用适当的标准化前缀来指示另一种URL类型。这包括file：用于访问文件系统路径，http：通过HTTP协议访问资源，ftp：通过FTP访问资源等。
 
-UrlResource是由Java代码通过显式使用UrlResource构造函数创建的，但通常在调用带有String参数表示路径的API方法时隐式创建。对于后一种情况，JavaBeans PropertyEditor最终决定要创建哪种类型的资源。如果路径字符串包含众所周知的前缀（例如，classpath :），则它将为该前缀创建适当的专用资源。但是，如果它不能识别前缀，则假定该字符串是标准URL字符串并创建一个UrlResource。
+`UrlResource`是由Java代码通过显式使用`UrlResource`构造函数创建的，但通常在调用带有String参数表示路径的API方法时隐式创建。对于后一种情况，`JavaBeans PropertyEditor`最终决定要创建哪种类型的资源。如果路径字符串包含众所周知的前缀（例如，`classpath :`），则它将为该前缀创建适当的专用资源。但是，如果它不能识别前缀，则假定该字符串是标准URL字符串并创建一个`UrlResource`。
 
 #### 2.3.2. `ClassPathResource`
 
@@ -3441,17 +3441,17 @@ This `Resource` implementation supports resolution as `java.io.File` if the clas
 
 A `ClassPathResource` is created by Java code by explicitly using the `ClassPathResource` constructor but is often created implicitly when you call an API method that takes a `String` argument meant to represent a path. For the latter case, a JavaBeans `PropertyEditor` recognizes the special prefix, `classpath:`, on the string path and creates a `ClassPathResource` in that case.
 
-此类表示应从类路径获取的资源。它使用线程上下文类加载器，给定的类加载器或给定的类来加载资源。
+此类表示应从类路径获取的资源。它使用`线程上下文类加载器`，给定的类加载器或给定的类来加载资源。
 
 如果类路径资源驻留在文件系统中，而不是驻留在jar中并且尚未（通过servlet引擎或任何环境将其扩展到）文件系统的类路径资源驻留，则此Resource实现以java.io.File的形式支持解析。 。为了解决这个问题，各种Resource实现始终支持将解析作为java.net.URL。
 
-Java代码通过显式使用ClassPathResource构造函数来创建ClassPathResource，但通常在调用带有String参数表示路径的API方法时隐式创建ClassPathResource。对于后一种情况，JavaBeans PropertyEditor会在字符串路径上识别特殊前缀classpath：，并在这种情况下创建ClassPathResource。
+Java代码通过显式使用ClassPathResource构造函数来创建ClassPathResource，但通常在调用带有String参数表示路径的API方法时隐式创建ClassPathResource。对于后一种情况，`JavaBeans PropertyEdito`r会在字符串路径上识别特殊前缀`classpath：`，并在这种情况下创建ClassPathResource。
 
 #### 2.3.3. `FileSystemResource`
 
 This is a `Resource` implementation for `java.io.File` and `java.nio.file.Path` handles. It supports resolution as a `File` and as a `URL`.
 
-这是java.io.File和java.nio.file.Path句柄的Resource实现。它支持解析为文件和URL。
+这是java.io.File和java.nio.file.Path句柄的Resource实现。它支持解析为`file和UR`L。
 
 #### 2.3.4. `ServletContextResource`
 
@@ -3461,7 +3461,7 @@ It always supports stream access and URL access but allows `java.io.File` access
 
 这是ServletContext资源的Resource实现，它解释相关Web应用程序根目录中的相对路径。
 
-它始终支持流访问和URL访问，但仅在扩展Web应用程序档案且资源实际位于文件系统上时才允许java.io.File访问。它是在文件系统上扩展还是直接扩展，或者是直接从JAR或其他类似数据库（可以想到的）中访问，实际上取决于Servlet容器。
+它始终支持流stream访问和URL访问，但仅在扩展Web应用程序档案且资源实际位于文件系统上时才允许java.io.File访问。它是在文件系统上扩展还是直接扩展，或者是直接从JAR或其他类似数据库（可以想到的）中访问，实际上取决于Servlet容器。
 
 #### 2.3.5. `InputStreamResource`
 
@@ -3489,11 +3489,8 @@ The `ResourceLoader` interface is meant to be implemented by objects that can re
 
 ResourceLoader接口旨在由可以返回（即加载）Resource实例的对象实现。以下清单显示了ResourceLoader接口定义：
 
-
-
 ```java
 public interface ResourceLoader {
-
     Resource getResource(String location);
 }
 ```
@@ -3557,7 +3554,6 @@ ResourceLoaderAware接口是一个特殊的回调接口，用于标识期望随R
 
 ```java
 public interface ResourceLoaderAware {
-
     void setResourceLoader(ResourceLoader resourceLoader);
 }
 ```
@@ -3568,7 +3564,7 @@ When a class implements `ResourceLoaderAware` and is deployed into an applicatio
 
 Since an `ApplicationContext` is a `ResourceLoader`, the bean could also implement the `ApplicationContextAware` interface and use the supplied application context directly to load resources. However, in general, it is better to use the specialized `ResourceLoader` interface if that is all you need. The code would be coupled only to the resource loading interface (which can be considered a utility interface) and not to the whole Spring `ApplicationContext` interface.
 
-由于ApplicationContext是ResourceLoader，因此Bean也可以实现ApplicationContextAware接口，并直接使用提供的应用程序上下文来加载资源。但是，通常，如果需要的话，最好使用专用的ResourceLoader接口。该代码将仅耦合到资源加载接口（可以视为实用程序接口），而不耦合到整个Spring ApplicationContext接口。
+由于ApplicationContext是ResourceLoader，因此Bean也可以实现ApplicationContextAware接口，并直接使用提供的应用程序上下文来加载资源。但是，通常，如果需要的话，最好使用专用的ResourceLoader接口。该代码将仅耦合到资源加载接口（可以视为实用程序接口），而不耦合到整个Spring ApplicationContext接口.
 
 In application components, you may also rely upon autowiring of the `ResourceLoader` as an alternative to implementing the `ResourceLoaderAware` interface. The “traditional” `constructor` and `byType` autowiring modes (as described in [Autowiring Collaborators](https://docs.spring.io/spring-framework/docs/current/reference/html/core.html#beans-factory-autowire)) are capable of providing a `ResourceLoader` for either a constructor argument or a setter method parameter, respectively. For more flexibility (including the ability to autowire fields and multiple parameter methods), consider using the annotation-based autowiring features. In that case, the `ResourceLoader` is autowired into a field, constructor argument, or method parameter that expects the `ResourceLoader` type as long as the field, constructor, or method in question carries the `@Autowired` annotation. For more information, see [Using `@Autowired`](https://docs.spring.io/spring-framework/docs/current/reference/html/core.html#beans-autowired-annotation).
 
