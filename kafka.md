@@ -9034,9 +9034,7 @@ With the ConsumerGroupCommand tool, we can list, describe, or delete the consume
 使用ConsumerGroupCommand工具，我们可以列出、描述或删除消费者组。使用者组可以手动删除，也可以在该组最后一次提交的偏移量到期时自动删除。手动删除仅在组中没有任何活动成员时有效。例如，要列出所有主题的所有消费者组:
 
 ```bash
-  > bin/kafka-consumer-groups.sh --bootstrap-server localhost:9092 --list
-
-  test-consumer-group
+  > bin/kafka-consumer-groups.sh --bootstrap-server localhost:9092 --list test-consumer-group
 ```
 
 To view offsets, as mentioned earlier, we "describe" the consumer group like this:
@@ -9088,6 +9086,8 @@ There are a number of additional "describe" options that can be used to provide 
   ```
 
 - --offsets: This is the default describe option and provides the same output as the "--describe" option.
+
+  这是默认的描述选项，并提供与“——describe”选项相同的输出。
 
 - --state: This option provides useful group-level information.
 
@@ -10257,19 +10257,45 @@ We recommend monitoring GC time and other stats and various server stats such as
 
 The current stable branch is 3.5. Kafka is regularly updated to include the latest release in the 3.5 series.
 
+目前稳定的分支是3.5。Kafka定期更新，包括3.5系列的最新版本。
+
 #### [Operationalizing ZooKeeper](http://kafka.apache.org/documentation/#zkops)
 
 Operationally, we do the following for a healthy ZooKeeper installation:
 
+操作上，我们做了以下健康的ZooKeeper安装:
+
 - Redundancy in the physical/hardware/network layout: try not to put them all in the same rack, decent (but don't go nuts) hardware, try to keep redundant power and network paths, etc. A typical ZooKeeper ensemble has 5 or 7 servers, which tolerates 2 and 3 servers down, respectively. If you have a small deployment, then using 3 servers is acceptable, but keep in mind that you'll only be able to tolerate 1 server down in this case.
+
+  物理/硬件/网络布局中的冗余:尽量不要把它们都放在同一个机架上，像样的(但不要疯了)硬件，尽量保持冗余的电源和网络路径，等等。一个典型的ZooKeeper集成有5或7台服务器，分别容忍2台和3台服务器宕机。如果您的部署规模较小，那么使用3台服务器是可以接受的，但是请记住，在这种情况下，您只能容忍1台服务器宕机。
+
 - I/O segregation: if you do a lot of write type traffic you'll almost definitely want the transaction logs on a dedicated disk group. Writes to the transaction log are synchronous (but batched for performance), and consequently, concurrent writes can significantly affect performance. ZooKeeper snapshots can be one such a source of concurrent writes, and ideally should be written on a disk group separate from the transaction log. Snapshots are written to disk asynchronously, so it is typically ok to share with the operating system and message log files. You can configure a server to use a separate disk group with the dataLogDir parameter.
+
+  I/O隔离:如果您执行大量的写类型通信，那么您几乎肯定需要在专用磁盘组上使用事务日志。对事务日志的写操作是同步的(但为了提高性能而对其进行批处理)，因此，并发写操作会显著影响性能。ZooKeeper快照可以是并发写操作的一个来源，理想情况下应该在与事务日志分离的磁盘组上进行写操作。快照是异步写入磁盘的，因此通常可以与操作系统和消息日志文件共享。可以将服务器配置为使用带有dataLogDir参数的单独磁盘组。
+
 - Application segregation: Unless you really understand the application patterns of other apps that you want to install on the same box, it can be a good idea to run ZooKeeper in isolation (though this can be a balancing act with the capabilities of the hardware).
+
+  应用程序隔离:除非你真正理解你想要安装在同一台机器上的其他应用程序的应用模式，否则隔离运行ZooKeeper是个好主意(尽管这可以与硬件的功能保持平衡)。
+
 - Use care with virtualization: It can work, depending on your cluster layout and read/write patterns and SLAs, but the tiny overheads introduced by the virtualization layer can add up and throw off ZooKeeper, as it can be very time sensitive
+
+  使用虚拟化时要小心:它可以工作，这取决于您的集群布局、读/写模式和slas，但是虚拟化层引入的微小开销可能会增加并抛弃ZooKeeper，因为它对时间非常敏感
+
 - ZooKeeper configuration: It's java, make sure you give it 'enough' heap space (We usually run them with 3-5G, but that's mostly due to the data set size we have here). Unfortunately we don't have a good formula for it, but keep in mind that allowing for more ZooKeeper state means that snapshots can become large, and large snapshots affect recovery time. In fact, if the snapshot becomes too large (a few gigabytes), then you may need to increase the initLimit parameter to give enough time for servers to recover and join the ensemble.
+
+  ZooKeeper配置:它是java的，确保你给它足够的堆空间(我们通常用3-5G来运行它们，但这主要是由于我们这里的数据集大小)。不幸的是，我们没有一个很好的公式，但是请记住，允许更多的ZooKeeper状态意味着快照会变大，而大快照会影响恢复时间。事实上，如果快照变得太大(几个gb)，那么您可能需要增加initLimit参数，以给服务器足够的时间恢复并加入集合。
+
 - Monitoring: Both JMX and the 4 letter words (4lw) commands are very useful, they do overlap in some cases (and in those cases we prefer the 4 letter commands, they seem more predictable, or at the very least, they work better with the LI monitoring infrastructure)
+
+  监视:JMX和4字母单词(4lw)命令都非常有用，它们在某些情况下确实重叠(在这些情况下，我们更喜欢4字母命令，它们看起来更可预测，或者至少，它们与LI监视基础设施更好地工作)
+
 - Don't overbuild the cluster: large clusters, especially in a write heavy usage pattern, means a lot of intracluster communication (quorums on the writes and subsequent cluster member updates), but don't underbuild it (and risk swamping the cluster). Having more servers adds to your read capacity.
 
+  不要过度构建集群:大型集群，特别是在重写使用模式中，意味着大量的内部通信(写和随后的集群成员更新上的quorums)，但不要构建不足(并有覆盖集群的风险)。拥有更多的服务器会增加你的阅读能力。
+
 Overall, we try to keep the ZooKeeper system as small as will handle the load (plus standard growth capacity planning) and as simple as possible. We try not to do anything fancy with the configuration or application layout as compared to the official release as well as keep it as self contained as possible. For these reasons, we tend to skip the OS packaged versions, since it has a tendency to try to put things in the OS standard hierarchy, which can be 'messy', for want of a better way to word it.
+
+总的来说，我们试图使ZooKeeper系统尽可能小，以处理负载(加上标准增长容量计划)，并尽可能简单。与官方版本相比，我们尽量在配置或应用程序布局上不做任何花哨的事情，并尽可能保持其自成体系。由于这些原因，我们倾向于跳过OS打包版本，因为它有一种倾向，试图把东西放在OS标准的层次结构中，这可能是“凌乱的”，因为想要一个更好的方式来描述它。
 
 ## [7. SECURITY](http://kafka.apache.org/documentation/#security)
 
