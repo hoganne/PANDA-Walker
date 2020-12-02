@@ -14,6 +14,8 @@ public class AccountCache {
     static{
         Account currentAccount = new CurrentAccount();
         Account savingAccount = new SavingAccount();
+        ((CurrentAccount) currentAccount).setSavingAccount((SavingAccount) savingAccount);
+        ((SavingAccount) savingAccount).setCurrentAccount((CurrentAccount) currentAccount);
         accountCacheMap.put("SAVING", savingAccount);
         accountCacheMap.put("CURRENT", currentAccount);
 
