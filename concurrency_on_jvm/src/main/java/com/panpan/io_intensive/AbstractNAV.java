@@ -20,7 +20,7 @@ public abstract class AbstractNAV {
 
         final BufferedReader reader =
 
-                new BufferedReader(new FileReader("E:\\oldF\\learningDocument\\git-workspace\\PANDA-Walker\\concurrency_on_jvm\\src\\main\\resources\\stocks.txt"));
+                new BufferedReader(new FileReader("E:\\learningforalllife\\git-workspace\\PANDA-Walker\\concurrency_on_jvm\\src\\main\\resources\\stocks.txt"));
 
         final Map<String, Integer> stocks = new HashMap<String, Integer>();
         String stockInfo = null;
@@ -43,10 +43,7 @@ public abstract class AbstractNAV {
 
     }
 
-
-    public void timeAndComputeValue()
-
-            throws ExecutionException, InterruptedException, IOException {
+    public void timeAndComputeValue() throws ExecutionException, InterruptedException, IOException {
 
         final long start = System.nanoTime();
 
@@ -65,11 +62,6 @@ public abstract class AbstractNAV {
 
     }
 
-
-    public abstract double computeNetAssetValue(
-
-            final Map<String, Integer> stocks)
-
-            throws ExecutionException, InterruptedException, IOException;
+    public abstract double computeNetAssetValue(final Map<String, Integer> stocks) throws ExecutionException, InterruptedException, IOException;
 
 }

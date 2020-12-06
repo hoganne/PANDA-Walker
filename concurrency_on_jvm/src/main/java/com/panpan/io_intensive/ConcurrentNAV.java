@@ -28,16 +28,15 @@ public class ConcurrentNAV extends AbstractNAV {
                 return stocks.get(ticker) * YahooFinance.getPrice(ticker);
             }
         });
-    }
+        }
 
-
-    final ExecutorService executorPool = Executors.newFixedThreadPool(poolSize);
-    final List<Future<Double>> valueOfStocks = executorPool.invokeAll(partitions, 10000, TimeUnit.SECONDS);
-    double netAssetValue = 0.0;
-    for (final Future<Double> valueOfAStock : valueOfStocks)
-    netAssetValue += valueOfAStock.get();
-    executorPool.shutdown();
-    return netAssetValue;
+        final ExecutorService executorPool = Executors.newFixedThreadPool(poolSize);
+        final List<Future<Double>> valueOfStocks = executorPool.invokeAll(partitions, 10000, TimeUnit.SECONDS);
+        double netAssetValue = 0.0;
+        for (final Future<Double> valueOfAStock : valueOfStocks)
+        netAssetValue += valueOfAStock.get();
+        executorPool.shutdown();
+        return netAssetValue;
     }
 
 

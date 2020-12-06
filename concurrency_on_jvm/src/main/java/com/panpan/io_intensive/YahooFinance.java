@@ -14,14 +14,14 @@ import java.net.URL;
 public class YahooFinance {
 
     public static double getPrice(final String ticker) throws IOException {
-
-        final URL url = new URL("http://ichart.finance.yahoo.com/table.csv?s=" + ticker);
+//        "http://ichart.finance.yahoo.com/table.csv?s=" + ticker
+        final URL url = new URL("https://query1.finance.yahoo.com/v8/finance/chart/"+ticker+"?interval=2m");
 
         final BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));
 
-//Date,Open,High,Low,Close,Volume,Adj Close
+        //Date,Open,High,Low,Close,Volume,Adj Close
 
-//2011-03-17,336.83,339.61,330.66,334.64,23519400,334.64
+        //2011-03-17,336.83,339.61,330.66,334.64,23519400,334.64
 
         final String discardHeader = reader.readLine();
 

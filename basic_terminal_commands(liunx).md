@@ -94,13 +94,13 @@ awk [选项参数] 'script' var=value file(s) 或 awk [选项参数] -f scriptfi
 
   用法二：
 
-  ```
+  ```shell
   awk -F  #-F相当于内置变量FS, 指定分割字符
   ```
 
   实例：
 
-  ```
+  ```powershell
   # 使用","分割
    $  awk -F, '{print $1,$2}'   log.txt
    ---------------------------------------------
@@ -132,7 +132,7 @@ awk [选项参数] 'script' var=value file(s) 或 awk [选项参数] -f scriptfi
 
   实例：
 
-  ```
+  ```powershell
    $ awk -va=1 '{print $1,$1+a}' log.txt
    ---------------------------------------------
    2 3
@@ -149,13 +149,13 @@ awk [选项参数] 'script' var=value file(s) 或 awk [选项参数] -f scriptfi
 
   用法四：
 
-  ```
+  ```powershell
   awk -f {awk脚本} {文件名}
   ```
 
   实例：
 
-  ```
+  ```powershell
    $ awk -f cal.awk log.txt
   ```
 
@@ -200,40 +200,46 @@ awk [选项参数] 'script' var=value file(s) 或 awk [选项参数] -f scriptfi
 
   过滤第一列大于2并且第二列等于'Are'的行
 
-  ```
+  ```powershell
   $ awk '$1>2 && $2=="Are" {print $1,$2,$3}' log.txt    #命令
   #输出
   3 Are you
   ```
 
+  打印指定列到最后一列
+
+  ```
+awk -F ``" "` `'{for (i=2;i<=NF;i++)printf("%s ", $i);print ""}'
+  ```
+  
   ------
-
+  
   ### 内建变量
-
-  | 变量        | 描述                                                       |
-  | :---------- | :--------------------------------------------------------- |
-  | $n          | 当前记录的第n个字段，字段间由FS分隔                        |
-  | $0          | 完整的输入记录                                             |
-  | ARGC        | 命令行参数的数目                                           |
-  | ARGIND      | 命令行中当前文件的位置(从0开始算)                          |
-  | ARGV        | 包含命令行参数的数组                                       |
-  | CONVFMT     | 数字转换格式(默认值为%.6g)ENVIRON环境变量关联数组          |
-  | ERRNO       | 最后一个系统错误的描述                                     |
-  | FIELDWIDTHS | 字段宽度列表(用空格键分隔)                                 |
-  | FILENAME    | 当前文件名                                                 |
-  | FNR         | 各文件分别计数的行号                                       |
-  | FS          | 字段分隔符(默认是任何空格)                                 |
-  | IGNORECASE  | 如果为真，则进行忽略大小写的匹配                           |
-  | NF          | 一条记录的字段的数目                                       |
-  | NR          | 已经读出的记录数，就是行号，从1开始                        |
-  | OFMT        | 数字的输出格式(默认值是%.6g)                               |
-  | OFS         | 输出记录分隔符（输出换行符），输出时用指定的符号代替换行符 |
-  | ORS         | 输出记录分隔符(默认值是一个换行符)                         |
-  | RLENGTH     | 由match函数所匹配的字符串的长度                            |
-  | RS          | 记录分隔符(默认是一个换行符)                               |
-  | RSTART      | 由match函数所匹配的字符串的第一个位置                      |
-  | SUBSEP      | 数组下标分隔符(默认值是/034)                               |
-
+  
+  | 变量        | 描述                                                         |
+  | :---------- | :----------------------------------------------------------- |
+  | $n          | 当前记录的第n个字段，字段间由FS分隔                          |
+  | $0          | 完整的输入记录                                               |
+  | ARGC        | 命令行参数的数目argc                                         |
+  | ARGIND      | 命令行中当前文件的位置(从0开始算)argind                      |
+  | ARGV        | 包含命令行参数的数组argv                                     |
+  | CONVFMT     | 数字转换格式(默认值为%.6g)ENVIRON环境变量关联数组convfmt     |
+  | ERRNO       | 最后一个系统错误的描述errno                                  |
+  | FIELDWIDTHS | 字段宽度列表(用空格键分隔)fieldwidths                        |
+  | FILENAME    | 当前文件名filename                                           |
+  | FNR         | 各文件分别计数的行号fnr                                      |
+  | FS          | 字段分隔符(默认是任何空格)                                   |
+  | IGNORECASE  | 如果为真，则进行忽略大小写的匹配ignorecase                   |
+  | NF          | 一条记录的字段的数目nf                                       |
+  | NR          | 已经读出的记录数，就是行号，从1开始nr                        |
+  | OFMT        | 数字的输出格式(默认值是%.6g)   ofmt                          |
+| OFS         | 输出记录分隔符（输出换行符），输出时用指定的符号代替换行符  sfs |
+  | ORS         | 输出记录分隔符(默认值是一个换行符)                           |
+  | RLENGTH     | 由match函数所匹配的字符串的长度                              |
+  | RS          | 记录分隔符(默认是一个换行符)                                 |
+  | RSTART      | 由match函数所匹配的字符串的第一个位置                        |
+  | SUBSEP      | 数组下标分隔符(默认值是/034)                                 |
+  
   ```
   $ awk 'BEGIN{printf "%4s %4s %4s %4s %4s %4s %4s %4s %4s\n","FILENAME","ARGC","FNR","FS","NF","NR","OFS","ORS","RS";printf "---------------------------------------------\n"} {printf "%4s %4s %4s %4s %4s %4s %4s %4s %4s\n",FILENAME,ARGC,FNR,FS,NF,NR,OFS,ORS,RS}'  log.txt
   FILENAME ARGC  FNR   FS   NF   NR  OFS  ORS   RS
@@ -258,64 +264,64 @@ awk [选项参数] 'script' var=value file(s) 或 awk [选项参数] -f scriptfi
   4 4 10 There are
   # 指定输出分割符
   $  awk '{print $1,$2,$5}' OFS=" $ "  log.txt
-  ---------------------------------------------
+---------------------------------------------
   2 $ this $ test
-  3 $ Are $ awk
+3 $ Are $ awk
   This's $ a $
-  10 $ There $
+10 $ There $
   ```
-
+  
   ------
-
+  
   ### 使用正则，字符串匹配
-
-  ```
+  
+```
   # 输出第二列包含 "th"，并打印第二列与第四列
-  $ awk '$2 ~ /th/ {print $2,$4}' log.txt
+$ awk '$2 ~ /th/ {print $2,$4}' log.txt
   ---------------------------------------------
   this a
   ```
-
+  
   **~ 表示模式开始。// 中是模式。**
-
+  
   ```
-  # 输出包含 "re" 的行
+# 输出包含 "re" 的行
   $ awk '/re/ ' log.txt
-  ---------------------------------------------
+---------------------------------------------
   3 Are you like awk
-  10 There are orange,apple,mongo
+10 There are orange,apple,mongo
   ```
-
+  
   ------
-
+  
   ### 忽略大小写
-
-  ```
+  
+```
   $ awk 'BEGIN{IGNORECASE=1} /this/' log.txt
-  ---------------------------------------------
+---------------------------------------------
   2 this is a test
-  This's a test
+This's a test
   ```
-
+  
   ------
-
+  
   ### 模式取反
-
+  
   ```
   $ awk '$2 !~ /th/ {print $2,$4}' log.txt
   ---------------------------------------------
   Are like
   a
   There orange,apple,mongo
-  $ awk '!/th/ {print $2,$4}' log.txt
+$ awk '!/th/ {print $2,$4}' log.txt
   ---------------------------------------------
-  Are like
+Are like
   a
-  There orange,apple,mongo
+There orange,apple,mongo
   ```
 
   ------
-
+  
   ### awk脚本
 
   关于 awk 脚本，我们需要注意两个关键词 BEGIN 和 END。
@@ -323,20 +329,20 @@ awk [选项参数] 'script' var=value file(s) 或 awk [选项参数] -f scriptfi
   - BEGIN{ 这里面放的是执行前的语句 }
   - END {这里面放的是处理完所有的行后要执行的语句 }
   - {这里面放的是处理每一行时要执行的语句}
-
+  
   假设有这么一个文件（学生成绩表）：
-
+  
   ```
   $ cat score.txt
-  Marry   2143 78 84 77
+Marry   2143 78 84 77
   Jack    2321 66 78 45
-  Tom     2122 48 77 71
+Tom     2122 48 77 71
   Mike    2537 87 97 95
   Bob     2415 40 57 62
   ```
-
+  
   我们的 awk 脚本如下：
-
+  
   ```
   $ cat cal.awk
   #!/bin/awk -f
@@ -357,15 +363,15 @@ awk [选项参数] 'script' var=value file(s) 或 awk [选项参数] -f scriptfi
       printf "%-6s %-6s %4d %8d %8d %8d\n", $1, $2, $3,$4,$5, $3+$4+$5
   }
   #运行后
-  END {
+END {
       printf "---------------------------------------------\n"
-      printf "  TOTAL:%10d %8d %8d \n", math, english, computer
+    printf "  TOTAL:%10d %8d %8d \n", math, english, computer
       printf "AVERAGE:%10.2f %8.2f %8.2f\n", math/NR, english/NR, computer/NR
   }
   ```
-
+  
   我们来看一下执行结果：
-
+  
   ```
   $ awk -f cal.awk score.txt
   NAME    NO.   MATH  ENGLISH  COMPUTER   TOTAL
@@ -373,15 +379,15 @@ awk [选项参数] 'script' var=value file(s) 或 awk [选项参数] -f scriptfi
   Marry  2143     78       84       77      239
   Jack   2321     66       78       45      189
   Tom    2122     48       77       71      196
-  Mike   2537     87       97       95      279
+Mike   2537     87       97       95      279
   Bob    2415     40       57       62      159
-  ---------------------------------------------
+---------------------------------------------
     TOTAL:       319      393      350
-  AVERAGE:     63.80    78.60    70.00
+AVERAGE:     63.80    78.60    70.00
   ```
 
   ------
-
+  
   ### 另外一些实例
 
   AWK 的 hello world 程序为：
@@ -389,11 +395,11 @@ awk [选项参数] 'script' var=value file(s) 或 awk [选项参数] -f scriptfi
   ```
   BEGIN { print "Hello, world!" }
   ```
-
+  
   计算文件大小
 
   ```
-  $ ls -l *.txt | awk '{sum+=$5} END {print sum}'
+$ ls -l *.txt | awk '{sum+=$5} END {print sum}'
   --------------------------------------------------
   666581
   ```
@@ -403,9 +409,9 @@ awk [选项参数] 'script' var=value file(s) 或 awk [选项参数] -f scriptfi
   ```
   awk 'length>80' log.txt
   ```
-
+  
   打印九九乘法表
-
+  
   ```shell
   seq 9 | sed 'H;g' | awk -v RS='' '{for(i=1;i<=NF;i++)printf("%dx%d=%d%s", i, NR, i*NR, i==NR?"\n":"\t")}'
   ```
