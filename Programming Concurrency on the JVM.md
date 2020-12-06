@@ -1280,9 +1280,17 @@ Time taken: 8.220475
 
 ##### Coordination Using CountDownLatch 协调使用CountDownLatch
 
-在前面的例子中，Future有两种服务方式。首先，它帮助获得任务的结果。隐式地，它还帮助线程与这些任务/线程进行协调。它允许我们在线程继续其工作之前等待这些结果的到达。然而，如果任务没有结果返回，Fut ure作为协调工具就没有帮助。我们不希望仅仅为了协调而人为地返回结果。CountDownLatch可以作为这种情况下的协调工具。幼稚的ConcurrentTotalFileSize代码比ConcurrentTotalFileSize代码简单得多，也短得多。我更喜欢能够工作的简单代码。幼稚的concurrenttotalfilesize的问题是，每个线程都在等待它计划要完成的任务。这两个版本的代码的优点是它们没有可变的共享状态。如果我们在共享的可变性上妥协一点，2我们可以保持代码简单并使其工作。让我们看看怎么做。我们可以让每个线程更新一个共享变量，而不是返回子目录和文件大小。由于没有返回任何东西，代码会简单得多。我们仍然需要确保主线程等待所有的子目录被访问。我们可以使用CountDownLatch来表示等待结束。锁存器作为一个或多个线程的同步点，以等待其他线程到达一个完成点。这里我们简单地用门闩作为开关。
+在前面的例子中，Future有两种服务方式。首先，它帮助获得任务的结果。隐式地，它还帮助线程与这些任务/线程进行协调。它允许我们在线程继续其工作之前等待这些结果的到达。
 
-让我们创建一个名为ConcurrentTotalFileSizeWLatch的类，它将使用CountDownLatch。我们将递归地将探索子目录的任务委托给不同的线程。当线程发现一个文件时，它不会返回结果，而是更新一个共享变量totalSize，其类型为AtomicLong。AtomicLong提供了线程安全的方法来修改和检索一个简单的长变量的值。此外，我们将使用另一个名为pendingFileVisits的AtomicLong变量来对仍要访问的文件数量保持一个选项卡。当这个计数变为零时，我们通过调用countDown()来释放锁存器。
+然而，如果任务没有结果返回，Future作为协调工具就没有帮助。我们不希望仅仅为了协调而人为地返回结果。CountDownLatch可以作为这种情况下的协调工具。
+
+NaivelyConcurrentTotalFileSize代码比ConcurrentTotalFileSize代码简单得多，也短得多。我更喜欢能够工作的简单代码。
+
+NaivelyConcurrentTotalFileSize的问题是，每个线程都在等待它计划要完成的任务。这两个版本的代码的优点是它们没有可变的共享状态。如果我们在共享的可变性上妥协一点，我们可以保持代码简单并使其工作。让我们看看怎么做。
+
+我们可以让每个线程更新一个共享变量，而不是返回子目录和文件大小。由于没有返回任何东西，代码会简单得多。我们仍然需要确保主线程等待所有的子目录被访问。我们可以使用CountDownLatch来表示等待结束。锁存器作为一个或多个线程的同步点，以等待其他线程到达一个完成点。这里我们简单地用门闩作为开关。
+
+让我们创建一个名为ConcurrentTotalFileSizeWLatch的类，它将使CountDownLatch。我们将递归地将探索子目录的任务委托给不同的线程。当线程发现一个文件时，它不会返回结果，而是更新一个共享变量totalSize，其类型为AtomicLong。AtomicLong提供了线程安全的方法来修改和检索一个简单的长变量的值。此外，我们将使用另一个名为pendingFileVisits的AtomicLong变量来对仍要访问的文件数量保持一个选项卡。当这个计数变为零时，我们通过调用countDown()来释放锁存器。
 
 ```java
 public class ConcurrentTotalFileSizeWLatch {
@@ -1342,21 +1350,23 @@ System.out.println("Time taken: " + (end - start)/1.0e9);
 
 这个版本的代码要少得多。让我们运行它。
 
-java ConcurrentTotalFileSizeWLatch / usr >
+>java ConcurrentTotalFileSizeWLatch /usr
+>Total Size: 3793911517
+>Time taken: 10.22789
 
-总大小:3793911517
+花费的时间比`ConcurrentTotalFileSize`版本稍微多一些。这是因为所有线程共享的可变性都需要额外的同步，这就需要保护线程安全，这就降低了并发性。
 
-时间:10.22789
-
-花费的时间比ConcurrentTotalFileSize版本稍微多一些。这是因为所有线程共享的可变性都需要额外的同步，这就需要保护线程安全，这就降低了并发性。
-
-花费的时间比ConcurrentTotalFileSize版本稍微多一些。这是因为共享的所有线程都需要额外的同步，易变性需要保护线程安全，这降低了并发性。在前面的示例中，通过将闩锁值设置为1，我们使用CountDownLatch作为一个简单的开关。我们还可以使用更高的值，让多个线程等待它。如果我们想让多个线程在继续执行某个任务之前达到一个协调点，那么这将非常有用。然而，CountDownLatch是不可重用的。一旦它被用于同步，它就必须被丢弃。如果我们想要一个可重用的同步点，我们应该使用一个CyclicBarrier。该代码的性能优于按顺序分配到大小相等的版本。它比ConcurrentTotalFileSize版本稍差一些，但简单得多。但是，访问共享的可变变量会有额外的风险，这是我经常警告的。如果我们能保持代码简单，同时避免共享的易变性，那就好得多了。我们将在第8章的第163页中看到如何做到这一点。
+花费的时间比`ConcurrentTotalFileSize`版本稍微多一些。这是因为共享的所有线程都需要额外的同步，易变性需要保护线程安全，这降低了并发性。在前面的示例中，通过将闩锁值设置为1，我们使用`CountDownLatch`作为一个简单的开关。我们还可以使用更高的值，让多个线程等待它。如果我们想让多个线程在继续执行某个任务之前达到一个协调点，那么这将非常有用。然而，`CountDownLatch`是不可重用的。一旦它被用于同步，它就必须被丢弃。如果我们想要一个可重用的同步点，我们应该使用一个`CyclicBarrier`。该代码的性能优于按顺序分配到大小相等的版本。它比`ConcurrentTotalFileSize`版本稍差一些，但简单得多。但是，访问共享的可变变量会有额外的风险，这是我经常警告的。如果我们能保持代码简单，同时避免共享的易变性，那就好得多了。我们将在第8章的第163页中看到如何做到这一点。
 
 ##### 4.3 Exchanging Data
 
-我们经常希望在多个协作线程之间交换数据。在前面的示例中，我们使用Fut ure和AtomicLong。当我们想要在任务完成时得到一个响应时，Fut ure是非常有用的。并发中的AtomicLong和其他原子类。原子包对于处理单个共享数据值非常有用。尽管它们对于交换数据很有用，但正如我们在上一个示例中看到的那样，它们可能会变得很笨拙。为了处理多个数据值或频繁地交换数据，我们需要一种比这两种更好的机制。java.util。并发API有许多类，它们提供线程安全的方式来在线程之间通信任意数据。如果只想在两个线程之间交换数据，则可以使用exchangeclass。它充当一个同步点，在这里两个线程可以以线程安全的方式交换数据。更快的线程被阻塞，直到较慢的线程赶上同步点来交换数据。
+我们经常希望在多个协作线程之间交换数据。在前面的示例中，我们使用Future和AtomicLong。当我们想要在任务完成时得到一个响应时，Future是非常有用的。并发中的AtomicLong和其他原子类。原子包对于处理单个共享数据值非常有用。尽管它们对于交换数据很有用，但正如我们在上一个示例中看到的那样，它们可能会变得很笨拙。
 
-如果我们想在线程之间发送一堆数据，BlockingQueue接口的实例可能会派上用场。顾名思义，插入被阻塞直到空间可用，删除被阻塞直到数据可用。JDK提供了相当多的BlockingQueue。例如，要匹配insert和remove，可以使用一个SynchronousQueue来协调每个insert操作和另一个线程对应的remove操作。如果我们想让数据基于某些优先级冒泡，我们可以使用PriorityBlockingQueue。对于一个简单的阻塞队列，我们可以从LinkedBlockingQueue选择一个链表风格，或者从ArrayBlockingQueue选择一个数组风格。我们可以使用阻塞队列来同时解决文件大小的问题。我们可以不使用AtomicLong可变变量，而是让每个线程将其计算的部分文件大小放入一个队列中。然后，主线程可以从队列中获取这些部分结果，并在本地计算总结果。让我们先编写代码来浏览目录:
+为了处理多个数据值或频繁地交换数据，我们需要一种比这两种更好的机制。java.util。concurrent API有许多类，它们提供线程安全的方式来在线程之间通信任意数据。
+
+如果只想在两个线程之间交换数据，则可以使用`exchange class`。它充当一个同步点，在这里两个线程可以以线程安全的方式交换数据。更快的线程被阻塞，直到较慢的线程赶上同步点来交换数据。
+
+如果我们想在线程之间发送一堆数据，`BlockingQueue`接口的实例可能会派上用场。顾名思义，插入被阻塞直到空间可用，删除被阻塞直到数据可用。JDK提供了相当多的BlockingQueue。例如，要匹配insert和remove，可以使用一个`SynchronousQueue`来协调每个insert操作和另一个线程对应的remove操作。如果我们想让数据基于某些优先级冒泡，我们可以使用`PriorityBlockingQueue`。对于一个简单的阻塞队列，我们可以从`LinkedBlockingQueue`选择一个链表风格，或者从`ArrayBlockingQueue`选择一个数组风格。我们可以使用阻塞队列来同时解决文件大小的问题。我们可以不使用`AtomicLong`可变变量，而是让每个线程将其计算的部分文件大小放入一个队列中。然后，主线程可以从队列中获取这些部分结果，并在本地计算总结果。让我们先编写代码来浏览目录:
 
 ```java
 public class ConcurrentTotalFileSizeWQueue {
@@ -1543,18 +1553,18 @@ useMap(new ConcurrentHashMap<String, Integer>());
 
 当我们运行这个示例时，我们将看到传统的映射不能在迭代的中间处理这个修改(甚至在单个线程中)，但是ConcurrentHashMap处理得非常好。
 
-Using Plain vanilla HashMap
-Sara score 12
-Failed: java.util.ConcurrentModificationException
-Number of elements in the map: 3
-Using Synchronized HashMap
-Sara score 12
-Failed: java.util.ConcurrentModificationException
-Number of elements in the map: 3
-Using Concurrent HashMap
-Sara score 12
-Fred score 10
-Number of elements in the map: 3
+> Using Plain vanilla HashMap
+> Sara score 12
+> Failed: java.util.ConcurrentModificationException
+> Number of elements in the map: 3
+> Using Synchronized HashMap
+> Sara score 12
+> Failed: java.util.ConcurrentModificationException
+> Number of elements in the map: 3
+> Using Concurrent HashMap
+> Sara score 12
+> Fred score 10
+> Number of elements in the map: 3
 
 除了允许交叉读和写之外，并发集合提供了比同步版本更好的吞吐量。这是因为并发集合没有持有排他锁允许多个更新和读取并发工作。读取会看到最新的值。如果读取发生在批量写入的中间，则不会阻塞我们的读取以完成整个更新。这意味着我们可能看到部分变化，但不是全部。在任何情况下，并发集合都保证了可见性或happens-before行为。让我们来看看并发映射与同步版本的性能。在这个度量中，每个线程的工作负载大致相同，因此随着线程数量的增加，进程中的总体工作负载也会增加，从而有更多的争用机会。在每个线程中，我从映射中访问一个随机键。如果没有找到密钥，我大约80%的时间插入它，如果找到了密钥，我大约20%的时间删除它。我首先在一个ConcurrentHashMap上尝试前面的操作，然后在一个带有同步包装器的HashMap上尝试。
 
