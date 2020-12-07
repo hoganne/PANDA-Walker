@@ -1,10 +1,7 @@
 package com.panpan.currentpackage;
 
 import java.io.File;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
@@ -58,10 +55,9 @@ public class ConcurrentTotalFileSizeWLatch {
 
     public static void main(final String[] args) throws InterruptedException {
         final long start = System.nanoTime();
-        final long total = new ConcurrentTotalFileSizeWLatch()
-                .getTotalSizeOfFile(args[0]);
+        final long total = new ConcurrentTotalFileSizeWLatch().getTotalSizeOfFile(args[0]);
         final long end = System.nanoTime();
-        System.out.println("Total Size: " + total);
+        System.out.println("Total Size: " + total/1024/1024);
         System.out.println("Time taken: " + (end - start) / 1.0e9);
     }
 }

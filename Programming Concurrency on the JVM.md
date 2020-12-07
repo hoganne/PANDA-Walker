@@ -1290,7 +1290,7 @@ NaivelyConcurrentTotalFileSize的问题是，每个线程都在等待它计划�
 
 我们可以让每个线程更新一个共享变量，而不是返回子目录和文件大小。由于没有返回任何东西，代码会简单得多。我们仍然需要确保主线程等待所有的子目录被访问。我们可以使用CountDownLatch来表示等待结束。锁存器作为一个或多个线程的同步点，以等待其他线程到达一个完成点。这里我们简单地用门闩作为开关。
 
-让我们创建一个名为ConcurrentTotalFileSizeWLatch的类，它将使CountDownLatch。我们将递归地将探索子目录的任务委托给不同的线程。当线程发现一个文件时，它不会返回结果，而是更新一个共享变量totalSize，其类型为AtomicLong。AtomicLong提供了线程安全的方法来修改和检索一个简单的长变量的值。此外，我们将使用另一个名为pendingFileVisits的AtomicLong变量来对仍要访问的文件数量保持一个选项卡。当这个计数变为零时，我们通过调用countDown()来释放锁存器。
+让我们创建一个名为`ConcurrentTotalFileSizeWLatch`的类，它将使`CountDownLatch`。我们将递归地将探索子目录的任务委托给不同的线程。当线程发现一个文件时，它不会返回结果，而是更新一个共享变量totalSize，其类型为AtomicLong。AtomicLong提供了线程安全的方法来修改和检索一个简单的长变量的值。此外，我们将使用另一个名为pendingFileVisits的AtomicLong变量来对仍要访问的文件数量保持一个选项卡。当这个计数变为零时，我们通过调用countDown()来释放锁存器。
 
 ```java
 public class ConcurrentTotalFileSizeWLatch {
@@ -1358,15 +1358,15 @@ System.out.println("Time taken: " + (end - start)/1.0e9);
 
 花费的时间比`ConcurrentTotalFileSize`版本稍微多一些。这是因为共享的所有线程都需要额外的同步，易变性需要保护线程安全，这降低了并发性。在前面的示例中，通过将闩锁值设置为1，我们使用`CountDownLatch`作为一个简单的开关。我们还可以使用更高的值，让多个线程等待它。如果我们想让多个线程在继续执行某个任务之前达到一个协调点，那么这将非常有用。然而，`CountDownLatch`是不可重用的。一旦它被用于同步，它就必须被丢弃。如果我们想要一个可重用的同步点，我们应该使用一个`CyclicBarrier`。该代码的性能优于按顺序分配到大小相等的版本。它比`ConcurrentTotalFileSize`版本稍差一些，但简单得多。但是，访问共享的可变变量会有额外的风险，这是我经常警告的。如果我们能保持代码简单，同时避免共享的易变性，那就好得多了。我们将在第8章的第163页中看到如何做到这一点。
 
-##### 4.3 Exchanging Data
+##### 4.3 Exchanging Data 交换数据
 
 我们经常希望在多个协作线程之间交换数据。在前面的示例中，我们使用Future和AtomicLong。当我们想要在任务完成时得到一个响应时，Future是非常有用的。并发中的AtomicLong和其他原子类。原子包对于处理单个共享数据值非常有用。尽管它们对于交换数据很有用，但正如我们在上一个示例中看到的那样，它们可能会变得很笨拙。
 
-为了处理多个数据值或频繁地交换数据，我们需要一种比这两种更好的机制。java.util。concurrent API有许多类，它们提供线程安全的方式来在线程之间通信任意数据。
+为了处理多个数据值或频繁地交换数据，我们需要一种比这两种更好的机制。java.util.concurrent API有许多类，它们提供线程安全的方式来在线程之间通信任意数据。
 
-如果只想在两个线程之间交换数据，则可以使用`exchange class`。它充当一个同步点，在这里两个线程可以以线程安全的方式交换数据。更快的线程被阻塞，直到较慢的线程赶上同步点来交换数据。
+如果只想在两个线程之间交换数据，则可以使用`Exchange class`。它充当一个同步点，在这里两个线程可以以线程安全的方式交换数据。更快的线程被阻塞，直到较慢的线程赶上同步点来交换数据。
 
-如果我们想在线程之间发送一堆数据，`BlockingQueue`接口的实例可能会派上用场。顾名思义，插入被阻塞直到空间可用，删除被阻塞直到数据可用。JDK提供了相当多的BlockingQueue。例如，要匹配insert和remove，可以使用一个`SynchronousQueue`来协调每个insert操作和另一个线程对应的remove操作。如果我们想让数据基于某些优先级冒泡，我们可以使用`PriorityBlockingQueue`。对于一个简单的阻塞队列，我们可以从`LinkedBlockingQueue`选择一个链表风格，或者从`ArrayBlockingQueue`选择一个数组风格。我们可以使用阻塞队列来同时解决文件大小的问题。我们可以不使用`AtomicLong`可变变量，而是让每个线程将其计算的部分文件大小放入一个队列中。然后，主线程可以从队列中获取这些部分结果，并在本地计算总结果。让我们先编写代码来浏览目录:
+如果我们想在线程之间发送一堆数据，`BlockingQueue`接口的实例可能会派上用场。顾名思义，插入被阻塞直到空间可用，删除被阻塞直到数据可用。JDK提供了相当多的BlockingQueue。例如，要匹配insert和remove，可以使用一个`SynchronousQueue`来协调每个insert操作和另一个线程对应的remove操作。如果我们想让数据基于某些优先级排序，我们可以使用`PriorityBlockingQueue`。对于一个简单的阻塞队列，我们可以从`LinkedBlockingQueue`选择一个链表风格，或者从`ArrayBlockingQueue`选择一个数组风格。我们可以使用阻塞队列来同时解决文件大小的问题。我们可以不使用`AtomicLong`可变变量，而是让每个线程将其计算的部分文件大小放入一个队列中。然后，主线程可以从队列中获取这些部分结果，并在本地计算总结果。让我们先编写代码来浏览目录:
 
 ```java
 public class ConcurrentTotalFileSizeWQueue {
@@ -1423,8 +1423,7 @@ service.shutdown();
 }
 public static void main(final String[] args) throws InterruptedException {
 final long start = System.nanoTime();
-final long total = new ConcurrentTotalFileSizeWQueue()
-.getTotalSizeOfFile(args[0]);
+final long total = new ConcurrentTotalFileSizeWQueue().getTotalSizeOfFile(args[0]);
 final long end = System.nanoTime();
 System.out.println("Total Size: " + total);
 System.out.println("Time taken: " + (end - start)/1.0e9);
@@ -1441,11 +1440,19 @@ Let’s see how this version performs:
 
 ##### 4.4 Java 7 Fork-Join API
 
-ExecutorService管理一个线程池，允许我们在它的线程池中调度任务来执行。然而，池中有多少线程是由我们决定的，我们调度的任务和这些任务创建的子任务之间没有区别。Java 73带来了一个专门化的ExecutorService，提高了fork-join API的效率和性能。ForkJoinPool类根据可用处理器的数量和任务需求动态地管理线程。Fork-join使用了工作窃取，即线程拾取(窃取)由其他活动任务创建的任务。这提供了更好的性能和线程利用率。活动任务创建的子任务使用与外部任务不同的方法进行调度。我们通常在整个应用程序中使用一个fork-join池来调度任务。另外，也不需要关闭池，因为它使用了守护线程。为了调度任务，我们将ForkJoinTask的实例(通常是它的一个子类的实例)提供给ForkJoinPool的方法。ForkJoinTask允许我们fork任务，然后在完成任务后加入。ForkJoinTask有两个子类:Recursi veActi on和Recursi veTask。为了调度不返回任何结果的任务，我们使用了Recursi veActi on的一个子类。对于返回结果的任务，我们使用Recursi veTask的子类。
+`ExecutorService`管理一个线程池，允许我们在它的线程池中调度任务来执行。然而，池中有多少线程是由我们决定的，我们调度的任务和这些任务创建的子任务之间没有区别。Java 73带来了一个专门化的`ExecutorService`，提高了`fork-join` API的效率和性能。
 
-fork-join API适用于规模合理的任务，这样开销可以平摊，但不会太大(或在循环中无限运行)，从而实现合理的吞吐量。fork-join API希望任务没有副作用(不改变共享状态)，也没有同步或阻塞方法。fork-join API对于可以递归地分解问题，直到小到可以按顺序运行的问题非常有用。多个较小的部分被安排在同一时间运行，利用由ForkJoinPool管理的池中的线程。让我们使用fork-join API来解决文件大小问题。回想一下我们在第49页的4.2节协调线程中开发的简单解决方案。这个解决方案非常简单，但是对于较大的目录层次结构，我们遇到了池引起的死锁问题。任务以等待任务结束
+ForkJoinPool类根据可用处理器的数量和任务需求动态地管理线程。Fork-join使用了工作窃取，即线程拾取(窃取)由其他活动任务创建的任务。这提供了更好的性能和线程利用率。
 
-它们在持有这些子任务运行所需的线程时生成。fork-join API结束了这种窃取工作的问题。当一个任务等待子任务完成时，执行该任务的线程会挑选一个新任务来运行。让我们看看使用fork-join API解决文件大小问题的代码
+活动任务创建的子任务使用与外部任务不同的方法进行调度。我们通常在整个应用程序中使用一个fork-join池来调度任务。另外，也不需要关闭池，因为它使用了守护线程。
+
+为了调度任务，我们将`ForkJoinTask`的实例(通常是它的一个子类的实例)提供给`ForkJoinPool`的方法。`ForkJoinTask`允许我们fork任务，然后在完成任务后加入。`ForkJoinTask`有两个子类:`RecursiveAction`和`RecursiveTask`。为了调度不返回任何结果的任务，我们使用了`RecursiveAction`的一个子类。对于返回结果的任务，我们使用`RecursiveTask`的子类
+
+`fork-join API`适用于规模合理的任务，这样开销可以平摊，但不会太大(或在循环中无限运行)，从而实现合理的吞吐量。`fork-join API`希望任务没有副作用(不改变共享状态)，也没有同步或阻塞方法。`fork-join API`对于可以递归地分解问题，直到小到可以按顺序运行的问题非常有用。
+
+多个较小的部分被安排在同一时间运行，利用由`ForkJoinPool`管理的池中的线程。
+
+让我们使用fork-join API来解决文件大小问题。回想一下我们在第49页的4.2节协调线程中开发的简单解决方案。这个解决方案非常简单，但是对于较大的目录层次结构，我们遇到了池引起的死锁问题。任务最终等待它们生成的任务，同时持有这些子任务运行所需的线程。fork-join API结束了这种窃取工作的问题。当一个任务等待子任务完成时，执行该任务的线程会挑选一个新任务来运行。让我们看看使用fork-join API解决文件大小问题的代码。
 
 ```java
 public class FileSize {

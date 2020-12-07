@@ -11,8 +11,7 @@ import java.util.concurrent.atomic.AtomicLong;
  **/
 public class ConcurrentTotalFileSizeWQueue {
     private ExecutorService service;
-    final private BlockingQueue<Long> fileSizes =
-            new ArrayBlockingQueue<Long>(500);
+    final private BlockingQueue<Long> fileSizes = new ArrayBlockingQueue<Long>(500);
     final AtomicLong pendingFileVisits = new AtomicLong();
 
     private void startExploreDir(final File file) {
@@ -46,14 +45,12 @@ public class ConcurrentTotalFileSizeWQueue {
         }
         pendingFileVisits.decrementAndGet();
     }
-    private long getTotalSizeOfFile(final String fileName)
-            throws InterruptedException {
+    private long getTotalSizeOfFile(final String fileName) throws InterruptedException {
         service = Executors.newFixedThreadPool(100);
         try {
             startExploreDir(new File(fileName));
             long totalSize = 0;
-            while(pendingFileVisits.get() > 0 || fileSizes.size() > 0)
-            {
+            while(pendingFileVisits.get() > 0 || fileSizes.size() > 0) {
                 final Long size = fileSizes.poll(10, TimeUnit.SECONDS);
                 totalSize += size;
             }
@@ -64,10 +61,9 @@ public class ConcurrentTotalFileSizeWQueue {
     }
     public static void main(final String[] args) throws InterruptedException {
         final long start = System.nanoTime();
-        final long total = new ConcurrentTotalFileSizeWQueue()
-                .getTotalSizeOfFile(args[0]);
+        final long total = new ConcurrentTotalFileSizeWQueue().getTotalSizeOfFile(args[0]);
         final long end = System.nanoTime();
-        System.out.println("Total Size: " + total);
+        System.out.println("Total Size: " + total/1024/1024+"M");
         System.out.println("Time taken: " + (end - start)/1.0e9);
     }
 }
