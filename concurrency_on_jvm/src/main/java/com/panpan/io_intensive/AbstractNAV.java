@@ -19,8 +19,9 @@ public abstract class AbstractNAV {
     public static Map<String, Integer> readTickers() throws IOException {
 
         final BufferedReader reader =
+new BufferedReader(new FileReader("E:\\oldF\\learningDocument\\git-workspace\\PANDA-Walker\\concurrency_on_jvm\\src\\main\\resources\\stocks.txt"));
+//new BufferedReader(new FileReader("E:\\learningforalllife\\git-workspace\\PANDA-Walker\\concurrency_on_jvm\\src\\main\\resources\\stocks.txt"));
 
-                new BufferedReader(new FileReader("E:\\learningforalllife\\git-workspace\\PANDA-Walker\\concurrency_on_jvm\\src\\main\\resources\\stocks.txt"));
 
         final Map<String, Integer> stocks = new HashMap<String, Integer>();
         String stockInfo = null;

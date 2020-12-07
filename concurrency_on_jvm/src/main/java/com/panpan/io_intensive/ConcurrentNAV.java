@@ -13,7 +13,6 @@ import java.util.concurrent.*;
  * @Version V1.0
  **/
 public class ConcurrentNAV extends AbstractNAV {
-
     @Override
     public double computeNetAssetValue(final Map<String, Integer> stocks) throws InterruptedException,ExecutionException {
         final int numberOfCores = Runtime.getRuntime().availableProcessors();
@@ -38,7 +37,6 @@ public class ConcurrentNAV extends AbstractNAV {
         executorPool.shutdown();
         return netAssetValue;
     }
-
 
     public static void main(final String[] args) throws ExecutionException,InterruptedException, IOException
     {

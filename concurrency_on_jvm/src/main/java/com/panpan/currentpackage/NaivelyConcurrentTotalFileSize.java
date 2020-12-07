@@ -52,4 +52,3 @@ public class NaivelyConcurrentTotalFileSize {
         System.out.println("Time taken: " + (end - start) / 1.0e9);
     }
 }
-}
