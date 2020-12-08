@@ -10,13 +10,13 @@ public class EnergySource {
     private long level = MAXLEVEL;
     private boolean keepRunning = true;
 
-    public EnergySource() {
-        new Thread(new Runnable() {
-            public void run() {
-                replenish();
-            }
-        }).start();
-    }
+//    public EnergySource() {
+//        new Thread(new Runnable() {
+//            public void run() {
+//                replenish();
+//            }
+//        }).start();
+//    }
 
     public long getUnitsAvailable() {
         return level;
@@ -44,6 +44,23 @@ public class EnergySource {
                 ex.printStackTrace();
             }
         }
+    }
+
+    private EnergySource() {
+    }
+
+    private void init() {
+        new Thread(new Runnable() {
+            public void run() {
+                replenish();
+            }
+        }).start();
+    }
+
+    public static EnergySource create() {
+        final EnergySource energySource = new EnergySource();
+        energySource.init();
+        return energySource;
     }
 
     public static void main(String[] args) {
