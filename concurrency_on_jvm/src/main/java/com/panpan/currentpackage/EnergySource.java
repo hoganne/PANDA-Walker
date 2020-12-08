@@ -37,10 +37,16 @@ public class EnergySource {
     private void replenish() {
         while (keepRunning) {
             if (level < MAXLEVEL) level++;
+
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException ex) {
+                ex.printStackTrace();
             }
         }
+    }
+
+    public static void main(String[] args) {
+
     }
 }
