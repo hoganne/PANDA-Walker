@@ -559,8 +559,6 @@ return netAssetValue;
 
 }
 
-
-
 public static void main(final String[] args)
 
 throws ExecutionException, IOException, InterruptedException {
@@ -2042,21 +2040,61 @@ monitor.writeLock().unlock();
 
 ##### 软件事务性介绍内存 Introduction to Software Transactional Memory
 
-还记得上次您完成一个必须同步共享可变变量的项目吗?你可能会有一种不安的感觉，怀疑自己是否在所有正确的地方做到了同步，而不是放松和享受工作做好的感觉。我的编程过程中出现过不少这样令人不安的时刻。这主要是因为Java中的共享可变状态没有遵循最小意外原则。如果我们忘记同步，那么等待我们的将是不可预测的、潜在的灾难性结果。但是，人非圣贤孰能无过;忘记是我们的天性。我们所依赖的工具不应该惩罚我们，而应该弥补我们的不足，帮助我们实现创造性思维所寻求的目标。对于可预测的行为和结果，我们需要超越JDK。在本章中，我们将学习如何使用由Clojure推广的软件事务性内存(STM)模型，在共享可变性的情况下安全地使用它。在可能的情况下，我们可以在项目中切换到或混合使用Clojure。但是我们并不是被迫使用Clojure，因为有一些方法可以直接在Java中使用STM，这要感谢像Multiverse和Akka这样的好工具。在本章中，我们将学习STM，稍微介绍一下它在Clojure中的样子，然后是如何在Java和Scala中编程事务性内存。当我们有频繁的读和非常少的写冲突时，这种编程模型非常适合，它使用简单但给出可预测的结果。
+​		还记得上次您完成一个必须同步共享可变变量的项目吗?你可能会有一种不安的感觉，怀疑自己是否在所有正确的地方做到了同步，而不是放松和享受工作做好的感觉。我的编程过程中出现过不少这样令人不安的时刻。
 
-##### 6.1同步限制并发性
+这主要是因为Java中的`共享可变状态`没有遵循最小意外原则。如果我们忘记同步，那么等待我们的将是不可预测的、潜在的灾难性结果。但是，人非圣贤孰能无过;忘记是我们的天性。我们所依赖的工具不应该惩罚我们，而应该弥补我们的不足，帮助我们实现创造性思维所寻求的目标。
 
-同步有一些根本的缺陷如果我们不正确地使用它或完全忘记它，一个线程所做的更改可能对其他线程是不可见的。为了确保可见性和避免竞态条件，我们通常需要在哪些地方进行同步。不幸的是，在同步时，我们迫使竞争线程等待。并发性受到同步粒度的影响，因此将其交给程序员会增加降低其效率或完全错误的机会。同步可能会导致许多活性问题。如果应用程序在等待其他锁时持有锁，那么它很容易死锁。当线程连续地无法获得特定的锁时，也很容易遇到活锁问题。我们可以通过将锁设置成细粒度或细粒度来改进并发性。尽管这通常是个好主意，但最大的风险是无法在正确的级别上同步。更糟糕的是，没有任何迹象表明同步失败。此外，我们只移动了线程等待的位置:线程仍然在请求独占访问并期望其他线程等待。对于大多数使用JDK并发性设施的Java程序员来说，这就是大城市中的简单生活。我们在可变状态的命令式编程的道路上走了太久，很难看到同步的替代方案，但是有。
+对于可预测的行为和结果，我们需要超越JDK。在本章中，我们将学习如何使用由`Clojure`推广的软件事务性内存`(STM)`模型，在共享可变性的情况下安全地使用它。在可能的情况下，我们可以在项目中切换到或混合使用`Clojure`。但是我们并不是被迫使用`Clojure`，因为有一些方法可以直接在Java中使用`STM`，这要感谢像`Multiverse`和`Akka`这样的好工具。在本章中，我们将学习STM，稍微介绍一下它在`Clojure`中的样子，然后是如何在Java和Scala中编程事务性内存。当我们有频繁的读和非常少的写冲突时，这种编程模型非常适合，它使用简单但给出可预测的结果。
 
-作为Java程序员，我们精通面向对象编程(OOP)。但是这种语言极大地影响了我们建模面向对象应用程序的方式。OOP并不是Alan Kay在创造这个术语时所想到的东西。他的愿景主要是消息传递,他想摆脱数据(他认为系统是使用生物细胞样的对象之间传递的消息进行操作,但没有持有任何国家)见附录2中面向对象编程的意义,网络资源,在255页。在此过程中，OO语言开始沿着通过抽象数据类型(adt)隐藏数据、将数据与过程绑定或结合状态和行为的路径发展。这在很大程度上导致了我们对状态的封装和突变。在这个过程中，我们最终合并了身份和状态，合并了实例和它的数据。身份和状态的这种合并对许多Java程序员造成了威胁，其后果可能并不明显。当我们穿过a时
+##### 6.1同步限制并发性  Synchronization Damns Concurrency
 
-当指针或引用一个实例时，我们到达保存其状态的内存块。在那个位置操作数据感觉很自然。位置表示实例及其包含的内容。组合的同一性和状态是非常简单和容易理解的。然而，从并发性的角度来看，这有一些严重的后果。例如，如果我们运行一个报告来打印关于银行账户的各种细节——数量、当前余额、交易、最低余额等等，我们将会遇到并发问题。手边的引用是通向随时可能改变的状态的门户。因此，我们不得不在查看帐户时锁定其他线程。其结果是低并发性。问题并不是从锁定开始的，而是从帐户身份与其状态的合并开始的。我们被告知OO编程模型是真实的。遗憾的是，现实世界的行为并不完全像当前OO范式试图建模的那样。在现实世界中，国家不会改变;的身份。下面我们将讨论这是怎么回事。身份与状态的分离快，谷歌股票的价格是多少?我们可能会说股票的价值在市场开放时每分钟都在变化，但这在某种程度上只是在玩文字游戏。举个简单的例子，谷歌股票在2010年12月10日的收盘价是592.21美元，这是永远不会改变的，它是不可改变的，被写入了历史。我们正在查看它在指定时间的值的快照。当然，谷歌股票今天的价格和那天不一样。如果我们几分钟后再看(假设市场是开放的)，我们看到的是一个不同的价值，但旧的价值是不变的。我们可以改变我们看待对象的方式，这就改变了我们使用它们的方式。将身份与其不可变状态值分开。我们将看到此更改如何启用无锁编程、改进并发性并将争用减少到最低限度。身份与状态的分离是Rich Hickey在实现Clojure s STM模型时迈出的关键一步;请参阅附录2,Web资源，255页中的“值和更改:Clojure的身份和状态方法”。假设我们的谷歌stock对象有两部分;第一部分表示股票的身份，它反过来有一个指向第二部分的指针，股票的最新值的不变状态，如图9所示，在第92页，可变身份与不变状态值的分离。
+同步有一些根本的缺陷
+
+如果我们不正确地使用它或完全忘记它，一个线程所做的更改可能对其他线程是不可见的。为了确保`可见性`和`避免竞态条件`，我们通常需要在哪些地方进行同步。
+
+不幸的是，在同步时，我们迫使`竞争线程等待`。并发性受到同步粒度的影响，因此将其交给程序员会增加降低其效率或完全错误的机会。同步可能会导致许多`活性问题`。如果应用程序在等待其他锁时持有锁，那么它很容易死锁。当线程连续地无法获得特定的锁时，也很容易遇到活锁问题。
+
+我们可以通过将锁设置成细粒度或细粒度来改进并发性。尽管这通常是个好主意，但最大的风险是无法在正确的级别上同步。更糟糕的是，没有任何迹象表明同步失败。此外，我们只移动了线程等待的位置:线程仍然在请求独占访问并期望其他线程等待。对于大多数使用JDK并发性设施的Java程序员来说，这就是大城市中的简单生活。我们在`可变状态`的命令式编程的道路上走了太久，很难看到同步的替代方案，但是有。
+
+##### 6.2 The Deficiency of the Object Model 对象模型的不足
+
+作为Java程序员，我们精通面向对象编程(`OOP`)。但是这种语言极大地影响了我们建模面向对象应用程序的方式。`OOP`并不是AlanKay在创造这个术语时所想到的东西。他的愿景主要是`消息传递`,他想摆脱数据(他认为系统是使用在执行操作但不持有任何状态的类似生物细胞的对象之间传递的消息来构建)
+
+见附录2中面向对象编程的意义,网络资源,在255页。
+
+在此过程中，OO语言开始沿着通过抽象数据类型(adt)隐藏数据、将数据与过程绑定或结合状态和行为的路径发展。这在很大程度上导致了我们`对状态的封装和突变`。在这个过程中，我们最终合并了身份和状态，合并了实例和它的数据。身份和状态的这种合并对许多Java程序员造成了威胁，其后果可能并不明显。
+
+当我们遍历一个实例的指针或引用时，我们到达保存其状态的内存块。在那个位置操作数据感觉很自然。位置表示实例及其包含的内容。组合的同一性和状态是非常简单和容易理解的。
+
+然而，从并发性的角度来看，这有一些严重的后果。例如，如果我们运行一个报告来打印关于银行账户的各种细节——数量、当前余额、交易、最低余额等等，我们将会遇到并发问题。手边的引用是通向随时可能改变的状态的门户。因此，我们不得不在查看帐户时锁定其他线程。其结果是低并发性。问题并不是从锁定开始的，而是从帐户身份与其状态的合并开始的。
+
+我们被告知OO编程模型是真实的。遗憾的是，现实世界的行为并不完全像当前OO范式试图建模的那样。在现实世界中，状态不会改变;身份会变。下面我们将讨论这是怎么回事。
+
+##### 6.3 Separation of Identity and State 身份和状态的分离
+
+​		谷歌股票的价格是多少?我们可能会说股票的价值在市场开放时每分钟都在变化，但这在某种程度上只是在玩文字游戏。举个简单的例子，谷歌股票在2010年12月10日的收盘价是592.21美元，这是永远不会改变的，它是不可改变的，被写入了历史。我们正在查看它在指定时间的值的快照。当然，谷歌股票今天的价格和那天不一样。如果我们几分钟后再看(假设市场是开放的)，我们看到的是一个不同的价值，但旧的价值是不变的。
+
+我们可以改变我们看待对象的方式，这就改变了我们使用它们的方式。将身份与其不可变状态值分开。我们将看到此更改如何启用无锁编程、改进并发性并将争用减少到最低限度。身份与状态的分离是Rich Hickey在实现Clojure‘s STM模型时迈出的关键一步;
+
+请参阅附录2,Web资源，255页中的“值和更改:Clojure的身份和状态方法”。
+
+假设我们的谷歌stock对象有两部分;第一部分表示股票的身份，它反过来有一个指向第二部分的指针，股票的最新值的不变状态，如图9所示，在第92页，可变身份与不变状态值的分离。
 
 ![image-20201205205314216](E:\learningforalllife\git-workspace\PANDA-Walker\picture\image-20201205205314216.png)
 
-当我们收到一个新的价格，我们添加到历史价格指数，不改变任何现有的东西。由于旧的值是不可变的，所以我们共享现有的数据。因此，如果我们为此使用持久数据结构，我们就没有复制，也可以享受更快的操作，正如我们在第39页的3.6节，持久/不可变数据结构中讨论的那样。一旦有了新数据，我们就可以快速更改标识以指向新值。身份与状态的分离是并发的纯粹幸福。我们不需要阻止任何对股票价格的请求。由于状态不会改变，我们可以轻易地将指针移交给请求线程。在我们更改标识后到达的任何请求都将看到更新。非阻塞读取意味着更高的可伸缩并发性。我们只需要确保线程对它们的世界有一致的看法。最好的部分是，我们不需要;STM为我们做了这件事。我相信你现在渴望更多地了解STM。身份与状态的分离有助于STM解决同步的两个主要问题:跨越内存障碍和防止竞态条件。我们将首先在Clojure上下文中介绍STM，然后在Java中使用它。软件事务性内存报告简介
+当我们收到一个新的价格，我们添加到历史价格指数，不改变任何现有的东西。由于旧的值是不可变的，所以我们共享现有的数据。因此，如果我们为此使用持久数据结构，我们就没有复制，也可以享受更快的操作，正如我们在第39页的3.6节，持久/不可变数据结构中讨论的那样。一旦有了新数据，我们就可以快速更改标识以指向新值。
 
-Clojure通过在事务中访问内存，消除了内存同步的危险细节(请参阅Programming Clojure [Hal09]和Clojure [FH11])。Clojure敏锐地监视和协调线程的活动。例如，如果没有冲突，使用不同帐户的线程就不会涉及到锁，也不会有延迟，从而实现最大并发性。当两个线程尝试访问相同的数据时，事务管理器将介入以解决冲突，同样，我们的代码中不涉及显式锁定。让我们探讨一下这是如何工作的。按照设计，值是不可变的，而身份只能在Clojure中的事务中可变。在Clojure中根本没有办法更改状态，也没有为此而编写的编程工具。如果试图在任何事务之外更改对象的标识，它将失败，并出现严重的IllegalStateException异常。另一方面，当被事务绑定时，在没有冲突的情况下，更改是即时的。如果出现冲突，Clojure将自动回滚事务并重试。我们的责任是确保事务中的代码是幂等的。在函数式编程中，我们试图避免副作用，因此这与Clojure中的编程模型非常匹配。现在来看一个Clojure STM示例。我们使用refs在Clojure中创建可变身份。ref为它所表示的不可变状态的标识提供了协调的同步change1。让我们创建一个ref并尝试改变它。
+身份与状态的分离是并发的纯粹幸福。我们不需要阻止任何对股票价格的请求。由于状态不会改变，我们可以轻易地将指针移交给请求线程。在我们更改标识后到达的任何请求都将看到更新。非阻塞读取意味着更高的可伸缩并发性。我们只需要确保线程对它们的世界有一致的看法。
+
+最好的部分是，我们不需要;STM为我们做了这件事。我相信你现在渴望更多地了解STM。
+
+##### 6.4 Software Transactional Memory 软件事务性内存
+
+​		身份与状态的分离有助于STM解决同步的两个主要问题:`跨越内存障碍`和`防止竞态条件`。我们将首先在`Clojure`上下文中介绍`STM`，然后在Java中使用它
+
+`Clojure`通过在事务中访问内存，消除了内存同步的危险细节(请参阅Programming Clojure [Hal09]和Clojure [FH11])。`Clojure`敏锐地监视和协调线程的活动。例如，如果没有冲突，使用不同帐户的线程就不会涉及到锁，也不会有延迟，从而实现最大并发性。当两个线程尝试访问相同的数据时，事务管理器将介入以解决冲突，同样，我们的代码中不涉及显式锁定。让我们探讨一下这是如何工作的。
+
+​		按照设计，值是不可变的，而身份只能在`Clojure`中的事务中可变。在`Clojure`中根本没有办法`更改状态`，也没有为此而编写的编程工具。如果试图在任何事务之外更改对象的标识，它将失败，并出现严重的`IllegalStateException`异常。另一方面，当被事务绑定时，在没有冲突的情况下，更改是即时的。如果出现冲突，`Clojure`将自动回滚事务并重试。我们的责任是确保事务中的代码是`幂等的`。在函数式编程中，我们试图避免副作用，因此这与`Clojure`中的编程模型非常匹配。现在来看一个`Clojure STM`示例。我们使用refs在Clojure中创建可变身份。ref为它所表示的`不可变状态`的标识提供了协调的同步change。让我们创建一个ref并尝试改变它。
 
 ```java
 (def balance (ref 0))
@@ -2067,16 +2105,24 @@ Clojure通过在事务中访问内存，消除了内存同步的危险细节(请
 
 我们定义了一个名为balance的变量，并使用ref将其标记为可变的。
 
-现在balance表示一个具有不可变值0的可变标识。
+现在`balance`表示一个具有不可变值0的可变标识。
 
-然后打印该变量的当前值。接下来，我们尝试使用命令ref-set修改balance。如果成功，我们应该看到最后一条语句打印的新余额。让我们看看结果是怎样的;我只需使用clj mutable.clj运行此脚本。关于如何在系统上安装和运行它，请参阅Clojure文档。
+然后打印该变量的当前值。接下来，我们尝试使用命令`ref-set`修改`balance`。如果成功，我们应该看到最后一条语句打印的新余额。让我们看看结果是怎样的;我只需使用clj mutable.clj运行此脚本。关于如何在系统上安装和运行它，请参阅Clojure文档。
 
-Balance is 0
-Exception in thread "main"
-java.lang.IllegalStateException: No transaction running (mutate.clj:0)
-...
+> Balance is 0
+> Exception in thread "main"
+> java.lang.IllegalStateException: No transaction running (mutate.clj:0)
+> ...
 
-前两个语句运行得很好:我们能够打印初始余额0。然而，我们试图改变这个值的努力以一个非法的例外而失败。我们在事务之外修改了变量，这让Clojure之神很生气。将这种明显的失败与Java在不同步情况下修改共享的可变变量时的邪恶行为进行对比。这是一个相当大的改进，因为我们宁愿让我们的代码表现正确或大声地失败，也不愿悄悄地产生不可预测的结果。我想邀请您庆祝一下，但我看到您急于修复Clojure STM的这个错误，所以让我们继续前进。在Clojure中创建事务很容易。我们只是将代码块包装在dosync调用中。从结构上看，这有点像Java中的synchronized块，但是有很多不同之处:如果我们忘记在变化的代码周围放置dosync，我们会得到一个明确的警告。dosync没有创建排他锁，而是通过在事务中包装代码，让代码公平地与其他线程竞争。由于我们不执行任何显式锁，因此不必担心锁顺序，并且可以享受无死锁的并发性。STM提供了一个简单的锁运行时事务组合，而不是强制在设计时预先考虑谁锁了什么锁以及锁的顺序。没有显式锁意味着程序员不会放置保守的互斥代码块。其结果是最大并发性直接和动态地由应用程序行为和数据访问决定。当事务在进行时，如果没有与其他线程/事务冲突，事务就可以完成，其更改可以写入到内存中。但是，一旦Clojure发现其他一些事务已经在某种程度上发展到危及该事务，它就会悄悄地回滚更改并重复该事务。让我们修复代码，这样我们就可以成功地更改balance变量。
+前两个语句运行得很好:我们能够打印初始余额0。然而，我们试图改变这个值的努力以一个非法的例外而失败。我们在事务之外修改了变量，这让Clojure之神很生气。
+
+​		将这种明显的失败与Java在不同步情况下修改共享的可变变量时的邪恶行为进行对比。这是一个相当大的改进，因为我们宁愿让我们的代码表现正确或大声地失败，也不愿悄悄地产生不可预测的结果。我想邀请您庆祝一下，但我看到您急于修复Clojure STM的这个错误，所以让我们继续前进。
+
+​		在Clojure中创建事务很容易。我们只是将代码块包装在`dosync`调用中。从结构上看，这有点像Java中的`synchronized`块，但是有很多不同之处:如果我们忘记在变化的代码周围放置`dosync`，我们会得到一个明确的警告。`dosync`没有创建排他锁，而是通过在事务中包装代码，让代码公平地与其他线程竞争。由于我们不执行任何显式锁，因此不必担心锁顺序，并且可以享受无死锁的并发性。
+
+STM提供了一个简单的锁运行时事务组合，而不是强制在设计时预先考虑谁锁了什么锁以及锁的顺序。没有显式锁意味着程序员不会放置保守的互斥代码块。
+
+其结果是最大并发性直接和动态地由应用程序行为和数据访问决定。当事务在进行时，如果没有与其他线程/事务冲突，事务就可以完成，其更改可以写入到内存中。但是，一旦Clojure发现其他一些事务已经在某种程度上发展到危及该事务，它就会悄悄地回滚更改并重复该事务。让我们修复代码，这样我们就可以成功地更改balance变量。
 
 ```java
 (def balance (ref 0))
@@ -2088,16 +2134,40 @@ java.lang.IllegalStateException: No transaction running (mutate.clj:0)
 
 代码中唯一的更改是将对ref-set的调用包装为对dosync的调用。
 
-在dosync中，我们当然没有被限制在一行代码中;我们可以在一个事务中包装整个代码块或几个表达式。让我们运行代码来查看更改。
+在`dosync`中，我们当然没有被限制在一行代码中;我们可以在一个事务中包装整个代码块或几个表达式。让我们运行代码来查看更改。
 
-Balance is 0
-Balance is now 100
+> Balance is 0
+> Balance is now 100
 
-平衡的状态值0是不可变的，但是身份变量balance是可变的。在事务中，我们首先创建了一个新值100(我们需要习惯不可变值的概念)，但是旧值0仍然存在，此时balance指向它。一旦我们创建了新值，我们要求Clojure快速修改指针以平衡到新值。如果没有对旧值的其他引用，垃圾收集器将适当地处理它。Clojure提供了三种修改可变标识的选项，都只在事务中进行:ref-set设置标识的值并返回该值。alter将标识的事务内值设置为应用指定函数得到的值，并返回该值。这是修改可变标识的最常用的形式。通勤将事务内的更改与提交点分离开来。它将标识的事务内值设置为应用指定函数得到的值，并返回该值。然后，在提交点期间，将标识的值设置为使用标识最近提交的值应用指定函数的结果。当我们对“最后一胜”的行为感到满意，并且提供比alter更大的并发性时，“通勤”是有用的。然而，在大多数情况下，改变比通勤更合适。
+平衡的状态值0是不可变的，但是身份变量`balance`是可变的。
 
-除了refs之外，Clojure还提供了原子。它们提供数据的同步更改;然而，与ref不同的是，这些更改是不协调的，不能与交易中的其他更改组合在一起。原子不参与事务(我们可以把对原子的每次更改看作属于一个单独的事务)。对于孤立的、离散的变化，使用原子;对于更多分组或协调的更改，请使用参考文献。毫无疑问，您已经在数据库中使用过事务，并且熟悉它们的原子性、一致性、隔离和持久性(ACID)属性。Clojure s STM提供了前三个属性，但不提供持久性，因为数据完全在内存中，而不是在数据库或文件系统中。原子性:STM事务是原子的。我们在事务中所做的所有更改要么在事务外部可见，要么不可见。在一个事务中，对refs的所有更改要么保留，要么不保留。一致性:要么事务完全运行到完成，然后我们看到它的净变化，要么事务失败，而事情不受影响。从这些事务的外部，我们看到一个变化不断地跟随另一个变化。例如，在两个独立且并发的存款和取款事务结束时，余额与这两个操作的累积效果保持一致。隔离:事务不能看到其他事务的部分更改，只有在成功完成时才能看到更改。这些属性关注于数据的完整性和可见性。然而，这种孤立并不意味着缺乏协调。相反，STM密切监视所有事务的进展，并试图帮助每个事务运行到完成(禁止任何基于应用程序的异常)。Clojure STM使用的多版本并发控制(MVCC)与数据库非常类似。STM并发控制类似于数据库中的乐观锁定。当我们启动一个事务时，STM记录时间戳并复制我们的事务将使用的refs。由于状态是不可变的，所以这种对refs的复制既快又便宜。当我们对任何不可变状态进行更改时，我们实际上并没有修改值。相反，我们将为这些值创建新的副本。副本保存在事务的本地，并且由于有持久的数据结构(第39页3.6节，持久/不可变数据结构)，这一步也很快。如果STM在任何时候确定我们更改的refs已经被其他人修改了
+​		在事务中，我们首先创建了一个新值100(我们需要习惯不可变值的概念)，但是旧值0仍然存在，此时balance指向它。一旦我们创建了新值，我们要求`Clojure`快速修改指针以平衡到新值。如果没有对旧值的其他引用，垃圾收集器将适当地处理它。`Clojure`提供了三种修改可变标识的选项，都只在事务中进行:
 
-事务，它中止并重试我们的事务。当事务成功完成时，更改被写入内存，时间戳被更新(参见图9，在第92页，可变身份与不可变状态值的分离)。6.6使用STM事务的并发性很好，但是如果两个事务试图更改相同的身份会发生什么呢?对不起，我不是故意让你这么长时间坐在座位上的。在本节中，我们将看几个这样的例子。不过，在我们浏览这些示例之前，有一点要注意。在生产代码中，确保事务是幂等的并且没有任何副作用，因为它们可能会被重试很多次。这意味着不需要打印到控制台，不需要日志记录，不需要发送电子邮件，也不需要在事务中进行任何不可逆转的操作。如果我们做了其中任何一件事，我们将负责逆转操作或处理其后果。通常，最好将这些副作用操作收集起来，并在事务成功后执行它们。与我的建议相反，我们将在示例中看到在事务中打印语句。这纯粹是为了说明目的。不要在办公室这么做!我们已经知道如何在事务中更改余额。现在让多个事务相互竞争以达到平衡
+ref-set设置标识的值并返回该值。
+
+alter将标识的事务内值设置为应用指定函数得到的值，并返回该值。这是修改可变标识的最常用的形式。
+
+commute将事务内的更改与提交点分离开来。它将标识的事务内值设置为应用指定函数得到的值，并返回该值。然后，在提交点期间，将标识的值设置为使用标识最近提交的值应用指定函数的结果。当我们对“最后一胜”的行为感到满意，并且提供比alter更大的并发性时，“commute”是有用的。然而，在大多数情况下，alter比commute更合适。
+
+除了refs之外，Clojure还提供了`atoms`.。它们提供数据的同步更改;然而，与refs不同的是，这些更改是不协调的，不能与交易中的其他更改组合在一起。atoms不参与事务(我们可以把对原子的每次更改看作属于一个单独的事务)。对于孤立的、离散的变化，使用原子;对于更多分组或协调的更改，请使用refs。
+
+##### 6.5 Transactions in STM
+
+毫无疑问，您已经在数据库中使用过事务，并且熟悉它们的原子性(Atomicity,)、一致性(Consistency,)、隔离(Isolation,)和持久性(Durability)(ACID)属性。Clojure s STM提供了前三个属性，但不提供持久性，因为数据完全在内存中，而不是在数据库或文件系统中。
+
+原子性:STM事务是原子的。我们在事务中所做的所有更改要么在事务外部可见，要么不可见。在一个事务中，对refs的所有更改要么保留，要么不保留。
+
+一致性:要么事务完全运行到完成，然后我们看到它的净变化，要么事务失败，而事情不受影响。从这些事务的外部，我们看到一个变化不断地跟随另一个变化。例如，在两个独立且并发的存款和取款事务结束时，余额与这两个操作的累积效果保持一致。
+
+隔离:事务不能看到其他事务的部分更改，只有在成功完成时才能看到更改。这些属性关注于数据的完整性和可见性。然而，这种孤立并不意味着缺乏协调。相反，STM密切监视所有事务的进展，并试图帮助每个事务运行到完成(禁止任何基于应用程序的异常)。
+
+Clojure STM使用的多版本并发控制(MVCC)与数据库非常类似。STM并发控制类似于数据库中的乐观锁定。当我们启动一个事务时，STM记录时间戳并复制我们的事务将使用的refs。由于状态是不可变的，所以这种对refs的复制既快又便宜。当我们对任何不可变状态进行更改时，我们实际上并没有修改值。相反，我们将为这些值创建新的副本。副本保存在事务的本地，并且由于有持久的数据结构(第39页3.6节，持久/不可变数据结构)，这一步也很快。如果STM在任何时候确定我们更改的refs已经被其他人修改了事务，它中止并重试我们的事务。当事务成功完成时，更改被写入内存，时间戳被更新(参见图9，在第92页，可变身份与不可变状态值的分离)。
+
+6.6 Concurrency Using STM 使用STM事务的并发性
+
+事务很好，但是如果两个事务试图更改相同的身份会发生什么呢?对不起，我不是故意让你这么长时间坐在座位上的。在本节中，我们将看几个这样的例子。不过，在我们浏览这些示例之前，有一点要注意。在生产代码中，确保事务是`幂等`的并且没有任何副作用，因为它们可能会被重试很多次。这意味着不需要打印到控制台，不需要日志记录，不需要发送电子邮件，也不需要在事务中进行任何不可逆转的操作。如果我们做了其中任何一件事，我们将负责逆转操作或处理其后果。
+
+通常，最好将这些副作用操作收集起来，并在事务成功后执行它们。与我的建议相反，我们将在示例中看到在事务中打印语句。这纯粹是为了说明目的。不要在办公室这么做!我们已经知道如何在事务中更改余额。现在让多个事务相互竞争以达到平衡
 
 ````java
 (defn deposit [balance amount]
@@ -2128,16 +2198,16 @@ Balance is now 100
 
 让我们首先将变量balance1初始化为100，并使用future()函数让前两个方法在两个独立的线程中运行。继续运行代码并观察输出:
 
-Balance1 is 100
-Ready to deposit... 20
-simulating delay in deposit...
-Ready to withdraw... 10
-simulating delay in withdraw...
-done with deposit of 20
-Ready to withdraw... 10
-simulating delay in withdraw...
-done with withdraw of 10
-Balance1 now is 110
+> Balance1 is 100
+> Ready to deposit... 20
+> simulating delay in deposit...
+> Ready to withdraw... 10
+> simulating delay in withdraw...
+> done with deposit of 20
+> Ready to withdraw... 10
+> simulating delay in withdraw...
+> done with withdraw of 10
+> Balance1 now is 110
 
 这两个函数都获得了它们自己的余额本地副本。在模拟延迟之后，deposit()事务就完成了，但是withdraw()事务就没那么幸运了。余额在它背后被更改了，因此它试图进行的更改不再有效。Clojure STM悄悄地中止事务并重试。如果我们没有这些打印出来的声明，我们就会忘记这些活动。重要的是余额的净效应是一致的，并且反映了存款和取款。在本例中，通过预取余额并延迟执行，我们有意将这两个事务设置为冲突进程。如果我们从两个事务中删除let语句，我们将注意到两个事务都以一致的方式完成，而不需要任何一个事务重复，这表明STM在保持一致性的同时提供了最大的并发性。我们现在知道如何改变一个简单的变量，但是如果我们有一个值的集合呢?列表在Clojure中是不可变的。然而，我们可以得到标识可以更改的可变引用，使其看起来好像我们更改了列表。名单没有改变;我们只是改变了对列表的看法。让我们通过一个示例来探讨这个问题。我家人的愿望清单原本只有一件东西，一台iPad。我想加一台新的MacBook Pro (MBP)，我的一个孩子想加一辆新自行车。因此，我们在两个不同的线程中将这些项添加到列表中。这里有一些代码:
 
@@ -2197,13 +2267,13 @@ Balance1 now is 110
 
 即使这两个事务像以前一样并发运行，通过这个修改过的withdraw-account()方法调用ensure()，仍然保留了总余额的约束，正如我们在输出中看到的:
 
-checking-balance is 500
-savings-balance is 600
-Total balance is 1100
-checking-balance is 500
-savings-balance is 500
-Total balance is 1000
-Sorry, can't withdraw due to constraint violation
+> checking-balance is 500
+> savings-balance is 600
+> Total balance is 1100
+> checking-balance is 500
+> savings-balance is 500
+> Total balance is 1000
+> Sorry, can't withdraw due to constraint violation
 
 STM的显式无锁执行模型非常强大。当没有冲突时，就不会有阻碍。当存在冲突时，一个胜利者顺利地进行，而竞争者则不断重复。Clojure使用最大次数的尝试，并确保两个线程不会以相同的速度重复，从而导致重复失败。当我们有频繁的读冲突和非常少的写冲突时，STM是一个很好的模型。例如，这个模型非常适合典型的web应用程序，我们通常有几个并发用户执行他们自己数据的更新，但是共享状态的冲突很少。STM可以毫不费力地解决任何不常见的写入冲突。Clojure STM是并发编程领域的阿司匹林，它可以消除很多麻烦。如果我们忘记创建一个交易，我们会受到严厉的谴责。通过简单地将dosync放在正确的位置，我们获得了高并发性和线程之间的一致性。这种不讲究礼仪、简洁、高度表达和非常可预测的行为使Clojure STM成为一个值得认真考虑的选项。
 
@@ -2320,25 +2390,26 @@ service.shutdown();
 
 要编译和运行代码，我们需要包括akka相关的jar，如下所示。
 
-export AKKA_JARS="$AKKA_HOME/lib/scala-library.jar:\
-$AKKA_HOME/lib/akka/akka-stm-1.1.3.jar:\
-$AKKA_HOME/lib/akka/akka-actor-1.1.3.jar:\
-$AKKA_HOME/lib/akka/multiverse-alpha-0.6.2.jar:\
-$AKKA_HOME/config:\
-."
+> export AKKA_JARS="$AKKA_HOME/lib/scala-library.jar:\
+> $AKKA_HOME/lib/akka/akka-stm-1.1.3.jar:\
+> $AKKA_HOME/lib/akka/akka-actor-1.1.3.jar:\
+> $AKKA_HOME/lib/akka/multiverse-alpha-0.6.2.jar:\
+> $AKKA_HOME/config:\
+> ."
 
 根据您的操作系统和位置定义类路径
 
 Akka已安装在您的系统上。使用javac编译器编译代码并使用java命令运行它，如下所示:
 
-javac -classpath $AKKA_JARS -d . EnergySource.java UseEnergySource.java
-java -classpath $AKKA_JARS com.agiledeveloper.pcj.UseEnergySource
+> javac -classpath $AKKA_JARS -d . EnergySource.java UseEnergySource.java
+> java -classpath $AKKA_JARS com.agiledeveloper.pcj.UseEnergySource
 
 继续，编译并运行代码。一开始能量源有100个单元，我们从创建的不同线程中抽取了70个单元。最终结果应该是剩下30单位的能量。根据补充的时间不同，可能会出现不同的值，比如31而不是30。
 
-Energy level at start: 100
-Energy level at end: 30
-Usage: 70
+> Energy level at start: 100
+> Energy level at end: 30
+> Usage: 70
+
 默认情况下，Akka在标准输出中打印额外的日志消息。方法中简单地创建一个名为logback.xml的文件，即可使这些消息保持沉默$AKKA_HOME/config目录，只有元素&lt;configuration /&gt;在里面。由于此目录位于类路径中，因此日志记录器知道将消息静默。除了关闭日志之外，我们还可以使用有用的选项对其进行配置。有关详细信息，请参阅http://logback.qos.ch/manual/configuration.html上的说明。正如我们在这里看到的，Akka悄悄地在幕后管理事务。花些时间在代码上，并对事务和线程进行试验。
 
 我们看到了如何在Java中创建事务(我假设您已经阅读了那部分，所以我们不必在这里重复细节)。在Scala中，我们需要更少的代码来编写相同的内容，这部分是因为Scala简洁的特性，也因为优雅的Akka API使用了闭包/函数值。与Java相比，用Scala创建事务花费的精力要少得多。我们所需要的是调用Stm的atomic()方法，像这样:atomic{//代码在事务中运行…我们传递给atomic()的闭包/函数值在当前线程中运行，但在事务中运行。下面是使用Akka事务的Scala版本的EnergySource
@@ -2413,9 +2484,9 @@ java -classpath $AKKA_JARS com.agiledeveloper.pcj.UseEnergySource
 
 31而不是30可能会出现。
 
-Energy level at start: 100
-Energy level at end: 30
-Usage: 70
+> Energy level at start: 100
+> Energy level at end: 30
+> Usage: 70
 
 我们调用的方法可以创建它们自己的事务，它们的更改将得到独立的提交。如果我们想要将这些方法中的事务协调成一个原子操作，这是不够的。我们可以通过嵌套事务实现这种协调。在嵌套事务中，由我们调用的方法创建的所有事务在默认情况下都会滚入调用方法的事务中。使用Akka/Multiverse提供了配置其他选项的方法，比如新的隔离事务。因此，对于嵌套事务，只有在最外层事务提交时才提交所有更改。我们的职责是确保方法在可配置的超时时间内完成，从而使整个嵌套事务成功。第67页锁接口中的AccountService及其transfer()方法将受益于嵌套事务。transfer()的前一个版本
 
@@ -2524,28 +2595,28 @@ transferAndPrintBalance(account1, account2, 5000);
 
 在main()方法中，我们创建了两个帐户，并在一个单独的线程中启动了$20的存款。与此同时，我们要求资金在账户之间转账。这将使两个事务发生冲突，因为它们都影响一个公共实例。其中一个会成功，另一个会重试。最后，在最后，我们尝试转移金额超过可用余额。这将说明存款和取款的两个事务不是独立的，而是嵌套的，并且在transfer s事务中是原子的。存款的效果应因取款失败而逆转。让我们看看输出中这些事务的行为
 
-Attempting transfer...
-Deposit 500
-Attempting transfer...
-Deposit 500
-Simulating a delay in transfer...
-Deposit 20
-Uncommitted balance after deposit $600
-Attempting transfer...
-Deposit 500
-Simulating a delay in transfer...
-Uncommitted balance after deposit $620
-Result of transfer is Pass
-From account has $1500
-To account has $620
-Making large transfer...
-Attempting transfer...
-Deposit 5000
-Simulating a delay in transfer...
-Uncommitted balance after deposit $5620
-Result of transfer is Fail
-From account has $1500
-To account has $620
+> Attempting transfer...
+> Deposit 500
+> Attempting transfer...
+> Deposit 500
+> Simulating a delay in transfer...
+> Deposit 20
+> Uncommitted balance after deposit $600
+> Attempting transfer...
+> Deposit 500
+> Simulating a delay in transfer...
+> Uncommitted balance after deposit $620
+> Result of transfer is Pass
+> From account has $1500
+> To account has $620
+> Making large transfer...
+> Attempting transfer...
+> Deposit 5000
+> Simulating a delay in transfer...
+> Uncommitted balance after deposit $5620
+> Result of transfer is Fail
+> From account has $1500
+> To account has $620
 
 转会交易一开始就被重试，这有点奇怪。这种意外的重试是因为Multiverse对单个对象上的只读事务进行了默认优化(投机配置)。有一些方法可以配置这种行为，但是这会影响性能。请参考Akka/Multiverse文档以了解更改它的后果。20美元的定金先成功了。当发生这种情况时，传输事务处于其模拟延迟的中间。一旦事务意识到它管理的对象在背后发生了更改，它就会悄悄地回滚并开始另一次尝试。重试将继续，直到成功或超过超时。这一次，转账交易成功了。这两笔交易的净结果反映在所显示的余额中，第一个帐户在转帐中损失了500美元，而第二个帐户从同时进行的存款和转帐活动中共获得了520美元。我们的下一个也是最后一个尝试是转账5000美元。存款已经完成，但交易中的变化被扣留，以检查取款的命运。但是，由于余额不足，提款失败。这将导致挂起的存款事务回滚，使余额不受最终转移尝试的影响。
 
@@ -2665,29 +2736,29 @@ transferAndPrintBalance(account1, account2, 5000)
 
 这个版本将事务设置为冲突过程，就像Java版本一样。不出所料，输出结果与Java版本相同:
 
-Attempting transfer...
-Deposit 500
-Attempting transfer...
-Deposit 500
-Simulating a delay in transfer...
+> Attempting transfer...
+> Deposit 500
+> Attempting transfer...
+> Deposit 500
+> Simulating a delay in transfer...
 
-Deposit 20
-Uncommitted balance after deposit $600
-Attempting transfer...
-Deposit 500
-Simulating a delay in transfer...
-Uncommitted balance after deposit $620
-Result of transfer is Pass
-From account has $1500
-To account has $620
-Making large transfer...
-Attempting transfer...
-Deposit 5000
-Simulating a delay in transfer...
-Uncommitted balance after deposit $5620
-Result of transfer is Fail
-From account has $1500
-To account has $620
+> Deposit 20
+> Uncommitted balance after deposit $600
+> Attempting transfer...
+> Deposit 500
+> Simulating a delay in transfer...
+> Uncommitted balance after deposit $620
+> Result of transfer is Pass
+> From account has $1500
+> To account has $620
+> Making large transfer...
+> Attempting transfer...
+> Deposit 5000
+> Simulating a delay in transfer...
+> Uncommitted balance after deposit $5620
+> Result of transfer is Fail
+> From account has $1500
+> To account has $620
 
 我们已经比较了同步版本的传输和Java版本使用嵌套事务(下面将重复):
 
@@ -2754,11 +2825,11 @@ System.out.println("Failed " + ex);
 
 事务会对变更请求感到不高兴;在尝试更改时，它将抛出org.multiver .api.exceptions。ReadonlyException异常，事务将回滚
 
-Read only
-Attempt to write
-Failed org.multiverse.api.exceptions.ReadonlyException:
-Can't open for write transactional object 'akka.stm.Ref@1272670619'
-because transaction 'DefaultTransaction' is readonly'
+> Read only
+> Attempt to write
+> Failed org.multiverse.api.exceptions.ReadonlyException:
+> Can't open for write transactional object 'akka.stm.Ref@1272670619'
+> because transaction 'DefaultTransaction' is readonly'
 
 对swap()的调用引发了运行时异常。只有当新值与当前值不同时，此方法才会修改ref保存的值;否则，它将忽略更改请求。因此，在本例中，如果我们将cups ref的当前值设置为24，而不是20，我们将不会得到任何异常
 
@@ -2841,24 +2912,24 @@ System.out.println("Failed: " + ex.getMessage());
 
 在main()中，我们启动一个计时器，它将在大约5秒内重新填充咖啡壶。第一个进去的那个人立刻喝了二十杯咖啡。当我们的志愿者去拿10个杯子时，他被挡住了，无法再续杯。这种等待比繁忙的编程重试操作更有效。一旦refill事务完成，他的请求将自动再次尝试，并且这次成功。如果在我们配置的超时中没有重新填充，事务将像try块中的最后一个请求一样失败。我们可以观察到这个行为以及重试()在输出中的好处
 
-filled up....20
-........ at 0.423589
-retry........ at 0.425385
-retry........ at 0.427569
-Refilling.... at 5.130381
-filled up....10
-........ at 5.131149
-retry........ at 5.131357
-retry........ at 5.131521
-Failed: Transaction DefaultTransaction has timed with a
-total timeout of 6000000000 ns
+> filled up....20
+> ........ at 0.423589
+> retry........ at 0.425385
+> retry........ at 0.427569
+> Refilling.... at 5.130381
+> filled up....10
+> ........ at 5.131149
+> retry........ at 5.131357
+> retry........ at 5.131521
+> Failed: Transaction DefaultTransaction has timed with a
+> total timeout of 6000000000 ns
 
 在比赛开始后的0.40秒内，10个杯子的加注请求就完成了。因为重新填充要在开始后5秒之后才会发生，所以这个请求被阻塞，因为调用了retry()。就在refill事务完成之后，fill-up事务被重新启动，这一次在开始后5秒后运行到完成。稍后的填充请求超时了，因为在此请求之后没有再填充。我们并不经常使用retry()。如果应用程序逻辑要求在依赖数据更改时执行某些操作，那么我们可以从监视数据更改的这个特性中获益。
 
-Blocking Transactions in Scala
-In the Java version, we used the convenience object StmUtils that provided a
-fluent Java interface. In Scala, we can directly use the StmUnit trait. We can
-also use the factory method to create theTr ansacti onFact or y :
+> Blocking Transactions in Scala
+> In the Java version, we used the convenience object StmUtils that provided a
+> fluent Java interface. In Scala, we can directly use the StmUnit trait. We can
+> also use the factory method to create theTr ansacti onFact or y :
 
 ```java
 object CoffeePot {
@@ -2900,17 +2971,17 @@ case ex => println("Failed: " + ex.getMessage())
 
 Scala隐式转换提供的sugar。剩下的代码是简单的从Java到Scala的转换，输出如下所示:
 
-filled up....20
-........ at 0.325964
-retry........ at 0.327425
-retry........ at 0.329587
-Refilling.... at 5.105191
-filled up....10
-........ at 5.106074
-retry........ at 5.106296
-retry........ at 5.106466
-Failed: Transaction DefaultTransaction has timed with a
-total timeout of 6000000000 ns
+> filled up....20
+> ........ at 0.325964
+> retry........ at 0.327425
+> retry........ at 0.329587
+> Refilling.... at 5.105191
+> filled up....10
+> ........ at 5.106074
+> retry........ at 5.106296
+> retry........ at 5.106466
+> Failed: Transaction DefaultTransaction has timed with a
+> total timeout of 6000000000 ns
 
 6.12提交和回滚事件Java的try-catch-finally功能允许我们处理异常，并且只有在出现异常时才有选择地运行一些代码。类似地，我们可以决定只有在事务提交时才运行一段代码，只有在事务回滚时才运行另一段代码。在StmUtils上，它们分别作为deferred()和compensation()方法提供。deferred()方法是执行所有为确保事务完成而延迟的副作用的好地方。在Java中，我们将事务成功时希望运行的代码放在传递给StmUtils的deferred()方法的代码块(Runnabl e)中。同样，我们将在事务失败时将希望运行的代码放在传递给compensation()方法的代码块中。因为这些方法必须在事务的上下文中运行，所以我们必须在atomically()方法的主体中调用它们。
 
@@ -2963,11 +3034,11 @@ System.out.println(ex.getMessage());
 
 练习UseCounter，查看与事务成功和失败相关的代码块的运行情况
 
-Transaction aborted...hold the phone
-Transaction completed...send email, log, etc.
-Let's try again...
-Transaction aborted...hold the phone
-Operation not allowed
+> Transaction aborted...hold the phone
+> Transaction completed...send email, log, etc.
+> Let's try again...
+> Transaction aborted...hold the phone
+> Operation not allowed
 
 当事务在第一次调用decrement()时完成时，将调用提供给deferred()方法的代码块。在对decrement()的第二个调用中，一旦遇到异常，就回滚事务，并调用提供给compensation()方法的代码块。我们还看到了由于顶部意外重试导致的回滚，这是由于我们在前面的Java嵌套事务(在第112页)中讨论过的投机性配置导致的。deferred()处理程序是完成工作活动的好地方，可以使动作永久保存。因此，从这里可以随意打印、显示消息、发送通知、提交数据库事务，等等。如果我们想留下点什么，这里就是最好的去处。补偿()处理程序是记录故障的好地方。如果我们混淆了任何非托管对象(那些没有使用Akka Ref进行控制的对象)，那么这里就是恢复操作的地方，但是最好避免这种设计，因为它很混乱，而且容易出错。我们可以在Scala中处理提交和回滚事件，就像我们在Java中所做的那样，只是我们可以直接将闭包/函数值传递给deferred()和compensation()方法。让我们将Counter类从Java转换为Scala。
 
@@ -3007,11 +3078,11 @@ case ex => println(ex.getMessage())
 
 Scala版本的输出应该和Java版本一样:
 
-Transaction aborted...hold the phone
-Transaction completed...send email, log, etc.
-Let's try again...
-Transaction aborted...hold the phone
-Operation not allowed
+> Transaction aborted...hold the phone
+> Transaction completed...send email, log, etc.
+> Let's try again...
+> Transaction aborted...hold the phone
+> Operation not allowed
 
 当我们在示例中工作时，很容易忘记我们正在处理的值是不变的，而且应该是不变的。只有身份是可变的，而不是状态值。尽管STM使工作变得简单，但在保持不变性的同时确保良好的性能可能是一个挑战。第一步是确保不变性。使value类为final，并将它们的所有字段标记为final (Scala中的vals)。然后传递地确保值使用的每个字段的类也是不可变的。首先应该使字段和类为final，这是避免并发性问题的第一步。尽管不变性会使代码更好、更安全，但程序员不愿使用它的一个突出原因是性能。如果没什么变化，我们就得复印了。我们在第39页的3.6节“持久/不可变数据结构”中讨论了持久数据结构以及它们如何缓解性能问题。我们可以使用第三方库或Scala中已经提供的持久数据结构。我们不必切换语言来利用这一点。我们可以直接从Java代码中使用这些持久数据结构。我们不仅想要不变性，而且还想要数据结构参与到事务中，它们的值是不可变的，但是在被管理的事务中身份会改变。Akka提供了两种被管理的数据结构:一种是区域映射，另一种是区域映射。它们的工作方式类似于Java列表和字典，但是是从高效的Scala数据结构中派生出来的。让我们来看看如何在Java和Scala中使用ansacti Map。在Java中使用来自Java的ansacti映射来使用事务集合是非常简单的。例如，让我们为不同的玩家保留分数，这些分数的更新将同时到达。我们决定在事务中处理更新，而不是处理同步和锁。下面是一些示例代码
 
@@ -3068,12 +3139,12 @@ String.format("Score for %s is %d", name, scores.getScore(name)));
 
 我们先给三位玩家打分。然后我们添加另一个将导致事务回滚的分数值。最后的分数更新应该没有效果。最后，我们遍历事务性映射中的分数。让我们来观察这段代码的输出:
 
-Number of updates: 3
-update failed for score 13
-Number of updates: 3
-Score for Joe is 14
-Score for Bernie is 12
-Score for Sally is 15
+> Number of updates: 3
+> update failed for score 13
+> Number of updates: 3
+> Score for Joe is 14
+> Score for Bernie is 12
+> Score for Sally is 15
 
 在Scala中使用事务性集合
 
@@ -3127,12 +3198,12 @@ println("Score for " + name + " is " + score)
 
 这个版本的输出应该与Java版本相同，正如我们所期望的:
 
-Number of updates: 3
-update failed for score 13
-Number of updates: 3
-Score for Joe is 14
-Score for Bernie is 12
-Score for Sally is 15
+> Number of updates: 3
+> update failed for score 13
+> Number of updates: 3
+> Score for Joe is 14
+> Score for Bernie is 12
+> Score for Sally is 15
 
 6.14处理写倾斜异常在处理写倾斜异常中，在第100页，我们讨论了写倾斜以及Clojure STM如何处理它。Akka还支持处理写倾斜，但我们必须对其进行配置。好吧，这个词可能听起来很可怕，但它真的很简单。让我们先看看没有任何配置的默认行为。让我们再次回顾前面讨论过的具有受限制组合余额的多个帐户的示例。创建一个包含支票账户余额和储蓄账户余额的组合。这两个账户的总余额必须不少于1,000美元。下面显示这个类和withdraw()方法。在这种方法中，我们首先获得两个余额，计算它们的总额，然后经过有意的延迟(引入来设置冲突过程中的交易)，如果总额不小于$1,000，我们从支票余额或储蓄余额中减去给定的金额。withdraw()方法在使用默认设置配置的事务中执行操作。
 
@@ -3205,13 +3276,13 @@ System.out.println("Oops, broke the constraint!");
 
 默认情况下，Akka不会避免写倾斜，这两个事务会继续运行余额，使其违反约束，正如我们在输出中看到的:
 
-Checking balance is 500
-Savings balance is 600
-Total balance is 1100
-Checking balance is 400
-Savings balance is 500
-Total balance is 900
-Oops, broke the constraint!
+> Checking balance is 500
+> Savings balance is 600
+> Total balance is 1100
+> Checking balance is 400
+> Savings balance is 500
+> Total balance is 900
+> Oops, broke the constraint!
 
 是时候解决这个问题了。让我们求助于toTr ansacti onFact或y，它们将帮助我们以编程方式配置事务。修改Portfolio类中的第9行，以接受工厂的实例。也就是，改变这个:
 
@@ -3228,15 +3299,15 @@ new Atomic<Object>(factory) {
 
 我们创建了aTr ansacti onFact或yBuil der，并分别将writeSkew和trackReads属性设置为false和true。这告诉事务跟踪事务中的读操作，并在提交开始之前对读操作设置读锁，就像Clojure STM句柄所确保的那样。Portfolio中的其余代码和UsePortfolio中的代码保持不变。设置运行中的事务并观察输出。
 
-Checking balance is 500
-Savings balance is 600
-Total balance is 1100
-Sorry, can't withdraw due to constraint violation
-Checking balance is 400
-report erratum • discuss
-Dealing with the Write Skew Anomaly • 135
-Savings balance is 600
-Total balance is 1000
+> Checking balance is 500
+> Savings balance is 600
+> Total balance is 1100
+> Sorry, can't withdraw due to constraint violation
+> Checking balance is 400
+> report erratum • discuss
+> Dealing with the Write Skew Anomaly • 135
+> Savings balance is 600
+> Total balance is 1000
 
 由于并发执行的不确定性，我们无法预测两个事务中哪一个会胜出。我们可以看到输出之间的差异，两个帐户的期末余额是不同的，而处理写倾斜异常的输出，在第100页，期末余额是相等的。当我们运行这两个示例几次时，可能会注意到它们的不同之处。前面的例子是Java;如果我们在使用Scala，我们可以使用第121页在Scala中配置事务的语法来配置事务属性writeSkew和trackReads。
 
@@ -3329,14 +3400,14 @@ System.out.println("Time taken: " + (end - start)/1.0e9);
 
 如果在提交事务之前更改了值，则将自动重试事务。几个线程竞争修改这两个可变的变量，结果可能在缓慢运行的代码和彻底失败之间有所不同。继续并运行代码以探索不同的目录。我报告的输出在我的系统为/etc和/usr目录这里:
 
-Total file size for /etc
-Total Size: 2266408
-Time taken: 0.537082
-Total file size for /usr
-Too many retries on transaction 'DefaultTransaction', maxRetries = 1000
-Too many retries on transaction 'DefaultTransaction', maxRetries = 1000
-Too many retries on transaction 'DefaultTransaction', maxRetries = 1000
-...
+> Total file size for /etc
+> Total Size: 2266408
+> Time taken: 0.537082
+> Total file size for /usr
+> Too many retries on transaction 'DefaultTransaction', maxRetries = 1000
+> Too many retries on transaction 'DefaultTransaction', maxRetries = 1000
+> Too many retries on transaction 'DefaultTransaction', maxRetries = 1000
+> ...
 
 STM版本为/etc目录提供了与使用AtomicLong的早期版本相同的文件大小。但是，由于多次重试，STM版本要慢得多，大约慢了一个数量级。探索
 
@@ -3423,14 +3494,14 @@ transferAndPrint(account1, account2, 500)
 transferAndPrint(account1, account2, 5000)
 ```
 
-Run the code and study the output:
-deposit 500... will it stay
-Balance of from account is 1500
-Balance of to account is 600
-deposit 5000... will it stay
-transfer failed java.lang.RuntimeException: Operation invalid
-Balance of from account is 1500
-Balance of to account is 600
+> Run the code and study the output:
+> deposit 500... will it stay
+> Balance of from account is 1500
+> Balance of to account is 600
+> deposit 5000... will it stay
+> transfer failed java.lang.RuntimeException: Operation invalid
+> Balance of from account is 1500
+> Balance of to account is 600
 
 第一次转移成功了，显示的余额反映了这一点。第二次转账完成了第一次存款，但是取款失败了。失败的事务的总体影响是使两个帐户的余额不受影响。
 
@@ -3484,17 +3555,17 @@ def account1 = new Account(2000)
 def account2 = new Account(100)
 ```
 
-transferAndPrint(account1, account2, 500)
-transferAndPrint(account1, account2, 5000)
-Run the Groovy code and see the transactions in action:
-deposit 500... will it stay
-deposit 500... will it stay
-Balance of from account is 1500
-Balance of to account is 600
-deposit 5000... will it stay
-transfer failed java.lang.RuntimeException: Operation invalid
-Balance of from account is 1500
-Balance of to account is 600
+> transferAndPrint(account1, account2, 500)
+> transferAndPrint(account1, account2, 5000)
+> Run the Groovy code and see the transactions in action:
+> deposit 500... will it stay
+> deposit 500... will it stay
+> Balance of from account is 1500
+> Balance of to account is 600
+> deposit 5000... will it stay
+> transfer failed java.lang.RuntimeException: Operation invalid
+> Balance of from account is 1500
+> Balance of to account is 600
 
 7.3 Java集成
 
@@ -3591,14 +3662,14 @@ transferAndPrint(account1, account2, 5000);
 }
 ```
 
-Run the code and study the output:
-deposit 500... will it stay
-Balance of from account is 1500
-Balance of to account is 600
-deposit 5000... will it stay
-transfer failed java.lang.RuntimeException: Operation invalid
-Balance of from account is 1500
-Balance of to account is 600
+> Run the code and study the output:
+> deposit 500... will it stay
+> Balance of from account is 1500
+> Balance of to account is 600
+> deposit 5000... will it stay
+> transfer failed java.lang.RuntimeException: Operation invalid
+> Balance of from account is 1500
+> Balance of to account is 600
 
 如我们所料，第一次转移成功，显示的余额反映了这一点。由于资金不足，第二次转账应该会失败。我们看到，当事务回滚时，已生效的存款的效果因取款失败而被否定。转账失败后，两个账户的余额未受影响。在Java中使用Multiverse/Akka STM，如果不需要actor(参见第8章，支持独立的可变性，第163页)，可以考虑直接使用Multiverse STM。使用Multiverse，我们可以使用基于java的注释语法和api。如果计划涉及使用actor或将它们与STM混合使用，Akka是一个不错的选择。尽管Akka是在Scala上构建的，但他们在提供Java API方面做得很好。第6章，软件事务性内存介绍，在第89页充满了Akka的Java例子来帮助你开始。JRuby为Java平台带来了Ruby的强大功能，以及它的优雅、表现力和简洁性。在本节中，我们将通过Akka在JRuby代码中使用Clojure STM和Multiverse STM。如果您想直接使用Multiverse，请参考Multiverse文档中的JRuby集成API。报告
 
@@ -3662,10 +3733,6 @@ end
 end
 ```
 
-```java
-
-```
-
 最后，是时候执行所有代码了，所以编写一个简单的调用序列来在帐户之间转移一些钱。让我们以这样一种方式来写:由于余额不足，第一次转移成功，而第二次转移失败。这应该能告诉我们交易的影响。
 
 ```java
@@ -3680,19 +3747,19 @@ puts "Balance of to account is #{to.balance}"
 end
 ```
 
-account1 = Account.new(2000)
-account2 = Account.new(100)
-transfer_and_print(account1, account2, 500)
-transfer_and_print(account1, account2, 5000)
-Run the code and study the output:
+> account1 = Account.new(2000)
+> account2 = Account.new(100)
+> transfer_and_print(account1, account2, 500)
+> transfer_and_print(account1, account2, 5000)
+> Run the code and study the output:
 
-deposited $500... will it stay
-Balance of from account is 1500
-Balance of to account is 600
-deposited $5000... will it stay
-transfer failed Operation invalid
-Balance of from account is 1500
-Balance of to account is 600
+> deposited $500... will it stay
+> Balance of from account is 1500
+> Balance of to account is 600
+> deposited $5000... will it stay
+> transfer failed Operation invalid
+> Balance of from account is 1500
+> Balance of to account is 600
 
 代码的行为与我们预期的第一个交易成功是一致的，而余额反映了这一点。第二次转移失败，余额未受影响。作为该事务的一部分而发生的存款在事务失败时被丢弃。在JRuby中使用Multiverse STM只需要多一点努力和耐心。主要原因是Multiverse依赖异常来重试事务，但是JRuby将异常包装到NativeException中，这样如果我们不小心的话，Multiverse将看不到它所期望的异常，事务将无法提交。我们将在示例中首先面对这个问题，但是我们将找出解决这个问题的方法。在Akka中，事务性方法atomic()是通过所谓的包对象公开的。Scala包对象以字节码的形式表现为一对类:package和package$类。当我们在JRuby中导入package类时，我们会得到一个奇怪的错误:不能将类' package'导入为' package'。为了修复这个错误，让我们重新定义包名，使之不再是package，比如java_import 'akka.stm。包' do |pkgname, classname| "J#{classname}"结束。现在，当我们引用Jpackage时，我们引用的是Akka Akka .stm。包中包对象。我们将使用JRuby和Akka STM创建帐户转账示例。让我们将使用Akka事务的方法隔离到单独的模块中，以便更容易重用该代码
 
@@ -3764,23 +3831,24 @@ puts "Balance of to account is #{to.balance}"
 end
 ```
 
-account1 = Account.new(2000)
-account2 = Account.new(100)
-transfer_and_print(account1, account2, 500)
-transfer_and_print(account1, account2, 5000)
+> account1 = Account.new(2000)
+> account2 = Account.new(100)
+> transfer_and_print(account1, account2, 500)
+> transfer_and_print(account1, account2, 5000)
 
 我们可以期待第一次转移成功，因为金额少于可用的资金。我们希望第二次转账因资金不足而失败，并且不影响两个账户的余额。让我们看看当我们运行代码时存储了什么:
 
-transfer failed
-org.multiverse.api.exceptions.SpeculativeConfigurationFailure: null
-...
+> transfer failed
+> org.multiverse.api.exceptions.SpeculativeConfigurationFailure: null
+> ...
 
 这不是我们想看到的。这个错误不仅使第一次转账交易失败，还使我们损失了大量的时间和脱发。这就是我们在本节开始时提到的错误。这个失败报告了一个SpeculativeConfigurationFailure异常，它是org.multiver .api的一部分。异常包。让我们来了解一下这从何而来，以及为什么在其他语言版本都能完美地工作时，JRuby版本却突然失败了。默认情况下，Multiverse (Akka STM)使用投机事务，我们在第112页的Java嵌套事务中讨论过。首先，Multiverse假定事务是只读的，在看到托管ref上的第一个set操作时，它抛出了SpeculativeConfigurationFailure异常。在Multiverse层，它处理这个异常并重试事务，这次允许更改为托管的ref.这就是我们在第6章，软件事务性内存介绍，第89页看到重试事务的原因。好了，这就是多元宇宙的工作，到目前为止，它在其他语言中似乎工作得很好，所以让我们来看看为什么JRuby会出现问题。
 
-If we replace this:
-puts "transfer failed #{ex}"
-with the following:
-puts "transfer failed #{ex.class}"
+> If we replace this:
+> puts "transfer failed #{ex}"
+> with the following:
+> puts "transfer failed #{ex.class}"
+
 我们会看到异常类名不是SpeculativeConfigurationFailure而是Native- exception。这是JRuby将异常放在自己的包装器异常中。因此，我们从JRuby代码调用Akka, Akka又调用我们的JRuby闭包。这个闭包试图更新托管引用，这导致了Multiverse异常，就像它设计的那样。不幸的是，我们的JRuby闭包代码在内部将该异常包装为NativeException。因此，Multiverse没有看到我们熟悉的SpeculativeConfigurationFailure，而是看到了这个奇怪的意外的NativeException，并简单地让事务失败，然后在不重试事务的情况下向上传播这个异常。那么，解决办法是什么呢?这不是一个令人愉快的方法:我们必须显式地处理它。我们需要检查这个例外是否属于多元宇宙，如果属于，就把它解开。这是一个丑陋的解决方案，但它没有太多的代码。让我们修改AkkaStm s atomic()方法来补偿JRuby行为
 
 ```java
@@ -3804,14 +3872,14 @@ end
 
 现在我们已经修复了它，让我们看看这两个事务是否按照预期的方式运行，第一个事务成功，第二个事务失败，余额不受影响:
 
-deposited $500... will it stay
-deposited $500... will it stay
-Balance of from account is 1500
-Balance of to account is 600
-deposited $5000... will it stay
-transfer failed Operation invalid
-Balance of from account is 1500
-Balance of to account is 600
+> deposited $500... will it stay
+> deposited $500... will it stay
+> Balance of from account is 1500
+> Balance of to account is 600
+> deposited $5000... will it stay
+> transfer failed Operation invalid
+> Balance of from account is 1500
+> Balance of to account is 600
 
 修复后，JRuby版本的行为与其他语言的版本相同
 
@@ -3895,15 +3963,15 @@ val account1 = new Account(2000)
 val account2 = new Account(100)
 ```
 
-transferAndPrint(account1, account2, 5000)
-Let’s run the code and study the output:
-deposit 500... will it stay
-Balance of from account is 1500
-Balance of to account is 600
-deposit 5000... will it stay
-transfer failed java.lang.RuntimeException: Operation invalid
-Balance of from account is 1500
-Balance of to account is 600
+> transferAndPrint(account1, account2, 5000)
+> Let’s run the code and study the output:
+> deposit 500... will it stay
+> Balance of from account is 1500
+> Balance of to account is 600
+> deposit 5000... will it stay
+> transfer failed java.lang.RuntimeException: Operation invalid
+> Balance of from account is 1500
+> Balance of to account is 600
 
 这正是我们所期望的——成功的第一个事务适当地更改余额，然后失败的事务使余额不受影响。
 
@@ -3915,15 +3983,1021 @@ Balance of to account is 600
 
 基于actor的并发
 
+### Favoring Isolated Mutability 倾向于孤立的可变性
+
+“如果觉得疼，就停止做”是医生的忠告。在并发编程中，共享可变性就是“it”。
+
+使用JDK线程API，创建线程很容易，但要防止线程冲突和混乱就很困难了。STM可以缓解疼痛;然而，在像Java这样的语言中，我们仍然必须非常小心地避免未管理的可变变量和副作用。令人惊讶的是，当共享的可变性消失时，斗争也消失了。
+
+让多个线程在数据上聚合和碰撞是我们尝试过的一种方法，但没有成功。幸运的是，有一种更好的方式——基于事件的消息传递。
+
+在这种方法中，我们将任务视为应用程序/JVM内部的轻量级进程。我们没有让它们获取数据，而是将不可变的消息传递给它们。一旦这些异步任务完成，它们将返回或将不可变的结果传递给其他协调任务。我们设计了具有协调actors的应用程序，该actors异步交换不可变消息。
+
+这种方法已经存在了几十年，但在JVM领域还是相对较新的。基于角色的模型是非常成功和流行的Erlang(请参阅Erlang编程:用于并发世界的软件[Arm07]和Erlang [VWWA96]中的并发编程)。当Scala在2003年引入时，Erlang的基于actor的模型被采用并引入到JVM中(参见Scala编程[OSV08]和编程)Scala [Sub09])。
+
+在Java中，我们可以从提供基于actor的并发性的6个库中进行选择:ActorFoundary、Actorom、Actors Guild、Akka、FunctionalJava、Kilim、Jetlang，等等。其中一些库使用了面向方面的字节码编织。它们都处于不同的成熟度和采用水平。在本章中，我们将学习如何编写基于actor的并发程序。在大多数情况下，我们将使用Akka作为一种车辆来驱动的概念。Akka是一个高性能的基于scala的解决方案，它公开了相当好的Java API。我们可以将它用于基于actor的并发性和STM(参见第6章，软件事务性内存介绍，第89页)。Java将OOP转变为可变性驱动的开发，3而函数式编程强调不可变性;这两个极端都存在问题。如果一切都是可变的，我们必须处理可见性和竞态条件。在实际的应用程序中，一切都不能是不可变的。即使是纯函数式语言也提供了受限的代码区域，允许副作用和排序方法。无论我们喜欢哪种编程模型，我们都必须避免共享的易变性。并发性问题的根源在于多个线程可以修改一个变量。隔离的可变性是一种很好的折衷方案，它消除了大多数并发性问题，即只有一个线程(或actor)可以访问可变变量。在OOP中，我们进行封装，以便只有实例方法才能操作对象的状态。然而，不同的线程可能会调用这些方法，这将导致并发性问题。在基于actor的编程模型中，我们只允许一个actor操作对象的状态。虽然应用程序是多线程的，但参与者本身是单线程的，因此不存在可见性和竞态条件问题。actor请求要执行的操作，但它们不会跨越由其他actor管理的可变状态。与只使用对象编程相比，使用actor编程时，我们采用了不同的设计方法。我们将问题划分为异步计算任务，并将它们分配给不同的参与者。每个参与者的注意力都集中在执行其指定的任务上。我们将任何可变状态限制在最多一个参与者之内时期，我们还确保我们在actor之间传递的消息是完全不可变的。
+
+在这种设计方法中，我们让每个参与者处理问题的一部分。它们以不可变对象的形式接收必要的数据。一旦它们完成了分配的任务，它们就会将结果作为不可变对象发送给调用参与者或另一个指定的后处理参与者。我们可以把这看作是将OOP提升到下一个层次，其中select对象是可变的和活动的，它们在自己的线程中运行。我们操纵这些对象的唯一方法是向它们发送消息，而不是直接调用方法。Actor是一个可以接收消息、处理请求和发送响应的自由运行的活动。actor被设计为支持异步和高效消息传递。每个actor都有一个内置的消息队列，就像手机后面的消息队列一样。莎莉和西恩可以同时在鲍勃的手机上留言。移动电话提供商为Bob保存他们的消息，以便Bob在方便时检索。类似地，actor库允许多个actor并发地发送消息。发送方默认是非阻塞的;他们发出一个信息，并继续照顾他们的业务。库允许指定的参与者按顺序选择要处理的消息。一旦一个参与者处理了一条消息或委托给另一个参与者进行并发处理，它就准备好接收下一条消息了。参与者的生命周期如图12，参与者的生命周期，在第167页中所示。在创建时，可以启动或停止一个actor。一旦启动，它就准备接收消息。在活动状态中，参与者要么正在处理消息，要么在等待新消息的到达。一旦停止，它将不再接收任何消息。参与者在等待和处理消息上花费的时间取决于他们所参与的应用程序的动态特性。如果参与者在我们的设计中扮演重要的角色，我们会期望它们中的许多在应用程序的执行过程中四处浮动。然而，线程是有限的资源，因此将actor绑定到它们的线程将非常有限。为了避免这种情况，角色库通常会将角色从线程中解耦。线程对于演员就像食堂座位对于办公室员工一样。鲍勃在公司的自助餐厅没有指定的座位(如果有的话，他需要找另一份工作)，每次他去吃饭时，他都坐在一个空的座位上坐着
+
+![image-20201209224517004](E:\learningforalllife\git-workspace\PANDA-Walker\picture\image-20201209224517004.png)
+
+actor隔离可变状态，并通过传递不可变状态进行通信消息。
+
+当actor有消息要处理或有任务要运行时，它就会被提供一个可用的线程来运行。好的actor不会在不运行任务时保留线程。这允许更多的参与者在不同状态下处于活动状态，并有效地使用有限的可用线程。尽管多个参与者可以在任何时候处于活动状态，但在任何实例中，参与者中只有一个线程处于活动状态。这在参与者之间提供了并发性，同时消除了每个参与者之间的争用。8.3创建角色正如我前面提到的，我们有很多角色库可供选择。在本书中，我们使用了Akka，这是一个基于scala的库4，具有相当好的性能和可伸缩性，并且同时支持actor和STM。我们可以在JVM上使用多种语言。在这一章中，我们将继续讨论到Java和Scala。
+
+![image-20201209224720235](E:\learningforalllife\git-workspace\PANDA-Walker\picture\image-20201209224720235.png)
+
+参与者的生命周期
+
+在下一章中，我们将研究Akka actors与其他语言的使用
+
+Akka是用Scala编写的，所以从Scala创建和使用actor非常简单和自然。Akka API突出了Scala的简洁和习惯用法。与此同时，他们在公开传统Java API方面做得相当出色，因此我们可以轻松地在Java代码中创建和使用actor。我们将首先看一下在Java中如何使用它，然后看看在Scala中使用它时，这种体验是如何简化和改变的。在Java的抽象类Akka .actor中创建actor。UntypedActor表示一个actor。只需扩展该方法并实现所需的onReceive()方法，每当actor的消息到达时，就会调用该方法。让我们试一试。我们将创建一个actor…找一个好莱坞演员来扮演不同的角色怎么样
+
+```java
+public class HollywoodActor extends UntypedActor {
+public void onReceive(final Object role) {
+System.out.println("Playing " + role +
+" from Thread " + Thread.currentThread().getName());
+}
+}
+```
+
+onReceive()方法接受一个对象作为参数。在本例中，我们只是将它与处理消息的线程的详细信息一起打印出来。稍后我们将学习如何处理不同类型的消息。
+
+我们的演员都准备好了，等着我们说“开始”。“我们需要创建actor的一个实例，并使用其角色发送消息，所以让我们开始:
+
+```java
+public class UseHollywoodActor {
+public static void main(final String[] args) throws InterruptedException {
+final ActorRef johnnyDepp = Actors.actorOf(HollywoodActor.class).start();
+johnnyDepp.sendOneWay("Jack Sparrow");
+Thread.sleep(100);
+johnnyDepp.sendOneWay("Edward Scissorhands");
+Thread.sleep(100);
+johnnyDepp.sendOneWay("Willy Wonka");
+Actors.registry().shutdownAll();
+}
+}
+```
+
+在Java中，我们通常使用new创建对象，但Akka actor不是简单对象，它们是活动对象。因此，我们使用特殊的方法actorOf()来创建它们。另外，我们也可以使用new创建一个实例，并将其封装在对actorOf()的调用中，以获取actor引用，不过我们稍后再讨论这个问题。一旦创建了actor，我们就通过调用start()方法启动它。当我们开始一个演员，Akka把它放入一个注册表;参与者可以通过注册表访问，直到参与者停止。在这个示例中，类型为ActorRef的johnnyDepp是对我们的actor实例的引用。接下来，我们使用sendOneWay()方法向扮演角色的参与者发送一些消息。消息一旦发出，我们真的不必等待。然而，在这种情况下，延迟将帮助我们了解更多细节，即演员如何切换线程，我们将很快看到。最后，我们要求关闭所有运行的演员。除了调用shutdownAll()方法外，我们还可以对各个actor调用stop()方法，或者向它们发送一个kill消息。好了，要运行这个示例，让我们使用javac编译代码，并记住指定Akka库文件的类路径。我们可以像运行常规Java程序一样简单地运行该程序。同样，我们必须记住在类路径中提供必要的jar。下面是我在系统上使用的命令
+
+>javac -d . -classpath $AKKA_JARS HollywoodActor.java UseHollywoodActor.java
+>java -classpath $AKKA_JARS com.agiledeveloper.pcj.UseHollywoodActor
+
+其中akka_jar定义如下:
+
+```java
+export AKKA_JARS="$AKKA_HOME/lib/scala-library.jar:\
+$AKKA_HOME/lib/akka/akka-stm-1.1.3.jar:\
+$AKKA_HOME/lib/akka/akka-actor-1.1.3.jar:\
+$AKKA_HOME/lib/akka/multiverse-alpha-0.6.2.jar:\
+$AKKA_HOME/lib/akka/akka-typed-actor-1.1.3.jar:\
+$AKKA_HOME/lib/akka/aspectwerkz-2.2.3.jar:\
+$AKKA_HOME/config:\
+."
+```
+
+我们需要为操作系统恰当地定义AKKA_JARS环境变量，以匹配安装Scala和Akka的位置。我们可以使用Akka附带的Scala -library.jar文件，也可以从本地Scala安装中使用它
+
+默认情况下，Akka在标准输出中打印额外的日志消息;我们在第105页的Java创建事务中看到了如何配置它。
+
+让我们编译并运行代码来观察actor对消息的响应:
+
+>Playing Jack Sparrow from Thread akka:event-driven:dispatcher:global-1
+>Playing Edward Scissorhands from Thread akka:event-driven:dispatcher:global-2
+>Playing Willy Wonka from Thread akka:event-driven:dispatcher:global-3
+
+参与者一次响应一个消息。输出还允许我们查看运行actor的线程，而且每次都不是同一个线程。同一线程可能处理多个消息，也可能与示例输出不同，但在任何情况下，在任何时候只处理一条消息。关键的一点是，参与者是单线程的，但是不会劫持他们的线程。它们在等待消息时优雅地释放线程;我们添加的延迟帮助引入了这种等待并说明了这一点。我们创建的actor在构建时没有接受任何参数。如果需要，可以在actor创建期间发送参数。例如，使用Hollywood actor的名称初始化actor
+
+```java
+public class HollywoodActor extends UntypedActor {
+private final String name;
+public HollywoodActor(final String theName) { name = theName; }
+public void onReceive(final Object role) {
+if(role instanceof String)
+System.out.println(String.format("%s playing %s", name, role));
+else
+System.out.println(name + " plays no " + role);
+}
+}
+```
+
+类HollywoodActor的新版本采用类型为String的值名作为构造函数参数。在此过程中，让我们来处理未识别的传入消息格式。在本例中，我们只是打印一条消息，说明好莱坞演员不播放未被识别的消息。
+
+我们可以采取其他操作，比如返回错误代码、登录、调用用户的母亲来报告，等等。让我们看看如何传递这个构造函数参数的实际参数:
+
+```java
+public class UseHollywoodActor {
+public static void main(final String[] args) throws InterruptedException {
+final ActorRef tomHanks = Actors.actorOf(new UntypedActorFactory() {
+public UntypedActor create() { return new HollywoodActor("Hanks"); }
+}).start();
+tomHanks.sendOneWay("James Lovell");
+tomHanks.sendOneWay(new StringBuilder("Politics"));
+tomHanks.sendOneWay("Forrest Gump");
+Thread.sleep(1000);
+tomHanks.stop();
+}
+}
+```
+
+我们通过发送消息而不是直接调用方法与参与者通信。Akka希望我们很难获得对actor的直接引用，并希望我们只获得对ActorRef的引用。这允许Akka确保我们不会向actor添加方法并直接与它们交互，因为这将把我们带回我们一直努力避免的共享可变性的邪恶土地。这种受控的actor创建还允许Akka对actor进行适当的垃圾收集。因此，如果我们尝试直接创建actor类的实例，我们将获得运行时异常akka.actor。您不能使用new显式地创建actor的实例。Akka允许我们在create()方法中以受控的方式创建实例。因此，让我们在实现UntypedActorFactory接口的匿名类中实现此方法，并在此方法中创建actor实例，发送适当的构造时参数。随后对actorOf()的调用将扩展自UntypedActor的常规对象转换为Akka actor。然后，我们可以像前面一样将消息传递给这个actor。我们的HollywoodActor只接受字符串类型的消息，但是在示例中，我们发送了一个StringBuilder实例，该实例具有值策略。我们在onReceive()中执行的运行时类型检查负责处理这个问题。最后,我们
+
+通过调用stop()方法停止actor。引入的延迟给了参与者在我们关闭它之前响应消息的时间。让我们来看看它的输出:
+
+>Hanks playing James Lovell
+>Hanks plays no Politics
+>Hanks playing Forrest Gump
+
+在Scala中创建角色
+
+要在Scala中创建Akka actor，而不是我们在Java版本中扩展的UntypedActor，我们将从actor特征进行扩展，并实现所需的receive()方法。让我们在Scala中实现我们之前在Java中编写的HollywoodActor actor类:
+
+```java
+class HollywoodActor extends Actor {
+def receive = {
+case role =>
+println("Playing " + role +
+" from Thread " + Thread.currentThread().getName())
+}
+}
+```
+
+receive()方法实现了一个功能部分，并采用了Scala模式匹配的形式，但是现在不要让这些细节分散我们的注意力。当消息到达时调用此方法;如果有帮助的话，现在可以把receive()看作一个美化过的switch语句。的实现与
+
+Java版本。
+
+现在我们已经看到了如何定义一个actor，让我们把注意力转向使用这个actor:
+
+```java
+object UseHollywoodActor {
+def main(args : Array[String]) :Unit = {
+val johnnyDepp = Actor.actorOf[HollywoodActor].start()
+johnnyDepp ! "Jack Sparrow"
+Thread.sleep(100)
+johnnyDepp ! "Edward Scissorhands"
+Thread.sleep(100)
+johnnyDepp ! "Willy Wonka"
+Actors.registry.shutdownAll
+}
+}
+```
+
+actorOf()方法有几种类型，这里我们使用的版本将actor类清单作为参数，显示为[HollywoodActor]。一旦创建了actor，我们就通过调用start()方法启动它。在这个例子中，类型为ActorRef的johnnyDepp是对actor实例的引用;然而，由于Scala有类型推断，我们不必指定类型。接下来，我们向角色扮演的actor发送一些消息。哦，等等，还有一个细节;我们用一种特殊的方法!发送消息。当你看到演员!message，从右到左读取，就像发送消息给actor一样。Scala的简洁性再次发挥了作用。而不是叫演员。!(消息)，我们可以简单地放下点和括号，然后编写actor !消息。如果愿意，我们可以使用具有Scala简便性的java风格的方法，就像actor sendOneWay消息中那样。示例中的其余代码与Java示例类似。让我们使用scalac编译器来编译代码，但是首先我们必须记住指定Akka库文件的类路径。我们可以像运行常规Java程序一样简单地运行该程序。同样，我们必须记住在类路径中提供必要的jar。下面是我在系统上使用的命令;我们需要根据Scala和Akka的安装位置，为系统替换合适的路径
+
+>scalac -classpath $AKKA_JARS HollywoodActor.scala UseHollywoodActor.scala
+>java -classpath $AKKA_JARS com.agiledeveloper.pcj.UseHollywoodActor
+
+如果我们在标准输出中看到日志消息，并希望将它们静音，请在Java actor示例之后查看提供的详细信息。一旦我们编译并运行代码，我们将看到的输出将与
+
+产生的Java版本:
+
+>Playing Jack Sparrow from Thread akka:event-driven:dispatcher:global-1
+>Playing Edward Scissorhands from Thread akka:event-driven:dispatcher:global-2
+>Playing Willy Wonka from Thread akka:event-driven:dispatcher:global-3
+
+如果我们想要传递参数，比如好莱坞演员的名字，给演员，在Scala中要比在Java版本中简单得多。让我们首先修改类HollywoodActor，让它接受一个构造函数参数:
+
+```java
+class HollywoodActor(val name : String) extends Actor {
+def receive = {
+case role : String => println(String.format("%s playing %s", name, role))
+case msg => println(name + " plays no " + msg)
+}
+}
+```
+
+类HollywoodActor的新版本采用类型为String的值名作为构造函数参数。在此过程中，让我们来处理未识别的传入消息格式。与使用instanceof不同，case语句负责将消息与各种模式(在本例中是消息的类型)匹配。
+
+创建接受构造函数参数的actor需要花费一些精力
+
+但是在Scala中，它变成了一些非常简单的东西:
+
+```java
+object UseHollywoodActor {
+def main(args : Array[String]) : Unit = {
+val tomHanks = Actor.actorOf(new HollywoodActor("Hanks")).start()
+tomHanks ! "James Lovell"
+tomHanks ! new StringBuilder("Politics")
+tomHanks ! "Forrest Gump"
+Thread.sleep(1000)
+tomHanks.stop()
+}
+}
+```
+
+我们使用new关键字实例化actor，然后将实例传递给actorOf()方法(这里，Akka再次阻止我们在调用actorOf()方法之外任意创建actor实例)。这将把从Actor扩展到Akka Actor的常规对象转换为一个Actor。然后像以前那样传递消息。其余代码类似于Java版本。让我们运行代码，确保输出类似于Java版本的输出:
+
+>Hanks playing James Lovell
+>Hanks plays no Politics
+>Hanks playing Forrest Gump
+
+8.4发送和接收消息
+
+我们可以向actor发送任何类型的消息:字符串、整数、长、双值、列表、映射、元组、Scala case类，所有这些都是不可变的。我特别喜欢元组，不是因为把它们读错为两组很有趣，而是因为它们是轻量级的、不可变的，而且是最容易创建的实例之一。例如，要在Scala中创建两个数字的元组，我们只需编写(number1, number2)。Scala的case类是理想的消息类型，它们可以不可变，可以很好地与模式匹配，并且很容易复制。在Java中，我们可以传递一个不可修改的集合作为消息来发送多个对象一条消息。我们传递一个消息给演员时,默认情况下我们传递消息的引用,如果发送方和接收方都是在同一个JVM.5这年代我们的责任,确保我们传递的信息是不可变的,特别是如果我们决定发送自己的类的实例。我们还可以要求Akka序列化消息，这样传递的是消息的副本而不是引用。与演员沟通最简单的方式就是“火与忘”。也就是说，发送一个信息，然后继续前进。从性能的角度来看，这也是首选的方法。发送是非阻塞的，调用actor/线程继续其工作。我们使用sendOneWay()方法，或者!方法，以发送单向消息。Akka还提供了双向通信，我们可以在其中发送消息并期待来自参与者的响应。在这种情况下，调用线程将阻塞，直到收到响应或超过超时。让我们先看看如何在Java中发送和接收消息，然后在Scala中。
+
+发送/接收在Java中
+
+我们使用sendRequestReply()方法发送消息并等待响应。
+
+如果响应没有在(可配置的)超时内到达，我们将接收一个ActorTimeoutException。让我们来看一个双向消息传递的例子:
+
+```java
+public class FortuneTeller extends UntypedActor {
+public void onReceive(final Object name) {
+getContext().replyUnsafe(String.format("%s you'll rock", name));
+}
+public static void main(final String[] args) {
+final ActorRef fortuneTeller =
+Actors.actorOf(FortuneTeller.class).start();
+try {
+final Object response = fortuneTeller.sendRequestReply("Joe");
+System.out.println(response);
+} catch(ActorTimeoutException ex) {
+System.out.println("Never got a response before timeout");
+} finally {
+fortuneTeller.stop();
+}
+}
+}
+```
+
+我们有一个算命的行动者想要对它收到的信息作出回应。
+
+它通过对通过getContext()获得的调用上下文调用replyUnsafe()方法来响应消息发送者。replyUnsafe()方法在不阻塞的情况下向调用者发送响应，但是代码中没有调用者。在main()方法中，我们调用了sendRequestReply()方法。这个方法在内部创建一个Fut ur e类并等待它，直到它得到一个结果、一个异常或一个超时。让我们通过运行代码来检查乔的财富:
+
+> Joe you'll rock
+
+这个算命的人有一点有点不幸:它依赖于发送者等待可用的响应。我们调用了sendRequestReply()方法，因此有一个用于等待响应的内部Fut ure。如果我们调用sendOneWay()，那么replyUnsafe()方法将失败。为了避免这种情况发生，我们需要在调用replyUnsafe()方法之前检查阻塞发送方是否可用。我们可以通过从上下文获取sender引用来实现这一点。另外，我们可以使用replySafe()方法，如果发送方引用存在，它将返回true，如果没有发送方引用可用，它将返回false。因此，下面是修改后的算命器，它将处理没有发送者等待响应的情况
+
+```java
+public class FortuneTeller extends UntypedActor {
+public void onReceive(final Object name) {
+if(getContext().replySafe(String.format("%s you'll rock", name)))
+System.out.println("Message sent for " + name);
+else
+System.out.println("Sender not found for " + name);
+}
+public static void main(final String[] args) {
+final ActorRef fortuneTeller =
+Actors.actorOf(FortuneTeller.class).start();
+try {
+fortuneTeller.sendOneWay("Bill");
+final Object response = fortuneTeller.sendRequestReply("Joe");
+System.out.println(response);
+} catch(ActorTimeoutException ex) {
+System.out.println("Never got a response before timeout");
+} finally {
+fortuneTeller.stop();
+}
+}
+}
+```
+
+如果发件人不为人所知，新版《算命师》不会失败;它优雅地处理了不幸
+
+>Sender not found for Bill
+>Message sent for Joe
+>Joe you'll rock
+
+对sendRequestReply()的调用在等待响应时阻塞，但是对sendOneWay()的调用是非阻塞的，因此不会产生响应。如果我们想接收一个响应，但不想等待它，我们可以使用更精细的方法sendRequestReplyFuture()，它将返回一个Future对象。我们可以继续执行工作，直到我们想要得到响应，此时我们可以阻塞或查询future对象，以查看响应是否可用。类似地，在参与者的一边，我们可以从上下文引用获得senderFuture，并在响应就绪后立即通过它进行通信。我们将在后面的示例中介绍如何使用它们。在使用sendRequestReply()和sendRequestReplyFuture()方法时要小心，因为对这些方法的调用会阻塞，并可能对性能和可伸缩性产生负面影响。在Scala中，如果我们想从Scala向actor发送/接收消息，我们必须准备好应对与Java API的一些差异:我们可以直接使用self属性来访问actor。使用这个属性，我们可以调用reply()方法，这是Scala端上的不安全的等效方法，或者我们可以使用replySafe()方法。我们可以调用sendRequestReply()方法，或者我们可以调用更优雅的!!人们说情人眼里出西施。同样,! !可以用来代替sendRequestReplyFuture()方法。sendRequestReply()方法返回的不是一个对象，而是一个Scala选项。如果响应到达，这将是某个[T]的实例，它保存结果，如果超时，则为None。因此，与Java版本不同的是，在超时的情况下没有例外。让我们先使用不安全的reply()方法在Scala中实现算命器
+
+```java
+class FortuneTeller extends Actor {
+def receive = {
+case name : String =>
+self.reply(String.format("%s you'll rock", name))
+}
+}
+object FortuneTeller {
+def main(args : Array[String]) : Unit = {
+val fortuneTeller = Actor.actorOf[FortuneTeller].start()
+val response = fortuneTeller !! "Joe"
+response match {
+case Some(responseMessage) => println(responseMessage)
+case None => println("Never got a response before timeout")
+}
+fortuneTeller.stop()
+}
+}
+```
+
+在actor代码中，我们可以看到两种不同;一个是与self而不是getContext()相关的，另一个是reply()而不是replyUnsafe()。在调用方，我们对从调用接收到的响应应用模式匹配!!，它是sendRequestReply()方法。如果到达了实际响应，则使用第一种情况，如果超时，则使用无响应的第二种情况。
+
+这段代码的输出与Java版本相同，正如我们所期望的:
+
+> Joe you'll rock
+
+除了我们讨论的更改之外，使用安全版本的reply()与Java版本没有太大区别。我们可以使用reply_?()或replySafe()。
+
+```java
+class FortuneTeller extends Actor {
+def receive = {
+case name : String =>
+if(self.reply_?(String.format("%s you'll rock", name)))
+println("Message sent for " + name)
+else
+println("Sender not found for " + name)
+}
+}
+object FortuneTeller {
+def main(args : Array[String]) : Unit = {
+val fortuneTeller = Actor.actorOf[FortuneTeller].start()
+fortuneTeller ! "Bill"
+val response = fortuneTeller !! "Joe"
+response match {
+case Some(responseMessage) => println(responseMessage)
+case None => println("Never got a response before timeout")
+}
+fortuneTeller.stop()
+}
+}
+```
+
+新版本的算命师不会失败，如果发件人是不知道的:
+
+>Sender not found for Bill
+>Message sent for Joe
+>Joe you'll rock
+
+当Akka发送消息时，在后台传递发送方引用是非常方便的。这样就不需要将发送方显式地作为消息的一部分传递，并在代码中消除了太多的干扰和工作。
+
+如果使用方法名如!，!!, ! !和reply_?()的问题，我们可以分别使用其他名称，如sendOneWay()、sendRequestReply()、sendRequestReplyFuture()和replySafe()。
+
+8.5 Working with Multiple Actors
+
+现在我们知道了如何创建一个actor并向它发送消息。让我们感受一下如何让多个参与者工作。在第2章，第15页的劳动分工中，我们创建了一个并行程序来计算范围内的质数。在质数并发计算的例子中，在第27页，我们使用ExecutorService、Callable和Fut ure，用代码填满了一页多一点的代码。让我们先看看Akka actor在Java中是如何形成的，然后再在Scala中。在Java中，给定一个像1000万这样的数字，我们将质数的计算划分为不同的范围，并将这些范围分布在多个线程上。这里我们将使用actor。让我们从actor的onReceive()方法开始
+
+```java
+public class Primes extends UntypedActor {
+public void onReceive(final Object boundsList) {
+final List<Integer> bounds = (List<Integer>) boundsList;
+final int count =
+PrimeFinder.countPrimesInRange(bounds.get(0), bounds.get(1));
+getContext().replySafe(count);
+}
+```
 
 
 
+为了计算一个范围内质数的数量，我们需要该范围的上界和下界。我们的参与者在onReceive()的消息参数中接收这个绑定为列表的消息。我们调用尚未编写的PrimeFinder的countPrimesInRange()方法，并使用replySafe()方法将结果发送回调用者。
+
+给定一个数字，我们需要将它分成给定数量的部分，并将寻找质数的任务委托给不同的参与者。让我们通过countPrimes()静态方法来实现:
+
+```java
+public static int countPrimes(
+final int number, final int numberOfParts) {
+final int chunksPerPartition = number / numberOfParts;
+final List<Future<?>> results = new ArrayList<Future<?>>();
+for(int index = 0; index < numberOfParts; index++) {
+final int lower = index * chunksPerPartition + 1;
+final int upper = (index == numberOfParts - 1) ? number :
+lower + chunksPerPartition - 1;
+final List<Integer> bounds = Collections.unmodifiableList(
+Arrays.asList(lower, upper));
+final ActorRef primeFinder = Actors.actorOf(Primes.class).start();
+results.add(primeFinder.sendRequestReplyFuture(bounds));
+}
+int count = 0;
+for(Future<?> result : results)
+count += (Integer)(result.await().result().get());
+Actors.registry().shutdownAll();
+return count;
+}
+```
+
+一旦我们确定了每个部分的边界，我们将其包装到一个不可修改的集合记住，消息必须是不可变的。然后调用sendRequestReplyFuture()，这样就可以向所有分区发送请求而不会被阻塞。我们节约用水。)这是你的急件。而不是由该方法返回的JDK s java.util.concurrent.Future)，因此我们可以稍后查询每个部分产生的质数。我们在Fut ure上调用await()，并在await()返回的Fut ure实例上调用result()方法。这给了我们一个Scala选项的实例，可以把它想象成一个漂亮的union，保存可用的值。通过调用get()方法，我们最终从该对象获得整数值。好的，让我们使用数字和部件的命令行参数来驱动代码
+
+```java
+public static void main(final String[] args) {
+if (args.length < 2)
+System.out.println("Usage: number numberOfParts");
+else {
+final long start = System.nanoTime();
+final int count = countPrimes(
+Integer.parseInt(args[0]), Integer.parseInt(args[1]));
+final long end = System.nanoTime();
+System.out.println("Number of primes is " + count);
+System.out.println("Time taken " + (end - start)/1.0e9);
+}
+}
+}
+```
+
+main()方法执行代码并对其计时。我们的最后一步是编写PrimeFinder，它将完成计算范围内质数的实际工作:
+
+```java
+public class PrimeFinder {
+public static boolean isPrime(final int number) {
+if (number <= 1) return false;
+final int limit = (int) Math.sqrt(number);
+for(int i = 2; i <= limit; i++) if(number % i == 0) return false;
+return true;
+}
+public static int countPrimesInRange(final int lower, final int upper) {
+int count = 0;
+for(int index = lower; index <= upper; index++)
+if(isPrime(index)) count += 1;
+return count;
+}
+}
+```
+
+让我们继续使用大量的例子代码，比如1000万和100个部分:
+
+>Number of primes is 664579
+>Time taken 3.890996
+
+让我们将本节中的代码和输出与第27页中的素数并发计算中的代码和输出进行比较。在这两个版本中，我们都将分区数设置为100。在Akka版本的质数计数中不需要设置池大小。这是一个计算密集型的问题，将ExecutorService版本的池大小设置在核心数量之上不会产生什么影响。因此，它们在性能上相当接近，并且在Akka版本中比ExecutorService中稍微少一些繁冗。随着本章的深入，当我们需要在线程/参与者之间进行更多的协调时，这种差异就会变得更加突出。如果我们使用Scala来实现primes示例，我们会享受到Scala在实现actor并与之交互方面的简洁性。让我们看看素数的Scala版本
+
+```java
+class Primes extends Actor {
+def receive = {
+case (lower : Int, upper : Int) =>
+val count = PrimeFinder.countPrimesInRange(lower, upper)
+self.replySafe(new Integer(count))
+}
+}
+object Primes {
+def countPrimes(number : Int, numberOfParts : Int) = {
+val chunksPerPartition : Int = number / numberOfParts
+val results = new Array[Future[Integer]](numberOfParts)
+var index = 0
+while(index < numberOfParts) {
+val lower = index * chunksPerPartition + 1
+val upper = if (index == numberOfParts - 1)
+number else lower + chunksPerPartition - 1
+val bounds = (lower, upper)
+val primeFinder = Actor.actorOf[Primes].start()
+results(index) = (primeFinder !!! bounds).asInstanceOf[Future[Integer]]
+index += 1
+}
+var count = 0
+index = 0
+while(index < numberOfParts) {
+count += results(index).await.result.get.intValue()
+index += 1
+}
+Actors.registry.shutdownAll
+count
+}
+def main(args : Array[String]) : Unit = {
+if (args.length < 2)
+println("Usage: number numberOfParts")
+else {
+val start = System.nanoTime
+val count = countPrimes(args(0).toInt, args(1).toInt)
+val end = System.nanoTime
+println("Number of primes is " + count)
+println("Time taken " + (end - start)/1.0e9)
+}
+}
+}
+```
+
+在Java版本和这个版本之间有一些不同。消息格式是一个简单的元组，而不是不可修改的列表。receive()中的case可以很容易地匹配它。Java中的for循环在这里变成了while循环。Scala确实有一个非常优雅的for循环;但是，这会导致object到原语转换的开销。为了进行良好的性能比较，我在这里避免了这种优雅。类似地，在PrimeFinder中，我们将使用while循环而不是Scala for循环
+
+```java
+object PrimeFinder {
+def isPrime(number : Int) : Boolean = {
+if (number <= 1) return false
+var limit = scala.math.sqrt(number).toInt
+var i = 2
+while(i <= limit) {
+if(number % i == 0) return false
+i += 1
+}
+return true
+}
+def countPrimesInRange(lower : Int, upper : Int) : Int = {
+var count = 0
+var index = lower
+while(index <= upper) {
+if(isPrime(index)) count += 1
+index += 1
+}
+count
+}
+}
+```
+
+这个版本的质数示例在1000万件和100件这样的大数量上的性能与我们之前看到的类似:
+
+```java
+Number of primes is 664579
+Time taken 3.88375
+```
+
+8.6 Coordinating Actors
+
+真正的好处和乐趣是当参与者互相协调解决问题。为了利用并发性，我们将问题分成几个部分。
+
+不同的演员可能扮演不同的角色，我们需要协调他们之间的沟通。这就是我们将在这里通过使用文件大小程序作为例子学到的。
+
+在第49页的4.2节协调线程中，我们编写了一个程序来查找给定目录下所有文件的总大小。我们启动了100个线程，每个线程探索不同的子目录。然后合计异步计算的大小。我们看到了实现这一点的不同方法，比如atomiclong和队列。我们可以把这些方法总结为应对共同突变的艰苦工作。通过使用actor的独立可变性来解决这个问题，我们可以节省相当多的工作和麻烦。与那一章中的共享易变性解决方案相比，我们可以在不降低性能的情况下做到这一点。作为同步免费编码的额外好处，我们也会有更简单的代码，我们很快就会看到。作为第一步，让我们为具有多个协调参与者的问题创建一个设计。我们可以使用两种类型的参与者，如图13所示，在第184页，使用参与者的总文件大小问题的设计。我们将在SizeCollector actor中隔离可变状态。它将接收一些消息，以跟踪需要访问的目录，保持文件大小的总数，并为请求Fil ePr ocessor actors提供要访问的目录。主代码将启动这些参与者。我们将有100个filepr ocessor actors来导航给定目录下的文件。我们将首先使用Akka actors在Java中实现这个设计，然后在Scala中实现。让我们首先定义SizeCollector类将接收的消息
+
+```java
+class RequestAFile {}
+class FileSize {
+public final long size;
+public FileSize(final long fileSize) { size = fileSize; }
+}
+class FileToProcess {
+public final String fileName;
+public FileToProcess(final String name) { fileName = name; }
+}
+```
+
+消息由不可变类表示。每个Fil ePr ocessor将使用RequestAFil e类型的消息将自己放在具有SizeCollector的列表中。filesi ze是来自filepr ocessor s的消息，它将携带目录中文件的大小
+
+![image-20201209230905420](E:\learningforalllife\git-workspace\PANDA-Walker\picture\image-20201209230905420.png)
 
 
 
+他们探索。最后，Fil eToPr ocess是一条带有需要研究的文件名称的消息。
 
+Fil ePr ocessor s是工作人员，探索一个给定的目录，并发回文件的总大小和他们找到的子目录的名称。一旦完成该任务，它们就发送RequestAFil e类，以让SizeCollector知道它们已经准备好承担探索另一个目录的任务。它们还需要首先在SizeCollector上注册，以接收要探索的第一个目录。一个很好的地方是preStart()方法，它在actor启动时被调用。让我们实现Fil ePr ocessor;我们必须记住接收对SizeCollector的引用作为构造函数参数
 
+```java
+class FileProcessor extends UntypedActor {
+private final ActorRef sizeCollector;
+public FileProcessor(final ActorRef theSizeCollector) {
+sizeCollector = theSizeCollector;
+}
+@Override public void preStart() { registerToGetFile(); }
+public void registerToGetFile() {
+sizeCollector.sendOneWay(new RequestAFile(), getContext());
+}
+public void onReceive(final Object message) {
+FileToProcess fileToProcess = (FileToProcess) message;
+final File file = new java.io.File(fileToProcess.fileName);
+long size = 0L;
+if(file.isFile()) {
+size = file.length();
+} else {
+File[] children = file.listFiles();
+if (children != null)
+for(File child : children)
+if (child.isFile())
+size += child.length();
+else
+sizeCollector.sendOneWay(new FileToProcess(child.getPath()));
+}
+sizeCollector.sendOneWay(new FileSize(size));
+registerToGetFile();
+}
+}
+```
 
+在registerregitfile()方法中，我们向SizeCollector发送一个RequestAFil e消息。我们将一个自引用发送到Fil ePr ocessor actor实例，该实例是使用getContext()方法获得的。SizeCollector会将此引用添加到一个可用空闲Fil ePr ocessor s列表中，该列表将用于浏览目录。SizeCollector类将通过发送一条消息，要求一个Fil ePr ocessor浏览一个目录(我们将很快看到该目录的代码)。filepr ocessor s onReceive()方法将响应该消息。在onReceive()方法中，我们发现给定目录的子目录，并使用sendOneWay()方法将它们发送到SizeCollector。对于给定目录中的文件，我们计算它们的大小，并在任务结束时将其发送到SizeCollector。作为任务的最后一步，我们用SizeCollector注册Fil ePr ocessor类，以获得要探索的另一个目录。
 
+filepr ocessor已经全部设置好，可以浏览目录了。SizeCollector管理孤立的可变状态，并使Fil ePr ocessor s忙于浏览目录，直到计算出最终结果。它处理我们讨论过的三种类型的消息。让我们先看看代码，然后讨论每个消息的操作:
 
+```java
+class SizeCollector extends UntypedActor {
+private final List<String> toProcessFileNames = new ArrayList<String>();
+private final List<ActorRef> idleFileProcessors =
+new ArrayList<ActorRef>();
+private long pendingNumberOfFilesToVisit = 0L;
+private long totalSize = 0L;
+private long start = System.nanoTime();
+public void sendAFileToProcess() {
+if(!toProcessFileNames.isEmpty() && !idleFileProcessors.isEmpty())
+idleFileProcessors.remove(0).sendOneWay(
+new FileToProcess(toProcessFileNames.remove(0)));
+}
+public void onReceive(final Object message) {
+if (message instanceof RequestAFile) {
+idleFileProcessors.add(getContext().getSender().get());
+sendAFileToProcess();
+}
+if (message instanceof FileToProcess) {
+toProcessFileNames.add(((FileToProcess)(message)).fileName);
+pendingNumberOfFilesToVisit += 1;
+sendAFileToProcess();
+}
+if (message instanceof FileSize) {
+totalSize += ((FileSize)(message)).size;
+pendingNumberOfFilesToVisit -= 1;
+if(pendingNumberOfFilesToVisit == 0) {
+long end = System.nanoTime();
+System.out.println("Total size is " + totalSize);
+System.out.println("Time taken is " + (end - start)/1.0e9);
+Actors.registry().shutdownAll();
+}
+}
+}
+}
+```
 
+SizeCollector保存了两个列表，一个用于目录访问，另一个用于闲置Fil ePr ocessor s。这三个长变量用于跟踪如何访问许多目录在任何时候都可以被浏览，演进的总文件大小，以及计算获得总大小所需时间的开始时间。sendAFileToProcess()方法用于分配目录，以便对闲置的Fil ePr o - cessors进行探索。SizeCollector期望在onReceive()消息处理程序中接收三种类型的消息。每一条信息都有不同的目的。当Fil ePr ocessors变为空闲时，它们发送RequestAFil e消息，并且SizeCollector将actor引用保存在空闲处理器列表中。filetopr ocess是大小控制器同时发送和接收的消息。它将在sendAFileToProcess()方法中向一个空闲的Fil ePr ocessor发送此类型的消息。当Fil ePr ocessor s发现子目录时，它们使用这种类型的消息将目录发送到SizeCollector，这样它就可以进一步安排其他Fil ePr ocessor s进行探索。SizeCollector处理的最后一条消息是Fil eSi ze，它由Fil ePr ocessor s发送，它携带所探索目录中文件的大小。每次接收到目录名时，SizeCollector都会增加一个名为pendingNumberOfFilesToVisit的独立可变计数器。每次接收到一个filesi ze消息时，它都会使用目录的大小减小该计数器。如果它发现这个计数为零，它将打印总大小和花费的时间，并关闭所有参与者，实际上就是关闭程序。让我们实现设计的最后一部分，主代码
+
+```java
+public class ConcurrentFileSizeWAkka {
+public static void main(final String[] args) {
+final ActorRef sizeCollector =
+Actors.actorOf(SizeCollector.class).start();
+sizeCollector.sendOneWay(new FileToProcess(args[0]));
+for(int i = 0; i < 100; i++)
+Actors.actorOf(new UntypedActorFactory() {
+public UntypedActor create() {
+return new FileProcessor(sizeCollector);
+}
+}).start();
+}
+}
+```
+
+主代码首先创建SizeCollector的一个实例，并使用
+
+filetopr ocess消息，查找目录的大小。主代码创建100个filepr ocessor演员。SizeCollector负责与filepr ocessor s进行协调，并完成查找文件大小的任务。
+
+让我们让这些参与者开始并让他们探索/usr目录
+
+```java
+Total size is 3793911517
+Time taken is 8.599308
+```
+
+比较这段使用独立可变的代码的输出与第49页4.2节协调线程中使用共享可变的代码的版本。所有版本都为/usr目录生成相同的文件大小，并且性能相当。基于actor的版本中最大的区别是代码中不涉及同步，没有锁存，没有队列，也没有需要处理的atomiclong。结果性能相当，更简单，不用担心。在Scala中协调角色我们得到了使用Akka Actors在Java中工作的文件大小的程序。我们可以用Scala实现这种设计，并受益于它的简洁性。与Java版本的第一个区别是消息。Scala有case类，这些类提供了高度表达性的语法来创建不可变类。这些非常适合于消息类型。因此，让我们使用case类来实现消息类型
+
+```java
+case object RequestAFile
+case class FileSize(size : Long)
+case class FileToProcess(fileName : String)
+```
+
+filepr ocessor类是从Java版本直接转换到Scala的;除了我们已经讨论过的事情之外，没有什么新的东西:
+
+```java
+class FileProcessor(val sizeCollector : ActorRef) extends Actor {
+override def preStart = registerToGetFile
+def registerToGetFile = { sizeCollector ! RequestAFile }
+def receive = {
+case FileToProcess(fileName) =>
+val file = new java.io.File(fileName)
+var size = 0L
+if(file.isFile()) {
+size = file.length()
+} else {
+val children = file.listFiles()
+if (children != null)
+    for(child <- children)
+if (child.isFile())
+size += child.length()
+else
+sizeCollector ! FileToProcess(child.getPath())
+}
+sizeCollector ! FileSize(size)
+registerToGetFile
+}
+}
+```
+
+让我们来翻译这个SizeCollector actor。因为我们使用case类来表示消息类型，所以这里很好地提供了Scala模式匹配。它帮助轻松提取值，如文件名和文件大小从适当的消息:
+
+```java
+class SizeCollector extends Actor {
+var toProcessFileNames = List.empty[String]
+var fileProcessors = List.empty[ActorRef]
+var pendingNumberOfFilesToVisit = 0L
+var totalSize = 0L
+val start = System.nanoTime()
+def sendAFileToProcess() : Unit = {
+if(!toProcessFileNames.isEmpty && !fileProcessors.isEmpty) {
+fileProcessors.head ! FileToProcess(toProcessFileNames.head)
+fileProcessors = fileProcessors.tail
+toProcessFileNames = toProcessFileNames.tail
+}
+}
+def receive = {
+case RequestAFile =>
+fileProcessors = self.getSender().get :: fileProcessors
+sendAFileToProcess()
+case FileToProcess(fileName) =>
+toProcessFileNames = fileName :: toProcessFileNames
+pendingNumberOfFilesToVisit += 1
+sendAFileToProcess()
+case FileSize(size) =>
+totalSize += size
+pendingNumberOfFilesToVisit -= 1
+if(pendingNumberOfFilesToVisit == 0) {
+val end = System.nanoTime()
+println("Total size is " + totalSize)
+println("Time taken is " + (end - start)/1.0e9)
+Actors.registry.shutdownAll
+}
+}
+}
+```
+
+最后，我们需要将主代码从Java转换为Scala;再一次，这是直接翻译。
+
+```java
+object ConcurrentFileSizeWAkka {
+def main(args : Array[String]) : Unit = {
+val sizeCollector = Actor.actorOf[SizeCollector].start()
+sizeCollector ! FileToProcess(args(0))
+for(i <- 1 to 100)
+Actor.actorOf(new FileProcessor(sizeCollector)).start()
+}
+}
+```
+
+让我们尝试Scala版本的文件大小程序，就像我们对/usr目录所做的那样，观察性能是否相当，大小是否与Java版本相同
+
+>Total size is 3793911517
+>Time taken is 8.321386
+
+8.7 Using Typed Actors
+
+到目前为止，我们看到的参与者接受了消息。我们传递了不同类型的消息、字符串、元组、case类/定制消息，等等。然而，传递这些消息与我们在日常编程中重新使用的常规方法调用感觉很不一样。类型化actor通过允许我们进行常规的方法调用，并在幕后将其转换为消息，从而帮助我们跨越这一鸿沟。可以将类型化actor看作是一个活动对象，它运行在自己的单个轻量级事件驱动线程中，使用一个拦截代理将正常的方法调用转换为异步非阻塞消息。由于类型actor在幕后将常规方法调用转换为消息，所以我们可以最大限度地享受静态类型的好处。我们不必猜测参与者接收到的消息类型，而且我们可以依赖IDE的支持，比如代码完成。为了实现actor，我们简单地编写了一个扩展UntypedActor或actor trait/抽象类的类。要实现一个类型的actor，我们需要创建一个接口-实现对(在Scala中我们不编写接口;相反，我们使用没有实现的trait)。要实例化一个actor，我们使用actor类的actorOf()方法。要实例化一个类型化的actor，我们将使用pedAct或s newInstance()方法。
+
+我们从theTy pedAct或接收到的引用是将方法转换为异步消息的拦截代理。void方法转换为sendOneWay()或!方法，而返回结果的方法被转换为sendRequestReply()或!!方法。返回Fut的方法被转换为sendRequestReplyFuture()或!!方法。我们在第5章“控制共享易变性”中重构的EnergySource类，在第73页使用现代Java并发API，在使用Akka Refs和事务时，在第104页使用STM，是一个很好的类型actor的候选者。它具有可变的状态，我们可以使用一个actor来隔离它。EnergySource的每个实例将只在单个线程中运行，因此不存在竞争条件问题。当多个线程调用EnergySource的一个实例时，调用将跳转线程并在该实例上顺序运行。请记住，actor并不占用线程，因此它们可以跨实例共享线程，并提供更好的吞吐量。EnergySource做了很多事情;它允许我们查询能量级别和使用计数和利用能量，甚至在后台自动补充能量。我们当然希望基于actor的版本能够实现所有这些功能，但我们不要仓促行事。我们将逐步构建它，这样我们就可以一次专注于一件事。让我们先构建Java版本，然后构建Scala版本。
+
+在Java中使用类型演员
+
+类型参与者需要一对接口和实现。那么，让我们从EnergySource的接口开始:
+
+```java
+public interface EnergySource {
+long getUnitsAvailable();
+long getUsageCount();
+void useEnergy(final long units);
+}
+```
+
+这个接口的配对实现是EnergySourceImpl。它和普通Java类的唯一区别是我们扩展了theTy pedActor类，把它变成了一个活动对象:
+
+```java
+public class EnergySourceImpl extends TypedActor implements EnergySource {
+private final long MAXLEVEL = 100L;
+private long level = MAXLEVEL;
+private long usageCount = 0L;
+public long getUnitsAvailable() { return level; }
+    public long getUsageCount() { return usageCount; }
+public void useEnergy(final long units) {
+if (units > 0 && level - units >= 0) {
+System.out.println(
+"Thread in useEnergy: " + Thread.currentThread().getName());
+level -= units;
+usageCount++;
+}
+}
+}
+```
+
+TypedAct或确保这些方法都是互斥的;也就是说，在任何给定的实例中，只有一个方法可以运行。因此，不需要同步或锁定对类中任何字段的访问。为了了解执行actor的线程，让我们在这个示例代码中添加一些打印语句。最后，我们准备使用类型化actor，因此让我们为UseEnergySource编写代码。
+
+```java
+public class UseEnergySource {
+public static void main(final String[] args)
+throws InterruptedException {
+System.out.println("Thread in main: " +
+Thread.currentThread().getName());
+final EnergySource energySource =
+TypedActor.newInstance(EnergySource.class, EnergySourceImpl.class);
+System.out.println("Energy units " + energySource.getUnitsAvailable());
+System.out.println("Firing two requests for use energy");
+energySource.useEnergy(10);
+energySource.useEnergy(10);
+System.out.println("Fired two requests for use energy");
+Thread.sleep(100);
+System.out.println("Firing one more requests for use energy");
+energySource.useEnergy(10);
+Thread.sleep(1000);
+System.out.println("Energy units " + energySource.getUnitsAvailable());
+System.out.println("Usage " + energySource.getUsageCount());
+TypedActor.stop(energySource);
+}
+}
+```
+
+我们使用theTy pedAct或其newInstance()方法创建类型actor的实例。然后我们首先调用getUnitsAvailable()方法，因为这个方法当返回一个值时，我们的调用线程将阻塞来自类型actor的响应。对useEnergy()的调用是非阻塞的，因为它是一个不返回响应的空方法。我们对这个方法连续进行了两次调用，一个接一个地放置它们。这些电话会立即回复。稍微延迟之后，我们将再次调用useEnergy()来研究actor和线程的行为。最后，在延迟之后，我们再次请求使用计数和能量级别，以允许异步消息完成。最后，我们要求演员停止演出。让我们看一下这段代码的输出
+
+>Thread in main: main
+>Energy units 100
+>Firing two requests for use energy
+>Fired two requests for use energy
+>Thread in useEnergy: akka:event-driven:dispatcher:global-2
+>Thread in useEnergy: akka:event-driven:dispatcher:global-2
+>Firing one more requests for use energy
+>Thread in useEnergy: akka:event-driven:dispatcher:global-3
+>Energy units 70
+>Usage 3
+
+类型actor EnergySourceImpl一次只执行一个方法。我们触发的前两个useEnergy()请求没有阻塞主线程。然而，这两个任务是在参与者s线程上按顺序运行的。代码优雅地在main中的调用和actor上的方法之间切换执行线程。虽然main()在主线程中运行，但actor的方法在Akka管理的不同线程中按顺序运行。我们还注意到，actor没有把它的线程作为人质;最后一个使用energy()的请求在另一个Akka托管线程中运行。可变状态的能量来源是孤立在EnergySourceImpl演员我说它孤立不是因为它年代封装在这个类,而是因为类型化角色访问控制可变状态最多只有一个演员,一个线程运行在任何时间。通过在Scala中使用类型actor，我们看到了类型actor是如何需要一对接口和实现的。在Scala中，我们不创建接口;相反，我们创建的trait没有实现。让我们把能量源定义为一种特性
+
+>trait EnergySource {
+>def getUnitsAvailable() : Long
+>def getUsageCount() : Long
+>def useEnergy(units : Long) : Unit
+>}
+
+EnergySourceImpl的实现是对类EnergySourceImpl从Java版本的相当直接的翻译。我们扩展了TypedAct或类，并混合了EnergySource特性:
+
+```java
+class EnergySourceImpl extends TypedActor with EnergySource {
+val MAXLEVEL = 100L
+var level = MAXLEVEL
+var usageCount = 0L
+def getUnitsAvailable() = level
+def getUsageCount() = usageCount
+def useEnergy(units : Long) = {
+if (units > 0 && level - units >= 0) {
+println("Thread in useEnergy: " + Thread.currentThread().getName())
+level -= units
+usageCount += 1
+}
+}
+}
+```
+
+让我们从Java端口到UseEnergySource类:
+
+```java
+object UseEnergySource {
+def main(args : Array[String]) : Unit = {
+println("Thread in main: " + Thread.currentThread().getName())
+val energySource = TypedActor.newInstance(
+classOf[EnergySource], classOf[EnergySourceImpl])
+println("Energy units " + energySource.getUnitsAvailable)
+println("Firing two requests for use energy")
+energySource.useEnergy(10)
+energySource.useEnergy(10)
+println("Fired two requests for use energy")
+Thread.sleep(100)
+println("Firing one more requests for use energy")
+energySource.useEnergy(10)
+Thread.sleep(1000);
+println("Energy units " + energySource.getUnitsAvailable)
+println("Usage " + energySource.getUsageCount)
+TypedActor.stop(energySource)
+}
+}
+```
+
+```java
+Thread in main: main
+Energy units 100
+Firing two requests for use energy
+Fired two requests for use energy
+Thread in useEnergy: akka:event-driven:dispatcher:global-2
+Thread in useEnergy: akka:event-driven:dispatcher:global-2
+Firing one more requests for use energy
+Thread in useEnergy: akka:event-driven:dispatcher:global-3
+Energy units 70
+Usage 3
+```
+
+Scala版本除了具有活动对象的优点外，还具有一些简便性。
+
+8.8 Typed Actors and Murmurs
+
+EnergySource的类型actor版本允许我们调用方法，但在后台以异步消息的顺序运行它们，为我们提供线程安全，而不需要同步。这很容易创建，但我们的能源在这一点上是半生不活的，缺少一个关键的功能，能量级别需要自动补充。在我们在前几章实现的版本中，补充操作不需要任何用户干预;它是在后台自动完成的。当我们启动能量源时，一个计时器就会适当地提高每秒一个单位的能量级别。在类型actor版本中实现该特性将需要进行一些工作，以确保补充操作不会违反类型actor的单线程特性。在开始编写代码之前，让我们先研究一些选项。我们可以向EnergySource接口添加补充()方法。能源的用户可以每秒钟调用这个方法。不幸的是，这给能源使用者带来不必要的负担;他们可能会忘记，而且它在功能上也将不再与其他版本的EnergySource匹配。罢工,选项。我们可以创建一个定时器在类型的演员,和这个定时器可以定期补充能量levelTypedActor年代提供一个特殊的方法称为起动前的(),年代就创建了演员和一个方法称为postStop()年代叫做演员之后停止或关闭。这两种方法很有用;我们可以在preStart()方法的报告勘误表讨论类型演员和Murmurs 195中启动计时器，并在postStop()方法中取消它。这似乎是个好计划，但却带来了另一个问题。
+
+问题是计时器在它们自己的线程中运行，我们不想从这些线程中接触actor的可变状态。记住，我们希望状态是孤立可变的，而不是共享可变的。我们需要的是一种方法，以导致内部方法调用(我称为这些杂音)由参与者正确执行。这些杂音对我们的类型actor的外部用户是不可见的，而是作为异步消息运行，就像那些被外部调用的消息一样，这些消息被排序并与其他消息交织在一起。让我们看看如何将其编码。记住，有类型的参与者实际上是具有附加便利的参与者。它们确实像演员一样接收消息。基clasTsy pedAct或s receive()方法接收来自代理的消息，并在我们的类上分派适当的方法。我们可以重写这个方法来实现一个针对内部操作的特殊消息。这样，actor的用户就可以调用通过接口发布的方法，而我们的类就可以在内部使用这个(未发布的)消息。如果我们愿意，我们甚至可以采取额外的步骤来确保这个消息的发送者是我们自己的参与者。在Java中完成这一点需要付出一些努力，但在Scala中会容易得多。让我们先看看Java实现，然后再看看Scala版本。当我们的EnergySourceImpl的外部用户通过EnergySource接口进行通信时，我们将在内部设置actor使用计时器每秒钟向自身发送一条Repl eni sh请求消息。我们将编写的补充()方法是私有的，不能从类外部直接调用，但我们也将避免从计时器直接调用它。计时器只会向参与者发送一条消息。让我们看一下这部分代码
+
+```java
+@SuppressWarnings("unchecked")
+public class EnergySourceImpl extends TypedActor implements EnergySource {
+private final long MAXLEVEL = 100L;
+private long level = MAXLEVEL;
+private long usageCount = 0L;
+class Replenish {}
+@Override public void preStart() {
+Scheduler.schedule(
+optionSelf().get(), new Replenish(), 1, 1, TimeUnit.SECONDS);
+}@Override public void postStop() { Scheduler.shutdown(); }
+private void replenish() {
+System.out.println("Thread in replenish: " +
+Thread.currentThread().getName());
+if (level < MAXLEVEL) level += 1;
+}
+```
+
+在preStart()方法中(在actor启动后自动调用)，我们启动一个计时器。我们使用akka提供的调度器，它是一个基于actor的计时器。这个计时器提供了一些重载的schedule()方法来一次性或重复地启动任务。我们可以使用它来执行任意函数，或者像本例中那样，在actor上触发消息。我们设置了计时器，在初始延迟一秒之后，每秒钟就会在actor上发送一条Repl eni sh消息。我们通过调用实例上的optionSelf()方法获得actor的ActorRef引用的句柄。当actor停止时，我们应该停止定时器;因此，我们有postStop()方法。在私有的补充()方法中，我们还没有绑定到Repl enish消息，我们增加了级别值。类型actor的用户使用的代理将方法调用转换为消息。TheTy pedAct或基类的receive()方法将这些消息转换为实现上的方法调用。如果我们检查receive()方法的签名，它将返回一个scala.PartialFunction。6为了我们这里的讨论，可以把一个部分函数看作是一个美化过的开关语句。它根据接收到的消息的类型分派不同的代码片段。因此，基类将消息映射到我们的方法，而我们希望承担映射一个额外的、但是私有的消息的额外责任。换句话说，我们希望将消息处理与基类的receive()方法结合起来。函数Parti al Functi的orElse()方法允许我们很容易地做到这一点，所以我们将使用它
+
+```java
+@Override public PartialFunction receive() {
+return processMessage().orElse(super.receive());
+}
+```
+
+我们覆盖了receive()方法，并在其中将尚未实现的processMessage()方法返回的部分函数与基函数的receive()返回的部分函数结合起来。现在我们可以将注意力转向processMessage()方法的实现。此方法应该接收
+
+Repl enish消息并调用私有的补充()方法。因为这是消息处理序列的一部分，所以我们使用基于actor的通信来处理线程同步。如果咖啡不够喝，那就多喝点;你需要额外的咖啡因来实现这个方法。Parti al Functi on是Scala中的一个特性，其实现在Java中表现为一对接口和一个抽象类。因此，要在Java中实现一个trait，我们将实现该接口和委托调用，并适当地将调用委派给相应的抽象类。我们将实现的关键方法是apply()方法，我们在该方法中处理Repl eni sh消息。我们还将提供isDefinedAt()方法的实现，该方法告诉函数部分是否支持特定的消息格式或类型。此接口的其余方法可以委托。我们可以通过扩展AbstractFunction1来避免实现接口的某些方法，它与Parti al Functi共享公共接口Function1。
+
+```java
+private PartialFunction processMessage() {
+class MyDispatch extends AbstractFunction1 implements PartialFunction {
+public boolean isDefinedAt(Object message) {
+return message instanceof Replenish;
+}
+public Object apply(Object message) {
+if (message instanceof Replenish) replenish();
+return null;
+}
+public Function1 lift() {
+return PartialFunction$class.lift(this);
+}
+public PartialFunction andThen(Function1 function) {
+return PartialFunction$class.andThen(this, function);
+}
+public PartialFunction orElse(PartialFunction function) {
+return PartialFunction$class.orElse(this, function);
+}
+};
+return new MyDispatch();
+}
+```
+
+在apply()方法中，我们检查消息的类型是否为Repl enish，并调用了私有的补充()。isDefinedAt()表示我们只支持这一种消息类型，其余的消息由第198章第8章决定。支持独立的可变性报告勘误表讨论基类的receive()。好的，最后一步是不要忘记那些没有从以前类型的actor版本中更改的方法，所以让我们把它们处理完
+
+```java
+public long getUnitsAvailable() { return level; }
+public long getUsageCount() { return usageCount; }
+public void useEnergy(final long units) {
+if (units > 0 && level - units >= 0) {
+System.out.println(
+"Thread in useEnergy: " + Thread.currentThread().getName());
+level -= units;
+usageCount++;
+}
+}
+}
+```
+
+EnergySource接口没有变化，并且UseEnergySource继续像以前一样使用actor。因此，让我们编译EnergySourceImpl的新版本，并使用我们在前一节中编写的UseEnergySource运行它。在上一节中，在跑步结束的时候，我们剩下了70单位的能量。因为我们现在有自动补充的功能，单位应该增加一到两个点。
+
+>Thread in main: main
+>Energy units 100
+>Firing two requests for use energy
+>Fired two requests for use energy
+>Thread in useEnergy: akka:event-driven:dispatcher:global-2
+>Thread in useEnergy: akka:event-driven:dispatcher:global-2
+>Firing one more requests for use energy
+>Thread in useEnergy: akka:event-driven:dispatcher:global-3
+>Thread in replenish: akka:event-driven:dispatcher:global-4
+>Energy units 71
+>Usage 3
+
+我们用来打印线程信息的打印语句显示了使用能量请求和补充请求在Akka s参与者的线程中运行，从而再次减轻了我们的同步问题。如果我们添加sleep调用来延迟这些任务中的任何一个，我们将看到对actor的后续调用的执行被延迟，因为actor是单线程的。这种方法的本质是将我们自己的局部函数实现与基类的receive()方法返回的局部函数结合起来。在Java中要做到这一点需要付出很大的努力，但在Scala中要容易得多。让我们来看看处理杂音的部分，内部信息。
+
+```java
+class EnergySourceImpl extends TypedActor with EnergySource {
+val MAXLEVEL = 100L
+var level = MAXLEVEL
+var usageCount = 0L
+case class Replenish()
+override def preStart() =
+Scheduler.schedule(self, Replenish, 1, 1, TimeUnit.SECONDS)
+override def postStop() = Scheduler.shutdown
+override def receive = processMessage orElse super.receive
+def processMessage : Receive = {
+case Replenish =>
+println("Thread in replenish: " + Thread.currentThread.getName)
+if (level < MAXLEVEL) level += 1
+}
+```
+
+preStart()和postStop()方法是对Java版本的简单翻译。消息类Repl eni sh()在这里变成了case类。除了Scala的简洁性外，receive()与此基本相同。最大的变化是在processMessage()方法中。最后，它变成了Repl eni sh消息的简单模式匹配，没有像Java方面那样混淆继承和委托。由于这是如此简单，我们不妨在这里实现Repl eni sh()的逻辑，而不是创建一个私有函数。我们可以将processMessage()方法的返回类型定义为Parti al Functi on[Any, Unit]，或者，就像我们在示例中所做的那样，定义为Recei ve，它是processMessage()方法的别名。让我们引入之前Scala版本中EnergySourceImpl的其余代码
+
+```java
+def getUnitsAvailable() = level
+def getUsageCount() = usageCount
+def useEnergy(units : Long) = {
+if (units > 0 && level - units >= 0) {
+println("Thread in useEnergy: " + Thread.currentThread.getName)
+level -= units
+usageCount += 1
+}
+}
+}
+```
+
+我们可以使用之前Scala版本中的EnergySource和UseEnergySource。
+
+所以，让我们编译新版本的EnergySourceImpl并运行它来比较输出:
+
+>Thread in main: main
+>Energy units 100
+>Firing two requests for use energy
+>
+>Fired two requests for use energy
+>Thread in useEnergy: akka:event-driven:dispatcher:global-2
+>Thread in useEnergy: akka:event-driven:dispatcher:global-2
+>Firing one more requests for use energy
+>Thread in useEnergy: akka:event-driven:dispatcher:global-3
+>Thread in replenish: akka:event-driven:dispatcher:global-4
+>Energy units 71
+>Usage 3
+
+与Java相比，在Scala中实现这一点要容易得多。尽管这两段代码产生了相同的逻辑结果，但与Java版本相比，在Scala版本中花费的精力更少。
+
+8.9 Mixing Actors and STM
+
+actor很好地允许我们隔离可变状态。如果可以将一个问题划分为可独立运行并使用消息进行异步通信的并发任务，那么它们将非常有效。然而，参与者并不提供一种跨任务管理共识的方法。我们可能希望两个或更多参与者的行动能够同时成功或失败;也就是说，他们要么全部成功，要么全部失败。actor本身不能为我们做到这一点，但是我们可以通过将STM引入其中来实现这一点。在本节中，我假设您已经阅读了第6章，软件事务性内存介绍，在第89页，以及本章中对actor和类型actor的讨论。AccountService类帮助我们在页67和页111上创建嵌套事务的Lock接口中的两个帐户之间进行传输，它可以作为一个很好的示例来理解actor和STM之间的这种相互作用。存款和取款业务是独立于个人账户的。因此，Account可以使用简单的参与者或类型化的参与者来实现。然而，转账操作必须协调两个账户之间的存款和取款。换句话说，由一个参与者处理的存款操作，只有在由另一个参与者作为总体转移的一部分处理的相应的取款操作也成功时，才应该成功。让我们混合使用actor和STM来实现帐户转账示例。Akka提供了一些混合actor和STM的选项。我们可以创建一个单独的事务协调对象，并自己管理进入事务的各种参与者的顺序(关于控制级别，请参阅Akka文档)。另外，我们可以依赖两种方便的方法来管理参与者之间的事务。我们将研究这两种方法:如何使用它们的事务器以及如何协调类型参与者。
+
+8.10 Using Transactors
