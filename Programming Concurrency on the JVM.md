@@ -4287,8 +4287,6 @@ fortuneTeller.stop()
 
 这段代码的输出与Java版本相同，正如我们所期望的:
 
-> Joe you'll rock
-
 除了我们讨论的更改之外，使用安全版本的reply()与Java版本没有太大区别。我们可以使用reply_?()或replySafe()。
 
 ```java
@@ -5001,3 +4999,1220 @@ usageCount += 1
 actor很好地允许我们隔离可变状态。如果可以将一个问题划分为可独立运行并使用消息进行异步通信的并发任务，那么它们将非常有效。然而，参与者并不提供一种跨任务管理共识的方法。我们可能希望两个或更多参与者的行动能够同时成功或失败;也就是说，他们要么全部成功，要么全部失败。actor本身不能为我们做到这一点，但是我们可以通过将STM引入其中来实现这一点。在本节中，我假设您已经阅读了第6章，软件事务性内存介绍，在第89页，以及本章中对actor和类型actor的讨论。AccountService类帮助我们在页67和页111上创建嵌套事务的Lock接口中的两个帐户之间进行传输，它可以作为一个很好的示例来理解actor和STM之间的这种相互作用。存款和取款业务是独立于个人账户的。因此，Account可以使用简单的参与者或类型化的参与者来实现。然而，转账操作必须协调两个账户之间的存款和取款。换句话说，由一个参与者处理的存款操作，只有在由另一个参与者作为总体转移的一部分处理的相应的取款操作也成功时，才应该成功。让我们混合使用actor和STM来实现帐户转账示例。Akka提供了一些混合actor和STM的选项。我们可以创建一个单独的事务协调对象，并自己管理进入事务的各种参与者的顺序(关于控制级别，请参阅Akka文档)。另外，我们可以依赖两种方便的方法来管理参与者之间的事务。我们将研究这两种方法:如何使用它们的事务器以及如何协调类型参与者。
 
 8.10 Using Transactors
+
+Akka事务参与者或事务参与者将多个参与者的执行带入事务的折叠中。事务处理程序对来自多个协调角色的托管STM Ref对象的更改进行原子性处理。只有在包含的事务提交时，才保留对这些对象的更改;否则，更改将被丢弃。
+
+事务处理程序提供了三个选项来处理消息:
+
+•默认选项是在自己的事务中处理消息。
+
+•我们可以实现一个正常()方法，可以独立处理select消息，也就是说，不作为任何事务的一部分。
+
+•我们可以要求信息被协调处理，也就是说，作为一个总体事务的一部分。
+
+事务处理程序为我们提供了将其他参与者链接到协调事务中的灵活性。此外，事务处理程序提供可选的事务前和事务后方法。我们可以使用这些方法为事务做准备，并执行任何提交后处理。
+
+让我们先用Java，然后用Scala创建一个事务处理器。
+
+##### Transactors in Java
+
+要在Java中使用transactor，我们将扩展UntypedTransactor类并实现所需的atomically()方法。此外，如果我们想在事务中包含其他参与者，我们实现coordinate()方法。让我们使用交易器重新实现帐户转账示例。让我们首先从我们将需要的消息类开始。我们将使用一个存款消息来对帐户执行存款操作。该消息由一个不可变类表示，它将作为消息的一部分携带存款金额。
+
+```java
+public class Deposit {
+public final int amount;
+public Deposit(final int theAmount) { amount = theAmount; }
+}
+```
+
+接下来，我们有一个取款消息，它在结构上类似于存款消息:
+
+```java
+public class Withdraw {
+public final int amount;
+public Withdraw(final int theAmount) { amount = theAmount; }
+}
+```
+
+不需要为消息携带数据来获得平衡，所以一个空类就足够了:
+
+```java
+public class FetchBalance {}
+```
+
+对此类消息的响应将是嵌入在余额消息中的实际余额:
+
+```java
+public class Balance {
+public final int amount;
+public Balance(final int theBalance) { amount = theBalance; }
+}
+```
+
+我们需要的最终信息定义是forTr ansfer，它将包含账户和转账金额的详细信息:
+
+```java
+public class Transfer {
+public final ActorRef from;
+public final ActorRef to;
+public final int amount;
+public Transfer(final ActorRef fromAccount,
+final ActorRef toAccount, final int theAmount) {
+from = fromAccount;
+to = toAccount;
+amount = theAmount;
+}
+}
+```
+
+AccountService事务处理程序将使用Tr ansf er消息，帐户事务处理程序将使用我们定义的其他消息。现在让我们看一下账户交易:
+
+```java
+public class Account extends UntypedTransactor {
+private final Ref<Integer> balance = new Ref<Integer>(0);
+public void atomically(final Object message) {
+if(message instanceof Deposit) {
+int amount = ((Deposit)(message)).amount;
+if (amount > 0) {
+balance.swap(balance.get() + amount);
+System.out.println("Received Deposit request " + amount);
+    }
+}
+if(message instanceof Withdraw) {
+int amount = ((Withdraw)(message)).amount;
+System.out.println("Received Withdraw request " + amount);
+if (amount > 0 && balance.get() >= amount)
+balance.swap(balance.get() - amount);
+else {
+System.out.println("...insufficient funds...");
+throw new RuntimeException("Insufficient fund");
+}
+}
+if(message instanceof FetchBalance) {
+getContext().replySafe(new Balance(balance.get()));
+}
+}
+}
+```
+
+Account类扩展了UntypedTransactor并实现了atomically()方法。此方法将在提供给它的事务的上下文中运行。这可能是调用者的事务，如果没有提供任何事务，则可能是单独的事务。如果接收到的消息是存款消息，则增加存储在stm管理的Ref对象中的余额。如果信息是取款，那么我们减少余额，只有当足够的钱可用。否则，我们抛出一个异常。如果抛出异常，将触发包含的事务的回滚。最后，如果消息是Fet chBal - ance，我们用balance的当前值响应发送者。由于整个方法在一个事务中运行，所以我们不必担心对事务器内的Ref对象的多次访问。只有在提交了包含的事务时，我们对Ref对象所做的更改才会被保留。记住，我们负责维护不可变状态。协调一个交易者(账户)的存款操作和另一个交易者(账户)的取款操作属于AccountService交易者，我们将在下面写
+
+```java
+public class AccountService extends UntypedTransactor {
+@Override public Set<SendTo> coordinate(final Object message) {
+if(message instanceof Transfer) {
+Set<SendTo> coordinations = new java.util.HashSet<SendTo>();
+Transfer transfer = (Transfer) message;
+coordinations.add(sendTo(transfer.to, new Deposit(transfer.amount)));
+    coordinations.add(sendTo(transfer.from,
+new Withdraw(transfer.amount)));
+return java.util.Collections.unmodifiableSet(coordinations);
+}
+return nobody();
+}
+public void atomically(final Object message) {}
+}
+```
+
+协调存款和取款是AccountService的唯一职责，因此在coordinate()方法中，我们将适当的消息发送到这两个帐户。我们通过分组演员和为每个演员为一组消息。当我们从坐标()方法返回这个集合,AccountService办理人年代基本实现将发送适当的消息中的每个处理者集。一旦消息被发送,它将调用自己的自动()实现。因为我们在这里没有更多的事情要做，所以我们将这个方法留空。让我们使用一些示例代码来练习这些transactor
+
+```java
+public class UseAccountService {
+public static void printBalance(
+final String accountName, final ActorRef account) {
+Balance balance =
+(Balance)(account.sendRequestReply(new FetchBalance()));
+System.out.println(accountName + " balance is " + balance.amount);
+}
+public static void main(final String[] args)
+throws InterruptedException {
+final ActorRef account1 = Actors.actorOf(Account.class).start();
+final ActorRef account2 = Actors.actorOf(Account.class).start();
+final ActorRef accountService =
+Actors.actorOf(AccountService.class).start();
+account1.sendOneWay(new Deposit(1000));
+account2.sendOneWay(new Deposit(1000));
+Thread.sleep(1000);
+printBalance("Account1", account1);
+printBalance("Account2", account2);
+System.out.println("Let's transfer $20... should succeed");
+accountService.sendOneWay(new Transfer(account1, account2, 20));
+    Thread.sleep(1000);
+printBalance("Account1", account1);
+printBalance("Account2", account2);
+System.out.println("Let's transfer $2000... should not succeed");
+accountService.sendOneWay(new Transfer(account1, account2, 2000));
+Thread.sleep(6000);
+printBalance("Account1", account1);
+printBalance("Account2", account2);
+Actors.registry().shutdownAll();
+}
+}
+```
+
+我们与行动者和交易者之间的互动方式没有区别。如果我们发送一条常规消息(如new Deposit(1000))，它会自动被包装到一个事务中。我们还可以通过创建akka.transactor的实例来创建自己的协调事务。协调并将消息包装到其中(例如，new coordination (new Deposit(1000)))。由于在本例中我们只处理单向消息，因此在进行下一个查询之前，我们为处理消息提供了足够的时间。这将为协调事务的成功或失败提供时间，并且我们可以在后续调用中看到事务的效果。由于协调事务只能在所有发送给参与事务者的消息无一例外地完成时才能提交，因此协调请求最多等待事务完成的超时时间(可配置)。代码的输出如下所示
+
+```java
+Received Deposit request 1000
+Received Deposit request 1000
+Account1 balance is 1000
+Account2 balance is 1000
+Let's transfer $20... should succeed
+Received Deposit request 20
+Received Withdraw request 20
+Account1 balance is 980
+Account2 balance is 1020
+Let's transfer $2000... should not succeed
+Received Withdraw request 2000
+...insufficient funds...
+Received Deposit request 2000
+Account1 balance is 980
+Account2 balance is 1020
+```
+
+前两笔存款和第一次转账顺利完成。但是，最近的转帐数额大于从账户中可得的余额。转账的存款部分已经执行，我们可以从输出中打印的消息中看到(存款和提取同时运行，因此每次运行代码时打印的顺序可能不同)。但是，取款没有完成，因此整个转移被回滚。放弃了对存款的更改，第二次尝试转账没有影响两个账户的余额。
+
+##### Transactors in Scala
+
+要在Scala中使用transactor，我们将扩展transact或类，并实现所需的atomically()方法。此外，如果我们想在事务中包括其他参与者，我们实现coordinate()方法。让我们将这个示例从Java转换为Scala。我们将从message类开始，这些类可以用Scala简洁地写成case类。
+
+```java
+case class Deposit(val amount : Int)
+case class Withdraw(val amount : Int)
+case class FetchBalance()
+case class Balance(val amount : Int)
+case class Transfer(val from : ActorRef, val to : ActorRef, val amount : Int)
+```
+
+接下来，我们将帐户交易器转换为Scala。我们可以使用模式匹配来处理这三条消息
+
+```java
+class Account extends Transactor {
+val balance = Ref(0)
+def atomically = {
+case Deposit(amount) =>
+if (amount > 0) {
+balance.swap(balance.get() + amount)
+println("Received Deposit request " + amount)
+}
+case Withdraw(amount) =>
+println("Received Withdraw request " + amount)
+if (amount > 0 && balance.get() >= amount)
+balance.swap(balance.get() - amount)
+else {
+println("...insufficient funds...")
+    throw new RuntimeException("Insufficient fund")
+}
+case FetchBalance =>
+self.replySafe(Balance(balance.get()))
+}
+}
+```
+
+接下来，我们翻译AccountService交易程序。同样，这里我们将atomically()方法保留为空，在coordinate()方法中，我们将提到哪些对象进行协调以参与事务。在Scala这一边的语法要比在Java代码中简洁得多:
+
+```java
+class AccountService extends Transactor {
+override def coordinate = {
+case Transfer(from, to, amount) =>
+sendTo(to -> Deposit(amount), from -> Withdraw(amount))
+}
+def atomically = { case message => }
+}
+```
+
+让我们使用一些示例代码来练习这些transactor:
+
+```java
+object UseAccountService {
+def printBalance(accountName : String, account : ActorRef) = {
+(account !! FetchBalance) match {
+case Some(Balance(amount)) =>
+println(accountName + " balance is " + amount)
+case None =>
+println("Error getting balance for " + accountName)
+}
+}
+def main(args : Array[String]) = {
+val account1 = Actor.actorOf[Account].start()
+val account2 = Actor.actorOf[Account].start()
+val accountService = Actor.actorOf[AccountService].start()
+account1 ! Deposit(1000)
+account2 ! Deposit(1000)
+Thread.sleep(1000)
+printBalance("Account1", account1)
+printBalance("Account2", account2)
+    println("Let's transfer $20... should succeed")
+accountService ! Transfer(account1, account2, 20)
+Thread.sleep(1000)
+printBalance("Account1", account1)
+printBalance("Account2", account2)
+println("Let's transfer $2000... should not succeed")
+accountService ! Transfer(account1, account2, 2000)
+Thread.sleep(6000)
+printBalance("Account1", account1)
+printBalance("Account2", account2)
+Actors.registry.shutdownAll
+}
+}
+```
+
+这是从Java直接翻译过来的;再一次，我们看到了Scala的简洁性发挥着很好的作用。当我们观察输出时，这个版本的行为就像Java版本一样。
+
+>Received Deposit request 1000
+>Received Deposit request 1000
+>Account1 balance is 1000
+>Account2 balance is 1000
+>Let's transfer $20... should succeed
+>Received Deposit request 20
+>Received Withdraw request 20
+>Account1 balance is 980
+>Account2 balance is 1020
+>Let's transfer $2000... should not succeed
+>Received Deposit request 2000
+>Received Withdraw request 2000
+>...insufficient funds...
+>Account1 balance is 980
+>Account2 balance is 1020
+
+##### Using Transactors
+
+我们了解了如何在Java和Scala中实现transactor。事务处理程序结合了actor和STM的优点，允许我们在独立运行的actor之间提供一致意见。就像在STMs的使用中一样，当写入冲突非常少见时，事务器非常有用。理想情况下，如果多个参与者必须参加某种形式的法定人数或投票，那么交易者可以非常方便
+
+#### 8.11 Coordinating Typed Actors
+
+正如我们在第8.7节中所看到的，使用类型化的actor(第190页)是面向对象编程和基于actor编程的迷人结晶。它们结合了非常熟悉的、方便的方法调用和参与者的优点。因此，在oo应用程序中，我们可能会尝试使用有类型的actor，而不是actor。但是，就像actor一样，有类型的actor是独立运行的，不提供事务协调，为此我们必须使用协调类型的actor。Akka使得将一个类型的参与者变成一个协调类型的参与者变得非常简单;我们只需用一个特殊的协调注释标记相应的接口方法。要指示调用序列应该在协调事务下运行，只需将调用包装到一个coordinate()方法中。该方法默认情况下等待我们在其中调用的所有方法提交或回滚，然后再继续。有一个限制;只有void方法才能被标记为特殊的协调注释。Void方法转换为单向调用，这些调用可以参与到事务中。返回值的方法转换为两个阻塞调用，因此不能参与自由运行的并发事务。让我们在第202页的8.10节中使用交易者实现我们已经使用过很多次的货币转移示例。
+
+##### Coordinating Typed Actors in Java
+
+类型演员使用一对接口和实现，所以让我们从我们需要的两个接口开始，Account和AccountService接口:
+
+```java
+public interface Account {
+int getBalance();
+@Coordinated void deposit(final int amount);
+@Coordinated void withdraw(final int amount);
+}
+```
+
+```java
+public interface AccountService {
+void transfer(final Account from, final Account to, final int amount);
+}
+```
+
+@Coordinated注释标记是Account接口中唯一特殊的地方。通过标记这些方法，我们表示这些方法应该在它们自己的事务中运行，或者参与调用者的事务。属性之后，AccountService中的方法没有使用注释标记该类的实现者将管理自己的事务。现在让我们看看Account接口的实现:
+
+```java
+public class AccountImpl extends TypedActor implements Account {
+private final Ref<Integer> balance = new Ref<Integer>(0);
+public int getBalance() { return balance.get(); }
+public void deposit(final int amount) {
+if (amount > 0) {
+balance.swap(balance.get() + amount);
+System.out.println("Received Deposit request " + amount);
+}
+}
+public void withdraw(final int amount) {
+System.out.println("Received Withdraw request " + amount);
+if (amount > 0 && balance.get() >= amount)
+balance.swap(balance.get() - amount);
+else {
+System.out.println("...insufficient funds...");
+throw new RuntimeException("Insufficient fund");
+}
+}
+}
+```
+
+通过扩展pedAct or，我们表明这是一个行为人。我们没有使用简单的本地字段，而是使用托管的STM Refs。这里我们不编写任何特定于事务的代码;然而，这个类中的所有方法都将在事务中运行，因为相关的接口方法被标记为@ coordination。如果金额大于0，则deposit()会增加余额。如果有足够的钱可用，withdraw()方法会减少余额。否则，它抛出一个异常，指示操作和包含的事务失败。如果没有提供，这些方法将参与它们自己的事务。然而，在转账的情况下，我们希望存款和取款操作同时在一个交易中运行。这是由AccountServiceImpl管理的，这是我们接下来编写的
+
+```java
+public class AccountServiceImpl
+extends TypedActor implements AccountService {
+public void transfer(
+final Account from, final Account to, final int amount) {
+coordinate(true, new Atomically() {
+public void atomically() {to.deposit(amount);
+from.withdraw(amount);
+}
+});
+}
+}
+```
+
+transfer()方法在一个事务中运行存款和取款两个操作。在事务中运行的代码被包装到atomically()方法中，该方法是atomically接口的一个方法。从akkar .transactor静态导入的coordinate()。协调类，在atomically()中运行事务代码块。第一个参数true告诉方法coordinate()在返回之前等待其事务完成(成功或回滚)。不过，在事务中调用的方法是单向消息，并且coordinate()方法不会阻塞它们的结果，而只是阻塞它们的事务来完成。除了这些对象的创建之外，使用这些类型参与者的代码看起来应该与使用常规对象的代码没有任何不同。我们使用工厂来创建它们，而不是使用new，如下所示
+
+```java
+public class UseAccountService {
+public static void main(final String[] args)
+throws InterruptedException {
+final Account account1 =
+TypedActor.newInstance(Account.class, AccountImpl.class);
+final Account account2 =
+TypedActor.newInstance(Account.class, AccountImpl.class);
+final AccountService accountService =
+TypedActor.newInstance(AccountService.class, AccountServiceImpl.class);
+account1.deposit(1000);
+account2.deposit(1000);
+System.out.println("Account1 balance is " + account1.getBalance());
+System.out.println("Account2 balance is " + account2.getBalance());
+System.out.println("Let's transfer $20... should succeed");
+accountService.transfer(account1, account2, 20);
+Thread.sleep(1000);
+System.out.println("Account1 balance is " + account1.getBalance());
+System.out.println("Account2 balance is " + account2.getBalance());
+    System.out.println("Let's transfer $2000... should not succeed");
+accountService.transfer(account1, account2, 2000);
+Thread.sleep(6000);
+System.out.println("Account1 balance is " + account1.getBalance());
+System.out.println("Account2 balance is " + account2.getBalance());
+Actors.registry().shutdownAll();
+}
+}
+```
+
+前面代码的操作与部分中的示例相同
+
+8.10，使用交易器，在202页。这个例子的输出是:
+
+>Received Deposit request 1000
+>Account1 balance is 1000
+>Received Deposit request 1000
+>Account2 balance is 1000
+>Let's transfer $20... should succeed
+>Received Deposit request 20
+>Received Withdraw request 20
+>Account1 balance is 980
+>Account2 balance is 1020
+>Let's transfer $2000... should not succeed
+>Received Deposit request 2000
+>Received Withdraw request 2000
+>...insufficient funds...
+>Account1 balance is 980
+>Account2 balance is 1020
+
+正如我们所期望的，协调类型的actor版本产生的输出类似于事务处理程序版本产生的输出——在失败的事务中所做的任何更改都将被丢弃。
+
+##### Coordinating Typed Actors in Scala
+
+让我们将Java版本转换为Scala。Scala使用特性而不是接口，所以这是我们看到的第一个区别:
+
+```java
+trait Account {
+def getBalance() : Int
+@Coordinated def deposit(amount : Int) : Unit
+@Coordinated def withdraw(amount : Int) : Unit
+}
+trait AccountService {
+def transfer(from : Account, to : Account, amount : Int) : Unit
+}
+```
+
+Account trait的实现是对Java版本的直接翻译:
+
+```java
+class AccountImpl extends TypedActor with Account {
+val balance = Ref(0)
+def getBalance() = balance.get()
+def deposit(amount : Int) = {
+if (amount > 0) {
+balance.swap(balance.get() + amount)
+println("Received Deposit request " + amount)
+}
+}
+def withdraw(amount : Int) = {
+println("Received Withdraw request " + amount)
+if (amount > 0 && balance.get() >= amount)
+balance.swap(balance.get() - amount)
+else {
+println("...insufficient funds...")
+throw new RuntimeException("Insufficient fund")
+}
+}
+}
+```
+
+同样，让我们实现AccountService类:
+
+```java
+class AccountServiceImpl extends TypedActor with AccountService {
+def transfer(from : Account, to : Account, amount : Int) = {
+coordinate {
+to.deposit(amount)
+from.withdraw(amount)
+}
+}
+}
+```
+
+在Scala版本中，对coordinage()的调用(它定义事务的参与者)比Java版本简单得多。默认情况下，coordinate()方法在返回之前等待其事务完成(成功或回滚)。不过，在事务中调用的方法是单向消息，并且coordinate()不会阻塞它们的结果，而只是阻塞它们的事务来完成。我们可以传递一个可选的参数，比如坐标(wait = false){…告诉方法不要等待事务完成。最后，让我们编写示例代码来使用前面的代码
+
+```java
+object UseAccountService {
+def main(args : Array[String]) = {
+val account1 =
+TypedActor.newInstance(classOf[Account], classOf[AccountImpl])
+val account2 =
+TypedActor.newInstance(classOf[Account], classOf[AccountImpl])
+val accountService =
+TypedActor.newInstance(
+classOf[AccountService], classOf[AccountServiceImpl])
+account1.deposit(1000)
+account2.deposit(1000)
+println("Account1 balance is " + account1.getBalance())
+println("Account2 balance is " + account2.getBalance())
+println("Let's transfer $20... should succeed")
+accountService.transfer(account1, account2, 20)
+Thread.sleep(1000)
+println("Account1 balance is " + account1.getBalance())
+println("Account2 balance is " + account2.getBalance())
+println("Let's transfer $2000... should not succeed")
+accountService.transfer(account1, account2, 2000)
+Thread.sleep(6000)
+println("Account1 balance is " + account1.getBalance())
+println("Account2 balance is " + account2.getBalance())
+Actors.registry.shutdownAll
+}
+}
+```
+
+Scala版本的行为和Java版本一样，正如我们从输出中看到的
+
+>Received Deposit request 1000
+>Received Deposit request 1000
+>Account1 balance is 1000
+>Account2 balance is 1000
+>Let's transfer $20... should succeed
+>Received Deposit request 20
+>Received Withdraw request 20
+>Account1 balance is 980
+>
+>Account2 balance is 1020
+>Let's transfer $2000... should not succeed
+>Received Deposit request 2000
+>Received Withdraw request 2000
+>...insufficient funds...
+>Account1 balance is 980
+>Account2 balance is 1020
+
+### 8.12 Remote Actors
+
+在我们到目前为止编写的参与者示例中，参与者及其客户端都在单个JVM进程中。一个阵营的开发人员认为actor应该真正用于进程间通信，就像Erlang一样。另一个阵营的开发人员使用参与者进行进程内通信，就像我们看到的那样。Scala和Akka迎合了这两个阵营。在Akka中使用远程角色很像使用进程内角色;唯一的区别在于我们如何访问参与者。在后台，Akka使用JBoss Netty和谷歌协议缓冲库来实现无缝远程操作。我们可以跨进程边界将任何可序列化的消息和对任何参与者的引用传递给远程参与者。Akka提供了编程和配置选项来配置主机名、端口号、消息框架大小、安全设置等。有关这些细节，请参阅Akka文档;我们将在本节的示例中简单地使用缺省值。除了创建一个actor之外，我们还需要为远程访问注册它。这将参与者绑定到客户机将用于标识参与者的名称或ID。客户端将使用注册的ID、主机名和端口号来请求参与者。然后它可以向参与者发送单向或双向消息，就像它与本地参与者交互的方式一样。让我们使用远程参与者创建一个示例。在我过去的生活中，我曾经是一个系统管理员。关于系统的各种细节，如可用磁盘空间、性能、CPU利用率等，是管理员经常需要的信息。根据所连接的传感器，我们经常监控诸如室温、湿度水平等细节，以确保高性能计算实验室一直在运行。如果有一个可以从所有远程机器收集这些详细信息的应用程序，那就太好了，所以让我们创建一个。我们将让监视器参与者从远程客户端接收系统信息。不同机器上的客户机可以决定何时将此信息发送到监视器。在本例中，它们将在每次重新运行时发送一些数据。
+
+让我们从监视器开始，它是客户机将与之交互的远程参与者:
+
+```java
+public class Monitor extends UntypedActor {
+public void onReceive(Object message) {
+System.out.println(message);
+}
+public static void main(final String[] args) {
+Actors.remote().start("localhost", 8000)
+.register("system-monitor", Actors.actorOf(Monitor.class));
+System.out.println("Press key to stop");
+System.console().readLine();
+Actors.registry().shutdownAll();
+Actors.remote().shutdown();
+}
+}
+```
+
+我们创建远程actor的方式与我们创建进程内actor的方式没有区别，我们扩展UntypedActor并实现onReceive()方法。如果我们愿意，我们可以用表格和图表生成复杂的报告，但这里让我们将重点放在参与者上。我们将简单地打印收到的消息。在main()方法中，我们首先通过指示主机名和端口号来启动远程服务。然后，我们使用ID系统监视器为远程访问注册参与者。当需要关闭监视服务时，我们调用将帮助我们终止远程服务的方法。这就是我们在monitor服务中需要的所有代码。现在让我们创建客户机代码
+
+```java
+public class Client {
+public static void main(final String[] args) {
+ActorRef systemMonitor = remote().actorFor(
+"system-monitor", "localhost", 8000);
+systemMonitor.sendOneWay("Cores: " +
+Runtime.getRuntime().availableProcessors());
+systemMonitor.sendOneWay("Total Space: " +
+new File("/").getTotalSpace());
+systemMonitor.sendOneWay("Free Space: " +
+new File("/").getFreeSpace());
+}
+}
+```
+
+为了获得对远程参与者的访问，客户端指出远程参与者所在的ID、主机名和端口号。获得对ActorRef的引用后，我们将带有适当信息的消息发送给它，在本例中作为字符串。让我们打开两个命令窗口，在一个命令窗口中运行监视器，在另一个命令窗口中运行客户机。让我们首先启动监视器，然后启动客户机。每次运行客户机时，监视器将打印发送给它的信息，如下所示
+
+>Press key to stop
+>Cores: 2
+>Total Space: 499763888128
+>Free Space: 141636308992
+
+要编译和运行监视器和客户机，我们必须包含一些额外的JAR文件:akka-remote-1.1.2。protobuf-java-2.3.0 jar。netty-3.2.3.Final jar。jar和commons-io-2.0.1.jar。
+
+让我们不要让轻易创造远程参与者欺骗了我们。我们仍然需要确保消息是不可变的(和可序列化的)，并且我们的actor不会修改任何共享的可变状态。
+
+### 8.13 Limitations of the Actor-Based Model
+
+基于actor的模型使其易于编程，具有独立的可变性，但它确实有一些限制。参与者通过消息相互通信。在不强制不可变的语言中，我们必须非常小心地确保消息是不可变的。传递可变消息可能会导致线程安全问题，并最终导致共享可变性的危险。工具可以进化来验证消息是不可变的;在那之前，我们有责任确保不变性。参与者异步运行，但通过传递消息进行协调。参与者的意外失败可能导致饥饿。一个或多个参与者可能正在等待由于失败而永远不会到达的消息。我们必须防御性地编程并在参与者中处理异常，并将错误消息传播给等待响应的参与者。演员不能防止死锁;两个或更多的参与者可以相互等待消息。我们必须仔细设计，以确保参与者之间的协调不会陷入死锁状态。此外，我们应该使用超时来确保我们不会无休止地等待来自参与者的响应。
+
+actor一次只能处理一个消息请求。因此，操作消息和请求响应或状态的消息都按顺序运行。这可能导致只对读取值感兴趣的任务的并发性降低。最好使用粗粒度消息来设计应用程序，而不是使用细粒度消息。此外，我们可以通过使用单向触发和遗忘消息而不是双向消息来设计来减少等待。并不是所有的应用程序都适合基于actor的模型。当我们可以将问题划分为可以独立运行且只需要偶尔通信的部分时，参与者就可以很好地发挥作用。如果需要频繁的交互，或者部件或任务需要进行协调以形成仲裁，则基于actor的模型不适合。我们可能不得不混合使用其他并发模型，或者考虑进行重大的重新设计。
+
+### 8.14 Recap
+
+参与者是单线程的，通过传递消息彼此通信。我们了解到，actors做了以下工作:使其易于工作，隔离的可变性消除根上的同步问题，提供高效的单向消息传递，但也提供了效率较低的可伸缩的发送和等待机制;虽然是单线程的，但它们高效地共享线程池，允许我们发送消息，而且还提供由接口支持的类型版本(在Akka中)，允许我们使用事务与其他参与者进行协调。尽管参与者提供了一个强大的模型，但它们也有局限性。如果我们在设计时不小心，就有可能出现角色饥饿和死锁。另外，我们必须确保消息是不可变的。在下一章中，我们将学习如何使用来自各种JVM语言的actor。
+
+`在商业中，正如在战争中一样，出其不意与武力同等重要`
+
+### Actors in Groovy, Java, JRuby, and Scala
+
+我们在前一章中与演员合作过。在本章中，我们将学习如何在一些流行的JVM语言中使用它们编程。image Erlang推广了基于进程间actor的模型。Scala为进程内通信引入了一个erlang风格的模型。Clojure并不直接支持actor。Rich Hickey在http://clojure上解释了他的原因。org/state #演员。Clojure支持表示共享的可变身份但具有异步、独立、互斥更新的代理。我们将在第249页的附录1 Clojure代理中讨论Clojure代理。我们可以使用来自Groovy的Akka actors;相反，我们将使用GPars，它是一个与Groovy密切相关的并发库。然后，我们将研究如何使用来自其他语言的Akka actor。向参与者发送消息似乎不是什么大事;真正的问题是创建actor，这涉及到从类扩展和重写某些语言中的方法。我们还会遇到一些小问题，但对于活到这本书这么久的人来说，没有什么是无法处理的。专注于与你感兴趣的语言相关的部分，可以跳过其他部分。
+
+#### 9.1 Actors in Groovy with GPars
+
+要创建actor，在Groovy中至少有和Java中一样多的选项。我们可以通过扩展Akka UntypedActor在Groovy中实现Akka actor。Groovy允许我们扩展用其他JVM语言编写的类，因此它直接覆盖了UntypedActor的onReceive()方法。在这个方法中，我们可以检查消息类型并执行适当的操作。我们还可以使用Java可用的其他角色框架之一。然而，在本章中，我们将使用一个更适合Groovy gpar的并发库。GPars是一个用Java编写的库，它为Groovy和Java带来了对编程共识的喜爱。Java的性能和Groovy纯粹的优雅在gpar中熠熠发光。它提供了许多功能，包括异步、并行数组操作、fork/join、代理、数据流和actor。我不会在这里完整地讨论GPars。我将展示如何使用GPars参与者实现前面看到的一些示例。有关GPars的全面讨论，请参阅GPars文档。首先，gpar中的参与者负责基本原则:它们在适当的时间跨越内存障碍，在任何给定的时间只允许一个线程运行它们的接收器方法，并且由消息队列支持。gpar具有不同类型的参与者，并允许我们配置各种参数，比如线程关联的公平性。用于创建和使用actor的API是连贯的，我们将在下面看到。
+
+为了在GPars中创建一个actor，我们从DefaultActor进行扩展，或者简单地将一个闭包传递给actor的actor()方法。如果有一个简单的消息循环，则使用后者。如果我们有更复杂的逻辑，或者想调用actor类的其他方法，那么我们应该采取扩展De- faultActor的路径。我们必须在actor能够接受消息之前启动它;在此之前发送消息的任何尝试都将导致异常。让我们先使用DefaultActor类创建一个actor，然后使用actor()方法。让我们创建一个actor，它将接收一个字符串消息并通过简单地打印消息来进行响应。我们扩展了DefaultActor并实现了它的act()方法，如下面的代码所示。该方法运行消息循环，因此我们调用一个永不结束的loop()方法并调用react()来接收消息。当我们的actor遇到react()时，它不会阻塞线程。当消息到达时，线程池中的一个线程被调度运行我们提供给react()方法的clo- sure。一旦线程完成了提供给react()的代码块，它就会重新运行包含的loop()，再次将参与者放在消息等待队列上。在示例中，我们只是打印接收到的消息以及处理该消息的线程上的信息
+
+```java
+class HollywoodActor extends DefaultActor {
+
+def name
+
+
+
+public HollywoodActor(actorName) { name = actorName }
+
+
+
+void act() { loop {
+
+react { role ->
+
+println "$name playing the role $role"
+
+println "$name runs in ${Thread.currentThread()}"
+
+}
+
+}
+
+}
+
+```
+
+我们创建一个actor实例的方式与创建任何类的实例非常相似，但是要记住调用start()方法。让我们创建一对参与者:
+
+```java
+depp = new HollywoodActor("Johnny Depp").start() hanks = new HollywoodActor("Tom Hanks").start()
+```
+
+我们还可以使用重载操作符<<来发送消息，而不是使用传统的java风格的方法调用。如果噪音太大，我们可以简单地把信息放在演员旁边，如下例所示:
+
+```java
+depp << "Sparrow"
+
+hanks "Gump"
+```
+
+默认情况下，参与者在守护进程线程中运行，因此在主方法完成后，代码将立即终止。我们希望它活得足够长，以便我们能够看到正在处理的消息，因此我们可以在末尾添加延迟，或者使用带有超时的join()方法。join()方法将等待参与者终止;因为我们没有使用terminate()调用，所以它们不会终止，但是超时将使主线程脱离阻塞调用。
+
+> [depp, hanks]*.join(1, java.util.concurrent.TimeUnit.SECONDS)
+
+让我们以这个例子为例，运行groovy，并在类路径中提供GPars JAR，如下所示:
+
+> groovy -classpath $GPARS_HOME/gpars-0.11.jar createActor.groovy
+
+参与者通过打印我们要求他们扮演的角色来响应消息。这两个actor并发运行，但是每个actor一次只处理一条消息。在不同的实例中，线程池中的不同线程可能会运行actor方法来响应发送的消息。每次运行代码时，由于并发执行的不确定性，我们可能会在输出中看到略微不同的调用序列。巧合的是，在我设法捕获的一个输出中，我们看到两个actor在不同的实例中共享同一个线程，还有一个actor在消息之间切换线程。
+
+Johnny Depp playing the role Wonka
+
+Johnny Depp runs in Thread[Actor Thread 3,5,main] Tom Hanks playing the role Lovell
+
+Tom Hanks runs in Thread[Actor Thread 3,5,main] Tom Hanks playing the role Gump
+
+Tom Hanks runs in Thread[Actor Thread 2,5,main] Johnny Depp playing the role Sparrow
+
+Johnny Depp runs in Thread[Actor Thread 3,5,main]
+
+如果我们想无限期地处理消息，或者直到一个actor终止，我们使用loop()，正如我们在前面的示例中看到的那样。如果我们希望只运行有限次循环，或者直到满足某些条件，我们可以使用loop()方法的变体，从而获得更多的控制。要运行有限次数，请使用loop(count){}。如果我们想指定一个条件，使用loop ({-&gt;expression})，只要表达式为真，actor就会重复这个循环。我们还可以提供一个可选的闭包，以便在actor发生故障时运行，我们将在下一个示例中看到。这次让我们使用Actors act()方法创建一个actor。我们将调用act()方法，并将消息循环作为闭包发送给它。在前面的示例中，我们使用了loop()，只使用了通过调用react()关闭消息处理主体的方法。在本例中，我们向loop()传递了两个额外的参数。第一个参数可以是条件或计数。这里我们传递3来告诉actor响应三条消息，然后终止。第二个参数是可选的，是在actor终止时执行的一段代码(作为闭包给出)。
+
+```java
+depp = Actors.actor {
+
+loop(3, { println "Done acting" }) {
+
+react { println "Johnny Depp playing the role $it" }
+
+}
+
+}
+```
+
+行动者被设定为只接收三条消息。让我们发送比预期更多的消息，看看会发生什么:
+
+```java
+depp << "Sparrow"
+
+depp << "Wonka"
+
+depp << "Scissorhands"
+
+depp << "Cesar"
+
+depp.join(1, java.util.concurrent.TimeUnit.SECONDS)
+```
+
+当我们运行前面的示例时，我们将看到actor收到三个mes- sages，然后终止。发送给参与者的最后一条消息将被忽略，因为参与者已经在此时终止了。
+
+```java
+Johnny Depp playing the role Sparrow Johnny Depp playing the role Wonka
+
+Johnny Depp playing the role Scissorhands Done acting
+```
+
+我们看到了GPars在创建参与者和控制消息循环方面提供的灵活性。现在让我们看看双向消息传递的选项。
+
+**Sending and Receiving Messages**发送和接收消息
+
+除了单向消息之外，GPars还允许我们发送消息和接收响应。我们可以使用一个带有可选超时的阻塞sendAndWait()，或者我们可以使用非阻塞的sendAndContinue()，它接受一个闭包，当应答到达时将调用该闭包。这个非阻塞版本将使我们更容易向多个参与者发送消息，然后等待他们的响应。为了方便向消息发送方发送回复，Actor提供了一个方便的发送方属性。我们将在发送方上调用send()方法来发送回复，如下一个示例所示
+
+```java
+fortuneTeller = Actors.actor { loop {
+
+react { name ->
+
+sender.send("$name, you have a bright future")
+
+}
+
+}
+
+}
+```
+
+算命的演员收到一个名字和回答与一个蹩脚的财富圣人。从用户的角度来看，我们调用sendAndWait()来发送一个响应的名称和block:
+
+```java
+message = fortuneTeller.sendAndWait("Joe", 1, TimeUnit.SECONDS) println message
+```
+
+尽管sendAndWait()方法很简单，但如果我们想一次发送多条消息，它就不起作用了。我们可以使用非阻塞的sendAndContinue()发送多条消息，但是一旦发送了消息，我们需要一种方法来阻止所有响应的到达。我们可以使用CountDownLatch。当收到答复时，我们可以对那个门闩倒数。在闩锁上阻塞的主线程可以在所有响应到达时继续执行。如果在此之前发生超时，我们可以通过await()方法的返回值来处理:
+
+```java
+latch = new CountDownLatch(2)
+
+
+
+fortuneTeller.sendAndContinue("Bob") { println it; latch.countDown() } fortuneTeller.sendAndContinue("Fred") { println it; latch.countDown() }
+
+
+
+println "Bob and Fred are keeping their fingers crossed"
+
+
+
+if (!latch.await(1, TimeUnit.SECONDS))
+
+println "Fortune teller didn't respond before timeout!"
+
+else
+
+println "Bob and Fred are happy campers"
+```
+
+示例运行的输出如下所示:
+
+Joe, you have a bright future Bob, you have a bright future
+
+Bob and Fred are keeping their fingers crossed Fred, you have a bright future
+
+Bob and Fred are happy campers
+
+我们可以看到，对于双向消息传递，Groovy的表现力以及闭包的便利性在gpar中发挥得很好。现在让我们超越简单的字符串消息，看看发送其他类型的消息。
+
+**Handling Discrete Messages**处理离散消息
+
+到目前为止，消息并不仅限于GPars示例中使用的简单字符串。我们可以将任何对象作为消息发送，但是我们需要确保它们是不可变的。让我们创建一个模拟股票交易的示例actor;它可以处理几种不同类型的消息。但是首先我们需要定义消息。我们可以使用groovy定义的不可变注释来确保消息是不可变的。这个注释不仅确保所有字段都是final;它还引入了一个构造函数(加上一些方法)。
+
+```java
+@Immutable class LookUp {
+
+String ticker
+
+}
+
+
+
+@Immutable class Buy {
+
+String ticker
+
+int quantity
+
+}
+
+
+```
+
+该查询包含一个股票代码并表示请求股票价格的消息。Buy类持有一个股票代码和我们想买的股票数量。我们的actor需要对这两个消息采取不同的操作。让我们现在开始:
+
+```java
+trader = Actors.actor { loop {
+
+react { message ->
+
+if(message instanceof Buy)
+
+println "Buying ${message.quantity} shares of ${message.ticker}"
+
+
+
+if(message instanceof LookUp) sender.send((int)(Math.random() * 1000))
+
+}
+
+}
+
+}
+
+
+```
+
+当actor接收到一条消息时，我们使用运行时类型identifi- cation s (RTTI s) instanceof检查该消息是否是我们期望的消息类型之一的实例。我们会根据消息类型采取必要的行动，如果消息是我们没有预料到的，我们会忽略它;另外，如果接收到无法识别的消息，也可以抛出异常。在本例中，如果消息是Buy，我们只打印一条消息，如果是查询，我们返回一个表示股票价格的随机数。正如我们在这里所看到的，使用具有不同类型mes-圣贤的actor没有什么特殊之处
+
+trader.sendAndContinue(**new** LookUp(*"XYZ"*)) { println *"Price of XYZ sock is* $it*"*
+
+}
+
+trader << **new** Buy(*"XYZ"*, 200)
+
+trader.join(1, java.util.concurrent.TimeUnit.SECONDS)
+
+The output from the code is shown next:
+
+Price of XYZ sock is 27 Buying 200 shares of XYZ
+
+这很简单，但是我们的参与者处理消息的方式可以改进。我们可以利用Groovy的类型系统来执行分支，而不是使用条件语句来检查类型。为此，我们将使用DynamicDis- patchActor作为基本actor类，如下所示:
+
+```java
+class Trader extends DynamicDispatchActor {
+
+void onMessage(Buy message) {
+
+println "Buying ${message.quantity} shares of ${message.ticker}"
+
+}
+
+def onMessage(LookUp message) { sender.send((int)(Math.random() * 1000))
+}
+}
+```
+
+我们从DynamicDispatchActor扩展了actor，并为actor处理的每种类型的消息重载了onMessage()方法。基类Dynam- icDispatchActor将检查消息类型，然后分派actor的适当的onMessage()。因为我们定义了一个单独的类，所以我们必须记住调用start()来初始化actor消息循环，如下所示:
+
+```java
+trader = new Trader().start() trader.sendAndContinue(new LookUp("XYZ")) {
+
+println "Price of XYZ sock is $it"
+
+}
+trader << new Buy("XYZ", 200)
+trader.join(1, java.util.concurrent.TimeUnit.SECONDS)
+```
+
+为了提供离散的消息处理程序，我们不必创建单独的类。相反，我们可以将一个处理方法链的闭包传递给DynamicDispatchActor的构造函数，如下所示:
+
+```java
+trader = new DynamicDispatchActor({ when { Buy message ->
+
+println "Buying ${message.quantity} shares of ${message.ticker}"
+
+}
+when { LookUp message -> sender.send((int)(Math.random() * 1000))
+}
+}).start()
+```
+
+作为构造函数参数发送的闭包具有流畅的语法，其中每种类型的消息都在when子句中表示。乍一看，这看起来很像条件语句if，但有一些显著的区别。首先，我们没有RTTI的坏味道。其次，这些when子句在幕后转换为特定的消息处理程序。无效或未处理的消息会导致异常，而对于显式条件语句，我们必须编写代码来处理。
+
+**Using GPars**使用GPars
+
+我们掌握了创建和协调GPars参与者的窍门。让我们使用这些知识来重写文件大小程序。我们在第182页的第8.6节协调角色中讨论了该程序的基于角色的设计，之前我们看到了使用Scala和Java的实现。让我们比较一下该设计的Groovy和GPars实现。文件大小程序设计要求有两个角色，SizeCollector和文件处理器。每个文件处理器将接收一个目录作为消息，并将该目录中的文件大小和子目录列表作为消息发送。演员是主角，是策划者。我们需要定义消息类型，因此让我们首先从它开始
+
+```java
+@Immutable class RequestAFile {} @Immutable class FileSize { long size }
+
+@Immutable class FileToProcess { String fileName }
+```
+
+我们将消息类型RequestAFile、FileSize和FileToProcess定义为im可变类。接下来，我们需要创建文件处理器。我们将扩展DefaultActor，为该类提供actor功能。此actor需要向SizeCollector actor注册以接收目录。我们可以在afterStart()方法中做到这一点。GPars提供事件方法，如afterStart()和afterStop()，就像Akka的preStart()和postStop()方法一样。afterStart()在actor启动后但在第一个消息被处理之前被调用。让我们实现文件处理器actor
+
+```java
+class FileProcessor extends DefaultActor {
+def sizeCollector
+public FileProcessor(theSizeCollector) { sizeCollector = theSizeCollector }
+void afterStart() { registerToGetFile() }
+void registerToGetFile() { sizeCollector << new RequestAFile() }
+    void act() { loop {
+
+react { message ->
+
+def file = new File(message.fileName) def size = 0
+
+if(!file.isDirectory()) size = file.length()
+
+else {
+
+def children = file.listFiles()
+
+if (children != null) { children.each { child ->
+
+if(child.isFile())
+
+size += child.length()
+
+else
+
+sizeCollector << new FileToProcess(child.path)
+
+}
+
+}
+
+}
+
+sizeCollector << new FileSize(size) registerToGetFile()
+
+}
+
+}
+
+}
+
+}
+```
+
+SizeCollector在与文件处理器通信时将接收三种不同类型的消息。因为我们有三种不同类型的消息，所以如果我们从DynamicDispatchActor扩展来实现这个actor，就可以避免使用switch语句并编写三个独立的方法。与此设计的前一个实现一样，我们维护要处理的文件列表、空闲文件处理器列表、等待访问的文件计数以及要计算的最重要的总文件大小。在接收文件和文件请求到达时，我们将它们分派到空闲的文件处理器。让我们看一下SizeCollector的代码
+
+```java
+class SizeCollector extends DynamicDispatchActor {
+
+def toProcessFileNames = [] def idleFileProcessors = []
+
+def pendingNumberOfFilesToVisit = 0
+
+def totalSize = 0L
+
+final def start = System.nanoTime()
+
+
+
+def sendAFileToProcess() {
+
+if(toProcessFileNames && idleFileProcessors) { idleFileProcessors.first() <<
+
+new FileToProcess(toProcessFileNames.first()) idleFileProcessors = idleFileProcessors.tail() toProcessFileNames = toProcessFileNames.tail()
+}
+
+}
+
+
+
+void onMessage(RequestAFile message) { idleFileProcessors.add(sender) sendAFileToProcess()
+
+}
+
+
+
+void onMessage(FileToProcess message) { toProcessFileNames.add(message.fileName) pendingNumberOfFilesToVisit += 1 sendAFileToProcess()
+
+}
+
+
+
+void onMessage(FileSize message) { totalSize += message.size pendingNumberOfFilesToVisit -= 1 if(pendingNumberOfFilesToVisit == 0) {
+
+def end = System.nanoTime() println "Total size is $totalSize"
+
+println "Time taken is ${(end - start)/1.0e9}" terminate()
+
+}
+
+}
+
+}
+```
+
+当pendingNumberOfFilesToVisit降为0时，actor将打印总的文件大小和所花费的时间。然后它终止自己。是时候使用这些角色了，这是主要代码的工作:
+
+```java
+sizeCollector = new SizeCollector().start() sizeCollector << new FileToProcess(args[0])
+
+100.times { new FileProcessor(sizeCollector).start() } sizeCollector.join(100, java.util.concurrent.TimeUnit.SECONDS)
+```
+
+主代码将一个SizeCollector和100个文件处理器设置为运动状态，并使用超时等待SizeCollector终止。运行/usr目录代码的输出如下所示:
+
+Total size is 3793911517 Time taken is 8.69052900
+
+Groovy-GPars版本报告的文件大小与其他版本报告的文件大小相同，所花费的时间也非常相似。Groovy版本在语法上的简洁性也与Scala版本相当。总的来说，这是非常棒的。
+
+**Data Flow**
+
+数据流编程在几十年前风靡一时。各公司都急于构建数据流处理器，以利用应用程序中的并行性，而不受编程构造的限制。一旦这些处理器需要的数据可用，它们就可以进行计算。通过应用程序的数据流将决定要执行的指令集，而不是von Newmann风格的指令执行。尽管数据流处理器从未起飞，但数据流编程再次吸引了人们的注意力。在数据流程序中，计算或任务会阻塞数据，并在它们所依赖的所有数据可用时立即运行。没有同步或锁定。只要我们保持任务的纯粹性(即，它们是幂等的，没有副作用，不改变任何数据;换句话说，它们在风格上是功能性的)，正如我们将看到的，数据流程序非常容易编写。Akka提供了用于数据流编程的API，但是在本节中，我们将使用fluent GPars API进行数据流编程。我们的任务是从不同的网站抓取内容，并报告每个网站内容的大小。打印或报告内容大小的代码必须按顺序运行，因为它涉及到更新控制台或GUI，这些控制台或GUI通常是单线程的。但是，我们可以同时从网站获取数据。一旦数据可用，就可以运行用于打印信息的代码。让我们先编写代码，然后再讨论细节
+
+```java
+def fetchContent(String url, DataFlowVariable content) { println("Requesting data from $url")
+
+content << url.toURL().text println("Set content from $url")
+
+}
+content1 = new DataFlowVariable() content2 = new DataFlowVariable()
+
+task { fetchContent("http://www.agiledeveloper.com", content1) } task { fetchContent("http://pragprog.com", content2) }
+
+println("Waiting for data to be set")
+
+println("Size of content1 is ${content1.val.size()}") println("Size of content2 is ${content2.val.size()}")
+```
+
+GPars中的DataFlowVariable类是一个写一次的变量，可以读取任意次数。第一次读取将阻塞，如果需要，直到数据可用。后续读取将返回预先写入的值。变量在第一次写入时被绑定到一个值，任何尝试写入绑定变量的操作都会导致异常。由于读取块直到数据绑定，因此不需要同步来从DataFlowVariable获取数据。在本例中，fetchContent()方法接收一个URL和一个DataFlowVari可选内容作为参数。它通过使用toURL()和文本调用的优雅组合来获取网站的内容。然后使用&lt;&lt;将内容写入DataFlowVariable类操作符。在定义了这个方法之后，我们创建了两个数据流变量来保存我们将要访问的两个站点的内容。然后使用DataFlow类的task()方法创建两个数据流任务。这些任务中的每一个都可以并发运行。当从这两个任务访问网站时，我们调用第一个DataFlowVariable content1的val属性。这将阻塞执行，直到数据可用为止。一旦数据可用，我们打印内容的大小，我们可以从下面的输出中看到
+
+```java
+Waiting for data to be set
+
+Requesting data from http://pragprog.com Requesting data from http://www.agiledeveloper.com Set content from http://www.agiledeveloper.com Size of content1 is 2914
+
+Set content from http://pragprog.com Size of content2 is 13003
+```
+
+尽管示例相当简单，但它揭示了数据流程序的本质。执行顺序完全由可用性和数据流决定。DataFlowVariable消除了同步的需要;然而，它的一次性写的性质是相当有限的。GPars提供了一些替代方案，比如数据流队列。它允许我们将多个读取器或单个读取器连接起来，因为流中的每个数据值都引用GPars文档以获取各种选项。我们使用task来创建异步任务。这对于少量任务来说很方便，但是如果我们需要创建大量的任务，我们就需要使用一个线程池来管理这些任务的线程。GPars为此提供了一个线程组类DefaultPGroup。我们将不调用DataFlow的静态方法task()，而是使用具有相同名称的组s实例方法。让我们使用数据流API重写文件大小程序，如下所示
+
+```java
+class FileSize {
+
+private final pendingFiles = new DataFlowQueue() private final sizes = new DataFlowQueue() private final group = new DefaultPGroup()
+
+
+
+def findSize(File file) { def size = 0 if(!file.isDirectory())
+
+size = file.length()
+
+else {
+
+def children = file.listFiles()
+
+if (children != null) { children.each { child ->
+
+if(child.isFile())
+
+size += child.length()
+
+else {
+
+pendingFiles << 1
+
+group.task { findSize(child) }
+}
+}
+}
+}
+pendingFiles << -1 sizes << size
+}
+def findTotalFileSize(File file) { pendingFiles << 1
+group.task { findSize(file) }
+int filesToVisit = 0 long totalSize = 0 while(true) {
+totalSize += sizes.val
+if(!(filesToVisit += (pendingFiles.val + pendingFiles.val))) break
+}
+totalSize
+}
+}
+start = System.nanoTime()
+totalSize = new FileSize().findTotalFileSize(new File(args[0])) println("Total size $totalSize")
+println("Time taken ${(System.nanoTime() - start) / 1.0e9}")
+```
+
+我们创建了两个DataFlowQueue实例，一个用于保存活动文件访问的选项卡，另一个用于接收文件和子目录的大小。我们想在一个线程池中运行我们的任务，因此我们创建一个DefaultPGroup。在findSize()方法中，我们将给定目录中所有文件的大小加起来，并使用&lt;&lt;操作符。对于在给定目录下找到的每个子目录，我们创建一个新任务，通过调用group.task来调用该目录。在开始一个任务之前，我们将一个1放入挂起的文件中，当一个任务完成时，我们将一个-1放入文件中。这将允许我们跟踪要探索目录的所有任务何时完成。在findTotalFileSize()方法中，我们创建一个任务来研究给定的文件/direc- tory。然后，我们从任务和在探索每个子目录时创建的所有子任务中接收文件大小。当我们确定没有更多挂起的目录要探索时，循环终止。我们最终从这个方法返回总的文件大小。最后的代码是执行这些函数并计时。让我们运行代码并观察输出
+
+Total size is 3793911517 Time taken is 9.46729800
+
+文件大小程序非常适合数据流方法。代码非常简单，性能与其他解决方案相当。
+
+#### 9.2 Java Integration   Java集成
+
+如前所述，在Java中有一些基于actor的并发的选择。我们从ActorFoundary、Actorom、Actors Guild、Akka、FunctionalJava、Kilim、Jetlang等等中选。在第8章中，我们相当频繁地使用了Akka，在163页中，我们更倾向于孤立的可变性。Akka是用Scala编写的，但是他们已经做了相当不错的工作，为我们在Java中使用提供了方便的接口。要使用Akka，请参考Akka文档和本书中给出的示例。对于其他库，请参考它们各自的文档。
+
+#### 9.3 JRuby Akka Integration
+
+为了在JRuby中使用Akka，我们将遵循在Java中所做的相同操作。主要的区别是，我们将能够受益于JRuby的简洁性。在第8章中，我们已经熟悉了Akka的功能和它强大的API，在163页，它支持独立的可变性。让我们直接进入第182页中关于JRuby中文件大小程序的第8.6节“协调参与者”中的图像实现。请记住，我们需要一组消息类型、两种actor类型和一些主代码来执行这些操作。让我们先从消息类型开始
+
+```java
+class RequestAFile; end
+class FileSize attr_reader :size def initialize(size)
+@size = size
+end end
+class FileToProcess attr_reader :file_name def initialize(file_name)
+@file_name = file_name
+end end
+```
+
+这些表示消息的类是我们前面看到的Java版本中相应类的直接转换。编写文件处理器actor涉及到更多的工作。当我们扩展Java类时，JRuby不允许我们更改构造函数签名。基于Akka actor的类UntypedActor有一个无参数构造函数，但是我们的文件处理器需要为SizeCollector接受一个参数。如果我们继续在这个类中编写initialize()方法，就会遇到运行时错误。诀窍是调用带有括号的super()()来解决这个问题。除此之外，这个类的其余部分只是将Java代码简单地转换为JRuby
+
+```java
+require 'java'
+
+java_import java.lang.System java_import 'akka.actor.ActorRegistry' java_import 'akka.actor.Actors' java_import 'akka.actor.UntypedActor'
+
+
+
+class FileProcessor < UntypedActor attr_accessor :size_collector
+
+
+
+def initialize(size_collector)
+
+super()
+
+@size_collector = size_collector
+
+end
+
+
+
+def preStart
+
+
+
+register_to_get_file
+
+end
+
+
+
+def register_to_get_file @size_collector.send_one_way(RequestAFile.new, context)
+
+end
+
+
+
+def onReceive(fileToProcess)
+
+file = java.io.File.new(fileToProcess.file_name) size = 0
+
+if !file.isDirectory() size = file.length()
+
+else
+
+children = file.listFiles()
+
+if children != nil children.each do |child|
+
+if child.isFile()
+
+size += child.length()
+
+else
+
+@size_collector.send_one_way(FileToProcess.new(child.getPath()))
+
+end end
+
+end end
+
+@size_collector.send_one_way(FileSize.new(size)) register_to_get_file
+
+end end
+```
+
+接下来，让我们准备好第二个actor SizeCollector。当我们使用UntypedActor的actor_of()方法的一个版本创建这个actor的实例时，我们会得到一个错误，即这个类缺少create()方法。让我们提供那个工厂方法。除了这一点，其余的代码是直接翻译的Java版本到JRuby:
+
+```java
+class SizeCollector < UntypedActor
+
+def self.create(*args) self.new(*args)
+
+end
+
+
+
+def initialize @to_process_file_names = [] @file_processors = [] @fetch_size_future = nil
+
+@pending_number_of_files_to_visit = 0
+
+@total_size = 0
+
+@start_time = System.nano_time
+
+end
+
+238 • Chapter 9. Actors in Groovy, Java, JRuby, and Scala
+
+
+
+def send_a_file_to_process
+
+if !@to_process_file_names.empty? && !@file_processors.empty? @file_processors.first.send_one_way(
+
+FileToProcess.new(@to_process_file_names.first)) @file_processors = @file_processors.drop(1) @to_process_file_names = @to_process_file_names.drop(1)
+
+end end
+
+
+
+def onReceive(message)
+
+case message
+
+when RequestAFile
+
+@file_processors << context.sender.get send_a_file_to_process
+
+
+
+when FileToProcess
+
+@to_process_file_names << message.file_name @pending_number_of_files_to_visit += 1 send_a_file_to_process
+
+
+
+when FileSize
+
+@total_size += message.size @pending_number_of_files_to_visit -= 1 if @pending_number_of_files_to_visit == 0
+
+end_time = System.nano_time()
+
+puts "Total size is #{@total_size}"
+
+puts "Time taken is #{(end_time - @start_time)/1.0e9}" Actors.registry().shutdownAll()
+
+end end
+
+end end
+```
+
+作为最后一步，让我们编写代码来练习这两个参与者:
+
+```java
+size_collector = Actors.actor_of(SizeCollector).start() size_collector.send_one_way(FileToProcess.new(ARGV[0]))
+
+
+
+100.times do
+
+Actors.actor_of(lambda { FileProcessor.new(size_collector) }).start
+
+end
+```
+
+Actors类提供了一些Java术语中的actor_of()或actorOf()方法。我们使用该方法的版本，该版本要求具有create()方法的工厂创建actor SizeCollector的实例。我们在SizeCollector中提供的静态create()方法在这里使用。因为我们需要在构造时为FileProcessor的实例设置一个参数，所以我们使用actor_of()的版本，该版本接受一个在内部创建actor实例的闭包。JRuby允许我们在需要闭包的地方流畅地传递lambdas，因此我们在这里利用了这一点。剩下的代码只是将Java版本简单地转换为JRuby。让我们以文件大小程序的JRuby版本为例
+
+/usr directory:
+
+Total size is 3793911517 Time taken is 9.69524
+
+为了实现JRuby版本，我们不得不经历一些小麻烦。一旦我们知道了如何绕过JRuby的继承限制，我们就能够利用Ruby的简洁性和流畅性。
+
+### 9.4 Choices in Scala
+
+在Scala中，我们有一些基于actor的并发选项;其中一个是scala。随Scala安装提供的actor库。Akka库提供了更好的性能，更适合企业应用程序(请参阅附录2,Web资源，255页)。要使用Scala actor库，请参考Scala文档、Scala [OSV08]编程或Scala [Sub09]编程。要使用Akka，请参考Akka的文档和在第8章中提供的示例，在163页中支持独立的可变性。
+
+### 9.5 Recap
+
+我们可以在JVM上用任何语言编写并发程序。在本章中，我们了解到:Akka Java API可以很容易地从包括JRuby在内的多种JVM语言中使用。GPars为并发编程带来了Groovy的优雅和Java性能。模式匹配消息不是唯一的选择;我们可以根据gpar中的消息类型重载消息处理程序方法。当混合使用api时，我们会遇到一些语言级的集成问题，但没有什么是不可克服的。在编写并发程序时，我们可以继续享受这些现代JVM语言的表达性和简明性语法。我们已经走了很长的路!在下一章中，我们将以并发编程的建议来结束。
