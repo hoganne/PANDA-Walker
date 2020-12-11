@@ -133,11 +133,7 @@ Yahoo已进入Reactjs前端，这意味着如果您分析从客户端到后端�
 
 ### 补充参考
 
-
-
-# [股票数据接口](https://www.cnblogs.com/ilovecpp/p/12749980.html)
-
-引用：https://blog.csdn.net/fengmm521/article/details/78446501
+## 股票数据接口
 
 一、网易接口
 
@@ -151,7 +147,7 @@ Yahoo已进入Reactjs前端，这意味着如果您分析从客户端到后端�
 
   多股票实时查询
 
-[http://api.money.126.net/data/feed/0601398%2c1000001%2c1000881%2cmoney.api](http://api.money.126.net/data/feed/0601398%2C1000001%2C1000881%2Cmoney.api)
+http://api.money.126.net/data/feed/0601398%2c1000001%2c1000881%2cmoney.api
 
   2.历史数据下载（CSV格式）
 

@@ -264,6 +264,7 @@ awk -F ``" "` `'{for (i=2;i<=NF;i++)printf("%s ", $i);print ""}'
   4 4 10 There are
   # 指定输出分割符
   $  awk '{print $1,$2,$5}' OFS=" $ "  log.txt
+  ```
 ---------------------------------------------
   2 $ this $ test
 3 $ Are $ awk
@@ -275,19 +276,21 @@ awk -F ``" "` `'{for (i=2;i<=NF;i++)printf("%s ", $i);print ""}'
   
   ### 使用正则，字符串匹配
   
-```
-  # 输出第二列包含 "th"，并打印第二列与第四列
+  ```
+输出第二列包含 "th"，并打印第二列与第四列
+
 $ awk '$2 ~ /th/ {print $2,$4}' log.txt
-  ---------------------------------------------
+
   this a
   ```
   
   **~ 表示模式开始。// 中是模式。**
   
   ```
-# 输出包含 "re" 的行
+输出包含 "re" 的行
+
   $ awk '/re/ ' log.txt
----------------------------------------------
+
   3 Are you like awk
 10 There are orange,apple,mongo
   ```
@@ -296,11 +299,12 @@ $ awk '$2 ~ /th/ {print $2,$4}' log.txt
   
   ### 忽略大小写
   
-```
+  ```
   $ awk 'BEGIN{IGNORECASE=1} /this/' log.txt
----------------------------------------------
+
   2 this is a test
 This's a test
+
   ```
   
   ------
@@ -309,12 +313,13 @@ This's a test
   
   ```
   $ awk '$2 !~ /th/ {print $2,$4}' log.txt
-  ---------------------------------------------
+
   Are like
   a
   There orange,apple,mongo
+
 $ awk '!/th/ {print $2,$4}' log.txt
-  ---------------------------------------------
+
 Are like
   a
 There orange,apple,mongo
@@ -351,7 +356,7 @@ Tom     2122 48 77 71
       math = 0
       english = 0
       computer = 0
-   
+
       printf "NAME    NO.   MATH  ENGLISH  COMPUTER   TOTAL\n"
       printf "---------------------------------------------\n"
   }
@@ -374,14 +379,16 @@ END {
   
   ```
   $ awk -f cal.awk score.txt
+
   NAME    NO.   MATH  ENGLISH  COMPUTER   TOTAL
-  ---------------------------------------------
+
   Marry  2143     78       84       77      239
   Jack   2321     66       78       45      189
   Tom    2122     48       77       71      196
 Mike   2537     87       97       95      279
+
   Bob    2415     40       57       62      159
----------------------------------------------
+
     TOTAL:       319      393      350
 AVERAGE:     63.80    78.60    70.00
   ```
@@ -400,7 +407,7 @@ AVERAGE:     63.80    78.60    70.00
 
   ```
 $ ls -l *.txt | awk '{sum+=$5} END {print sum}'
-  --------------------------------------------------
+
   666581
   ```
 
@@ -527,7 +534,7 @@ vmstat [-V]
 
 **2.****字段含义说明：**
 
-| **类别**                    | **项目**                                                 | **含义**                                                     | **说明**                                                     |
+| **类别**                                | **项目**                                                 | **含义**                                                     | **说明**                                                     |
 | --------------------------- | -------------------------------------------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | **Procs****（进程）**       | r                                                        | 等待执行的任务数                                             | 展示了正在执行和等待cpu资源的任务个数。当这个值超过了cpu个数，就会出现cpu瓶颈。 |
 | B                           | 等待IO的进程数量                                         |                                                              |                                                              |
@@ -600,3 +607,69 @@ This information is currently in memory, and has been recently used.
 This information in memory is not actively being used, but was recently used.
 
 For example, if you've been using Mail and then quit it, the RAM that Mail was using is marked as Inactive memory. This Inactive memory is available for use by another application, just like Free memory.  However, if you open Mail before its Inactive memory is used by a different application, Mail will open quicker because its Inactive memory is converted to Active memory, instead of loading Mail from the slower hard disk.
+
+## liunx磁盘命令
+
+本文介绍几个[命令](https://www.linuxcool.com/)，一部分与磁盘相关，另一部分与文件相关，帮助大家分析磁盘使用情况，进而释放磁盘空间。
+
+**命令介绍**
+
+**ls -al命令**
+
+这个命令大家再熟悉不过了，可以显示当前目录所有文件及目录的详细信息，可以直观看出来当前目录哪些文件占用磁盘空间更大。嗯，如果再加上 -h 选项的话会更香。
+
+![Linux磁盘命令Linux磁盘命令](E:\oldF\learningDocument\git-workspace\PANDA-Walker\picture\1-1.jpg)
+
+**stat命令**
+
+stat 命令可以显示一个指定文件/目录的更详细的信息，包括：大小、块、inode、创建/访问/修改时间，等等信息。
+
+![Linux磁盘命令Linux磁盘命令](E:\oldF\learningDocument\git-workspace\PANDA-Walker\picture\2.jpg)
+
+**df命令**
+
+df命令是词语disk free的缩写，用于显示当前磁盘的可用空间。常用的几个选项为：
+
+df -h ：以用户友好的方式显示磁盘可用空间。
+
+df -a ：显示完整磁盘使用情况，包括那些可用空间为 0 的磁盘区域。
+
+![Linux磁盘命令Linux磁盘命令](E:\oldF\learningDocument\git-workspace\PANDA-Walker\picture\3.jpg)
+
+df -T ：按文件系统类型来显示磁盘使用情况，比如：xfs、ext2、ext3、btrfs，等等。
+
+df -i ：显示已使用及空闲 inodes。
+
+![Linux磁盘命令Linux磁盘命令](E:\oldF\learningDocument\git-workspace\PANDA-Walker\picture\4.jpg)
+
+除了使用命令行之外，你还可以使用一个叫作 disks 的图形工具。使用这个工具就可以很直观看到磁盘的使用情况了。
+![Linux磁盘命令Linux磁盘命令](E:\oldF\learningDocument\git-workspace\PANDA-Walker\picture\5.jpg)
+
+**du命令**
+
+du 是英语词组 disk useage 的缩写，它显示了磁盘里文件、目录等元素的使用情况。常用的用法有以下几种：
+
+du -h ：以易于人类阅读的格式显示所有目录及子目录的使用情况;
+
+du -a ：显示当前目录所有文件的磁盘使用情况;
+
+du -s ：仅显示总计，只列出最后加总的值。(用于显示目录的大小)
+
+**fdisk -l命令**
+
+fdisk 是一个创建和维护分区表的程序，它兼容DOS类型的分区表、BSD或者SUN类型的磁盘列表。而 fdisk -l 命令可以显示磁盘分区的各种信息。
+![Linux磁盘命令Linux磁盘命令](E:\oldF\learningDocument\git-workspace\PANDA-Walker\picture\6.jpg)
+
+有折腾过分区表的小伙伴们应该对这个步骤很熟悉，接下来就有可以进行分区创建、删除、修改等等相关的操作。但在此，我们只是使用 -l 选项看一眼当前分区的情况，不进行进一步的操作。
+
+友情提示一下，如果不懂分区操作的话，千万不要随意使用 fdisk 的其它选项，有可能会带来毁灭性的伤害，到时想要跑路可能就来不及了~
+
+**小结**
+
+本文介绍了几个文件尺寸及磁盘空间的相关命令，通过这几个命令，可以了解磁盘的一些相关信息，在清理磁盘的时候可以提供一些参考。合理使用这些命令，可以给你的磁盘进行大瘦身哦~
+
+> 原文来自：https://os.51cto.com/art/202005/616330.htm
+>
+> 本文地址：https://www.linuxprobe.com/linux-disk-command.html编辑：冯瑞涛，审核员：逄增宝
+>
+> Linux命令大全：https://www.linuxcool.com/
