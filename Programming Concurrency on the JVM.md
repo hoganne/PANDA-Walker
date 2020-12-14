@@ -3646,7 +3646,7 @@ def account2 = new Account(100)
 
 尽管Java已经过时了，但它仍然是使用最广泛的语言之一。
 
-在本节中，我们将看到选择一个并发模型并不需要迫使我们走上语言选择的道路。我们将从Java内部开始接触STM模型。我们将不得不忍受一些java导致的冗长，并必须确保不变性;然而，正如我们将看到的，使用STM API本身是一件轻而易举的事情。在Java中使用Clojure STM，我们可以很容易地将Clojure STM用于Java，因为Ref和LockingTransaction公开为简单类。runInTransaction()方法接受一个实现可调用接口的实例作为参数。因此，在事务中包装代码就像在可调用接口s call()方法中包装代码一样简单。我们将使用Java中的Clojure STM实现帐户转账示例。首先，让我们创建一个类帐户，它将持有对其不可变状态的托管引用，该状态由变量balance表示
+在本节中，我们将看到选择一个并发模型并不需要迫使我们走上语言选择的道路。我们将从Java内部开始接触STM模型。我们将不得不忍受一些java导致的冗长，并必须确保不变性;然而，正如我们将看到的，使用STM API本身是一件轻而易举的事情。在Java中使用Clojure STM，我们可以很容易地将Clojure STM用于Java，因为Ref和LockingTransaction公开为简单类。runInTransaction()方法接受一个实现可调用接口的实例作为参数。因此，在事务中包装代码就像在可调用接口call()方法中包装代码一样简单。我们将使用Java中的Clojure STM实现帐户转账示例。首先，让我们创建一个类帐户，它将持有对其不可变状态的托管引用，该状态由变量balance表示
 
 ```java
 public class Account {
@@ -3657,7 +3657,7 @@ balance = new Ref(initialBalance);
 public int getBalance() { return (Integer) balance.deref(); }
 ```
 
-我们使用初始平衡初始化托管引用。为了获得当前余额，我们使用了deref()方法，这是我们在Clojure中用于取消引用的@前缀的java端API。打包在事务中的代码将位于传递给runInTransaction()的可调用代码中，正如我们将在deposit()方法中看到的那样:
+我们使用初始平衡初始化托管引用。为了获得当前余额，我们使用了deref()方法，这是我们在Clojure中用于取消引用的@ prefix的java端API。打包在事务中的代码将位于传递给runInTransaction()的可调用代码中，正如我们将在deposit()方法中看到的那样:
 
 ```java
 public void deposit(final int amount) throws Exception {
@@ -4070,23 +4070,45 @@ val account2 = new Account(100)
 
 这种方法已经存在了几十年，但在JVM领域还是相对较新的。基于角色的模型是非常成功和流行的Erlang(请参阅Erlang编程:用于并发世界的软件[Arm07]和Erlang [VWWA96]中的并发编程)。当Scala在2003年引入时，Erlang的基于actor的模型被采用并引入到JVM中(参见Scala编程[OSV08]和编程)Scala [Sub09])。
 
-在Java中，我们可以从提供基于actor的并发性的6个库中进行选择:ActorFoundary、Actorom、Actors Guild、Akka、FunctionalJava、Kilim、Jetlang，等等。其中一些库使用了面向方面的字节码编织。它们都处于不同的成熟度和采用水平。在本章中，我们将学习如何编写基于actor的并发程序。在大多数情况下，我们将使用Akka作为一种车辆来驱动的概念。Akka是一个高性能的基于scala的解决方案，它公开了相当好的Java API。我们可以将它用于基于actor的并发性和STM(参见第6章，软件事务性内存介绍，第89页)。Java将OOP转变为可变性驱动的开发，3而函数式编程强调不可变性;这两个极端都存在问题。如果一切都是可变的，我们必须处理可见性和竞态条件。在实际的应用程序中，一切都不能是不可变的。即使是纯函数式语言也提供了受限的代码区域，允许副作用和排序方法。无论我们喜欢哪种编程模型，我们都必须避免共享的易变性。并发性问题的根源在于多个线程可以修改一个变量。隔离的可变性是一种很好的折衷方案，它消除了大多数并发性问题，即只有一个线程(或actor)可以访问可变变量。在OOP中，我们进行封装，以便只有实例方法才能操作对象的状态。然而，不同的线程可能会调用这些方法，这将导致并发性问题。在基于actor的编程模型中，我们只允许一个actor操作对象的状态。虽然应用程序是多线程的，但参与者本身是单线程的，因此不存在可见性和竞态条件问题。actor请求要执行的操作，但它们不会跨越由其他actor管理的可变状态。与只使用对象编程相比，使用actor编程时，我们采用了不同的设计方法。我们将问题划分为异步计算任务，并将它们分配给不同的参与者。每个参与者的注意力都集中在执行其指定的任务上。我们将任何可变状态限制在最多一个参与者之内时期，我们还确保我们在actor之间传递的消息是完全不可变的。
+在Java中，我们可以从提供基于actor的并发性的6个库中进行选择:`ActorFoundary`、`Actorom`、`Actors Guild`、`Akka`、`FunctionalJava`、`Kilim``、Jetlang`，等等。其中一些库使用了面向方面的字节码编织。它们都处于不同的成熟度和采用水平。
 
-在这种设计方法中，我们让每个参与者处理问题的一部分。它们以不可变对象的形式接收必要的数据。一旦它们完成了分配的任务，它们就会将结果作为不可变对象发送给调用参与者或另一个指定的后处理参与者。我们可以把这看作是将OOP提升到下一个层次，其中select对象是可变的和活动的，它们在自己的线程中运行。我们操纵这些对象的唯一方法是向它们发送消息，而不是直接调用方法。Actor是一个可以接收消息、处理请求和发送响应的自由运行的活动。actor被设计为支持异步和高效消息传递。每个actor都有一个内置的消息队列，就像手机后面的消息队列一样。莎莉和西恩可以同时在鲍勃的手机上留言。移动电话提供商为Bob保存他们的消息，以便Bob在方便时检索。类似地，actor库允许多个actor并发地发送消息。发送方默认是非阻塞的;他们发出一个信息，并继续照顾他们的业务。库允许指定的参与者按顺序选择要处理的消息。一旦一个参与者处理了一条消息或委托给另一个参与者进行并发处理，它就准备好接收下一条消息了。参与者的生命周期如图12，参与者的生命周期，在第167页中所示。在创建时，可以启动或停止一个actor。一旦启动，它就准备接收消息。在活动状态中，参与者要么正在处理消息，要么在等待新消息的到达。一旦停止，它将不再接收任何消息。参与者在等待和处理消息上花费的时间取决于他们所参与的应用程序的动态特性。如果参与者在我们的设计中扮演重要的角色，我们会期望它们中的许多在应用程序的执行过程中四处浮动。然而，线程是有限的资源，因此将actor绑定到它们的线程将非常有限。为了避免这种情况，角色库通常会将角色从线程中解耦。线程对于演员就像食堂座位对于办公室员工一样。鲍勃在公司的自助餐厅没有指定的座位(如果有的话，他需要找另一份工作)，每次他去吃饭时，他都坐在一个空的座位上坐着
+在本章中，我们将学习如何编写基于actor的并发程序。在大多数情况下，我们将使用Akka作为一种车辆来驱动的概念。Akka是一个高性能的基于scala的解决方案，它公开了相当好的Java API。我们可以将它用于基于actor的并发性和STM(参见第6章，软件事务性内存介绍，第89页)。
+
+##### Isolating Mutability Using Actors
+
+Java将OOP转变为可变性驱动的开发，而函数式编程强调不可变性;这两个极端都存在问题。如果一切都是可变的，我们必须处理可见性和竞态条件。在实际的应用程序中，一切都不能是不可变的。即使是纯函数式语言也提供了受限的代码区域，允许副作用和排序方法。无论我们喜欢哪种编程模型，我们都必须避免共享的易变性。
+
+并发性问题的根源在于多个线程可以修改一个变量。隔离的可变性是一种很好的折衷方案，它消除了大多数并发性问题，即只有一个线程(或actor)可以访问可变变量。
+
+在OOP中，我们进行封装，以便只有实例方法才能操作对象的状态。然而，不同的线程可能会调用这些方法，这将导致并发性问题。在基于actor的编程模型中，我们只允许一个actor操作对象的状态。虽然应用程序是多线程的，但参与者本身是单线程的，因此不存在可见性和竞态条件问题。actor请求要执行的操作，但它们不会跨越由其他actor管理的可变状态。与只使用对象编程相比，使用actor编程时，我们采用了不同的设计方法。我们将问题划分为异步计算任务，并将它们分配给不同的参与者。每个参与者的注意力都集中在执行其指定的任务上。我们将任何可变状态限制在最多一个参与者之内时期，我们还确保我们在actor之间传递的消息是完全不可变的。
+
+在这种设计方法中，我们让每个参与者处理问题的一部分。它们以不可变对象的形式接收必要的数据。一旦它们完成了分配的任务，它们就会将结果作为不可变对象发送给调用参与者或另一个指定的后处理参与者。我们可以把这看作是将OOP提升到下一个层次，其中select对象是可变的和活动的，它们在自己的线程中运行。我们操纵这些对象的唯一方法是向它们发送消息，而不是直接调用方法。
+
+##### Actor Qualities
+
+Actor是一个可以接收消息、处理请求和发送响应的自由运行的活动。actor被设计为支持异步和高效消息传递。每个actor都有一个内置的消息队列，就像手机后面的消息队列一样。莎莉和西恩可以同时在鲍勃的手机上留言。移动电话提供商为Bob保存他们的消息，以便Bob在方便时检索。类似地，actor库允许多个actor并发地发送消息。发送方默认是非阻塞的;他们发出一个信息，并继续照顾他们的业务。库允许指定的参与者按顺序选择要处理的消息。一旦一个参与者处理了一条消息或委托给另一个参与者进行并发处理，它就准备好接收下一条消息了。参与者的生命周期如图12，参与者的生命周期，在第167页中所示。在创建时，可以启动或停止一个actor。
+
+![image-20201209224720235](E:\learningforalllife\git-workspace\PANDA-Walker\picture\image-20201209224720235.png)
+
+一旦启动，它就准备接收消息。在活动状态中，参与者要么正在处理消息，要么在等待新消息的到达。一旦停止，它将不再接收任何消息。参与者在等待和处理消息上花费的时间取决于他们所参与的应用程序的动态特性。如果参与者在我们的设计中扮演重要的角色，我们会期望它们中的许多在应用程序的执行过程中四处浮动。
+
+然而，线程是有限的资源，因此将actor绑定到它们的线程将非常有限。为了避免这种情况，角色库通常会将角色从线程中解耦。线程对于actor就像食堂座位对于办公室员工一样。鲍勃在公司的自助餐厅没有指定的座位(如果有的话，他需要找另一份工作)，每次他去吃饭时，他都坐在一个空的座位上坐着
 
 ![image-20201209224517004](E:\learningforalllife\git-workspace\PANDA-Walker\picture\image-20201209224517004.png)
 
 actor隔离可变状态，并通过传递不可变状态进行通信消息。
 
-当actor有消息要处理或有任务要运行时，它就会被提供一个可用的线程来运行。好的actor不会在不运行任务时保留线程。这允许更多的参与者在不同状态下处于活动状态，并有效地使用有限的可用线程。尽管多个参与者可以在任何时候处于活动状态，但在任何实例中，参与者中只有一个线程处于活动状态。这在参与者之间提供了并发性，同时消除了每个参与者之间的争用。8.3创建角色正如我前面提到的，我们有很多角色库可供选择。在本书中，我们使用了Akka，这是一个基于scala的库4，具有相当好的性能和可伸缩性，并且同时支持actor和STM。我们可以在JVM上使用多种语言。在这一章中，我们将继续讨论到Java和Scala。
+当actor有消息要处理或有任务要运行时，它就会被提供一个可用的线程来运行。好的actor不会在不运行任务时保留线程。这允许更多的参与者在不同状态下处于活动状态，并有效地使用有限的可用线程。尽管多个参与者可以在任何时候处于活动状态，但在任何实例中，参与者中只有一个线程处于活动状态。这在参与者之间提供了并发性，同时消除了每个参与者之间的争用。
 
-![image-20201209224720235](E:\learningforalllife\git-workspace\PANDA-Walker\picture\image-20201209224720235.png)
+##### Creating Actors
 
-参与者的生命周期
+正如我前面提到的，我们有很多角色库可供选择。在本书中，我们使用了Akka，这是一个基于scala的库，具有相当好的性能和可伸缩性，并且同时支持actor和STM。我们可以在JVM上使用多种语言。在这一章中，我们将继续讨论到Java和Scala。
 
 在下一章中，我们将研究Akka actors与其他语言的使用
 
-Akka是用Scala编写的，所以从Scala创建和使用actor非常简单和自然。Akka API突出了Scala的简洁和习惯用法。与此同时，他们在公开传统Java API方面做得相当出色，因此我们可以轻松地在Java代码中创建和使用actor。我们将首先看一下在Java中如何使用它，然后看看在Scala中使用它时，这种体验是如何简化和改变的。在Java的抽象类Akka .actor中创建actor。UntypedActor表示一个actor。只需扩展该方法并实现所需的onReceive()方法，每当actor的消息到达时，就会调用该方法。让我们试一试。我们将创建一个actor…找一个好莱坞演员来扮演不同的角色怎么样
+Akka是用Scala编写的，所以从Scala创建和使用actor非常简单和自然。Akka API突出了Scala的简洁和习惯用法。与此同时，他们在公开传统Java API方面做得相当出色，因此我们可以轻松地在Java代码中创建和使用actor。
+
+我们将首先看一下在Java中如何使用它，然后看看在Scala中使用它时，这种体验是如何简化和改变的。在Java的抽象类Akka .actor.UntypedActor中创建actor。`UntypedActor`表示一个actor。只需扩展该方法并实现所需的`onReceive()`方法，每当actor的消息到达时，就会调用该方法。让我们试一试。我们将创建一个actor…找一个好莱坞演员来扮演不同的角色怎么样
 
 ```java
 public class HollywoodActor extends UntypedActor {
@@ -4097,9 +4119,9 @@ System.out.println("Playing " + role +
 }
 ```
 
-onReceive()方法接受一个对象作为参数。在本例中，我们只是将它与处理消息的线程的详细信息一起打印出来。稍后我们将学习如何处理不同类型的消息。
+`onReceive()`方法接受一个对象作为参数。在本例中，我们只是将它与处理消息的线程的详细信息一起打印出来。稍后我们将学习如何处理不同类型的消息。
 
-我们的演员都准备好了，等着我们说“开始”。“我们需要创建actor的一个实例，并使用其角色发送消息，所以让我们开始:
+我们的actor都准备好了，等着我们说“开始”。“我们需要创建actor的一个实例，并使用其角色发送消息，所以让我们开始:
 
 ```java
 public class UseHollywoodActor {
@@ -4115,7 +4137,9 @@ Actors.registry().shutdownAll();
 }
 ```
 
-在Java中，我们通常使用new创建对象，但Akka actor不是简单对象，它们是活动对象。因此，我们使用特殊的方法actorOf()来创建它们。另外，我们也可以使用new创建一个实例，并将其封装在对actorOf()的调用中，以获取actor引用，不过我们稍后再讨论这个问题。一旦创建了actor，我们就通过调用start()方法启动它。当我们开始一个演员，Akka把它放入一个注册表;参与者可以通过注册表访问，直到参与者停止。在这个示例中，类型为ActorRef的johnnyDepp是对我们的actor实例的引用。接下来，我们使用sendOneWay()方法向扮演角色的参与者发送一些消息。消息一旦发出，我们真的不必等待。然而，在这种情况下，延迟将帮助我们了解更多细节，即演员如何切换线程，我们将很快看到。最后，我们要求关闭所有运行的演员。除了调用shutdownAll()方法外，我们还可以对各个actor调用stop()方法，或者向它们发送一个kill消息。好了，要运行这个示例，让我们使用javac编译代码，并记住指定Akka库文件的类路径。我们可以像运行常规Java程序一样简单地运行该程序。同样，我们必须记住在类路径中提供必要的jar。下面是我在系统上使用的命令
+在Java中，我们通常使用new创建对象，但Akka actor不是简单对象，它们是活动对象。因此，我们使用特殊的方法`actorOf()`来创建它们。另外，我们也可以使用new创建一个实例，并将其封装在对`actorOf()`的调用中，以获取actor引用，不过我们稍后再讨论这个问题。一旦创建了actor，我们就通过调用start()方法启动它。当我们开始一个actor，Akka把它放入一个注册表;参与者可以通过注册表访问，直到参与者停止。在这个示例中，类型为`ActorRef`的johnnyDepp是对我们的actor实例的引用。
+
+接下来，我们使用sendOneWay()方法向扮演角色的参与者发送一些消息。消息一旦发出，我们真的不必等待。然而，在这种情况下，延迟将帮助我们了解更多细节，即演员如何切换线程，我们将很快看到。最后，我们要求关闭所有运行的演员。除了调用shutdownAll()方法外，我们还可以对各个actor调用stop()方法，或者向它们发送一个kill消息。好了，要运行这个示例，让我们使用javac编译代码，并记住指定Akka库文件的类路径。我们可以像运行常规Java程序一样简单地运行该程序。同样，我们必须记住在类路径中提供必要的jar。下面是我在系统上使用的命令
 
 >javac -d . -classpath $AKKA_JARS HollywoodActor.java UseHollywoodActor.java
 >java -classpath $AKKA_JARS com.agiledeveloper.pcj.UseHollywoodActor
@@ -4143,7 +4167,7 @@ $AKKA_HOME/config:\
 >Playing Edward Scissorhands from Thread akka:event-driven:dispatcher:global-2
 >Playing Willy Wonka from Thread akka:event-driven:dispatcher:global-3
 
-参与者一次响应一个消息。输出还允许我们查看运行actor的线程，而且每次都不是同一个线程。同一线程可能处理多个消息，也可能与示例输出不同，但在任何情况下，在任何时候只处理一条消息。关键的一点是，参与者是单线程的，但是不会劫持他们的线程。它们在等待消息时优雅地释放线程;我们添加的延迟帮助引入了这种等待并说明了这一点。我们创建的actor在构建时没有接受任何参数。如果需要，可以在actor创建期间发送参数。例如，使用Hollywood actor的名称初始化actor
+参与者一次响应一个消息。输出还允许我们查看运行actor的线程，而且每次都不是同一个线程。同一线程可能处理多个消息，也可能与示例输出不同，但在任何情况下，在任何时候只处理一条消息。关键的一点是，参与者是单线程的，但是不会劫持他们的线程。它们在等待消息时优雅地释放线程;我们添加的延迟帮助引入了这种等待并说明了这一点。我们创建的actor在构建时没有接受任何参数。如果需要，可以在actor创建期间发送参数。例如，使用Hollywoodactor的名称初始化actor
 
 ```java
 public class HollywoodActor extends UntypedActor {
@@ -4166,7 +4190,8 @@ System.out.println(name + " plays no " + role);
 public class UseHollywoodActor {
 public static void main(final String[] args) throws InterruptedException {
 final ActorRef tomHanks = Actors.actorOf(new UntypedActorFactory() {
-public UntypedActor create() { return new HollywoodActor("Hanks"); }
+public UntypedActor create() {
+    return new HollywoodActor("Hanks"); }
 }).start();
 tomHanks.sendOneWay("James Lovell");
 tomHanks.sendOneWay(new StringBuilder("Politics"));
@@ -4177,7 +4202,9 @@ tomHanks.stop();
 }
 ```
 
-我们通过发送消息而不是直接调用方法与参与者通信。Akka希望我们很难获得对actor的直接引用，并希望我们只获得对ActorRef的引用。这允许Akka确保我们不会向actor添加方法并直接与它们交互，因为这将把我们带回我们一直努力避免的共享可变性的邪恶土地。这种受控的actor创建还允许Akka对actor进行适当的垃圾收集。因此，如果我们尝试直接创建actor类的实例，我们将获得运行时异常akka.actor。您不能使用new显式地创建actor的实例。Akka允许我们在create()方法中以受控的方式创建实例。因此，让我们在实现UntypedActorFactory接口的匿名类中实现此方法，并在此方法中创建actor实例，发送适当的构造时参数。随后对actorOf()的调用将扩展自UntypedActor的常规对象转换为Akka actor。然后，我们可以像前面一样将消息传递给这个actor。我们的HollywoodActor只接受字符串类型的消息，但是在示例中，我们发送了一个StringBuilder实例，该实例具有值策略。我们在onReceive()中执行的运行时类型检查负责处理这个问题。最后,我们
+我们通过发送消息而不是直接调用方法与参与者通信。
+
+Akka希望我们很难获得对actor的直接引用，并希望我们只获得对ActorRef的引用。这允许Akka确保我们不会向actor添加方法并直接与它们交互，因为这将把我们带回我们一直努力避免的共享可变性的邪恶土地。这种受控的actor创建还允许Akka对actor进行适当的垃圾收集。因此，如果我们尝试直接创建actor类的实例，我们将获得运行时异常`akka.actor.ActorInitializationException`。您不能使用new显式地创建actor的实例。Akka允许我们在create()方法中以受控的方式创建实例。因此，让我们在实现`UntypedActorFactory`接口的匿名类中实现此方法，并在此方法中创建actor实例，发送适当的构造时参数。随后对actorOf()的调用将扩展自UntypedActor的常规对象转换为Akka actor。然后，我们可以像前面一样将消息传递给这个actor。我们的HollywoodActor只接受字符串类型的消息，但是在示例中，我们发送了一个StringBuilder实例，该实例具有值策略。我们在onReceive()中执行的运行时类型检查负责处理这个问题。最后,我们
 
 通过调用stop()方法停止actor。引入的延迟给了参与者在我们关闭它之前响应消息的时间。让我们来看看它的输出:
 
@@ -4185,7 +4212,7 @@ tomHanks.stop();
 >Hanks plays no Politics
 >Hanks playing Forrest Gump
 
-在Scala中创建角色
+##### Creating Actors in Scala 在Scala中创建角色
 
 要在Scala中创建Akka actor，而不是我们在Java版本中扩展的UntypedActor，我们将从actor特征进行扩展，并实现所需的receive()方法。让我们在Scala中实现我们之前在Java中编写的HollywoodActor actor类:
 
