@@ -2062,7 +2062,7 @@ monitor.writeLock().unlock();
 
 见附录2中面向对象编程的意义,网络资源,在255页。
 
-在此过程中，OO语言开始沿着通过抽象数据类型(adt)隐藏数据、将数据与过程绑定或结合状态和行为的路径发展。这在很大程度上导致了我们`对状态的封装和突变`。在这个过程中，我们最终合并了身份和状态，合并了实例和它的数据。身份和状态的这种合并对许多Java程序员造成了威胁，其后果可能并不明显。
+在此过程中，OO语言开始沿着通过抽象数据类型(adt)隐藏数据、将数据与过程绑定或结合状态和行为的路径发展。这在很大程度上导致了我们`对状态的封装和突变`。在这个过程中，我们最终合并了身份和状态，合并了实例和它的数据。身份（实例）和状态的这种合并对许多Java程序员造成了威胁，其后果可能并不明显。
 
 当我们遍历一个实例的指针或引用时，我们到达保存其状态的内存块。在那个位置操作数据感觉很自然。位置表示实例及其包含的内容。组合的同一性和状态是非常简单和容易理解的。
 
@@ -2080,7 +2080,7 @@ monitor.writeLock().unlock();
 
 假设我们的谷歌stock对象有两部分;第一部分表示股票的身份，它反过来有一个指向第二部分的指针，股票的最新值的不变状态，如图9所示，在第92页，可变身份与不变状态值的分离。
 
-![image-20201205205314216](E:\learningforalllife\git-workspace\PANDA-Walker\picture\image-20201205205314216.png)
+![image-20201205205314216](E:\oldF\learningDocument\git-workspace\PANDA-Walker\picture\image-20201205205314216.png)
 
 当我们收到一个新的价格，我们添加到历史价格指数，不改变任何现有的东西。由于旧的值是不可变的，所以我们共享现有的数据。因此，如果我们为此使用持久数据结构，我们就没有复制，也可以享受更快的操作，正如我们在第39页的3.6节，持久/不可变数据结构中讨论的那样。一旦有了新数据，我们就可以快速更改标识以指向新值。
 
@@ -2128,7 +2128,8 @@ STM提供了一个简单的锁运行时事务组合，而不是强制在设计�
 (def balance (ref 0))
 (println "Balance is" @balance)
 (dosync
-(ref-set balance 100))
+(ref-set balance 100)
+)
 (println "Balance is now" @balance)
 ```
 
@@ -2143,13 +2144,13 @@ STM提供了一个简单的锁运行时事务组合，而不是强制在设计�
 
 ​		在事务中，我们首先创建了一个新值100(我们需要习惯不可变值的概念)，但是旧值0仍然存在，此时balance指向它。一旦我们创建了新值，我们要求`Clojure`快速修改指针以平衡到新值。如果没有对旧值的其他引用，垃圾收集器将适当地处理它。`Clojure`提供了三种修改可变标识的选项，都只在事务中进行:
 
-ref-set设置标识的值并返回该值。
+`ref-set`设置标识的值并返回该值。
 
-alter将标识的事务内值设置为应用指定函数得到的值，并返回该值。这是修改可变标识的最常用的形式。
+`alter`将标识的事务内值设置为应用指定函数得到的值，并返回该值。这是修改可变标识的最常用的形式。
 
-commute将事务内的更改与提交点分离开来。它将标识的事务内值设置为应用指定函数得到的值，并返回该值。然后，在提交点期间，将标识的值设置为使用标识最近提交的值应用指定函数的结果。当我们对“最后一胜”的行为感到满意，并且提供比alter更大的并发性时，“commute”是有用的。然而，在大多数情况下，alter比commute更合适。
+`commute`将事务内的更改与提交点分离开来。它将标识的事务内值设置为应用指定函数得到的值，并返回该值。然后，在提交点期间，将标识的值设置为使用标识最近提交的值应用指定函数的结果。当我们对“最后一胜”的行为感到满意，并且提供比alter更大的并发性时，“commute”是有用的。然而，在大多数情况下，`alter`比`commute`更合适。
 
-除了refs之外，Clojure还提供了`atoms`.。它们提供数据的同步更改;然而，与refs不同的是，这些更改是不协调的，不能与交易中的其他更改组合在一起。atoms不参与事务(我们可以把对原子的每次更改看作属于一个单独的事务)。对于孤立的、离散的变化，使用原子;对于更多分组或协调的更改，请使用refs。
+除了`refs`之外，Clojure还提供了`atoms`.。它们提供数据的同步更改;然而，与refs不同的是，这些更改是不协调的，不能与交易中的其他更改组合在一起。atoms不参与事务(我们可以把对原子的每次更改看作属于一个单独的事务)。对于孤立的、离散的变化，使用原子;对于更多分组或协调的更改，请使用refs。
 
 ##### 6.5 Transactions in STM
 
@@ -2194,7 +2195,7 @@ Clojure STM使用的多版本并发控制(MVCC)与数据库非常类似。STM并
 (println "Balance1 now is" @balance1)
 ````
 
-在这个示例中，我们创建了两个事务，一个用于存款，另一个用于取款。在deposit()函数中，我们首先获得给定余额的本地副本。然后我们模拟一个延迟来在冲突过程中设置事务。延迟之后，我们增加余额。withdraw()与之相似，只是我们减少了余额。现在是时候练习这两种方法了。
+在这个示例中，我们创建了两个事务，一个用于存款，另一个用于取款。在deposit()函数中，我们首先获得给定余额的本地副本。然后我们模拟一个延迟来在冲突过程中设置事务。延迟之后，我们增加余额。`withdraw()`与之相似，只是我们减少了余额。现在是时候练习这两种方法了。
 
 让我们首先将变量balance1初始化为100，并使用future()函数让前两个方法在两个独立的线程中运行。继续运行代码并观察输出:
 
@@ -2214,6 +2215,7 @@ Clojure STM使用的多版本并发控制(MVCC)与数据库非常类似。STM并
 ```java
 (defn add-item [wishlist item]
 (dosync (alter wishlist conj item)))
+
 (def family-wishlist (ref '("iPad")))
 (def original-wishlist @family-wishlist)
 (println "Original wish list is" original-wishlist)
@@ -2224,9 +2226,11 @@ Clojure STM使用的多版本并发控制(MVCC)与数据库非常类似。STM并
 (println "Updated wish list is" @family-wishlist)
 ```
 
-在add-item()函数中，我们将给定的项添加到列表中。alter函数通过应用提供的函数(在本例中是conj()函数)来修改事务内ref。函数conj()返回一个新的集合，其中包含连接或添加到集合中的给定元素。然后我们从两个不同的线程调用add-item()方法。运行代码看两个事务的最终效果:原始愿望列表是(iPad)原始愿望列表是(iPad)更新的愿望列表是(自行车MBP iPad)原始列表是不可变的，所以它在代码的最后保持不变。当我们向这个列表中添加元素时，我们得到了这个列表的新副本。然而，由于列表是一种持久的数据结构，我们从共享项目(元素)中获得了内存和性能上的好处，如图10所示，在第100页向不可变的愿望列表中添加元素。列表和引用originalWishList的状态都是不可变的。然而，familyWishList是一个可变引用。每个添加项请求在它们自己的事务中运行。第一个成功更改了对新列表的可变引用(如图(2)所示)。但是，由于列表本身是不可变的，所以新列表能够共享元素iPad
+在`add-item()`函数中，我们将给定的项添加到列表中。alter函数通过应用提供的函数(在本例中是conj()函数)来修改事务内`ref`。函数conj()返回一个新的集合，其中包含连接或添加到集合中的给定元素。然后我们从两个不同的线程调用add-item()方法。运行代码看两个事务的最终效果:
 
-![image-20201205210048162](E:\learningforalllife\git-workspace\PANDA-Walker\picture\image-20201205210048162.png)
+原始愿望列表是(iPad)原始愿望列表是(iPad)更新的愿望列表是(自行车MBP iPad)原始列表是不可变的，所以它在代码的最后保持不变。当我们向这个列表中添加元素时，我们得到了这个列表的新副本。然而，由于列表是一种持久的数据结构，我们从共享项目(元素)中获得了内存和性能上的好处，如图10所示，在第100页向不可变的愿望列表中添加元素。列表和引用originalWishList的状态都是不可变的。然而，familyWishList是一个可变引用。每个添加项请求在它们自己的事务中运行。第一个成功更改了对新列表的可变引用(如图(2)所示)。但是，由于列表本身是不可变的，所以新列表能够共享元素iPad
+
+![image-20201205210048162](E:\oldF\learningDocument\git-workspace\PANDA-Walker\picture\image-20201205210048162.png)
 
 原始列表。当第二个添加项成功时，它会在内部共享先前添加的其他两个项(如图(3)所示)。我们了解了STM如何处理事务之间的写冲突。有时冲突并不那么直接。假设我们在银行有一个支票账户和一个储蓄账户，两个账户之间的最低余额要求是1000美元。现在假设这两个账户的余额分别是500美元和600美元。我们最多可以从这两个账户中任意一个提取100美元，但不能同时从两个账户中提取。如果在每个帐户上依次尝试提取100美元，第一次尝试将会成功，但第二次将不会成功。如果这两个事务看到总余额超过$1,000，并且继续修改两个不同的值而没有写冲突，那么所谓的写倾斜异常将不会阻止这两个事务。最终的结果是，余额为900美元，低于允许的限额。让我们在代码中创建这个异常，然后找出如何修复它。
 
@@ -2251,19 +2255,29 @@ Clojure STM使用的多版本并发控制(MVCC)与数据库非常类似。STM并
 (println "Total balance is" (+ @checking-balance @savings-balance))
 ```
 
-我们从这两个账户的给定余额开始。在取款-account()函数中，我们首先读取两个帐户的余额并计算总余额。然后，在诱导延迟(这会使交易进入冲突过程)之后，只有当总余额不小于要求的最小值时，我们才更新由from-balance表示的其中一个帐户的余额。在代码的其余部分中，我们并发地运行两个事务，其中第一个从支票余额中提取100美元，而第二个从储蓄中提取100美元。自两个事务运行在隔离和不修改任何共同点,他们完全无视的违反和落入写倾斜,正如我们可以看到从输出:帐户的余额是500储蓄余额是600总资产是1100帐户的余额是400和Clojure储蓄余额是500总资产900,我们可以很容易地避免写倾斜的保证()方法。我们可以告诉事务关注只被读取而不被修改的变量。然后STM将确保只有当我们读取的值在事务外部没有改变时才提交写操作;它以其他方式重试事务。让我们修改取款帐户()方法
+我们从这两个账户的给定余额开始。在withdraw-account()函数中，我们首先读取两个帐户的余额并计算总余额。然后，在诱导延迟(这会使交易进入冲突过程)之后，只有当总余额不小于要求的最小值时，我们才更新由from-balance表示的其中一个帐户的余额。
+
+在代码的其余部分中，我们并发地运行两个事务，其中第一个从支票余额中提取100美元，而第二个从储蓄中提取100美元。自两个事务运行在隔离和不修改任何共同点,他们完全无视的违反和落入写倾斜,正如我们可以看到从输出:
+
+>checking-balance is 500
+>
+>savings-balance is 600 Total balance is 1100 checking-balance is 400
+>
+>savings-balance is 500 Total balance is 900
+
+使用Clojure，我们可以很容易地使用ensure()方法避免写入偏差。我们可以告诉事务关注只被读取而不被修改的变量。STM将确保只有在我们读取的值没有在事务外部更改时才提交写操作;它以其他方式重试事务。
 
 ```java
 (defn withdraw-account [from-balance constraining-balance amount]
-2 (dosync
-3 (let [total-balance (+ @from-balance (ensure constraining-balance))]
-4 (. Thread sleep 1000)
-5 (if (>= (- total-balance amount) 1000)
-6 (alter from-balance - amount)
-7 (println "Sorry, can't withdraw due to constraint violation")))))
+(dosync
+ (let [total-balance (+ @from-balance (ensure constraining-balance))]
+ (. Thread sleep 1000)
+ (if (>= (- total-balance amount) 1000)
+ (alter from-balance - amount)
+ (println "Sorry, can't withdraw due to constraint violation")))))
 ```
 
-在第3行，我们对值约束-balance调用了ensure()，我们在事务中读取它，但不修改它。此时，STM在该值上放置一个读锁，防止其他事务获得写锁。当事务接近完成时，STM在执行提交之前释放所有读锁。这样可以防止并发性增加时出现死锁。
+在第3行，我们对值constraining-balance调用了ensure()，我们在事务中读取它，但不修改它。此时，STM在该值上放置一个读锁，防止其他事务获得写锁。当事务接近完成时，STM在执行提交之前释放所有读锁。这样可以防止并发性增加时出现死锁。
 
 即使这两个事务像以前一样并发运行，通过这个修改过的withdraw-account()方法调用ensure()，仍然保留了总余额的约束，正如我们在输出中看到的:
 
@@ -2277,15 +2291,52 @@ Clojure STM使用的多版本并发控制(MVCC)与数据库非常类似。STM并
 
 STM的显式无锁执行模型非常强大。当没有冲突时，就不会有阻碍。当存在冲突时，一个胜利者顺利地进行，而竞争者则不断重复。Clojure使用最大次数的尝试，并确保两个线程不会以相同的速度重复，从而导致重复失败。当我们有频繁的读冲突和非常少的写冲突时，STM是一个很好的模型。例如，这个模型非常适合典型的web应用程序，我们通常有几个并发用户执行他们自己数据的更新，但是共享状态的冲突很少。STM可以毫不费力地解决任何不常见的写入冲突。Clojure STM是并发编程领域的阿司匹林，它可以消除很多麻烦。如果我们忘记创建一个交易，我们会受到严厉的谴责。通过简单地将dosync放在正确的位置，我们获得了高并发性和线程之间的一致性。这种不讲究礼仪、简洁、高度表达和非常可预测的行为使Clojure STM成为一个值得认真考虑的选项。
 
-6.7使用Akka/Multiverse STM我们了解了如何在Clojure中使用STM。我猜您现在对如何在Java代码中使用STM感到好奇。为此我们有几个选项:我们可以在Java中使用Clojure STM。将事务代码包装在可调用接口的实现中是相当简单的
+##### 6.7 Concurrency Using Akka/Multiverse STM
 
-我们将在第7章Clojure、Groovy、Java、JRuby和Scala中的STM中看到这一点，在第141页。我们当中那些喜欢注释的人可能更喜欢Multiverse的STM API。除了使用STM之外，如果我们计划使用actor，那么我们还需要使用Akka库。由Peter Veentjer创建的Multiverse是一个基于java的STM实现。在纯Java代码中，我们可以使用注释来表示事务边界。我们可以使用@TransactionalMethod将各个方法标记为事务。或者用@TransactionalObject标记类，以使其所有方法都是事务性的。为了与其他JVM语言集成，Multiverse提供了一组丰富的api来控制事务何时开始和结束。Akka由Jonas Boner创建，是一个基于scala的解决方案，可以在包括Java在内的许多不同JVM语言中使用。Akka既提供了基于actor的并发性，也提供了STM，还提供了将二者混合使用的选项。Akka将Multiverse用于STM实现，并提供ACI (ACID的子集)属性。Akka提供了出色的性能，而且由于它同时支持STM和基于actor的模型(在第8章第163页讨论了独立的可变性)，我们将使用它来说明本章中的Java STM示例。交易Akka /多元宇宙
+我们了解了如何在Clojure中使用STM。我猜现在您对如何在Java代码中使用STM感到好奇。我们有几个选择:
 
-Akka使用Multiverse的clojure风格的STM来编写Java代码。除了java引入的冗长之外，Akka与Clojure的主要区别在于，Akka不会强迫我们在修改可变标识之前创建事务。如果我们不提供事务，Akka/Multiverse会自动将访问包装在事务中。所以，当我们在一个交易中，Akka refs的行为就像Clojure refs，而当我们不在一个交易中，它们就像Clojure原子。换句话说，启动一个事务来协调同步更改;否则我们会得到不协调的同步变化。在任何情况下，Akka确保对refs的更改仍然是原子的、隔离的和一致的，同时提供不同程度的协调粒度。在Akka中，我们可以在事务级别或在应用程序/JVM级别使用配置文件以编程方式配置事务。我们可以将事务定义为只读的，并且Akka不允许对该事务范围内的任何Akka引用进行任何更改。我们可以通过将非可变事务设置为只读来提高性能。我们可以控制发生冲突时Akka重试事务的最大次数。在那里
+> 1, 我们可以在Java内部使用Clojure STM。将事务代码包装在可调用接口的实现中是相当简单的。
+>
+> 2, 我们当中那些喜欢注释的人可能更喜欢Multiverse的STM API。
+>
+> 3, 除了使用STM之外，如果我们计划使用actor，那么我们还需要使用Akka库。
 
-我们可以配置的其他参数有很多，请参阅Akka文档了解详细信息。Akka扩展了嵌套事务(参见第111页的6.9节创建嵌套事务)对Multiverse的支持，因此从事务内部，我们可以方便地调用启动事务的方法。默认情况下，这些内部或嵌套事务被滚入外部事务。与Clojure不同的是，使用Akka ref和事务(在Clojure中ref是在语言级别定义的)，Akka不能依赖任何现有的语言支持。相反，Akka提供，作为Akka的一部分。stm包，托管事务引用ref&gt;以及用于基本类型的专门化类，如IntRef、LongRef等。Ref&lt; T&gt;(以及专门的引用)将托管的可变标识表示为t类型的不可变值。类型如Integer、Long、Double、String和其他不可变类型很适合作为值对象。如果我们使用自己的一个类，我们必须确保它是不可变的，也就是说，它只包含final字段。通过提供初始值或省略默认为null的值，我们可以创建一个托管事务引用，它是Ref&lt;T&gt;的实例。要从引用中获取当前值，请使用get()方法。要将可变标识更改为指向新值，请使用swap()方法。这些调用在我们提供的事务中执行，如果没有提供，则在它们自己的单独事务中执行。当多个线程尝试更改相同的托管引用时，Akka确保将其中一个线程的更改写入内存，并重试其他线程。事务性工具负责跨越内存屏障。也就是说，通过Multiverse, Akka保证由事务提交的对托管ref的更改在其他事务中稍后对相同ref的任何读取都是可见的。6.8创建事务我们创建事务来协调对多个托管引用的更改。事务将确保这些更改是原子性的;也就是说，所有托管引用都被提交或者全部被丢弃。在事务之外，我们将不会看到任何局部更改。我们还创建事务来协调对单个ref的读和写。Akka构建在Scala之上，如果我们使用Scala，我们可以享受它简洁的API。对于不能进行转换的程序员，Akka还提供了一个
+由Peter Veentjer创建的`Multiverse`是一个基于java的STM实现。在纯Java代码中，我们可以使用注释来表示事务边界。我们可以使用`@Transac- tionalMethod`将各个方法标记为事务性的。或者用`@TransactionalObject`标记类，以使其所有方法都是事务性的。为了与其他JVM语言集成，Multiverse提供了一组丰富的api来控制事务何时开始和结束。
 
-方便的API使用Java语言的特性。或者，我们可以直接使用来自Java的Multiverse STM。在本节中，我们将看到如何使用Java和Scala中的Akka创建事务。首先，我们需要一个应用事务的示例。我们在第5章“驯服共享的可变性”中重构的EnergySource类，在第73页使用了显式的锁和解锁(最终版本在第57节“确保原子性”中，在第82页)。让我们用这些显式的锁/解锁来交换Akka的事务API。在Java中创建事务以支持事务，扩展原子类并将代码放到类的atomically()方法中，以将其包装到事务中。要运行事务代码，调用原子实例的execute()方法，如下所示:返回new Atomic&lt;Object&gt;() {public Object atomically(){//在事务中运行的代码…返回resultObject;}} . execute ();调用execute()方法的线程运行atomically()方法中的代码。但是，如果调用者尚未在事务中，则调用被包装在事务中。让我们使用Akka事务来实现EnergySource。作为第一步，让我们将不可变状态包装在可变Akka托管引用中。
+Akka由Jonas Boner创建，是一个基于scala的解决方案，可以在包括Java在内的许多不同JVM语言中使用。Akka既提供了基于actor的并发性，也提供了STM，还提供了将二者混合使用的选项。Akka将`Multiverse`用于STM实现，并提供ACI (ACID的子集)属性。
+
+Akka提供了出色的性能，而且由于它同时支持STM和基于actor的模型(在第8章第163页讨论了独立的可变性)，我们将在本章中使用它来演示Java STM示例
+
+**Transactions in Akka/Multiverse**
+
+Akka使用Multiverse的clojure风格的STM来编写Java代码。除了java引入的冗长之外，Akka与Clojure的主要区别在于，Akka不会强迫我们在修改可变标识之前创建事务。如果我们不提供事务，Akka/Multiverse会自动将访问包装在事务中。所以，当我们在一个交易中，Akka refs的行为就像Clojure refs，而当我们不在一个交易中，它们就像Clojure原子。换句话说，启动一个事务来协调同步更改;否则我们会得到不协调的同步变化。
+
+在任何情况下，Akka确保对refs的更改仍然是原子的、隔离的和一致的，同时提供不同程度的协调粒度。在Akka中，我们可以在事务级别或在应用程序/JVM级别使用配置文件以编程方式配置事务。我们可以将事务定义为只读的，并且Akka不允许对该事务范围内的任何Akka引用进行任何更改。我们可以通过将非可变事务设置为只读来提高性能。我们可以控制发生冲突时Akka重试事务的最大次数。在那里我们可以配置的其他参数有很多，请参阅Akka文档了解详细信息。Akka扩展了嵌套事务(参见第111页的6.9节创建嵌套事务)对`Multiverse`的支持，因此从事务内部，我们可以方便地调用启动事务的方法。默认情况下，这些内部或嵌套事务被滚入外部事务。
+
+**Using Akka Refs and Transactions**
+
+与Clojure不同的是，使用Akka ref和事务(在Clojure中ref是在语言级别定义的)，Akka不能依赖任何现有的语言支持。相反，Akka提供，作为Akka的一部分。akka.stm包，托管事务引用ref<T>以及用于基本类型的专门化类，如IntRef、LongRef等。Ref&lt; T&gt;(以及专门的引用)将托管的可变标识表示为t类型的不可变值。类型如Integer、Long、Double、String和其他不可变类型很适合作为值对象。如果我们使用自己的一个类，我们必须确保它是不可变的，也就是说，它只包含final字段。通过提供初始值或省略默认为null的值，我们可以创建一个托管事务引用，它是Ref&lt;T&gt;的实例。要从引用中获取当前值，请使用get()方法。要将可变标识更改为指向新值，请使用swap()方法。这些调用在我们提供的事务中执行，如果没有提供，则在它们自己的单独事务中执行。当多个线程尝试更改相同的托管引用时，Akka确保将其中一个线程的更改写入内存，并重试其他线程。事务性工具负责跨越内存屏障。也就是说，通过Multiverse, Akka保证由事务提交的对托管ref的更改在其他事务中稍后对相同ref的任何读取都是可见的。
+
+##### 6.8 Creating Transactions
+
+我们创建事务来协调对多个托管引用的更改。事务将确保这些更改是原子性的;也就是说，所有托管引用都被提交或者全部被丢弃。在事务之外，我们将不会看到任何局部更改。我们还创建事务来协调对单个ref的读和写。Akka构建在Scala之上，如果我们使用Scala，我们可以享受它简洁的API。
+
+对于不能进行转换的程序员，Akka还提供了一个方便的API使用Java语言的特性。或者，我们可以直接使用来自Java的Multiverse STM。在本节中，我们将看到如何使用Java和Scala中的Akka创建事务。首先，我们需要一个应用事务的示例。我们在第5章“驯服共享的可变性”中重构的`EnergySource`类，在第73页使用了显式的lock和unlock最终版本在第57节“确保原子性”中，在第82页)。让我们用这些显式的锁/解锁来交换Akka的事务API。
+
+**Creating Transactions in Java**
+
+支持事务，扩展原子类并将代码放到类的atomically()方法中，以将其包装到事务中。要运行事务代码，调用原子实例的execute()方法，如下所示:
+
+```scala
+return new Atomic<Object>() {
+ public Object atomically() {
+//code to run in a transaction... 
+     return resultObject;
+}
+}.execute();
+```
+
+调用execute()方法的线程运行atomically()方法中的代码。但是，如果调用者尚未在事务中，则调用被包装在事务中。让我们使用Akka事务来实现`EnergySource`。作为第一步，让我们将不可变状态包装在可变Akka托管引用中。
 
 ```java
 public class EnergySource {
@@ -2297,7 +2348,7 @@ private static final ScheduledExecutorService replenishTimer =
 Executors.newScheduledThreadPool(10);
 ```
 
-level和usageCount被声明为Akka ref，它们中的每一个都持有一个不可变的长值。我们不能在Java中更改Long的值，但是我们可以安全地更改托管引用(标识)以指向一个新值。在EnergySource的前一个版本中，ScheduledExecutorService用于每秒钟定期运行一次补充()方法，直到它被取消。请记住，这需要同步stopEnergySource()方法。在这个版本中，我们没有定期运行该方法，而是进行调度在开始的时候只有一次。在每次调用时，我们根据keepRunning标志的值来决定是否应该再次调度该方法，以便稍后执行。这一更改消除了stopEnergySource()方法与调度器/计时器之间的耦合。相反，此方法现在依赖于标志，可以使用STM事务轻松地管理标志。我们从以前的版本中继承创建EnergySource实例的代码，并修改它以使用keepRunning标志的托管引用。在这个版本中，不需要同步stopEnergySource()方法，因为它依赖于事务。swap()方法在它自己的事务中运行就足够了，因此我们不必创建显式事务。
+level和usageCount被声明为Akka ref，它们中的每一个都持有一个不可变的长值。我们不能在Java中更改Long的值，但是我们可以安全地更改托管引用(标识)以指向一个新值。在`EnergySource`的前一个版本中，`ScheduledExecutorService`用于每秒钟定期运行一次补充()方法，直到它被取消。请记住，这需要同步`stopEnergySource()`方法。在这个版本中，我们没有定期运行该方法，而是进行调度在开始的时候只有一次。在每次调用时，我们根据`keepRunning`标志的值来决定是否应该再次调度该方法，以便稍后执行。这一更改消除了`stopEnergySource()`方法与调度器/计时器之间的耦合。相反，此方法现在依赖于标志，可以使用STM事务轻松地管理标志。我们从以前的版本中继承创建E`nergySource`实例的代码，并修改它以使用`keepRunning`标志的托管引用。在这个版本中，不需要同步`stopEnergySource()`方法，因为它依赖于事务。`swap()`方法在它自己的事务中运行就足够了，因此我们不必创建显式事务。
 
 ```java
 private EnergySource() {}
@@ -2325,7 +2376,7 @@ public long getUnitsAvailable() { return level.get(); }
 public long getUsageCount() { return usageCount.get(); }
 ```
 
-在getUnitsAvailable()和getUsageCount()方法中，对get()的调用在它们自己的事务中运行，因为我们没有显式地将它们包装在事务中。useEnergy()方法将需要一个显式事务，因为我们将在这里更改能量级别和使用计数;我们需要确保更改与读取的值一致，并确保对这两个字段的更改是原子性的。我们将使用原子接口及其atomically()方法在事务中包装我们的代码。
+在`getUnitsAvailable()`和`getUsageCount()`方法中，对get()的调用在它们自己的事务中运行，因为我们没有显式地将它们包装在事务中。`useEnergy()`方法将需要一个显式事务，因为我们将在这里更改能量级别和使用计数;我们需要确保更改与读取的值一致，并确保对这两个字段的更改是原子性的。我们将使用原子接口及其`atomically()`方法在事务中包装我们的代码。
 
 ```java
 public boolean useEnergy(final long units) {
@@ -2344,7 +2395,7 @@ return false;
 }
 ```
 
-在useEnergy()方法中，我们从当前级别递减。我们希望确保get和set都在同一个事务中。因此，我们将操作包装在atomically()方法中。最后调用execute()在一个事务中运行操作序列。我们还需要处理另一个方法，即补充()，它负责重新填充源。在这个方法中我们也有相同的事务需求，因此我们也将在其中使用Atomic。
+在`useEnergy()`方法中，我们从当前级别递减。我们希望确保get和set都在同一个事务中。因此，我们将操作包装在atomically()方法中。最后调用execute()在一个事务中运行操作序列。我们还需要处理另一个方法，即补充()，它负责重新填充源。在这个方法中我们也有相同的事务需求，因此我们也将在其中使用Atomic。
 
 ```java
 private void replenish() {
@@ -2488,18 +2539,18 @@ java -classpath $AKKA_JARS com.agiledeveloper.pcj.UseEnergySource
 > Energy level at end: 30
 > Usage: 70
 
-我们调用的方法可以创建它们自己的事务，它们的更改将得到独立的提交。如果我们想要将这些方法中的事务协调成一个原子操作，这是不够的。我们可以通过嵌套事务实现这种协调。在嵌套事务中，由我们调用的方法创建的所有事务在默认情况下都会滚入调用方法的事务中。使用Akka/Multiverse提供了配置其他选项的方法，比如新的隔离事务。因此，对于嵌套事务，只有在最外层事务提交时才提交所有更改。我们的职责是确保方法在可配置的超时时间内完成，从而使整个嵌套事务成功。第67页锁接口中的AccountService及其transfer()方法将受益于嵌套事务。transfer()的前一个版本
+我们调用的方法可以创建它们自己的事务，它们的更改将得到独立的提交。如果我们想要将这些方法中的事务协调成一个原子操作，这是不够的。我们可以通过嵌套事务实现这种协调。在嵌套事务中，由我们调用的方法创建的所有事务在默认情况下都会滚入调用方法的事务中。使用Akka/Multiverse提供了配置其他选项的方法，比如新的隔离事务。因此，对于嵌套事务，只有在最外层事务提交时才提交所有更改。我们的职责是确保方法在可配置的超时时间内完成，从而使整个嵌套事务成功。第67页锁接口中的AccountService及其transfer()方法将受益于嵌套事务。transfer()的前一个版本方法必须按自然顺序对帐户排序并显式管理锁。STM消除了所有这些负担。让我们先在Java的例子中使用嵌套事务，然后看看在Scala中会是什么样子。Java中的嵌套事务让我们首先将Account类引入事务领域。帐户余额应该是一个托管引用，所以让我们从定义该字段和它的getter开始。
 
-方法必须按自然顺序对帐户排序并显式管理锁。STM消除了所有这些负担。让我们先在Java的例子中使用嵌套事务，然后看看在Scala中会是什么样子。Java中的嵌套事务让我们首先将Account类引入事务领域。帐户余额应该是一个托管引用，所以让我们从定义该字段和它的getter开始。
-
-```javav
+```java
 public class Account {
 final private Ref<Integer> balance = new Ref<Integer>();
-public Account(int initialBalance) { balance.swap(initialBalance); }
+public Account(int initialBalance) {
+    balance.swap(initialBalance); 
+}
 public int getBalance() { return balance.get(); }
 ```
 
-在构造函数中，我们通过调用ref上的swap()方法将初始余额设置为给定的值。这个操作将在它自己的事务中运行，因为我们没有提供一个事务(我们假设调用者也没有提供一个)。类似地，getBalance()将在其自己的事务中访问余额。整个deposit()方法必须在一个事务中运行，因为它涉及到读取和更改余额。因此，让我们把这两个操作封装到一个单独的事务中。
+在构造函数中，我们通过调用ref上的swap()方法将初始余额设置为给定的值。这个操作将在它自己的事务中运行，因为我们没有提供一个事务(我们假设调用者也没有提供一个)。类似地，`getBalance()`将在其自己的事务中访问余额。整个`deposit()`方法必须在一个事务中运行，因为它涉及到读取和更改余额。因此，让我们把这两个操作封装到一个单独的事务中。
 
 ```java
 public void deposit(final int amount) {
@@ -2522,9 +2573,9 @@ throw new AccountOperationFailedException();
 public void withdraw(final int amount) {
 new Atomic<Boolean>() {
 public Boolean atomically() {
-int currentBalance = balance.get();
+	int currentBalance = balance.get();
     if (amount > 0 && currentBalance >= amount) {
-balance.swap(currentBalance - amount);
+	balance.swap(currentBalance - amount);
 return true;
 }
 throw new AccountOperationFailedException();
@@ -2534,7 +2585,7 @@ throw new AccountOperationFailedException();
 }
 ```
 
-事务在异常时被迫失败，因此我们使用此来指示当没有足够的余额可用或存款/取款金额无效时的失败。很简单,不是吗?不需要担心同步、锁定、死锁等问题。现在访问将要执行转移的AccountService类。让我们先看看转移方法
+事务在异常时被迫失败，因此我们使用此来指示当没有足够的余额可用或存款/取款金额无效时的失败。很简单,不是吗?不需要担心同步、锁定、死锁等问题。现在访问将要执行转移的`AccountService`类。让我们先看看转移方法
 
 ```java
 public class AccountService {
@@ -2788,7 +2839,13 @@ from.withdraw(amount)
 
 它只是最基本的代码。这让我想起Alan Perlis的一句话:当程序需要关注无关的东西时，编程语言就是低水平的。我们知道如何在Akka中创建事务，以及如何组合嵌套事务。这仅仅是个开始;Akka允许我们配置事务，我们将在下面看到。
 
-6.10配置Akka事务Akka假定有许多默认设置，但它允许我们通过编程或通过配置文件Akka .conf更改这些设置。有关如何指定或更改配置文件位置的详细信息，请参阅Akka文档。我们可以使用aTr ansacti onFact或y以编程方式更改每个事务的设置。让我们分别从Java和Scala通过编程方式更改一些设置。在Java中配置事务，我们扩展了原子来实现Java中的事务。我们可以提供typeTr ansacti onFact或y的可选构造函数参数来更改事务属性。例如，我们可以将事务设置为readonly以获得性能，并通过配置事务防止对任何引用的更改。让我们创建一个名为CoffeePot的类，它存放许多杯咖啡，并尝试在只读事务中对其进行操作
+##### Configuring Akka Transactions
+
+Akka假定有许多默认设置，但它允许我们通过编程或通过配置文件Akka .conf更改这些设置。有关如何指定或更改配置文件位置的详细信息，请参阅Akka文档。我们可以使用aTr ansacti onFact或y以编程方式更改每个事务的设置。让我们分别从Java和Scala通过编程方式更改一些设置。
+
+**Configuring Transactions in Java**
+
+我们扩展了原子来实现Java中的事务。我们可以提供typeTr ansacti onFact或y的可选构造函数参数来更改事务属性。例如，我们可以将事务设置为readonly以获得性能，并通过配置事务防止对任何引用的更改。让我们创建一个名为CoffeePot的类，它存放许多杯咖啡，并尝试在只读事务中对其进行操作
 
 ```java
 public class CoffeePot {
@@ -2805,7 +2862,7 @@ return cups.get();
 }
 ```
 
-要以编程方式设置事务配置，我们需要aTr ansaction - Fact或y。the tr ansacti onFact或yBuil der提供了方便的方法来创建工厂。我们创建了Tr ansacti onFact或yBuil der实例，使用setReadonly()方法配置Tr ansacti onFact或y的readonly选项。Tr ansacti onFact或yBuil der实现了级联设计模式，因此在调用build()方法之前，我们可以为希望设置的其他属性链接更多方法。将此工厂实例作为参数发送给构造函数
+要以编程方式设置事务配置，我们需要aTransaction - Fact或y。the tr ansacti onFact或yBuil der提供了方便的方法来创建工厂。我们创建了Tr ansacti onFact或yBuil der实例，使用setReadonly()方法配置Tr ansacti onFact或y的readonly选项。Tr ansacti onFact或yBuil der实现了级联设计模式，因此在调用build()方法之前，我们可以为希望设置的其他属性链接更多方法。将此工厂实例作为参数发送给构造函数
 
 ，并且我们再次保证事务内的任何操作都不能改变任何托管引用。我们的事务是只读的，但是让我们看看如果我们尝试修改引用会发生什么。因此，我们将调用readWriteCups()一次来读取引用，然后第二次来更改它。
 
@@ -2833,7 +2890,9 @@ System.out.println("Failed " + ex);
 
 对swap()的调用引发了运行时异常。只有当新值与当前值不同时，此方法才会修改ref保存的值;否则，它将忽略更改请求。因此，在本例中，如果我们将cups ref的当前值设置为24，而不是20，我们将不会得到任何异常
 
-在Scala中配置事务在Scala中，我们使用atomic()方法而不是原子类来创建事务。该方法采用typeTr ansacti onFac - tory的可选参数。在Scala中创建工厂的实例也容易得多，因为我们可以在同伴对象上使用工厂方法。
+**Configuring Transactions in Scala**
+
+在Scala中，我们使用atomic()方法而不是原子类来创建事务。该方法采用typeTr ansacti onFac - tory的可选参数。在Scala中创建工厂的实例也容易得多，因为我们可以在同伴对象上使用工厂方法。
 
 ```java
 object CoffeePot {
@@ -2858,7 +2917,11 @@ case ex => println("Failed " + ex)
 }
 ```
 
-除了Scala和Akka的简易性之外，这里的Scala和Java版本之间没有太大区别，代码的行为应该与Java版本一样:只读尝试编写失败的org.multiver .api.exception。ReadonlyException:写事务对象的akka.stm无法打开。因为事务'DefaultTransaction'是只读的' 6.11阻塞事务明智的等待一个事务可能取决于一个变量，预期会改变，并且事务的失败可能是暂时的。作为对该失败的响应，我们可能会返回一个错误代码，并要求事务在延迟之后重试。但是，在另一个任务更改了相关数据之前，没有必要重复请求。Akka为我们提供了一个简单的工具重试()，它将回滚并阻塞事务，直到事务所依赖的一个引用对象被更改或超过了可配置的阻塞超时。我喜欢称这为合理的等待，因为这听起来比阻塞好。让我们把阻塞，我的意思是合理的等待，先在Java的例子中使用，然后在Scala中使用。Java程序员中的阻塞事务通常对咖啡因上瘾，所以任何自愿去买咖啡的人都知道不要拿空杯子回来。而不是忙碌
+除了Scala和Akka的简易性之外，这里的Scala和Java版本之间没有太大区别，代码的行为应该与Java版本一样:只读尝试编写失败的org.multiver .api.exception。ReadonlyException:写事务对象的akka.stm无法打开。因为事务'DefaultTransaction'是只读的' 
+
+##### 6.11 Blocking Transactions—Sensible Wait
+
+一个事务可能取决于一个变量，预期会改变，并且事务的失败可能是暂时的。作为对该失败的响应，我们可能会返回一个错误代码，并要求事务在延迟之后重试。但是，在另一个任务更改了相关数据之前，没有必要重复请求。Akka为我们提供了一个简单的工具重试()，它将回滚并阻塞事务，直到事务所依赖的一个引用对象被更改或超过了可配置的阻塞超时。我喜欢称这为合理的等待，因为这听起来比阻塞好。让我们把阻塞，我的意思是合理的等待，先在Java的例子中使用，然后在Scala中使用。Java程序员中的阻塞事务通常对咖啡因上瘾，所以任何自愿去买咖啡的人都知道不要拿空杯子回来。而不是忙碌
 
 在Akka的帮助下，他可以将自己置于“随时通知”模式，直到咖啡壶被重新装满。让我们写一个fillCup()方法与明智的等待使用重试():
 
@@ -2983,7 +3046,9 @@ Scala隐式转换提供的sugar。剩下的代码是简单的从Java到Scala的�
 > Failed: Transaction DefaultTransaction has timed with a
 > total timeout of 6000000000 ns
 
-6.12提交和回滚事件Java的try-catch-finally功能允许我们处理异常，并且只有在出现异常时才有选择地运行一些代码。类似地，我们可以决定只有在事务提交时才运行一段代码，只有在事务回滚时才运行另一段代码。在StmUtils上，它们分别作为deferred()和compensation()方法提供。deferred()方法是执行所有为确保事务完成而延迟的副作用的好地方。在Java中，我们将事务成功时希望运行的代码放在传递给StmUtils的deferred()方法的代码块(Runnabl e)中。同样，我们将在事务失败时将希望运行的代码放在传递给compensation()方法的代码块中。因为这些方法必须在事务的上下文中运行，所以我们必须在atomically()方法的主体中调用它们。
+##### 6.12 Commit and Rollback Events
+
+Java的try-catch-finally功能允许我们处理异常，并且只有在出现异常时才有选择地运行一些代码。类似地，我们可以决定只有在事务提交时才运行一段代码，只有在事务回滚时才运行另一段代码。在StmUtils上，它们分别作为deferred()和compensation()方法提供。deferred()方法是执行所有为确保事务完成而延迟的副作用的好地方。在Java中，我们将事务成功时希望运行的代码放在传递给StmUtils的deferred()方法的代码块(Runnabl e)中。同样，我们将在事务失败时将希望运行的代码放在传递给compensation()方法的代码块中。因为这些方法必须在事务的上下文中运行，所以我们必须在atomically()方法的主体中调用它们。
 
 ```java
 public class Counter {
@@ -3205,7 +3270,11 @@ println("Score for " + name + " is " + score)
 > Score for Bernie is 12
 > Score for Sally is 15
 
-6.14处理写倾斜异常在处理写倾斜异常中，在第100页，我们讨论了写倾斜以及Clojure STM如何处理它。Akka还支持处理写倾斜，但我们必须对其进行配置。好吧，这个词可能听起来很可怕，但它真的很简单。让我们先看看没有任何配置的默认行为。让我们再次回顾前面讨论过的具有受限制组合余额的多个帐户的示例。创建一个包含支票账户余额和储蓄账户余额的组合。这两个账户的总余额必须不少于1,000美元。下面显示这个类和withdraw()方法。在这种方法中，我们首先获得两个余额，计算它们的总额，然后经过有意的延迟(引入来设置冲突过程中的交易)，如果总额不小于$1,000，我们从支票余额或储蓄余额中减去给定的金额。withdraw()方法在使用默认设置配置的事务中执行操作。
+##### 6.13 Collections and Transactions收藏和交易
+
+##### 6.14 Dealing with the Write Skew Anomaly 处理写倾斜异常
+
+在处理写倾斜异常中，在第100页，我们讨论了写倾斜以及Clojure STM如何处理它。Akka还支持处理写倾斜，但我们必须对其进行配置。好吧，这个词可能听起来很可怕，但它真的很简单。让我们先看看没有任何配置的默认行为。让我们再次回顾前面讨论过的具有受限制组合余额的多个帐户的示例。创建一个包含支票账户余额和储蓄账户余额的组合。这两个账户的总余额必须不少于1,000美元。下面显示这个类和withdraw()方法。在这种方法中，我们首先获得两个余额，计算它们的总额，然后经过有意的延迟(引入来设置冲突过程中的交易)，如果总额不小于$1,000，我们从支票余额或储蓄余额中减去给定的金额。withdraw()方法在使用默认设置配置的事务中执行操作。
 
 ```java
 public class Portfolio {
@@ -3311,7 +3380,11 @@ new Atomic<Object>(factory) {
 
 由于并发执行的不确定性，我们无法预测两个事务中哪一个会胜出。我们可以看到输出之间的差异，两个帐户的期末余额是不同的，而处理写倾斜异常的输出，在第100页，期末余额是相等的。当我们运行这两个示例几次时，可能会注意到它们的不同之处。前面的例子是Java;如果我们在使用Scala，我们可以使用第121页在Scala中配置事务的语法来配置事务属性writeSkew和trackReads。
 
-6.15 STM的限制STM消除了显式同步。我们不再担心是否忘记同步或同步的级别不对。不存在无法跨越内存障碍或竞态条件的问题。我能听到你这个精明的程序员在问，有什么问题吗?是的，STM是有局限性的，否则这本书就到此结束了。它只适用于写入冲突不频繁的情况。如果我们的应用程序有很多写争用，我们应该考虑STM之外的问题。让我们进一步讨论这个限制。STM提供了一个显式的无锁编程模型。它允许事务并发地运行，并且它们在没有冲突的情况下全部完成而不会出现故障。这同时提供了更高的并发性和线程安全性。当事务对同一对象或数据的写访问发生冲突时，允许其中一个事务完成，其他事务自动重试。重试延迟了碰撞的写入器的执行，但为读取器和获胜的写入器提供了更快的速度。当我们对同一个对象使用不频繁的并发写程序时，性能不会受到太大影响。然而，随着碰撞的增加，情况变得更糟。如果对相同数据的写冲突率很高，最好的情况是写操作速度很慢。在最坏的情况下，我们的写操作可能会因为重试太多而失败。到目前为止，我们在本章中看到的示例展示了STM的好处。尽管STM易于使用，但并非所有的使用都能产生良好的结果，我们将在下一个示例中看到这一点。为了配合使用CountDownLatch，在第56页，我们使用AtomicLong来同步多个线程探索目录时的并发更新到总文件大小。此外，我们将诉诸于使用同步
+##### 6.15 Limitations of STM STM的局限性
+
+STM消除了显式同步。我们不再担心是否忘记同步或同步的级别不对。不存在无法跨越内存障碍或竞态条件的问题。我能听到你这个精明的程序员在问，有什么问题吗?
+
+是的，STM是有局限性的，否则这本书就到此结束了。它只适用于写入冲突不频繁的情况。如果我们的应用程序有很多写争用，我们应该考虑STM之外的问题。让我们进一步讨论这个限制。STM提供了一个显式的无锁编程模型。它允许事务并发地运行，并且它们在没有冲突的情况下全部完成而不会出现故障。这同时提供了更高的并发性和线程安全性。当事务对同一对象或数据的写访问发生冲突时，允许其中一个事务完成，其他事务自动重试。重试延迟了碰撞的写入器的执行，但为读取器和获胜的写入器提供了更快的速度。当我们对同一个对象使用不频繁的并发写程序时，性能不会受到太大影响。然而，随着碰撞的增加，情况变得更糟。如果对相同数据的写冲突率很高，最好的情况是写操作速度很慢。在最坏的情况下，我们的写操作可能会因为重试太多而失败。到目前为止，我们在本章中看到的示例展示了STM的好处。尽管STM易于使用，但并非所有的使用都能产生良好的结果，我们将在下一个示例中看到这一点。为了配合使用CountDownLatch，在第56页，我们使用AtomicLong来同步多个线程探索目录时的并发更新到总文件大小。此外，我们将诉诸于使用同步
 
 如果我们同时有一个以上的变量要改变。它看起来像是STM的一个不错的候选人，但是激烈的争论并不支持它。让我们通过修改文件大小程序来使用STM来看看这是否正确。我们将对文件大小查找器中的字段使用Akka托管引用，而不是使用AtomicLong。
 
@@ -3324,9 +3397,7 @@ final private CountDownLatch latch = new CountDownLatch(1);
 
 ```
 
-pendingFileVisits需要在事务的安全港内递增或递减。对于AtomicLong，我们使用了一个简单的incrementAndGet()或decrementAndGet()。但是，由于托管引用是通用的，并不专门处理数字，所以我们必须付出更多的努力。
-
-如果我们把它分离到一个单独的方法中会更容易。
+pendingFileVisits需要在事务的安全港内递增或递减。对于AtomicLong，我们使用了一个简单的incrementAndGet()或decrementAndGet()。但是，由于托管引用是通用的，并不专门处理数字，所以我们必须付出更多的努力。如果我们把它分离到一个单独的方法中会更容易。
 
 ```java
 private long updatePendingFileVisits(final int value) {
@@ -3419,7 +3490,11 @@ STM版本为/etc目录提供了与使用AtomicLong的早期版本相同的文件
 
 6.16概述
 
-STM是一种非常强大的并发模型，具有许多优点:提供由实际应用程序行为直接决定的最大并发性;也就是说，我们让STM动态地处理争用，而不是一个过于保守的预定义同步。提供了显式无锁编程模型，具有良好的线程安全性和高并发性能。确保仅在事务中更改身份。缺少显式锁意味着我们不必担心锁顺序和相关问题。没有显式锁会导致无死锁的并发。减少了预先设计决策的需要，比如谁锁了什么锁;相反，我们依赖于动态隐式锁组合。该模型适合于并发读，并且对相同的数据很少发生或相当频繁的写入冲突。如果应用程序数据访问符合这种模式，STM提供了一种有效的方法来处理共享的可变性。然而，如果我们有巨大的写入冲突，我们可能会倾向于基于角色的模型，我们在第8章第163页讨论了它，它倾向于孤立的可变性。但首先，让我们在下一章中看看如何使用来自不同JVM语言的STM。
+STM是一种非常强大的并发模型，具有许多优点:
+
+> 提供由实际应用程序行为直接决定的最大并发性;也就是说，我们让STM动态地处理争用，而不是一个过于保守的预定义同步。
+>
+> 提供了显式无锁编程模型，具有良好的线程安全性和高并发性能。确保仅在事务中更改身份。缺少显式锁意味着我们不必担心锁顺序和相关问题。没有显式锁会导致无死锁的并发。减少了预先设计决策的需要，比如谁锁了什么锁;相反，我们依赖于动态隐式锁组合。该模型适合于并发读，并且对相同的数据很少发生或相当频繁的写入冲突。如果应用程序数据访问符合这种模式，STM提供了一种有效的方法来处理共享的可变性。然而，如果我们有巨大的写入冲突，我们可能会倾向于基于角色的模型，我们在第8章第163页讨论了它，它倾向于孤立的可变性。但首先，让我们在下一章中看看如何使用来自不同JVM语言的STM。
 
 ### STM in Clojure, Groovy,Java, JRuby, and Scala
 
