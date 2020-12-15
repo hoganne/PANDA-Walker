@@ -2463,7 +2463,19 @@ Akka已安装在您的系统上。使用javac编译器编译代码并使用java�
 
 默认情况下，Akka在标准输出中打印额外的日志消息。方法中简单地创建一个名为logback.xml的文件，即可使这些消息保持沉默$AKKA_HOME/config目录，只有元素&lt;configuration /&gt;在里面。由于此目录位于类路径中，因此日志记录器知道将消息静默。除了关闭日志之外，我们还可以使用有用的选项对其进行配置。有关详细信息，请参阅http://logback.qos.ch/manual/configuration.html上的说明。正如我们在这里看到的，Akka悄悄地在幕后管理事务。花些时间在代码上，并对事务和线程进行试验。
 
-我们看到了如何在Java中创建事务(我假设您已经阅读了那部分，所以我们不必在这里重复细节)。在Scala中，我们需要更少的代码来编写相同的内容，这部分是因为Scala简洁的特性，也因为优雅的Akka API使用了闭包/函数值。与Java相比，用Scala创建事务花费的精力要少得多。我们所需要的是调用Stm的atomic()方法，像这样:atomic{//代码在事务中运行…我们传递给atomic()的闭包/函数值在当前线程中运行，但在事务中运行。下面是使用Akka事务的Scala版本的EnergySource
+我们看到了如何在Java中创建事务(我假设您已经阅读了那部分，所以我们不必在这里重复细节)。在Scala中，我们需要更少的代码来编写相同的内容，这部分是因为Scala简洁的特性，也因为优雅的Akka API使用了闭包/函数值。与Java相比，用Scala创建事务花费的精力要少得多。我们所需要的是调用Stm的atomic()方法，像这样:
+
+>atomic {
+>
+>//code to run in a transaction....
+>
+>/* return */ resultObject
+>
+>}
+
+传递给atomic()的闭包/函数值在当前线程中运行，但在事务中运行。
+
+下面是使用Akka事务的Scala版本的
 
 ```java
 class EnergySource private() {

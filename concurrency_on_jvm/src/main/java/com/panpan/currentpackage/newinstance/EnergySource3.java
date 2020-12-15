@@ -12,7 +12,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
  * @Author xupan
  * @Date 2020/12/8
  **/
-public class EnergySource {
+public class EnergySource3 {
     private final long MAXLEVEL = 100;
     private long level = MAXLEVEL;
     private long usage = 0;
@@ -20,7 +20,7 @@ public class EnergySource {
     private static final ScheduledExecutorService replenishTimer = Executors.newScheduledThreadPool(10);
     private ScheduledFuture<?> replenishTask;
 
-    private EnergySource() {
+    private EnergySource3() {
     }
 
     private void init() {
@@ -31,8 +31,8 @@ public class EnergySource {
         }, 0, 1, TimeUnit.SECONDS);
     }
 
-    public static EnergySource create() {
-        final EnergySource energySource = new EnergySource();
+    public static EnergySource3 create() {
+        final EnergySource3 energySource = new EnergySource3();
         energySource.init();
         return energySource;
     }
