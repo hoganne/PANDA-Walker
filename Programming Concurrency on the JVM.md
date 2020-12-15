@@ -2551,7 +2551,11 @@ java -classpath $AKKA_JARS com.agiledeveloper.pcj.UseEnergySource
 > Energy level at end: 30
 > Usage: 70
 
-我们调用的方法可以创建它们自己的事务，它们的更改将得到独立的提交。如果我们想要将这些方法中的事务协调成一个原子操作，这是不够的。我们可以通过嵌套事务实现这种协调。在嵌套事务中，由我们调用的方法创建的所有事务在默认情况下都会滚入调用方法的事务中。使用Akka/Multiverse提供了配置其他选项的方法，比如新的隔离事务。因此，对于嵌套事务，只有在最外层事务提交时才提交所有更改。我们的职责是确保方法在可配置的超时时间内完成，从而使整个嵌套事务成功。第67页锁接口中的AccountService及其transfer()方法将受益于嵌套事务。transfer()的前一个版本方法必须按自然顺序对帐户排序并显式管理锁。STM消除了所有这些负担。让我们先在Java的例子中使用嵌套事务，然后看看在Scala中会是什么样子。Java中的嵌套事务让我们首先将Account类引入事务领域。帐户余额应该是一个托管引用，所以让我们从定义该字段和它的getter开始。
+##### Creating Nested Transactions
+
+我们调用的方法可以创建它们自己的事务，它们的更改将得到独立的提交。如果我们想要将这些方法中的事务协调成一个原子操作，这是不够的。我们可以通过嵌套事务实现这种协调。
+
+在嵌套事务中，由我们调用的方法创建的所有事务在默认情况下都会滚入调用方法的事务中。使用Akka/Multiverse提供了配置其他选项的方法，比如新的隔离事务。因此，对于嵌套事务，只有在最外层事务提交时才提交所有更改。我们的职责是确保方法在可配置的超时时间内完成，从而使整个嵌套事务成功。第67页锁接口中的AccountService及其transfer()方法将受益于嵌套事务。transfer()的前一个版本方法必须按自然顺序对帐户排序并显式管理锁。STM消除了所有这些负担。让我们先在Java的例子中使用嵌套事务，然后看看在Scala中会是什么样子。Java中的嵌套事务让我们首先将Account类引入事务领域。帐户余额应该是一个托管引用，所以让我们从定义该字段和它的getter开始。
 
 ```java
 public class Account {
@@ -2656,7 +2660,7 @@ transferAndPrintBalance(account1, account2, 5000);
 }
 ```
 
-在main()方法中，我们创建了两个帐户，并在一个单独的线程中启动了$20的存款。与此同时，我们要求资金在账户之间转账。这将使两个事务发生冲突，因为它们都影响一个公共实例。其中一个会成功，另一个会重试。最后，在最后，我们尝试转移金额超过可用余额。这将说明存款和取款的两个事务不是独立的，而是嵌套的，并且在transfer s事务中是原子的。存款的效果应因取款失败而逆转。让我们看看输出中这些事务的行为
+在main()方法中，我们创建了两个帐户，并在一个单独的线程中启动了$20的存款。与此同时，我们要求资金在账户之间转账。这将使两个事务发生冲突，因为它们都影响一个公共实例。其中一个会成功，另一个会重试。最后，在最后，我们尝试转移金额超过可用余额。这将说明存款和取款的两个事务不是独立的，而是嵌套的，并且在transfer s事务中是原子的。存款的效果应因取款失败而逆转。让我们看看输出中这些事务的行为。
 
 > Attempting transfer...
 > Deposit 500
@@ -2681,9 +2685,9 @@ transferAndPrintBalance(account1, account2, 5000);
 > From account has $1500
 > To account has $620
 
-转会交易一开始就被重试，这有点奇怪。这种意外的重试是因为Multiverse对单个对象上的只读事务进行了默认优化(投机配置)。有一些方法可以配置这种行为，但是这会影响性能。请参考Akka/Multiverse文档以了解更改它的后果。20美元的定金先成功了。当发生这种情况时，传输事务处于其模拟延迟的中间。一旦事务意识到它管理的对象在背后发生了更改，它就会悄悄地回滚并开始另一次尝试。重试将继续，直到成功或超过超时。这一次，转账交易成功了。这两笔交易的净结果反映在所显示的余额中，第一个帐户在转帐中损失了500美元，而第二个帐户从同时进行的存款和转帐活动中共获得了520美元。我们的下一个也是最后一个尝试是转账5000美元。存款已经完成，但交易中的变化被扣留，以检查取款的命运。但是，由于余额不足，提款失败。这将导致挂起的存款事务回滚，使余额不受最终转移尝试的影响。
+转会交易一开始就被重试，这有点奇怪。这种意外的重试是因为`Multiverse`对单个对象上的只读事务进行了默认优化(投机配置)。有一些方法可以配置这种行为，但是这会影响性能。请参考`Akka/Multiverse`文档以了解更改它的后果。20美元的定金先成功了。当发生这种情况时，传输事务处于其模拟延迟的中间。一旦事务意识到它管理的对象在背后发生了更改，它就会悄悄地回滚并开始另一次尝试。重试将继续，直到成功或超过超时。这一次，转账交易成功了。这两笔交易的净结果反映在所显示的余额中，第一个帐户在转帐中损失了500美元，而第二个帐户从同时进行的存款和转帐活动中共获得了520美元。我们的下一个也是最后一个尝试是转账5000美元。存款已经完成，但交易中的变化被扣留，以检查取款的命运。但是，由于余额不足，提款失败。这将导致挂起的存款事务回滚，使余额不受最终转移尝试的影响。
 
-打印消息和延迟当然不是好的做法，但我在这里使用它们，以便我们可以看到事务序列和重试避免在实际代码中进行这类打印或登录。记住，事务应该没有副作用。将任何具有副作用的代码委托给post-commit处理程序，我们将在后面讨论。我承诺这些交易会减轻我们的负担，所以让我们来看看到底有多少。为了方便起见，请查看第67页中Lock接口的transfer()方法
+打印消息和延迟当然不是好的做法，但我在这里使用它们，以便我们可以看到事务序列和重试避免在实际代码中进行这类打印或登录。记住，事务应该没有副作用。将任何具有副作用的代码委托给post-commit处理程序，我们将在后面讨论。我承诺这些交易会减轻我们的负担，所以让我们来看看到底有多少。为了方便起见，请查看第67页中Lock接口的transfer()方法.
 
 ```java
 public boolean transfer(
@@ -6085,13 +6089,11 @@ println("Waiting for data to be set")
 println("Size of content1 is ${content1.val.size()}") println("Size of content2 is ${content2.val.size()}")
 ```
 
-GPars中的DataFlowVariable类是一个写一次的变量，可以读取任意次数。第一次读取将阻塞，如果需要，直到数据可用。后续读取将返回预先写入的值。变量在第一次写入时被绑定到一个值，任何尝试写入绑定变量的操作都会导致异常。由于读取块直到数据绑定，因此不需要同步来从DataFlowVariable获取数据。在本例中，fetchContent()方法接收一个URL和一个DataFlowVari可选内容作为参数。它通过使用toURL()和文本调用的优雅组合来获取网站的内容。然后使用&lt;&lt;将内容写入DataFlowVariable类操作符。在定义了这个方法之后，我们创建了两个数据流变量来保存我们将要访问的两个站点的内容。然后使用DataFlow类的task()方法创建两个数据流任务。这些任务中的每一个都可以并发运行。当从这两个任务访问网站时，我们调用第一个DataFlowVariable content1的val属性。这将阻塞执行，直到数据可用为止。一旦数据可用，我们打印内容的大小，我们可以从下面的输出中看到
+GPars中的DataFlowVariable类是一个写一次的变量，可以读取任意次数。第一次读取将阻塞，如果需要，直到数据可用。后续读取将返回预先写入的值。变量在第一次写入时被绑定到一个值，任何尝试写入绑定变量的操作都会导致异常。由于读取块直到数据绑定，因此不需要同步来从DataFlowVariable获取数据。在本例中，`fetchContent()`方法接收一个URL和一个`DataFlowVar`i可选内容作为参数。它通过使用toURL()和文本调用的优雅组合来获取网站的内容。然后使用&lt;&lt;将内容写入`DataFlowVariable`类操作符。在定义了这个方法之后，我们创建了两个数据流变量来保存我们将要访问的两个站点的内容。然后使用`DataFlow`类的task()方法创建两个数据流任务。这些任务中的每一个都可以并发运行。当从这两个任务访问网站时，我们调用第一个`DataFlowVariable` content1的val属性。这将阻塞执行，直到数据可用为止。一旦数据可用，我们打印内容的大小，我们可以从下面的输出中看到
 
 ```java
 Waiting for data to be set
-
 Requesting data from http://pragprog.com Requesting data from http://www.agiledeveloper.com Set content from http://www.agiledeveloper.com Size of content1 is 2914
-
 Set content from http://pragprog.com Size of content2 is 13003
 ```
 
@@ -6101,9 +6103,6 @@ Set content from http://pragprog.com Size of content2 is 13003
 class FileSize {
 
 private final pendingFiles = new DataFlowQueue() private final sizes = new DataFlowQueue() private final group = new DefaultPGroup()
-
-
-
 def findSize(File file) { def size = 0 if(!file.isDirectory())
 
 size = file.length()
@@ -6241,35 +6240,18 @@ end end
 class SizeCollector < UntypedActor
 
 def self.create(*args) self.new(*args)
-
 end
-
-
-
 def initialize @to_process_file_names = [] @file_processors = [] @fetch_size_future = nil
 
 @pending_number_of_files_to_visit = 0
-
 @total_size = 0
-
 @start_time = System.nano_time
-
 end
-
-238 • Chapter 9. Actors in Groovy, Java, JRuby, and Scala
-
-
-
 def send_a_file_to_process
-
 if !@to_process_file_names.empty? && !@file_processors.empty? @file_processors.first.send_one_way(
 
 FileToProcess.new(@to_process_file_names.first)) @file_processors = @file_processors.drop(1) @to_process_file_names = @to_process_file_names.drop(1)
-
 end end
-
-
-
 def onReceive(message)
 
 case message
@@ -6277,9 +6259,6 @@ case message
 when RequestAFile
 
 @file_processors << context.sender.get send_a_file_to_process
-
-
-
 when FileToProcess
 
 @to_process_file_names << message.file_name @pending_number_of_files_to_visit += 1 send_a_file_to_process
