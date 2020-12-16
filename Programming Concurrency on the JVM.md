@@ -4102,13 +4102,17 @@ Java将OOP转变为可变性驱动的开发，而函数式编程强调不可变�
 
 ##### Actor Qualities
 
-Actor是一个可以接收消息、处理请求和发送响应的自由运行的活动。actor被设计为支持异步和高效消息传递。每个actor都有一个内置的消息队列，就像手机后面的消息队列一样。莎莉和西恩可以同时在鲍勃的手机上留言。移动电话提供商为Bob保存他们的消息，以便Bob在方便时检索。类似地，actor库允许多个actor并发地发送消息。发送方默认是非阻塞的;他们发出一个信息，并继续照顾他们的业务。库允许指定的参与者按顺序选择要处理的消息。一旦一个参与者处理了一条消息或委托给另一个参与者进行并发处理，它就准备好接收下一条消息了。参与者的生命周期如图12，参与者的生命周期，在第167页中所示。在创建时，可以启动或停止一个actor。
+Actor是一个可以接收消息、处理请求和发送响应的自由运行的活动。actor被设计为支持异步和高效消息传递。
+
+每个actor都有一个内置的消息队列，就像手机后面的消息队列一样。莎莉和西恩可以同时在鲍勃的手机上留言。移动电话提供商为Bob保存他们的消息，以便Bob在方便时检索。类似地，actor库允许多个actor并发地发送消息。发送方默认是非阻塞的;他们发出一个信息，并继续照顾他们的业务。库允许指定的参与者按顺序选择要处理的消息。一旦一个参与者处理了一条消息或委托给另一个参与者进行并发处理，它就准备好接收下一条消息了。参与者的生命周期如图12，参与者的生命周期，在第167页中所示。在创建时，可以启动或停止一个actor。
 
 ![image-20201209224720235](E:\learningforalllife\git-workspace\PANDA-Walker\picture\image-20201209224720235.png)
 
-一旦启动，它就准备接收消息。在活动状态中，参与者要么正在处理消息，要么在等待新消息的到达。一旦停止，它将不再接收任何消息。参与者在等待和处理消息上花费的时间取决于他们所参与的应用程序的动态特性。如果参与者在我们的设计中扮演重要的角色，我们会期望它们中的许多在应用程序的执行过程中四处浮动。
+一旦启动，它就准备接收消息。在活动状态中，参与者要么正在处理消息，要么在等待新消息的到达。一旦停止，它将不再接收任何消息。参与者在等待和处理消息上花费的时间取决于他们所参与的应用程序的动态特性。
 
-然而，线程是有限的资源，因此将actor绑定到它们的线程将非常有限。为了避免这种情况，角色库通常会将角色从线程中解耦。线程对于actor就像食堂座位对于办公室员工一样。鲍勃在公司的自助餐厅没有指定的座位(如果有的话，他需要找另一份工作)，每次他去吃饭时，他都坐在一个空的座位上坐着
+如果参与者在我们的设计中扮演重要的角色，我们会期望它们中的许多在应用程序的执行过程中四处浮动。
+
+然而，线程是有限的资源，因此将actor绑定到它们的线程将非常有限。为了避免这种情况，角色库通常会将角色从线程中解耦。线程对于actor就像食堂座位对于办公室员工一样。鲍勃在公司的自助餐厅没有指定的座位(如果有的话，他需要找另一份工作)，每次他去吃饭时，他都找一个一个空的座位上坐着
 
 ![image-20201209224517004](E:\learningforalllife\git-workspace\PANDA-Walker\picture\image-20201209224517004.png)
 
@@ -4118,13 +4122,15 @@ actor隔离可变状态，并通过传递不可变状态进行通信消息。
 
 ##### Creating Actors
 
-正如我前面提到的，我们有很多角色库可供选择。在本书中，我们使用了Akka，这是一个基于scala的库，具有相当好的性能和可伸缩性，并且同时支持actor和STM。我们可以在JVM上使用多种语言。在这一章中，我们将继续讨论到Java和Scala。
-
-在下一章中，我们将研究Akka actors与其他语言的使用
+正如我前面提到的，我们有很多角色库可供选择。在本书中，我们使用了Akka，这是一个基于scala的库，具有相当好的性能和可伸缩性，并且同时支持actor和STM。我们可以在JVM上使用多种语言。在这一章中，我们将继续讨论到Java和Scala。在下一章中，我们将研究Akka actors与其他语言的使用
 
 Akka是用Scala编写的，所以从Scala创建和使用actor非常简单和自然。Akka API突出了Scala的简洁和习惯用法。与此同时，他们在公开传统Java API方面做得相当出色，因此我们可以轻松地在Java代码中创建和使用actor。
 
-我们将首先看一下在Java中如何使用它，然后看看在Scala中使用它时，这种体验是如何简化和改变的。在Java的抽象类Akka .actor.UntypedActor中创建actor。`UntypedActor`表示一个actor。只需扩展该方法并实现所需的`onReceive()`方法，每当actor的消息到达时，就会调用该方法。让我们试一试。我们将创建一个actor…找一个好莱坞演员来扮演不同的角色怎么样
+我们将首先看一下在Java中如何使用它，然后看看在Scala中使用它时，这种体验是如何简化和改变的。
+
+##### Creating Actors in Java
+
+在Java的抽象类`Akka .actor.UntypedActor`中创建actor。`UntypedActor`表示一个actor。只需扩展该方法并实现所需的`onReceive()`方法，每当actor的消息到达时，就会调用该方法。让我们试一试。我们将创建一个actor…找一个好莱坞演员来扮演不同的角色怎么样
 
 ```java
 public class HollywoodActor extends UntypedActor {
@@ -4198,7 +4204,7 @@ System.out.println(name + " plays no " + role);
 }
 ```
 
-类HollywoodActor的新版本采用类型为String的值名作为构造函数参数。在此过程中，让我们来处理未识别的传入消息格式。在本例中，我们只是打印一条消息，说明好莱坞演员不播放未被识别的消息。
+类`HollywoodActor`的新版本采用类型为String的值名作为构造函数参数。在此过程中，让我们来处理未识别的传入消息格式。在本例中，我们只是打印一条消息，说明好莱坞演员不播放未被识别的消息。
 
 我们可以采取其他操作，比如返回错误代码、登录、调用用户的母亲来报告，等等。让我们看看如何传递这个构造函数参数的实际参数:
 
@@ -4220,9 +4226,9 @@ tomHanks.stop();
 
 我们通过发送消息而不是直接调用方法与参与者通信。
 
-Akka希望我们很难获得对actor的直接引用，并希望我们只获得对ActorRef的引用。这允许Akka确保我们不会向actor添加方法并直接与它们交互，因为这将把我们带回我们一直努力避免的共享可变性的邪恶土地。这种受控的actor创建还允许Akka对actor进行适当的垃圾收集。因此，如果我们尝试直接创建actor类的实例，我们将获得运行时异常`akka.actor.ActorInitializationException`。您不能使用new显式地创建actor的实例。Akka允许我们在create()方法中以受控的方式创建实例。因此，让我们在实现`UntypedActorFactory`接口的匿名类中实现此方法，并在此方法中创建actor实例，发送适当的构造时参数。随后对actorOf()的调用将扩展自UntypedActor的常规对象转换为Akka actor。然后，我们可以像前面一样将消息传递给这个actor。我们的HollywoodActor只接受字符串类型的消息，但是在示例中，我们发送了一个StringBuilder实例，该实例具有值策略。我们在onReceive()中执行的运行时类型检查负责处理这个问题。最后,我们
+Akka希望我们很难获得对actor的直接引用，并希望我们只获得对`ActorRef`的引用。这允许Akka确保我们不会向actor添加方法并直接与它们交互，因为这将把我们带回我们一直努力避免的共享可变性的邪恶土地。这种受控的actor创建还允许Akka对actor进行适当的垃圾收集。因此，如果我们尝试直接创建actor类的实例，我们将获得运行时异常`akka.actor.ActorInitializationException`。您不能使用new显式地创建actor的实例。
 
-通过调用stop()方法停止actor。引入的延迟给了参与者在我们关闭它之前响应消息的时间。让我们来看看它的输出:
+Akka允许我们在`create()`方法中以受控的方式创建实例。因此，让我们在实现`UntypedActorFactory`接口的匿名类中实现此方法，并在此方法中创建actor实例，发送适当的构造时参数。随后对`actorOf()`的调用将扩展自`UntypedActor`的常规对象转换为Akka actor。然后，我们可以像前面一样将消息传递给这个actor。我们的HollywoodActor只接受字符串类型的消息，但是在示例中，我们发送了一个`StringBuilder`实例，该实例具有值策略。我们在`onReceive()`中执行的运行时类型检查负责处理这个问题。最后,我们通过调用stop()方法停止actor。引入的延迟给了参与者在我们关闭它之前响应消息的时间。让我们来看看它的输出:
 
 >Hanks playing James Lovell
 >Hanks plays no Politics
@@ -4262,7 +4268,11 @@ Actors.registry.shutdownAll
 }
 ```
 
-actorOf()方法有几种类型，这里我们使用的版本将actor类清单作为参数，显示为[HollywoodActor]。一旦创建了actor，我们就通过调用start()方法启动它。在这个例子中，类型为ActorRef的johnnyDepp是对actor实例的引用;然而，由于Scala有类型推断，我们不必指定类型。接下来，我们向角色扮演的actor发送一些消息。哦，等等，还有一个细节;我们用一种特殊的方法!发送消息。当你看到演员!message，从右到左读取，就像发送消息给actor一样。Scala的简洁性再次发挥了作用。而不是叫演员。!(消息)，我们可以简单地放下点和括号，然后编写actor !消息。如果愿意，我们可以使用具有Scala简便性的java风格的方法，就像actor sendOneWay消息中那样。示例中的其余代码与Java示例类似。让我们使用scalac编译器来编译代码，但是首先我们必须记住指定Akka库文件的类路径。我们可以像运行常规Java程序一样简单地运行该程序。同样，我们必须记住在类路径中提供必要的jar。下面是我在系统上使用的命令;我们需要根据Scala和Akka的安装位置，为系统替换合适的路径
+actorOf()方法有几种类型，这里我们使用的版本将actor类清单作为参数，显示为[HollywoodActor]。一旦创建了actor，我们就通过调用start()方法启动它。在这个例子中，类型为ActorRef的johnnyDepp是对actor实例的引用;然而，由于Scala有类型推断，我们不必指定类型。
+
+接下来，我们向角色扮演的actor发送一些消息。哦，等等，还有一个细节;我们用一种特殊的方法!发送消息。当你看到演员!message，从右到左读取，就像发送消息给actor一样。Scala的简洁性再次发挥了作用。而不是叫演员。!(消息)，我们可以简单地放下点和括号，然后编写actor !消息。如果愿意，我们可以使用具有Scala简便性的java风格的方法，就像actor sendOneWay消息中那样。示例中的其余代码与Java示例类似。
+
+让我们使用scalac编译器来编译代码，但是首先我们必须记住指定Akka库文件的类路径。我们可以像运行常规Java程序一样简单地运行该程序。同样，我们必须记住在类路径中提供必要的jar。下面是我在系统上使用的命令;我们需要根据Scala和Akka的安装位置，为系统替换合适的路径
 
 >scalac -classpath $AKKA_JARS HollywoodActor.scala UseHollywoodActor.scala
 >java -classpath $AKKA_JARS com.agiledeveloper.pcj.UseHollywoodActor
@@ -4288,9 +4298,7 @@ case msg => println(name + " plays no " + msg)
 
 类HollywoodActor的新版本采用类型为String的值名作为构造函数参数。在此过程中，让我们来处理未识别的传入消息格式。与使用instanceof不同，case语句负责将消息与各种模式(在本例中是消息的类型)匹配。
 
-创建接受构造函数参数的actor需要花费一些精力
-
-但是在Scala中，它变成了一些非常简单的东西:
+创建接受构造函数参数的actor需要花费一些精力,但是在Scala中，它变成了一些非常简单的东西:
 
 ```java
 object UseHollywoodActor {
@@ -4311,15 +4319,19 @@ tomHanks.stop()
 >Hanks plays no Politics
 >Hanks playing Forrest Gump
 
-8.4发送和接收消息
+##### 8.4发送和接收消息  Sending and Receiving Messages
 
-我们可以向actor发送任何类型的消息:字符串、整数、长、双值、列表、映射、元组、Scala case类，所有这些都是不可变的。我特别喜欢元组，不是因为把它们读错为两组很有趣，而是因为它们是轻量级的、不可变的，而且是最容易创建的实例之一。例如，要在Scala中创建两个数字的元组，我们只需编写(number1, number2)。Scala的case类是理想的消息类型，它们可以不可变，可以很好地与模式匹配，并且很容易复制。在Java中，我们可以传递一个不可修改的集合作为消息来发送多个对象一条消息。我们传递一个消息给演员时,默认情况下我们传递消息的引用,如果发送方和接收方都是在同一个JVM.5这年代我们的责任,确保我们传递的信息是不可变的,特别是如果我们决定发送自己的类的实例。我们还可以要求Akka序列化消息，这样传递的是消息的副本而不是引用。与演员沟通最简单的方式就是“火与忘”。也就是说，发送一个信息，然后继续前进。从性能的角度来看，这也是首选的方法。发送是非阻塞的，调用actor/线程继续其工作。我们使用sendOneWay()方法，或者!方法，以发送单向消息。Akka还提供了双向通信，我们可以在其中发送消息并期待来自参与者的响应。在这种情况下，调用线程将阻塞，直到收到响应或超过超时。让我们先看看如何在Java中发送和接收消息，然后在Scala中。
+我们可以向actor发送任何类型的消息:字符串、整数、长、双值、列表、映射、元组、Scala case类，所有这些都是不可变的。我特别喜欢元组，不是因为把它们读错为两组很有趣，而是因为它们是轻量级的、不可变的，而且是最容易创建的实例之一。例如，要在Scala中创建两个数字的元组，我们只需write(number1, number2)。Scala的case类是理想的消息类型，它们可以不可变，可以很好地与模式匹配，并且很容易复制。
 
-发送/接收在Java中
+在Java中，我们可以传递一个不可修改的集合作为消息来发送多个对象一条消息。我们传递一个消息给演员时,默认情况下我们传递消息的引用,如果发送方和接收方都是在同一个JVM.
 
-我们使用sendRequestReply()方法发送消息并等待响应。
+确保传递的消息是不可变的是我们的责任，特别是当我们决定发送我们自己的类的实例时。我们还可以要求Akka序列化消息，这样传递的是消息的副本而不是引用。
 
-如果响应没有在(可配置的)超时内到达，我们将接收一个ActorTimeoutException。让我们来看一个双向消息传递的例子:
+与演员沟通最简单的方式就是“fire and forget.”。也就是说，发送一个信息，然后继续前进。从性能的角度来看，这也是首选的方法。发送是非阻塞的，调用actor/线程继续其工作。我们使用sendOneWay()方法，或者!方法，以发送单向消息。Akka还提供了双向通信，我们可以在其中发送消息并期待来自参与者的响应。在这种情况下，调用线程将阻塞，直到收到响应或超过超时。让我们先看看如何在Java中发送和接收消息，然后在Scala中。
+
+##### Send/Receive in Java 发送/接收在Java中
+
+我们使用sendRequestReply()方法发送消息并等待响应。如果响应没有在(可配置的)超时内到达，我们将接收一个ActorTimeoutException。让我们来看一个双向消息传递的例子:
 
 ```java
 public class FortuneTeller extends UntypedActor {
@@ -4341,13 +4353,11 @@ fortuneTeller.stop();
 }
 ```
 
-我们有一个算命的行动者想要对它收到的信息作出回应。
-
-它通过对通过getContext()获得的调用上下文调用replyUnsafe()方法来响应消息发送者。replyUnsafe()方法在不阻塞的情况下向调用者发送响应，但是代码中没有调用者。在main()方法中，我们调用了sendRequestReply()方法。这个方法在内部创建一个Fut ur e类并等待它，直到它得到一个结果、一个异常或一个超时。让我们通过运行代码来检查乔的财富:
+我们有一个算命的行动者想要对它收到的信息作出回应。它通过对通过getContext()获得的调用上下文调用replyUnsafe()方法来响应消息发送者。`replyUnsafe()`方法在不阻塞的情况下向调用者发送响应，但是代码中没有调用者。在main()方法中，我们调用了`sendRequestReply()`方法。这个方法在内部创建一个`Future`类并等待它，直到它得到一个结果、一个异常或一个超时。让我们通过运行代码来检查乔的财富:
 
 > Joe you'll rock
 
-这个算命的人有一点有点不幸:它依赖于发送者等待可用的响应。我们调用了sendRequestReply()方法，因此有一个用于等待响应的内部Fut ure。如果我们调用sendOneWay()，那么replyUnsafe()方法将失败。为了避免这种情况发生，我们需要在调用replyUnsafe()方法之前检查阻塞发送方是否可用。我们可以通过从上下文获取sender引用来实现这一点。另外，我们可以使用replySafe()方法，如果发送方引用存在，它将返回true，如果没有发送方引用可用，它将返回false。因此，下面是修改后的算命器，它将处理没有发送者等待响应的情况
+这个算命的人有一点有点不幸:它依赖于发送者等待可用的响应。我们调用了`sendRequestReply()`方法，因此有一个用于等待响应的内部Future。如果我们调用`sendOneWay()`，那么`replyUnsafe()`方法将失败。为了避免这种情况发生，我们需要在调用`replyUnsafe()`方法之前检查阻塞发送方是否可用。我们可以通过从上下文获取sender引用来实现这一点。另外，我们可以使用`replySafe()`方法，如果发送方引用存在，它将返回true，如果没有发送方引用可用，它将返回false。因此，下面是修改后的算命器，它将处理没有发送者等待响应的情况
 
 ```java
 public class FortuneTeller extends UntypedActor {
@@ -4379,7 +4389,15 @@ fortuneTeller.stop();
 >Message sent for Joe
 >Joe you'll rock
 
-对sendRequestReply()的调用在等待响应时阻塞，但是对sendOneWay()的调用是非阻塞的，因此不会产生响应。如果我们想接收一个响应，但不想等待它，我们可以使用更精细的方法sendRequestReplyFuture()，它将返回一个Future对象。我们可以继续执行工作，直到我们想要得到响应，此时我们可以阻塞或查询future对象，以查看响应是否可用。类似地，在参与者的一边，我们可以从上下文引用获得senderFuture，并在响应就绪后立即通过它进行通信。我们将在后面的示例中介绍如何使用它们。在使用sendRequestReply()和sendRequestReplyFuture()方法时要小心，因为对这些方法的调用会阻塞，并可能对性能和可伸缩性产生负面影响。在Scala中，如果我们想从Scala向actor发送/接收消息，我们必须准备好应对与Java API的一些差异:我们可以直接使用self属性来访问actor。使用这个属性，我们可以调用reply()方法，这是Scala端上的不安全的等效方法，或者我们可以使用replySafe()方法。我们可以调用sendRequestReply()方法，或者我们可以调用更优雅的!!人们说情人眼里出西施。同样,! !可以用来代替sendRequestReplyFuture()方法。sendRequestReply()方法返回的不是一个对象，而是一个Scala选项。如果响应到达，这将是某个[T]的实例，它保存结果，如果超时，则为None。因此，与Java版本不同的是，在超时的情况下没有例外。让我们先使用不安全的reply()方法在Scala中实现算命器
+对`sendRequestReply()`的调用在等待响应时阻塞，但是对`sendOneWay()`的调用是非阻塞的，因此不会产生响应。如果我们想接收一个响应，但不想等待它，我们可以使用更精细的方法`sendRequestReplyFuture()`，它将返回一个Future对象。我们可以继续执行工作，直到我们想要得到响应，此时我们可以阻塞或查询future对象，以查看响应是否可用。类似地，在参与者的一边，我们可以从上下文引用获得senderFuture，并在响应就绪后立即通过它进行通信。我们将在后面的示例中介绍如何使用它们。
+
+在使用sendRequestReply()和sendRequestReplyFuture()方法时要小心，因为对这些方法的调用会阻塞，并可能对性能和可伸缩性产生负面影响。
+
+##### Send/Receive in Scala
+
+在Scala中，如果我们想从Scala向actor发送/接收消息，我们必须准备好应对与Java API的一些差异:我们可以直接使用self属性来访问actor。使用这个属性，我们可以调用reply()方法，这是Scala端上的不安全的等效方法，或者我们可以使用replySafe()方法。
+
+我们可以调用sendRequestReply()方法，或者我们可以调用更优雅的!!人们说情人眼里出西施。同样,! !可以用来代替sendRequestReplyFuture()方法。sendRequestReply()方法返回的不是一个对象，而是一个Scala选项。如果响应到达，这将是某个[T]的实例，它保存结果，如果超时，则为None。因此，与Java版本不同的是，在超时的情况下没有例外。让我们先使用不安全的reply()方法在Scala中实现算命器
 
 ```java
 class FortuneTeller extends Actor {
@@ -4404,6 +4422,8 @@ fortuneTeller.stop()
 在actor代码中，我们可以看到两种不同;一个是与self而不是getContext()相关的，另一个是reply()而不是replyUnsafe()。在调用方，我们对从调用接收到的响应应用模式匹配!!，它是sendRequestReply()方法。如果到达了实际响应，则使用第一种情况，如果超时，则使用无响应的第二种情况。
 
 这段代码的输出与Java版本相同，正如我们所期望的:
+
+> Joe you'll rock
 
 除了我们讨论的更改之外，使用安全版本的reply()与Java版本没有太大区别。我们可以使用reply_?()或replySafe()。
 
@@ -4441,7 +4461,7 @@ fortuneTeller.stop()
 
 如果使用方法名如!，!!, ! !和reply_?()的问题，我们可以分别使用其他名称，如sendOneWay()、sendRequestReply()、sendRequestReplyFuture()和replySafe()。
 
-8.5 Working with Multiple Actors
+##### 8.5 Working with Multiple Actors 与多个角色合作
 
 现在我们知道了如何创建一个actor并向它发送消息。让我们感受一下如何让多个参与者工作。在第2章，第15页的劳动分工中，我们创建了一个并行程序来计算范围内的质数。在质数并发计算的例子中，在第27页，我们使用ExecutorService、Callable和Fut ure，用代码填满了一页多一点的代码。让我们先看看Akka actor在Java中是如何形成的，然后再在Scala中。在Java中，给定一个像1000万这样的数字，我们将质数的计算划分为不同的范围，并将这些范围分布在多个线程上。这里我们将使用actor。让我们从actor的onReceive()方法开始
 
@@ -4454,8 +4474,6 @@ PrimeFinder.countPrimesInRange(bounds.get(0), bounds.get(1));
 getContext().replySafe(count);
 }
 ```
-
-
 
 为了计算一个范围内质数的数量，我们需要该范围的上界和下界。我们的参与者在onReceive()的消息参数中接收这个绑定为列表的消息。我们调用尚未编写的PrimeFinder的countPrimesInRange()方法，并使用replySafe()方法将结果发送回调用者。
 
@@ -4483,7 +4501,7 @@ return count;
 }
 ```
 
-一旦我们确定了每个部分的边界，我们将其包装到一个不可修改的集合记住，消息必须是不可变的。然后调用sendRequestReplyFuture()，这样就可以向所有分区发送请求而不会被阻塞。我们节约用水。)这是你的急件。而不是由该方法返回的JDK s java.util.concurrent.Future)，因此我们可以稍后查询每个部分产生的质数。我们在Fut ure上调用await()，并在await()返回的Fut ure实例上调用result()方法。这给了我们一个Scala选项的实例，可以把它想象成一个漂亮的union，保存可用的值。通过调用get()方法，我们最终从该对象获得整数值。好的，让我们使用数字和部件的命令行参数来驱动代码
+一旦我们确定了每个部分的边界，我们将其包装到一个不可修改的集合记住，消息必须是不可变的。然后调用`sendRequestReplyFuture()`，这样就可以向所有分区发送请求而不会被阻塞。我们节约用水。)这是你的急件。而不是由该方法返回的JDK s `java.util.concurrent.Future`)，因此我们可以稍后查询每个部分产生的质数。我们在Fut ure上调用await()，并在await()返回的Fut ure实例上调用result()方法。这给了我们一个Scala选项的实例，可以把它想象成一个漂亮的union，保存可用的值。通过调用get()方法，我们最终从该对象获得整数值。好的，让我们使用数字和部件的命令行参数来驱动代码
 
 ```java
 public static void main(final String[] args) {
@@ -4501,7 +4519,7 @@ System.out.println("Time taken " + (end - start)/1.0e9);
 }
 ```
 
-main()方法执行代码并对其计时。我们的最后一步是编写PrimeFinder，它将完成计算范围内质数的实际工作:
+main()方法执行代码并对其计时。我们的最后一步是编写`PrimeFinder`，它将完成计算范围内质数的实际工作:
 
 ```java
 public class PrimeFinder {
@@ -4525,7 +4543,11 @@ return count;
 >Number of primes is 664579
 >Time taken 3.890996
 
-让我们将本节中的代码和输出与第27页中的素数并发计算中的代码和输出进行比较。在这两个版本中，我们都将分区数设置为100。在Akka版本的质数计数中不需要设置池大小。这是一个计算密集型的问题，将ExecutorService版本的池大小设置在核心数量之上不会产生什么影响。因此，它们在性能上相当接近，并且在Akka版本中比ExecutorService中稍微少一些繁冗。随着本章的深入，当我们需要在线程/参与者之间进行更多的协调时，这种差异就会变得更加突出。如果我们使用Scala来实现primes示例，我们会享受到Scala在实现actor并与之交互方面的简洁性。让我们看看素数的Scala版本
+让我们将本节中的代码和输出与第27页中的素数并发计算中的代码和输出进行比较。在这两个版本中，我们都将分区数设置为100。在Akka版本的质数计数中不需要设置池大小。这是一个计算密集型的问题，将`ExecutorService`版本的池大小设置在核心数量之上不会产生什么影响。因此，它们在性能上相当接近，并且在Akka版本中比`ExecutorService`中稍微少一些繁冗。随着本章的深入，当我们需要在线程/参与者之间进行更多的协调时，这种差异就会变得更加突出。
+
+##### Multiple Actors in Scala
+
+如果我们使用Scala来实现`primes`示例，我们会享受到Scala在实现actor并与之交互方面的简洁性。让我们看看素数的Scala版本
 
 ```java
 class Primes extends Actor {
@@ -4572,7 +4594,7 @@ println("Time taken " + (end - start)/1.0e9)
 }
 ```
 
-在Java版本和这个版本之间有一些不同。消息格式是一个简单的元组，而不是不可修改的列表。receive()中的case可以很容易地匹配它。Java中的for循环在这里变成了while循环。Scala确实有一个非常优雅的for循环;但是，这会导致object到原语转换的开销。为了进行良好的性能比较，我在这里避免了这种优雅。类似地，在PrimeFinder中，我们将使用while循环而不是Scala for循环
+在Java版本和这个版本之间有一些不同。消息格式是一个简单的元组，而不是不可修改的列表。`receive()`中的case可以很容易地匹配它。Java中的for循环在这里变成了while循环。Scala确实有一个非常优雅的for循环;但是，这会导致object到原语转换的开销。为了进行良好的性能比较，我在这里避免了这种优雅。类似地，在`PrimeFinder`中，我们将使用while循环而不是Scala for循环
 
 ```java
 object PrimeFinder {
