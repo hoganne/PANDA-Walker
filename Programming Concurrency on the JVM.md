@@ -209,39 +209,21 @@ such as JConsole can help detect deadlocks, and we can prevent deadlock by acqui
 
 ```java
 public class RaceCondition {
-
 private static boolean done;
-
 public static void main(final String[] args) throws InterruptedException{
-
 new Thread(
-
 new Runnable() {
-
 public void run() {
-
 int i = 0;
-
 while(!done) { i++; }
-
 System.out.println("Done!");
-
 }
-
 }
-
 ).start();
-
-
-
 System.out.println("OS: " + System.getProperty("os.name")); Thread.sleep(2000);
-
 done = true;
-
 System.out.println("flag done set to true");
-
 }
-
 }
 ```
 
@@ -4130,7 +4112,7 @@ Akka是用Scala编写的，所以从Scala创建和使用actor非常简单和自�
 
 ##### Creating Actors in Java
 
-在Java的抽象类`Akka .actor.UntypedActor`中创建actor。`UntypedActor`表示一个actor。只需扩展该方法并实现所需的`onReceive()`方法，每当actor的消息到达时，就会调用该方法。让我们试一试。我们将创建一个actor…找一个好莱坞演员来扮演不同的角色怎么样
+在Java的抽象类`Akka.actor.UntypedActor`中创建actor.`UntypedActor`表示一个actor。只需扩展该方法并实现所需的`onReceive()`方法，每当actor的消息到达时，就会调用该方法。让我们试一试。我们将创建一个actor…找一个好莱坞演员来扮演不同的角色怎么样
 
 ```java
 public class HollywoodActor extends UntypedActor {
@@ -4627,13 +4609,19 @@ Number of primes is 664579
 Time taken 3.88375
 ```
 
-8.6 Coordinating Actors
+##### 8.6 Coordinating Actors 协调
 
-真正的好处和乐趣是当参与者互相协调解决问题。为了利用并发性，我们将问题分成几个部分。
+真正的好处和乐趣是当参与者互相协调解决问题。为了利用并发性，我们将问题分成几个部分。不同的演员可能扮演不同的角色，我们需要协调他们之间的沟通。这就是我们将在这里通过使用文件大小程序作为例子学到的。
 
-不同的演员可能扮演不同的角色，我们需要协调他们之间的沟通。这就是我们将在这里通过使用文件大小程序作为例子学到的。
+在第49页的4.2节协调线程中，我们编写了一个程序来查找给定目录下所有文件的总大小。我们启动了100个线程，每个线程探索不同的子目录。然后合计异步计算的大小。我们看到了实现这一点的不同方法，比如atomiclong和队列。我们可以把这些方法总结为应对共同突变的艰苦工作。
 
-在第49页的4.2节协调线程中，我们编写了一个程序来查找给定目录下所有文件的总大小。我们启动了100个线程，每个线程探索不同的子目录。然后合计异步计算的大小。我们看到了实现这一点的不同方法，比如atomiclong和队列。我们可以把这些方法总结为应对共同突变的艰苦工作。通过使用actor的独立可变性来解决这个问题，我们可以节省相当多的工作和麻烦。与那一章中的共享易变性解决方案相比，我们可以在不降低性能的情况下做到这一点。作为同步免费编码的额外好处，我们也会有更简单的代码，我们很快就会看到。作为第一步，让我们为具有多个协调参与者的问题创建一个设计。我们可以使用两种类型的参与者，如图13所示，在第184页，使用参与者的总文件大小问题的设计。我们将在SizeCollector actor中隔离可变状态。它将接收一些消息，以跟踪需要访问的目录，保持文件大小的总数，并为请求Fil ePr ocessor actors提供要访问的目录。主代码将启动这些参与者。我们将有100个filepr ocessor actors来导航给定目录下的文件。我们将首先使用Akka actors在Java中实现这个设计，然后在Scala中实现。让我们首先定义SizeCollector类将接收的消息
+通过使用actor的独立可变性来解决这个问题，我们可以节省相当多的工作和麻烦。与那一章中的共享易变性解决方案相比，我们可以在不降低性能的情况下做到这一点。作为同步免费编码的额外好处，我们也会有更简单的代码，我们很快就会看到。
+
+作为第一步，让我们为具有多个协调参与者的问题创建一个设计。我们可以使用两种类型的参与者，如图13所示，在第184页，使用参与者的总文件大小问题的设计。我们将在`SizeCollector` actor中隔离可变状态。它将接收一些消息，以跟踪需要访问的目录，保持文件大小的总数，并为请求FileProcessor actors提供要访问的目录。主代码将启动这些参与者。我们将有100个fileprocessor actors来导航给定目录下的文件。我们将首先使用Akka actors在Java中实现这个设计，然后在Scala中实现。
+
+##### Coordinating Actors in Java
+
+让我们首先定义`SizeCollector`类将接收的消息
 
 ```java
 class RequestAFile {}
@@ -4647,15 +4635,15 @@ public FileToProcess(final String name) { fileName = name; }
 }
 ```
 
-消息由不可变类表示。每个Fil ePr ocessor将使用RequestAFil e类型的消息将自己放在具有SizeCollector的列表中。filesi ze是来自filepr ocessor s的消息，它将携带目录中文件的大小
+消息由不可变类表示。每个FileProcessor将使用RequestAFile类型的消息将自己放在具有SizeCollector的列表中。filesize是来自fileprocessor s的消息，它将携带目录中文件的大小
 
 ![image-20201209230905420](E:\learningforalllife\git-workspace\PANDA-Walker\picture\image-20201209230905420.png)
 
 
 
-他们探索。最后，Fil eToPr ocess是一条带有需要研究的文件名称的消息。
+他们探索。最后，FileToProcess是一条带有需要研究的文件名称的消息。
 
-Fil ePr ocessor s是工作人员，探索一个给定的目录，并发回文件的总大小和他们找到的子目录的名称。一旦完成该任务，它们就发送RequestAFil e类，以让SizeCollector知道它们已经准备好承担探索另一个目录的任务。它们还需要首先在SizeCollector上注册，以接收要探索的第一个目录。一个很好的地方是preStart()方法，它在actor启动时被调用。让我们实现Fil ePr ocessor;我们必须记住接收对SizeCollector的引用作为构造函数参数
+FileProcessors是工作人员，探索一个给定的目录，并发回文件的总大小和他们找到的子目录的名称。一旦完成该任务，它们就发送RequestAFile类，以让SizeCollector知道它们已经准备好承担探索另一个目录的任务。它们还需要首先在SizeCollector上注册，以接收要探索的第一个目录。一个很好的地方是preStart()方法，它在actor启动时被调用。让我们实现`FileProcessor`;我们必须记住接收对`SizeCollector`的引用作为构造函数参数
 
 ```java
 class FileProcessor extends UntypedActor {
@@ -4663,7 +4651,8 @@ private final ActorRef sizeCollector;
 public FileProcessor(final ActorRef theSizeCollector) {
 sizeCollector = theSizeCollector;
 }
-@Override public void preStart() { registerToGetFile(); }
+@Override 
+public void preStart() { registerToGetFile(); }
 public void registerToGetFile() {
 sizeCollector.sendOneWay(new RequestAFile(), getContext());
 }
@@ -4688,9 +4677,9 @@ registerToGetFile();
 }
 ```
 
-在registerregitfile()方法中，我们向SizeCollector发送一个RequestAFil e消息。我们将一个自引用发送到Fil ePr ocessor actor实例，该实例是使用getContext()方法获得的。SizeCollector会将此引用添加到一个可用空闲Fil ePr ocessor s列表中，该列表将用于浏览目录。SizeCollector类将通过发送一条消息，要求一个Fil ePr ocessor浏览一个目录(我们将很快看到该目录的代码)。filepr ocessor s onReceive()方法将响应该消息。在onReceive()方法中，我们发现给定目录的子目录，并使用sendOneWay()方法将它们发送到SizeCollector。对于给定目录中的文件，我们计算它们的大小，并在任务结束时将其发送到SizeCollector。作为任务的最后一步，我们用SizeCollector注册Fil ePr ocessor类，以获得要探索的另一个目录。
+在`registerregitfile()`方法中，我们向SizeCollector发送一个`RequestAFile`消息。我们将一个自引用发送到FileProcessor actor实例，该实例是使用getContext()方法获得的。SizeCollector会将此引用添加到一个可用空闲FilePr ocessors列表中，该列表将用于浏览目录。SizeCollector类将通过发送一条消息，要求一个FileProcessor浏览一个目录(我们将很快看到该目录的代码)。filepr ocessors onReceive()方法将响应该消息。在onReceive()方法中，我们发现给定目录的子目录，并使用sendOneWay()方法将它们发送到SizeCollector。对于给定目录中的文件，我们计算它们的大小，并在任务结束时将其发送到SizeCollector。作为任务的最后一步，我们用SizeCollector注册FileProcessor类，以获得要探索的另一个目录。
 
-filepr ocessor已经全部设置好，可以浏览目录了。SizeCollector管理孤立的可变状态，并使Fil ePr ocessor s忙于浏览目录，直到计算出最终结果。它处理我们讨论过的三种类型的消息。让我们先看看代码，然后讨论每个消息的操作:
+fileprocessor已经全部设置好，可以浏览目录了。SizeCollector管理孤立的可变状态，并使FileProcessor s忙于浏览目录，直到计算出最终结果。它处理我们讨论过的三种类型的消息。让我们先看看代码，然后讨论每个消息的操作:
 
 ```java
 class SizeCollector extends UntypedActor {
@@ -4729,7 +4718,7 @@ Actors.registry().shutdownAll();
 }
 ```
 
-SizeCollector保存了两个列表，一个用于目录访问，另一个用于闲置Fil ePr ocessor s。这三个长变量用于跟踪如何访问许多目录在任何时候都可以被浏览，演进的总文件大小，以及计算获得总大小所需时间的开始时间。sendAFileToProcess()方法用于分配目录，以便对闲置的Fil ePr o - cessors进行探索。SizeCollector期望在onReceive()消息处理程序中接收三种类型的消息。每一条信息都有不同的目的。当Fil ePr ocessors变为空闲时，它们发送RequestAFil e消息，并且SizeCollector将actor引用保存在空闲处理器列表中。filetopr ocess是大小控制器同时发送和接收的消息。它将在sendAFileToProcess()方法中向一个空闲的Fil ePr ocessor发送此类型的消息。当Fil ePr ocessor s发现子目录时，它们使用这种类型的消息将目录发送到SizeCollector，这样它就可以进一步安排其他Fil ePr ocessor s进行探索。SizeCollector处理的最后一条消息是Fil eSi ze，它由Fil ePr ocessor s发送，它携带所探索目录中文件的大小。每次接收到目录名时，SizeCollector都会增加一个名为pendingNumberOfFilesToVisit的独立可变计数器。每次接收到一个filesi ze消息时，它都会使用目录的大小减小该计数器。如果它发现这个计数为零，它将打印总大小和花费的时间，并关闭所有参与者，实际上就是关闭程序。让我们实现设计的最后一部分，主代码
+SizeCollector保存了两个列表，一个用于目录访问，另一个用于闲置FilePr ocessors。这三个长变量用于跟踪如何访问许多目录在任何时候都可以被浏览，演进的总文件大小，以及计算获得总大小所需时间的开始时间。`sendAFileToProcess()`方法用于分配目录，以便对闲置的`FileProcessors`进行探索。SizeCollector期望在onReceive()消息处理程序中接收三种类型的消息。每一条信息都有不同的目的。当FileProcessors变为空闲时，它们发送`RequestAFile`消息，并且`SizeCollector`将actor引用保存在空闲处理器列表中。filetoprocess是大小控制器同时发送和接收的消息。它将在sendAFileToProcess()方法中向一个空闲的FileProcessor发送此类型的消息。当Fil eProcessors发现子目录时，它们使用这种类型的消息将目录发送到SizeCollector，这样它就可以进一步安排其他FileProcessors进行探索。SizeCollector处理的最后一条消息是FileSize，它由FileProcessors发送，它携带所探索目录中文件的大小。每次接收到目录名时，SizeCollector都会增加一个名为pendingNumberOfFilesToVisit的独立可变计数器。每次接收到一个filesize消息时，它都会使用目录的大小减小该计数器。如果它发现这个计数为零，它将打印总大小和花费的时间，并关闭所有参与者，实际上就是关闭程序。让我们实现设计的最后一部分，主代码
 
 ```java
 public class ConcurrentFileSizeWAkka {
@@ -4749,7 +4738,7 @@ return new FileProcessor(sizeCollector);
 
 主代码首先创建SizeCollector的一个实例，并使用
 
-filetopr ocess消息，查找目录的大小。主代码创建100个filepr ocessor演员。SizeCollector负责与filepr ocessor s进行协调，并完成查找文件大小的任务。
+filetoprocess消息，查找目录的大小。主代码创建100个fileprocessor演员。SizeCollector负责与fileprocessor s进行协调，并完成查找文件大小的任务。
 
 让我们让这些参与者开始并让他们探索/usr目录
 
@@ -4758,7 +4747,11 @@ Total size is 3793911517
 Time taken is 8.599308
 ```
 
-比较这段使用独立可变的代码的输出与第49页4.2节协调线程中使用共享可变的代码的版本。所有版本都为/usr目录生成相同的文件大小，并且性能相当。基于actor的版本中最大的区别是代码中不涉及同步，没有锁存，没有队列，也没有需要处理的atomiclong。结果性能相当，更简单，不用担心。在Scala中协调角色我们得到了使用Akka Actors在Java中工作的文件大小的程序。我们可以用Scala实现这种设计，并受益于它的简洁性。与Java版本的第一个区别是消息。Scala有case类，这些类提供了高度表达性的语法来创建不可变类。这些非常适合于消息类型。因此，让我们使用case类来实现消息类型
+比较这段使用独立可变的代码的输出与第49页4.2节协调线程中使用共享可变的代码的版本。所有版本都为/usr目录生成相同的文件大小，并且性能相当。基于actor的版本中最大的区别是代码中不涉及同步，没有锁存，没有队列，也没有需要处理的atomiclong。结果性能相当，更简单，不用担心。
+
+##### Coordinating Actors in Scala
+
+在Scala中协调角色我们得到了使用Akka Actors在Java中工作的文件大小的程序。我们可以用Scala实现这种设计，并受益于它的简洁性。与Java版本的第一个区别是消息。Scala有case类，这些类提供了高度表达性的语法来创建不可变类。这些非常适合于消息类型。因此，让我们使用case类来实现消息类型
 
 ```java
 case object RequestAFile
@@ -4848,15 +4841,25 @@ Actor.actorOf(new FileProcessor(sizeCollector)).start()
 >Total size is 3793911517
 >Time taken is 8.321386
 
-8.7 Using Typed Actors
+##### 8.7 Using Typed Actors
 
-到目前为止，我们看到的参与者接受了消息。我们传递了不同类型的消息、字符串、元组、case类/定制消息，等等。然而，传递这些消息与我们在日常编程中重新使用的常规方法调用感觉很不一样。类型化actor通过允许我们进行常规的方法调用，并在幕后将其转换为消息，从而帮助我们跨越这一鸿沟。可以将类型化actor看作是一个活动对象，它运行在自己的单个轻量级事件驱动线程中，使用一个拦截代理将正常的方法调用转换为异步非阻塞消息。由于类型actor在幕后将常规方法调用转换为消息，所以我们可以最大限度地享受静态类型的好处。我们不必猜测参与者接收到的消息类型，而且我们可以依赖IDE的支持，比如代码完成。为了实现actor，我们简单地编写了一个扩展UntypedActor或actor trait/抽象类的类。要实现一个类型的actor，我们需要创建一个接口-实现对(在Scala中我们不编写接口;相反，我们使用没有实现的trait)。要实例化一个actor，我们使用actor类的actorOf()方法。要实例化一个类型化的actor，我们将使用pedAct或s newInstance()方法。
+到目前为止，我们看到的参与者接受了消息。我们传递了不同类型的消息、字符串、元组、case类/定制消息，等等。然而，传递这些消息与我们在日常编程中重新使用的常规方法调用感觉很不一样。类型化actor通过允许我们进行常规的方法调用，并在幕后将其转换为消息，从而帮助我们跨越这一鸿沟。可以将类型化actor看作是一个活动对象，它运行在自己的单个轻量级事件驱动线程中，使用一个拦截代理将正常的方法调用转换为异步非阻塞消息。
 
-我们从theTy pedAct或接收到的引用是将方法转换为异步消息的拦截代理。void方法转换为sendOneWay()或!方法，而返回结果的方法被转换为sendRequestReply()或!!方法。返回Fut的方法被转换为sendRequestReplyFuture()或!!方法。我们在第5章“控制共享易变性”中重构的EnergySource类，在第73页使用现代Java并发API，在使用Akka Refs和事务时，在第104页使用STM，是一个很好的类型actor的候选者。它具有可变的状态，我们可以使用一个actor来隔离它。EnergySource的每个实例将只在单个线程中运行，因此不存在竞争条件问题。当多个线程调用EnergySource的一个实例时，调用将跳转线程并在该实例上顺序运行。请记住，actor并不占用线程，因此它们可以跨实例共享线程，并提供更好的吞吐量。EnergySource做了很多事情;它允许我们查询能量级别和使用计数和利用能量，甚至在后台自动补充能量。我们当然希望基于actor的版本能够实现所有这些功能，但我们不要仓促行事。我们将逐步构建它，这样我们就可以一次专注于一件事。让我们先构建Java版本，然后构建Scala版本。
+由于类型actor在幕后将常规方法调用转换为消息，所以我们可以最大限度地享受静态类型的好处。我们不必猜测参与者接收到的消息类型，而且我们可以依赖IDE的支持，比如代码完成。
 
-在Java中使用类型演员
+为了实现actor，我们简单地编写了一个扩展UntypedActor或actor trait/抽象类的类。要实现一个类型的actor，我们需要创建一个接口-实现对(在Scala中我们不编写接口;相反，我们使用没有实现的trait)。
 
-类型参与者需要一对接口和实现。那么，让我们从EnergySource的接口开始:
+要实例化一个actor，我们使用actor类的actorOf()方法。要实例化一个类型化的actor，我们将使用typedActors的newInstance()方法。
+
+我们从TypedActor接收到的引用是将方法转换为异步消息的拦截代理。void方法转换为sendOneWay()或!方法，而返回结果的方法被转换为sendRequestReply()或!!方法。返回Future的方法被转换为sendRequestReplyFuture()或!!方法。
+
+我们在第5章“控制共享易变性”中重构的EnergySource类，在第73页使用现代Java并发API，在使用Akka Refs和事务时，在第104页使用STM，是一个很好的类型actor的候选者。它具有可变的状态，我们可以使用一个actor来隔离它。EnergySource的每个实例将只在单个线程中运行，因此不存在竞争条件问题。当多个线程调用EnergySource的一个实例时，调用将跳转线程并在该实例上顺序运行。请记住，actor并不占用线程，因此它们可以跨实例共享线程，并提供更好的吞吐量。
+
+EnergySource做了很多事情;它允许我们查询能量级别和使用计数和利用能量，甚至在后台自动补充能量。我们当然希望基于actor的版本能够实现所有这些功能，但我们不要仓促行事。我们将逐步构建它，这样我们就可以一次专注于一件事。让我们先构建Java版本，然后构建Scala版本。
+
+##### Using Typed Actors in Java 在Java中使用类型演员
+
+类型参与者需要一对接口和实现。那么，让我们从`EnergySource`的接口开始:
 
 ```java
 public interface EnergySource {
@@ -4866,7 +4869,7 @@ void useEnergy(final long units);
 }
 ```
 
-这个接口的配对实现是EnergySourceImpl。它和普通Java类的唯一区别是我们扩展了theTy pedActor类，把它变成了一个活动对象:
+这个接口的配对实现是`EnergySourceImpl`。它和普通Java类的唯一区别是我们扩展了TypedActor类，把它变成了一个活动对象:
 
 ```java
 public class EnergySourceImpl extends TypedActor implements EnergySource {
@@ -4874,7 +4877,7 @@ private final long MAXLEVEL = 100L;
 private long level = MAXLEVEL;
 private long usageCount = 0L;
 public long getUnitsAvailable() { return level; }
-    public long getUsageCount() { return usageCount; }
+public long getUsageCount() { return usageCount; }
 public void useEnergy(final long units) {
 if (units > 0 && level - units >= 0) {
 System.out.println(
@@ -4886,7 +4889,7 @@ usageCount++;
 }
 ```
 
-TypedAct或确保这些方法都是互斥的;也就是说，在任何给定的实例中，只有一个方法可以运行。因此，不需要同步或锁定对类中任何字段的访问。为了了解执行actor的线程，让我们在这个示例代码中添加一些打印语句。最后，我们准备使用类型化actor，因此让我们为UseEnergySource编写代码。
+TypedActor确保这些方法都是互斥的;也就是说，在任何给定的实例中，只有一个方法可以运行。因此，不需要同步或锁定对类中任何字段的访问。为了了解执行actor的线程，让我们在这个示例代码中添加一些打印语句。最后，我们准备使用类型化actor，因此让我们为UseEnergySource编写代码。
 
 ```java
 public class UseEnergySource {
@@ -4912,7 +4915,7 @@ TypedActor.stop(energySource);
 }
 ```
 
-我们使用theTy pedAct或其newInstance()方法创建类型actor的实例。然后我们首先调用getUnitsAvailable()方法，因为这个方法当返回一个值时，我们的调用线程将阻塞来自类型actor的响应。对useEnergy()的调用是非阻塞的，因为它是一个不返回响应的空方法。我们对这个方法连续进行了两次调用，一个接一个地放置它们。这些电话会立即回复。稍微延迟之后，我们将再次调用useEnergy()来研究actor和线程的行为。最后，在延迟之后，我们再次请求使用计数和能量级别，以允许异步消息完成。最后，我们要求演员停止演出。让我们看一下这段代码的输出
+我们使用`TypedActor`其`newInstance()`方法创建类型actor的实例。然后我们首先调用getUnitsAvailable()方法，因为这个方法当返回一个值时，我们的调用线程将阻塞来自类型actor的响应。对useEnergy()的调用是非阻塞的，因为它是一个不返回响应的空方法。我们对这个方法连续进行了两次调用，一个接一个地放置它们。这些电话会立即回复。稍微延迟之后，我们将再次调用useEnergy()来研究actor和线程的行为。最后，在延迟之后，我们再次请求使用计数和能量级别，以允许异步消息完成。最后，我们要求演员停止演出。让我们看一下这段代码的输出
 
 >Thread in main: main
 >Energy units 100
@@ -4925,7 +4928,13 @@ TypedActor.stop(energySource);
 >Energy units 70
 >Usage 3
 
-类型actor EnergySourceImpl一次只执行一个方法。我们触发的前两个useEnergy()请求没有阻塞主线程。然而，这两个任务是在参与者s线程上按顺序运行的。代码优雅地在main中的调用和actor上的方法之间切换执行线程。虽然main()在主线程中运行，但actor的方法在Akka管理的不同线程中按顺序运行。我们还注意到，actor没有把它的线程作为人质;最后一个使用energy()的请求在另一个Akka托管线程中运行。可变状态的能量来源是孤立在EnergySourceImpl演员我说它孤立不是因为它年代封装在这个类,而是因为类型化角色访问控制可变状态最多只有一个演员,一个线程运行在任何时间。通过在Scala中使用类型actor，我们看到了类型actor是如何需要一对接口和实现的。在Scala中，我们不创建接口;相反，我们创建的trait没有实现。让我们把能量源定义为一种特性
+类型actor EnergySourceImpl一次只执行一个方法。我们触发的前两个useEnergy()请求没有阻塞主线程。然而，这两个任务是在参与者s线程上按顺序运行的。代码优雅地在main中的调用和actor上的方法之间切换执行线程。虽然main()在主线程中运行，但actor的方法在Akka管理的不同线程中按顺序运行。我们还注意到，actor没有把它的线程作为人质;最后一个使用energy()的请求在另一个Akka托管线程中运行。
+
+可变状态的能量来源是孤立在EnergySourceImpl演员我说它孤立不是因为它年代封装在这个类,而是因为类型化角色访问控制可变状态最多只有一个演员,一个线程运行在任何时间。
+
+##### Using Typed Actors in Scala
+
+通过在Scala中使用类型actor，我们看到了类型actor是如何需要一对接口和实现的。在Scala中，我们不创建接口;相反，我们创建的trait没有实现。让我们把能量源定义为一种特性
 
 >trait EnergySource {
 >def getUnitsAvailable() : Long
@@ -4991,11 +5000,27 @@ Usage 3
 
 Scala版本除了具有活动对象的优点外，还具有一些简便性。
 
-8.8 Typed Actors and Murmurs
+##### 8.8 Typed Actors and Murmurs
 
-EnergySource的类型actor版本允许我们调用方法，但在后台以异步消息的顺序运行它们，为我们提供线程安全，而不需要同步。这很容易创建，但我们的能源在这一点上是半生不活的，缺少一个关键的功能，能量级别需要自动补充。在我们在前几章实现的版本中，补充操作不需要任何用户干预;它是在后台自动完成的。当我们启动能量源时，一个计时器就会适当地提高每秒一个单位的能量级别。在类型actor版本中实现该特性将需要进行一些工作，以确保补充操作不会违反类型actor的单线程特性。在开始编写代码之前，让我们先研究一些选项。我们可以向EnergySource接口添加补充()方法。能源的用户可以每秒钟调用这个方法。不幸的是，这给能源使用者带来不必要的负担;他们可能会忘记，而且它在功能上也将不再与其他版本的EnergySource匹配。罢工,选项。我们可以创建一个定时器在类型的演员,和这个定时器可以定期补充能量levelTypedActor年代提供一个特殊的方法称为起动前的(),年代就创建了演员和一个方法称为postStop()年代叫做演员之后停止或关闭。这两种方法很有用;我们可以在preStart()方法的报告勘误表讨论类型演员和Murmurs 195中启动计时器，并在postStop()方法中取消它。这似乎是个好计划，但却带来了另一个问题。
+EnergySource的类型actor版本允许我们调用方法，但在后台以异步消息的顺序运行它们，为我们提供线程安全，而不需要同步。这很容易创建，但我们的能源在这一点上是半生不活的，缺少一个关键的功能，能量级别需要自动补充。
 
-问题是计时器在它们自己的线程中运行，我们不想从这些线程中接触actor的可变状态。记住，我们希望状态是孤立可变的，而不是共享可变的。我们需要的是一种方法，以导致内部方法调用(我称为这些杂音)由参与者正确执行。这些杂音对我们的类型actor的外部用户是不可见的，而是作为异步消息运行，就像那些被外部调用的消息一样，这些消息被排序并与其他消息交织在一起。让我们看看如何将其编码。记住，有类型的参与者实际上是具有附加便利的参与者。它们确实像演员一样接收消息。基clasTsy pedAct或s receive()方法接收来自代理的消息，并在我们的类上分派适当的方法。我们可以重写这个方法来实现一个针对内部操作的特殊消息。这样，actor的用户就可以调用通过接口发布的方法，而我们的类就可以在内部使用这个(未发布的)消息。如果我们愿意，我们甚至可以采取额外的步骤来确保这个消息的发送者是我们自己的参与者。在Java中完成这一点需要付出一些努力，但在Scala中会容易得多。让我们先看看Java实现，然后再看看Scala版本。当我们的EnergySourceImpl的外部用户通过EnergySource接口进行通信时，我们将在内部设置actor使用计时器每秒钟向自身发送一条Repl eni sh请求消息。我们将编写的补充()方法是私有的，不能从类外部直接调用，但我们也将避免从计时器直接调用它。计时器只会向参与者发送一条消息。让我们看一下这部分代码
+在我们在前几章实现的版本中，补充操作不需要任何用户干预;它是在后台自动完成的。当我们启动能量源时，一个计时器就会适当地提高每秒一个单位的能量级别。
+
+在类型actor版本中实现该特性将需要进行一些工作，以确保补充操作不会违反类型actor的单线程特性。在开始编写代码之前，让我们先研究一些选项。
+
+我们可以向EnergySource接口添加replenish()方法。能源的用户可以每秒钟调用这个方法。不幸的是，这给能源使用者带来不必要的负担;他们可能会忘记，而且它在功能上也将不再与其他版本的EnergySource匹配。罢工,选项。
+
+我们可以创建一个定时器在类型的演员,和这个定时器可以定期补充能量level TypedActor提供一个特殊的方法称为preStart(),就创建了演员和一个方法称为postStop()叫做演员之后停止或关闭。这两种方法很有用;我们可以在preStart()方法的报告勘误表讨论类型演员和Murmurs 195中启动计时器，并在postStop()方法中取消它。这似乎是个好计划，但却带来了另一个问题。
+
+问题是计时器在它们自己的线程中运行，我们不想从这些线程中接触actor的可变状态。记住，我们希望状态是孤立可变的，而不是共享可变的。我们需要的是一种方法，以导致内部方法调用(我称为这些杂音)由参与者正确执行。这些杂音对我们的类型`actor`的外部用户是不可见的，而是作为异步消息运行，就像那些被外部调用的消息一样，这些消息被排序并与其他消息交织在一起。让我们看看如何将其编码。
+
+记住，有类型的参与者实际上是具有附加便利的参与者。它们确实像演员一样接收消息。基于TypedActor receive()方法接收来自代理的消息，并在我们的类上分派适当的方法。我们可以重写这个方法来实现一个针对内部操作的特殊消息。这样，actor的用户就可以调用通过接口发布的方法，而我们的类就可以在内部使用这个(未发布的)消息。如果我们愿意，我们甚至可以采取额外的步骤来确保这个消息的发送者是我们自己的参与者。
+
+在Java中完成这一点需要付出一些努力，但在Scala中会容易得多。让我们先看看Java实现，然后再看看Scala版本。
+
+##### Implementing Murmurs in Java
+
+当我们的EnergySourceImpl的外部用户通过EnergySource接口进行通信时，我们将在内部设置actor使用计时器每秒钟向自身发送一条Replenish请求消息。我们将编写的补充()方法是私有的，不能从类外部直接调用，但我们也将避免从计时器直接调用它。计时器只会向参与者发送一条消息。让我们看一下这部分代码
 
 ```java
 @SuppressWarnings("unchecked")
@@ -5015,17 +5040,20 @@ if (level < MAXLEVEL) level += 1;
 }
 ```
 
-在preStart()方法中(在actor启动后自动调用)，我们启动一个计时器。我们使用akka提供的调度器，它是一个基于actor的计时器。这个计时器提供了一些重载的schedule()方法来一次性或重复地启动任务。我们可以使用它来执行任意函数，或者像本例中那样，在actor上触发消息。我们设置了计时器，在初始延迟一秒之后，每秒钟就会在actor上发送一条Repl eni sh消息。我们通过调用实例上的optionSelf()方法获得actor的ActorRef引用的句柄。当actor停止时，我们应该停止定时器;因此，我们有postStop()方法。在私有的补充()方法中，我们还没有绑定到Repl enish消息，我们增加了级别值。类型actor的用户使用的代理将方法调用转换为消息。TheTy pedAct或基类的receive()方法将这些消息转换为实现上的方法调用。如果我们检查receive()方法的签名，它将返回一个scala.PartialFunction。6为了我们这里的讨论，可以把一个部分函数看作是一个美化过的开关语句。它根据接收到的消息的类型分派不同的代码片段。因此，基类将消息映射到我们的方法，而我们希望承担映射一个额外的、但是私有的消息的额外责任。换句话说，我们希望将消息处理与基类的receive()方法结合起来。函数Parti al Functi的orElse()方法允许我们很容易地做到这一点，所以我们将使用它
+在preStart()方法中(在actor启动后自动调用)，我们启动一个计时器。我们使用akka提供的调度器，它是一个基于actor的计时器。这个计时器提供了一些重载的schedule()方法来一次性或重复地启动任务。我们可以使用它来执行任意函数，或者像本例中那样，在actor上触发消息。
+
+我们设置了计时器，在初始延迟一秒之后，每秒钟就会在actor上发送一条Repleni sh消息。我们通过调用实例上的optionSelf()方法获得actor的ActorRef引用的句柄。当actor停止时，我们应该停止定时器;因此，我们有postStop()方法。在私有的补充()方法中，我们还没有绑定到Replenish消息，我们增加了级别值。类型actor的用户使用的代理将方法调用转换为消息。TheTypedActor基类的receive()方法将这些消息转换为实现上的方法调用。如果我们检查receive()方法的签名，它将返回一个scala.PartialFunction。为了我们这里的讨论，可以把一个部分函数看作是一个美化过的开关语句。它根据接收到的消息的类型分派不同的代码片段。因此，基类将消息映射到我们的方法，而我们希望承担映射一个额外的、但是私有的消息的额外责任。换句话说，我们希望将消息处理与基类的receive()方法结合起来。函数PartialFuncti的orElse()方法允许我们很容易地做到这一点，所以我们将使用它
 
 ```java
-@Override public PartialFunction receive() {
+@Override
+public PartialFunction receive() {
 return processMessage().orElse(super.receive());
 }
 ```
 
-我们覆盖了receive()方法，并在其中将尚未实现的processMessage()方法返回的部分函数与基函数的receive()返回的部分函数结合起来。现在我们可以将注意力转向processMessage()方法的实现。此方法应该接收
+我们覆盖了receive()方法，并在其中将尚未实现的processMessage()方法返回的部分函数与基函数的receive()返回的部分函数结合起来。现在我们可以将注意力转向processMessage()方法的实现。此方法应该接收Replenish消息并调用私有的补充()方法。
 
-Repl enish消息并调用私有的补充()方法。因为这是消息处理序列的一部分，所以我们使用基于actor的通信来处理线程同步。如果咖啡不够喝，那就多喝点;你需要额外的咖啡因来实现这个方法。Parti al Functi on是Scala中的一个特性，其实现在Java中表现为一对接口和一个抽象类。因此，要在Java中实现一个trait，我们将实现该接口和委托调用，并适当地将调用委派给相应的抽象类。我们将实现的关键方法是apply()方法，我们在该方法中处理Repl eni sh消息。我们还将提供isDefinedAt()方法的实现，该方法告诉函数部分是否支持特定的消息格式或类型。此接口的其余方法可以委托。我们可以通过扩展AbstractFunction1来避免实现接口的某些方法，它与Parti al Functi共享公共接口Function1。
+因为这是消息处理序列的一部分，所以我们使用基于actor的通信来处理线程同步。如果咖啡不够喝，那就多喝点;你需要额外的咖啡因来实现这个方法。Parti al Function是Scala中的一个特性，其实现在Java中表现为一对接口和一个抽象类。因此，要在Java中实现一个trait，我们将实现该接口和委托调用，并适当地将调用委派给相应的抽象类。我们将实现的关键方法是apply()方法，我们在该方法中处理Replenish消息。我们还将提供isDefinedAt()方法的实现，该方法告诉函数部分是否支持特定的消息格式或类型。此接口的其余方法可以委托。我们可以通过扩展AbstractFunction1来避免实现接口的某些方法，它与PartialFuncti共享公共接口Function1。
 
 ```java
 private PartialFunction processMessage() {
@@ -5051,7 +5079,7 @@ return new MyDispatch();
 }
 ```
 
-在apply()方法中，我们检查消息的类型是否为Repl enish，并调用了私有的补充()。isDefinedAt()表示我们只支持这一种消息类型，其余的消息由第198章第8章决定。支持独立的可变性报告勘误表讨论基类的receive()。好的，最后一步是不要忘记那些没有从以前类型的actor版本中更改的方法，所以让我们把它们处理完
+在apply()方法中，我们检查消息的类型是否为Replenish，并调用了私有的补充()。isDefinedAt()表示我们只支持这一种消息类型，其余的消息由第198章第8章决定。支持独立的可变性报告勘误表讨论基类的receive()。好的，最后一步是不要忘记那些没有从以前类型的actor版本中更改的方法，所以让我们把它们处理完
 
 ```java
 public long getUnitsAvailable() { return level; }
@@ -5081,7 +5109,11 @@ EnergySource接口没有变化，并且UseEnergySource继续像以前一样使�
 >Energy units 71
 >Usage 3
 
-我们用来打印线程信息的打印语句显示了使用能量请求和补充请求在Akka s参与者的线程中运行，从而再次减轻了我们的同步问题。如果我们添加sleep调用来延迟这些任务中的任何一个，我们将看到对actor的后续调用的执行被延迟，因为actor是单线程的。这种方法的本质是将我们自己的局部函数实现与基类的receive()方法返回的局部函数结合起来。在Java中要做到这一点需要付出很大的努力，但在Scala中要容易得多。让我们来看看处理杂音的部分，内部信息。
+我们用来打印线程信息的打印语句显示了使用能量请求和补充请求在Akka s参与者的线程中运行，从而再次减轻了我们的同步问题。如果我们添加sleep调用来延迟这些任务中的任何一个，我们将看到对actor的后续调用的执行被延迟，因为actor是单线程的。这种方法的本质是将我们自己的局部函数实现与基类的receive()方法返回的局部函数结合起来。
+
+###### Implementing Murmurs in Scala
+
+在Java中要做到这一点需要付出很大的努力，但在Scala中要容易得多。让我们来看看处理杂音的部分，内部信息。
 
 ```java
 class EnergySourceImpl extends TypedActor with EnergySource {
@@ -5134,7 +5166,7 @@ usageCount += 1
 
 与Java相比，在Scala中实现这一点要容易得多。尽管这两段代码产生了相同的逻辑结果，但与Java版本相比，在Scala版本中花费的精力更少。
 
-8.9 Mixing Actors and STM
+##### 8.9 Mixing Actors and STM
 
 actor很好地允许我们隔离可变状态。如果可以将一个问题划分为可独立运行并使用消息进行异步通信的并发任务，那么它们将非常有效。然而，参与者并不提供一种跨任务管理共识的方法。我们可能希望两个或更多参与者的行动能够同时成功或失败;也就是说，他们要么全部成功，要么全部失败。actor本身不能为我们做到这一点，但是我们可以通过将STM引入其中来实现这一点。在本节中，我假设您已经阅读了第6章，软件事务性内存介绍，在第89页，以及本章中对actor和类型actor的讨论。AccountService类帮助我们在页67和页111上创建嵌套事务的Lock接口中的两个帐户之间进行传输，它可以作为一个很好的示例来理解actor和STM之间的这种相互作用。存款和取款业务是独立于个人账户的。因此，Account可以使用简单的参与者或类型化的参与者来实现。然而，转账操作必须协调两个账户之间的存款和取款。换句话说，由一个参与者处理的存款操作，只有在由另一个参与者作为总体转移的一部分处理的相应的取款操作也成功时，才应该成功。让我们混合使用actor和STM来实现帐户转账示例。Akka提供了一些混合actor和STM的选项。我们可以创建一个单独的事务协调对象，并自己管理进入事务的各种参与者的顺序(关于控制级别，请参阅Akka文档)。另外，我们可以依赖两种方便的方法来管理参与者之间的事务。我们将研究这两种方法:如何使用它们的事务器以及如何协调类型参与者。
 
