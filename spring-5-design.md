@@ -84,7 +84,7 @@ Singleton模式仅解决一个问题-如果您的资源只能有一个实例，�
 
 4.此模式动态地为应用程序配置类，让我们看一下Prototype设计模式的UML类结构。
 
-![图片](E:\oldF\learningDocument\git-workspace\PANDA-Walker\picture\Image_177.jpg)
+![图片](E:\learningforalllife\git-workspace\PANDA-Walker\picture\Image_177.jpg)
 
 Prototype：原型是一个接口。它使用clone方法创建此接口类型的实例。
 
@@ -106,7 +106,7 @@ Builder设计模式用于逐步构造复杂的对象，最后它将返回完整�
 
 这种模式提供了改变对象内部表示形式的灵活性
 
- ![图片](E:\oldF\learningDocument\git-workspace\PANDA-Walker\picture\Image_189.jpg)
+ ![图片](E:\learningforalllife\git-workspace\PANDA-Walker\picture\Image_189.jpg)
 
 Builder设计模式的UML图：
 
@@ -160,7 +160,7 @@ UriComponentsBuilder
 
 在许多实际的示例中，我们可以使用适配器模式。假设您有不同类型的电插头，例如圆柱形和矩形插头，如下图所示。如果满足电压要求，则可以在两者之间使用适配器将矩形插头插入圆柱形插座。
 
-![image](E:\oldF\learningDocument\git-workspace\PANDA-Walker\picture\Image_210.jpg)
+![image](E:\learningforalllife\git-workspace\PANDA-Walker\picture\Image_210.jpg)
 
 让我们看看在应用程序中使用适配器设计模式的以下好处。
 
@@ -202,7 +202,7 @@ WebMvcConfigurerAdapter
 
 
 
-![图片](E:\oldF\learningDocument\git-workspace\PANDA-Walker\picture\Image_225.jpg)
+![图片](E:\learningforalllife\git-workspace\PANDA-Walker\picture\Image_225.jpg)
 
 目标接口 target：这是客户端将使用的所需接口类
 
@@ -252,7 +252,7 @@ ViewRendererServlet：它是一个桥servlet，主要用于Portlet MVC支持**�
 
 让我们看一个不使用Bridge设计模式的示例。在下图中，您可以看到银行和帐户界面之间的关系：
 
-![image](E:\oldF\learningDocument\git-workspace\PANDA-Walker\picture\Image_244.jpg)
+![image](E:\learningforalllife\git-workspace\PANDA-Walker\picture\Image_244.jpg)
 
 让我们在不使用Bridge设计模式的情况下创建设计。首先创建一个接口或抽象类**Bank**。然后创建其派生类：**IciciBank**和**HdfcBank**。要在银行中开设帐户，首先要确定帐户类别的类型-**储蓄帐户**和**活期帐户**，这些类别扩展了特定的银行类别（**HdfcBank**和**IciciBank**）。此应用程序中有一个简单的深度继承层次结构。那么，与上图相比，这种设计有什么问题？您会注意到，在此设计中，有两个部分，一个是抽象部分，另一个是实现部分。客户端代码与抽象部分进行交互。当您更新抽象部分时，客户端代码只能访问实现部分的新更改或新功能，这意味着这些部分，抽象和实现是紧密结合的。
 
@@ -264,15 +264,15 @@ ViewRendererServlet：它是一个桥servlet，主要用于Portlet MVC支持**�
 
 在下图中，我们使用Bridge设计模式在Bank and Account接口之间创建关系：
 
-![图片](E:\oldF\learningDocument\git-workspace\PANDA-Walker\picture\Image_245.jpg)
+![图片](E:\learningforalllife\git-workspace\PANDA-Walker\picture\Image_245.jpg)
 
-![img](E:\oldF\learningDocument\git-workspace\PANDA-Walker\picture\1528771072-8457-5780d2384acdbb60ec07fc3c71a1.png)
+![img](E:\learningforalllife\git-workspace\PANDA-Walker\picture\1528771072-8457-5780d2384acdbb60ec07fc3c71a1.png)
 
 让我们看一下下图，了解Bridge设计模式如何解决这些设计问题，如我们未使用Bridge设计模式的示例所示。桥接模式将抽象和实现分为两个类层次结构：
 
 UML用于桥梁设计模式
 
-![图片](E:\oldF\learningDocument\git-workspace\PANDA-Walker\picture\Image_246.jpg)
+![图片](E:\learningforalllife\git-workspace\PANDA-Walker\picture\Image_246.jpg)
 
 我们有一个Account接口，它充当桥接器的实现者，而具体的类SavingAccount和CurrentAccount实现了Account接口。该银行是一个抽象类，它会使用帐户的对象。
 
@@ -280,15 +280,15 @@ UML用于桥梁设计模式
 
 将对象组合成树结构以表示部分整个层次结构。复合可以使客户统一对待单个对象和对象组成。--GoF设计模式
 
-在软件工程中，复合模式属于结构设计模式。根据此模式，客户端会将一组相同类型的对象视为单个对象。Composite设计模式背后的想法是将一组对象组合成一个树形结构，以表示更大的结构应用程序的模块。而且，这种针对客户的结构统一地是单个单元或实例。
+在软件工程中，复合模式属于结构设计模式。根据此模式，客户端会将一组相同类型的对象视为单个对象。
 
-
+Composite设计模式背后的想法是将一组对象组合成一个树形结构，以表示更大的结构应用程序的模块。而且，这种针对客户的结构统一地是单个单元或实例。
 
 Composite设计模式背后的动机是将系统中的对象分为树形结构，而树形结构是节点叶和分支的组合。在树结构中，节点具有许多叶子和其他节点。叶子没有任何东西，这意味着树上没有叶子的孩子。叶子被视为树状结构数据的终点。
 
 让我们看一下下图，它以节点和叶的形式表示树形结构中的数据：
 
-![image](E:\oldF\learningDocument\git-workspace\PANDA-Walker\picture\Image_255.jpg)
+![image](E:\learningforalllife\git-workspace\PANDA-Walker\picture\Image_255.jpg)
 
 
 
@@ -296,13 +296,11 @@ Composite设计模式背后的动机是将系统中的对象分为树形结构�
 
 作为开发人员，设计应用程序以使客户端可以跨应用程序统一访问您的对象更加困难，即使该对象是对象的组合或单个对象也是如此。这种设计模式解决了难题，并允许您以某种方式设计对象，以便可以将该对象用作对象和单个单个对象的组合。
 
-
-
 这种模式解决了创建分层树结构以为客户提供访问和操纵树中对象的统一方式时所面临的挑战。复合模式是一个不错的选择。在这种情况下，将基本体和复合体视为同质的复杂性较低。
 
 组合设计模式是基于将相似类型的对象组成到树结构中的，您知道每棵树都有三个主要部分：分支，节点和叶。因此，让我们看一下此设计模式中使用的以下术语。
 
-组件 Component：它基本上是树的一个分支，并且该分支还有其他分支，节点和叶子。组件为所有组件（包括复合对象）提供抽象。在该组合物的图案，组分被基本上声明为对象的接口。
+组件 Component：它基本上是树的一个分支，并且该分支还有其他分支，节点和叶子。组件为所有组件（包括复合对象）提供抽象。在该组合物的图案，组件被基本上声明为对象的接口。
 
 Leaf ：这是一个实现所有组件方法的对象。
 
@@ -310,14 +308,107 @@ Composite 组合：它表示为树结构中的一个节点，它具有其他节�
 
 让我们看一下下面这个设计模式的UML图：
 
-![image](E:\oldF\learningDocument\git-workspace\PANDA-Walker\picture\Image_256.jpg)
+![image](E:\learningforalllife\git-workspace\PANDA-Walker\picture\Image_256.jpg)
 
 复合设计模式的好处：
 
-这种模式提供了添加新组件以进行处理的灵活性
+1这种模式提供了添加新组件以进行处理的灵活性
 
-动态地改变现有组件	
+2动态地改变现有组件	
 
-此模式使您可以创建包含单个对象和复合对象的类层次结构
+3此模式使您可以创建包含单个对象和复合对象的类层次结构
 
-92.html
+#### Sample implementation of the Composite design pattern
+
+```java
+public interface Account {
+void accountType();
+}
+```
+
+
+
+```java
+public class SavingAccount implements Account{
+@Override
+public void accountType() {
+System.out.println("SAVING ACCOUNT");
+}
+}
+```
+
+```java
+public class CurrentAccount implements Account {
+@Override
+public void accountType() {
+System.out.println("CURRENT ACCOUNT");
+}
+}
+```
+
+
+
+```java
+package com.packt.patterninspring.chapter3.composite.pattern;
+import java.util.ArrayList;
+import java.util.List;
+import com.packt.patterninspring.chapter3.model.Account;
+public class CompositeBankAccount implements Account {
+//Collection of child accounts.
+private List<Account> childAccounts = new ArrayList<Account>();
+@Override
+public void accountType() {
+for (Account account : childAccounts) {
+account.accountType();
+}
+}
+//Adds the account to the composition.
+public void add(Account account) {
+childAccounts.add(account);
+}
+//Removes the account from the composition.
+public void remove(Account account) {
+childAccounts.remove(account);
+}
+}
+```
+
+
+
+```java
+import com.packt.patterninspring.chapter3.model.CurrentAccount;
+import com.packt.patterninspring.chapter3.model.SavingAccount;
+public class CompositePatternMain {
+public static void main(String[] args) {
+//Saving Accounts
+SavingAccount savingAccount1 = new SavingAccount();
+SavingAccount savingAccount2 = new SavingAccount();
+//Current Account
+CurrentAccount currentAccount1 = new CurrentAccount();
+CurrentAccount currentAccount2 = new CurrentAccount();
+//Composite Bank Account
+CompositeBankAccount compositeBankAccount1 = new
+CompositeBankAccount();
+CompositeBankAccount compositeBankAccount2 = new
+CompositeBankAccount();
+CompositeBankAccount compositeBankAccount = new
+CompositeBankAccount();
+//Composing the bank accounts
+compositeBankAccount1.add(savingAccount1);
+compositeBankAccount1.add(currentAccount1);
+compositeBankAccount2.add(currentAccount2);
+compositeBankAccount2.add(savingAccount2);
+compositeBankAccount.add(compositeBankAccount2);
+compositeBankAccount.add(compositeBankAccount1);
+compositeBankAccount.accountType();
+}
+}
+```
+
+
+
+### Decorator design pattern
+
+> Attach additional responsibilities to an object dynamically. Decorators provide a flexible alternative to sub classing for extending functionality.
+
+动态地给对象附加额外的职责。装饰器为扩展功能提供了子类化之外的灵活选择。
