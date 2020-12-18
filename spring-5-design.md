@@ -1,5 +1,44 @@
 # spring5_design
 
+##  SOLID（单一功能、开闭原则、里氏替换、接口隔离以及依赖反转）
+
+### **1 单一职责原则（SRP）**
+
+一个对象应该只包含单一的职责，并且该职责被完整地封装在一个类中，即又定义有且仅有一个原因使类变更。（甲类负责两个不同的职责：职责A，职责B。当由于职责A需求发生改变而需要修改类T时，有可能会导致原本运行正常的职责B功能发生故障。也就是说职责A和B被耦合在了一起”）。
+
+### **2 开放封闭原则（OCP)**
+
+实体应该对扩展是开放的，对修改是封闭的。即可扩展(extension)，不可修改(modification)。
+
+### **3 里氏替换原则（LSP）**
+
+一个对象在其出现的任何地方，都可以用子类实例做替换，并且不会导致程序的错误。
+经典的例子: 正方形不是长方形的子类。原因是正方形多了一个属性“长 == 宽”。这时，对正方形类设置不同的长和宽，计算面积的结果是最后设置那项的平方，而不是长*宽，从而发生了与长方形不一致的行为。如果程序依赖了长方形的面积计算方式，并使用正方形替换了长方形，实际表现与预期不符。
+
+### **4 接口隔离原则（ISP）**
+
+接口隔离原则表明客户端不应该被强迫实现一些他们不会使用的接口，应该把胖接口中的方法分组，然后用多个接口替代它，每个接口服务于一个子模块。简单地说，就是使用多个专门的接口比使用单个接口要好很多。
+
+ISP的主要观点如下：
+
+1）一个类对另外一个类的依赖性应当是建立在最小的接口上的。
+
+ISP可以达到不强迫客户（接口的使用方法）依赖于他们不用的方法，接口的实现类应该只呈现为单一职责的角色（遵循SRP原则）
+
+ISP还可以降低客户之间的相互影响---当某个客户要求提供新的职责（需要变化）而迫使接口发生改变时，影响到其他客户程序的可能性最小。
+
+2）客户端程序不应该依赖它不需要的接口方法（功能）。
+
+客户端程序就应该依赖于它不需要的接口方法（功能），那依赖于什么？依赖它所需要的接口。客户端需要什么接口就是提供什么接口，把不需要的接口剔除，这就要求对接口进行细化，保证其纯洁性。
+
+### **5 依赖倒置原则（DIP）**
+
+抽象不应该依赖于细节，细节应当依赖于抽象。换言之，要针对抽象（接口）编程，而不是针对实现细节编程。
+
+开闭原则（OCP）是面向对象设计原则的基础也是整个设计的一个终极目标，而依赖倒置原则（DIP )则是实现OCP原则的一个基础，换句话说开闭原则（OCP）是你盖一栋大楼的设计蓝图，那么依赖倒置原则就是盖这栋大楼的一个钢构框架。
+
+## 创建模式 create Patterns
+
 Using a Spring container to manage beans with the Factory pattern
 
 使用spring容器结合工厂模式
@@ -132,7 +171,7 @@ UriComponentsBuilder
 
  MockMvcWebClientBuilder
 
-##  Structural and Behavioral Patterns(结构模式和行为模式)
+## Structural and Behavioral Patterns(结构模式和行为模式)
 
 让我们继续我们的核心设计模式之旅：
 
@@ -152,7 +191,7 @@ UriComponentsBuilder
 
 结构模式可帮助您确保当其中一部分发生更改时，整个结构都不需要更改；在汽车中，您可以用其他供应商更换轮胎，而不会影响汽车的其他部件。它们还向您展示了如何将系统中不适合（但需要使用）的部分重铸为适合的部分。
 
-#### The adapter design pattern（适配器模式）
+### The adapter design pattern（适配器模式）
 
 将类的接口转换为客户期望的另一个接口。适配器使类可以协同工作，否则由于接口不兼容而无法实现。-----GoF设计模式：可重用的面向对象软件的元素
 
@@ -326,8 +365,6 @@ void accountType();
 }
 ```
 
-
-
 ```java
 public class SavingAccount implements Account{
 @Override
@@ -345,8 +382,6 @@ System.out.println("CURRENT ACCOUNT");
 }
 }
 ```
-
-
 
 ```java
 package com.packt.patterninspring.chapter3.composite.pattern;
@@ -412,3 +447,55 @@ compositeBankAccount.accountType();
 > Attach additional responsibilities to an object dynamically. Decorators provide a flexible alternative to sub classing for extending functionality.
 
 动态地给对象附加额外的职责。装饰器为扩展功能提供了子类化之外的灵活选择。
+
+在软件工程中，所有GOF结构模式的共同意图是在灵活的企业应用程序中简化对象和类之间的复杂关系。装饰器模式是结构设计模式中的一种特殊类型的设计模式，它使您可以在运行时动态或静态地添加和删除单个对象的行为，而无需从该对象更改其他关联对象的现有行为。类。这种设计模式可以做到这一点，而不会违反面向对象编程的单一职责原则或SOLID原则。
+
+这种设计模式使用继承的构图进行对象关联。它使您可以将功能分为具有特定关注领域的不同具体类。
+
+#### 装饰器设计模式的好处
+
+1此模式使您可以动态和静态地扩展功能，而无需更改现有对象的结构
+
+2通过使用这种模式，您可以动态地向对象添加新职责
+
+3这种模式也称为**包装器**
+
+4该模式使用对象关系的成分来维护SOLID原理
+
+5这种模式通过为每种新的特定功能编写新的类而不是更改应用程序的现有代码来简化编码
+
+![图片](E:\oldF\learningDocument\git-workspace\PANDA-Walker\picture\Image_271.jpg)
+
+当我将更多的福利计划添加到**SavingAccount时**，此设计将非常复杂，但是当银行为**CurrentAccount**启动相同的计划时会发生什么？显然，这种设计是有缺陷的，但这对于装饰器模式。该模式允许您添加运行时动态行为。在这种情况下，我将创建一个抽象的**AccountDecorator**类来实现**Account**。此外，我将创建**SeniorCitizen**类和**Privilege**类，它扩展了**AccountDecorator，**因为young没有任何额外的好处，因此SavingAccount类不会扩展**AccountDecorator**。设计将是这样的：
+
+![图片](E:\oldF\learningDocument\git-workspace\PANDA-Walker\picture\Image_272.jpg)
+
+AccountDecorator和Account之间的关系，即正确类型的继承
+
+AccountDecorator和Account之间的关系，也就是说，为了添加新的行为而不更改现有代码的组合
+
+参与此模式的类和对象是：
+
+1 Component （account）：它是对象的接口，可以动态添加职责
+
+2 ConcreteComponent（SavingAccount）：这是组件接口的具体类，它定义了可以附加附加职责的对象
+
+3 Decorator （ AccountDecorator ）：它有一个对组件对象的引用，并定义了一个符合组件接口的接口
+
+4 ConcreteDecorator （SeniorCitizen and Privilege ）它是装饰器的具体实现，并向组件添加了职责
+
+#### Decorator design pattern in the Spring Framework
+
+Spring框架使用Decorator设计模式来构建重要的功能，例如事务，缓存同步以及与安全性相关的任务。让我们看一下Spring透明地实现此模式的一些功能：
+
+1，将建议（advice）编织到Spring应用程序中。它通过`CGLib`代理使用`Decorator`模式。它通过在运行时生成目标类的子类来工作。
+
+2，`BeanDefinitionDecorator`：用于通过应用自定义属性装饰Bean定义。
+
+3，`WebSocketHandlerDecorator` ：用于用其他行为装饰`WebSocketHandler`。
+
+
+
+现在让我们转到另一个GOF设计模式-外观设计模式。
+
+98.html
