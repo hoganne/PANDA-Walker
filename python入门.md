@@ -1337,11 +1337,270 @@ for循环逐行遍历文本文件。当你运行它时，你会得到
 
 ```python
 f = open (‘myfile.txt’, 'a')
-
 f.write(‘\nThis sentence will be appended.’)
-
 f.write(‘\nPython is Fun!’)
-
 f.close()
 ```
 
+### Opening and Reading Text Files by Buffer Size
+
+有时，我们可能想按缓冲区大小读取文件，这样程序就不会占用太多的内存资源。为此，我们可以使用read()函数(而不是readline()函数)，它允许我们指定我们想要的缓冲区大小。请尝试以下程序:
+
+```python
+inputFile = open (‘myfile.txt’, 'r')s
+outputFile = open (‘myoutputfile.txt’, 'w')
+msg = inputFile.read(10)
+while len(msg):
+    outputFile.write(msg)
+    msg = inputFile.read(10) 
+inputFile.close()
+outputFile.close()
+```
+
+首先，我们打开两个文件inputFile.txt和outputFile.txt分别用于读取和写入。
+
+接下来，我们使用msg = inputFile.read(10)语句和while循环每次对文件进行10字节的循环。圆括号中的值10告诉read()函数只读取10个字节。len(msg)的while条件:检查变量msg的长度。只要长度不为零，循环就会运行。
+
+在while循环中，语句outputFile.write(msg)将消息写入输出文件。写完消息后，语句msg = inputFile.read(10)读取接下来的10个字节，并一直这样做，直到读取整个文件。当这种情况发生时，程序将关闭两个文件。
+
+当您运行程序时，将创建一个新的文件myoutputfile.txt。打开该文件时，您会注意到它与输入文件myfile.txt具有相同的内容。为了证明一次只读取10个字节，您可以将程序中的行outputFile.write(msg)更改为outputFile.write(msg+ ' \ n ')。现在再次运行程序。myoutputfile.txt现在包含最多10个字符的行。这是你会得到的部分。
+
+>Learn Pyth
+>
+>on in One
+>
+>Day and Le
+>
+>arn It Wel
+
+### Opening, Reading and Writing Binary Files
+
+二进制文件是指任何包含非文本的文件，如图像或视频文件。要处理二进制文件，我们只需使用' rb '或' wb '模式。将一个jpeg文件复制到桌面，并将其重命名为myimage.jpg。现在通过更改前两行来编辑上面的程序
+
+```python
+inputFile = open (‘myfile.txt’, 'r')
+
+outputFile = open (‘myoutputfile.txt’, 'w')
+
+to
+ 
+inputFile = open (‘myimage.jpg’, 'rb')
+
+outputFile = open (‘myoutputimage.jpg’, 'wb')
+```
+
+确保您也更改了语句outputFile。写(msg + '\n')回outputFile.write(msg)。
+
+运行新程序。您的桌面上应该有一个名为myoutputimage.jpg的附加图像文件。当您打开图像文件时，它应该与myimage.jpg完全相似。
+
+### Deleting and Renaming Files
+
+在处理文件时，我们需要学习的另外两个有用函数是remove()和rename()函数。这些函数在os模块中是可用的，在使用它们之前必须先import它们。
+
+函数的作用是:删除一个文件。语法是remove(filename)。例如，删除myfile。我们写入remove(' myfile.txt ')。
+
+函数的作用是:重命名一个文件。语法是rename(旧名称，新名称)。将oldfile.txt重命名为newfile。txt，我们写rename(' oldfile '。txt”、“newfile.txt”)。
+
+## Project: Math and BODMAS
+
+恭喜你!现在，我们已经学习了足够的Python(以及一般编程)基础知识，可以开始编写第一个完整的程序了。在这一章，我们将编写一个程序来测试我们对算术计算的BODMAS规则的理解。如果你不确定什么是BODMAS，你可以访问这个网站http://www.mathsisfun.com/operation-order-bodmas.html。
+
+我们的程序会随机设置一个算术问题让我们回答。如果我们得到的答案是错误的，程序将显示正确的答案，并询问我们是否想尝试一个新的问题。如果我们答对了，程序会恭维我们，并询问我们是否需要一个新的问题。此外，该程序将跟踪我们的分数，并将分数保存在一个外部文本文件。每个问题结束后，我们可以按“-1”键终止程序。
+
+我已经把程序分解成几个小练习，以便您可以尝试自己编写程序。参考答案之前先试一下练习。答案在附录E中提供，或者你可以访问http://www.learncodingfast.com/python下载Python文件。我强烈建议你下载源代码，因为附录E中的格式可能会导致一些缩进的变形，使代码难以阅读。
+
+记住，学习Python语法很简单，但是很枯燥。解决问题才是乐趣所在。如果你在做这些练习时遇到困难，要更加努力。这是最大的回报。
+
+准备好了吗?我们走吧!
+
+### Part 1: myPythonFunctions.py
+
+我们将为我们的程序编写两个文件。第一个文件是myPythonFunctions.py，第二个是mathGame.py。第1部分将着重于为myPythonFunctions.py编写代码。
+
+首先，让我们创建文件myPythonFunctions.py。我们将在这个文件中定义三个函数。
+
+我们需要为myPythonFunctions导入两个模块。随机模块和操作系统模块。
+
+我们将使用random模块中的randint()函数。函数的作用是:在给定的范围内生成一个随机整数。我们稍后会用它来生成问题中的数字。
+
+在os模块中，我们将使用remove()和rename()函数。
+
+这里我们定义第一个函数。我们将其称为getUserPoint()。这个函数接受一个参数userName。然后打开文件' userScores '。txt为r模式。
+
+userscore .txt看起来是这样的:
+
+>Ann, 100
+>
+>Benny, 102
+
+每行记录一个用户的信息。第一个值是用户的用户名，第二个值是用户的分数。
+
+接下来，该函数使用for循环逐行读取文件。然后使用split()函数拆分每行(请参阅附录A，以获得使用split()函数的示例)。
+
+让我们将split()函数的结果存储在列表内容中。
+
+接下来，函数检查是否有任何行与作为参数传入的值具有相同的用户名。如果存在，函数关闭文件并返回该用户名旁边的分数。如果不存在，函数关闭文件并返回字符串' -1 '。
+
+现在我们需要对代码做一些修改。当打开我们的文件之前，我们使用' r '模式。这有助于防止对文件的任何意外更改。但是，当以' r '模式打开一个文件时，如果该文件不存在，则会发生IOError。因此，当我们第一次运行该程序时，我们将以一个错误结束，因为文件userScores.txt以前不存在。为了防止这个错误，我们可以做以下任何一种:
+
+我们可以以“w”模式打开文件，而不是以“r”模式打开文件。当以“w”模式打开时，如果该文件以前不存在，将创建一个新文件。这种方法的风险在于，我们可能会意外地写入文件，从而导致之前所有的内容都被擦除。然而，由于我们的程序是一个小程序，我们可以仔细检查我们的代码以防止任何意外的写入。
+
+方法是使用try, except语句来处理IOError。为此，我们需要将所有以前的代码放在try块中，然后使用except IOError:来处理“文件未找到”错误。在except块中，我们将通知用户没有找到文件，然后继续创建文件。我们将使用带有“w”模式的open()函数来创建它。这里的不同之处在于，我们只在没有找到文件时使用“w”模式。由于该文件最初并不存在，因此不存在删除以前任何内容的风险。创建文件后，关闭文件并返回字符串" -1 "。
+
+您可以选择上述方法中的任何一种来完成这个练习。所提供的答案使用第二种方法。一旦你完成了，让我们进入练习3。
+
+练习3:更新用户的分数
+
+在本练习中，我们将定义另一个名为updateUserPoints()的函数，它接受三个参数:newUser、userName和score。
+
+newUser可以为True或False。如果newUser为True，该函数将在append模式下打开userscore .txt文件，并在用户退出游戏时将用户的用户名和分数附加到文件中。
+
+如果newUser为False，该函数将更新该用户在文件中的得分。然而，在Python(或大多数编程语言)中没有函数允许我们更新文本文件。我们只能写入或追加它，但不能更新它。
+
+因此，我们需要创建一个临时文件。这是编程中相当常见的实践。让我们将此文件命名为userScores.tmp，并以“w”模式打开它。现在，我们需要循环userScore.txt，并逐行将数据复制到userScores.tmp。但是，在复制之前，我们将检查该行上的用户名是否与作为参数提供的用户名相同。如果是相同的，我们将在写入临时文件之前将分数更改为新分数。
+
+例如，如果提供给函数的参数是False、' Benny '和' 158 '(即updateUserPoints(False， ' Benny '， ' 158 '))，下面的表显示了原始userscore .txt和新的userscore .tmp之间的差异。
+
+```python
+userScores.txt
+Ann, 100
+
+Benny, 102
+
+Carol, 214
+
+Darren, 129
+userScores.tmp
+
+Ann, 100
+
+Benny, 158
+
+Carol, 214
+
+Darren, 129
+```
+
+在我们写完userScore之后。tmp，我们将关闭两个文件并删除userScores.txt。最后，我们将userScores.tmp重命名为userScores.txt。
+
+清楚了吗?试编码…
+
+练习4:生成问题
+
+现在我们进入程序最重要的部分，生成数学问题。准备好了吗?
+
+为了生成问题，我们首先声明三个变量:两个列表和一个字典。
+
+我们将这两个列表命名为operandList和operatorList。
+
+operandList应该存储5个数字，初始值为0。operatorList应该存储四个字符串，以' '作为它们的初始值。
+
+字典由4对组成，用整数1到4作为字典键，“+”、“-”、“*”、“**”作为数据。我们称它为operatorDict。
+
+[练习4.1:用随机数更新operandList]
+
+首先，我们需要用randint()函数生成的随机数替换operandList的初始值。
+
+randint()接受两个参数start和end，并返回一个随机整数N，使start <= N <= end。
+
+例如，如果randint(1,9)被调用，它将随机返回数字1、2、3、4、5、6、7、8、9的整数。
+
+要用随机数更新operandList变量，我们可以一个接一个地这样做，因为operandList只有5个成员。我们可以写
+
+operandList[0] = randint(1, 9)
+
+operandList[1] = randint(1, 9)
+
+operandList[2] = randint(1, 9)
+
+operandList[3] = randint(1, 9)
+
+operandList[4] = randint(1, 9)
+
+每次调用randint(1,9)时，它都会从数字1、2、3、4、5、6、7、8、9中随机返回一个整数。
+
+然而，这并不是更新operandList的最优雅的方法。想象一下，如果operandList有1000个成员，这将是多么麻烦。更好的替代方法是使用for循环。
+
+尝试使用for循环来完成相同的任务。
+
+做了什么?太棒了!
+
+[练习4.2:用数学符号更新operatorList]
+
+现在我们有了要操作的数字，我们需要为我们的问题随机生成数学符号(+、-、*、**)。为此，我们将使用randint()函数和operatorDict字典。randint()将生成字典键，然后使用operatorDict字典将其映射到正确的操作符。例如，要将符号赋值给operatorList[0]，需要写入
+
+operatorList[0] = operatorDict[randint(1, 4)]
+
+与练习4.1类似，您应该使用for循环来完成此任务。然而，有一个问题使这个练习比练习4.1更难。
+
+回想一下，在Python中，**代表指数(即2**3 = 2^3)?
+
+问题是，当Python中有两个连续的指数运算符时，比如2**3**2,Python将它解释为2**(3**2)而不是(2**3)**2。在第一种情况下，答案是2的9次方(即29)也就是512。在第二种情况中，答案是8的2次方，也就是82，也就是64。因此，当我们提出一个像2**3**2这样的问题时，如果用户将其理解为(2**3)**2，那么他就会得到错误的答案。
+
+为了防止这个问题，我们要修改我们的代码，这样我们就不会得到两个连续的**符号。换句话说,operatorList = [‘+’, ‘+’, ‘-’, ‘**’] 很好但operatorList = [‘+’, ‘-’, ‘**’, ‘**’] 不是。
+
+这个练习是所有练习中最难的。尝试想出一个解决方案来防止两个连续的**现象。一旦你完成了，我们可以继续做练习4.3。
+
+提示:如果卡住了，可以考虑在for循环中使用If语句。
+
+[练习4.3:生成数学表达式]
+
+现在我们已经有了操作符和操作数，我们将尝试将数学表达式生成为字符串。这个表达式使用operandList中的5个数字和operatorList中的4个数学符号来构成一个问题。
+
+我们必须声明另一个名为questionString的变量，并将数学表达式赋值给questionString。问题字符串的例子包括
+
+6 – 2*3 – 2**1
+
+4 + 5 – 2*6 + 1
+
+8 – 0*2 + 5 – 8
+
+试着自己产生这个表达。
+
+提示:您可以使用for循环将operandList和operatorList中的各个子字符串连接起来，以获得数学表达式。
+
+[练习4.4:评估结果]
+
+我们现在应该有一个数学表达式作为字符串，赋值给变量questionString。为了计算这个表达式的结果，我们将使用Python自带的一个出色的内置函数eval()。
+
+eval()将字符串解释为代码并执行代码。例如，如果我们写eval(“1+2+4”)，我们会得到数字7。
+
+因此，为了计算数学表达式的结果，我们将questionString传递给eval()函数，并将结果赋值给一个名为result的新变量。
+
+这个练习非常简单，一步就可以完成。
+
+[练习4.5:与用户互动]
+
+最后，我们将与用户进行交互。在这个练习中，我们将做一些事情:步骤1:向用户显示问题步骤2:提示用户回答问题步骤3:评估答案，显示适当的消息并返回用户的分数。对于第一步，我们需要使用一个内置函数来操作字符串。如前所述，在Python中，**符号代表指数。即2**3 = 8。然而，对于大多数用户来说，**没有任何意义。因此，如果我们将一个问题显示为2**3 + 8 -5，用户可能会感到困惑。为了防止这种情况发生，我们将把问题字符串中的任何**符号替换为^符号。
+
+为此，我们将使用内置函数replace()。使用它非常简单，只需写入questionString = questionString。取代 ("**", "^").现在可以将结果表达式打印给用户了。
+
+对于步骤2，您可以使用input()函数来接受用户输入。
+
+对于步骤3，您应该使用if语句来计算答案并显示正确的消息。如果用户得到正确的结果，我们将赞美用户并返回值1。如果用户答错了，我们将显示正确的答案并返回值0。
+
+还记得input()函数以字符串形式返回用户输入吗?因此，当您将用户的输入与正确的答案(在练习4.4中获得)进行比较时，您必须执行某种类型转换以将用户输入更改为整数。当将用户输入更改为整数时，您应该使用try, except语句检查用户是否输入了一个数字。如果用户输入的是字符串，程序应该告诉用户错误，并提示用户输入一个数字。你可以使用while True循环来持续提示用户输入一个数字，只要他/她没有这样做。写while True相当于写while 1==1这样的东西。因为1总是等于1(因此总是为真)，所以循环将无限期地运行。这里有一个关于如何在这个练习中使用while True循环的建议。
+
+```python
+while True:
+
+try:
+
+cast user’s answer to an integer and evaluate the answer
+
+return user score based on the answer
+
+except:
+
+print error message if casting fails
+
+prompt user to key in the answer again
+
+ 
+```
+
+while True循环将继续循环，因为while条件始终为真。只有当try块正确执行并到达return语句时，循环才会退出。
+
+试试这个练习。完成之后，我们可以进入第2部分，在第2部分我们编写实际的程序。
+
+### Part 2: mathGame.py
