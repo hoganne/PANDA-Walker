@@ -638,14 +638,10 @@ I am 5’9” tall
 
 ```python
 Not equals:
-
 5 != 2
- 
-
 Greater than:
 
 5>2
- 
 
 Smaller than:
 
@@ -676,23 +672,14 @@ if语句是最常用的控制流语句之一。它允许程序评估是否满足
 
 ```py
 if condition 1 is met:
-
 do A
-
 elif condition 2 is met:
-
 do B
-
 elif condition 3 is met:
-
 do C
-
 elif condition 4 is met:
-
 do D
-
 else:
-
 do E
 ```
 
@@ -708,17 +695,15 @@ userInput = input('Enter 1 or 2: ')
 if userInput == "1":
     print ("Hello World")
 
-print (“How are you?”)
+	print (“How are you?”)
 
 elif userInput == "2":
 
-print ("Python Rocks!")
+	print ("Python Rocks!")
 
-print (“I love Python”)
-
+	print (“I love Python”)
 else:
-
-print ("You did not enter a valid number")
+	print ("You did not enter a valid number")
 ```
 
 程序首先使用输入函数提示用户输入。结果以字符串形式存储在userInput变量中。
@@ -733,18 +718,535 @@ print ("You did not enter a valid number")
 
 ```py
 Enter 1 or 2: 1
-
 Hello World
-
 How are you?
-
 Enter 1 or 2: 2
-
 Python Rocks!
-
 I love Python
 
 Enter 1 or 2: 3
 您没有输入有效的数字
 ```
 
+### Inline If
+
+内联if语句是if语句的一种更简单的形式，如果您只需要执行一个简单的任务，则内联if语句更加方便。的语法是:
+
+do Task A if condition is true else do Task B
+
+列如
+
+num1 = 12 if myInt==10 else 13
+
+如果myInt等于10，这个语句将12赋值给num1(任务A)。否则它给num1分配13(任务B)。
+
+Another example is
+
+print (“This is task A” if myInt == 10 else “This is task B”)
+
+如果myInt = 10，该语句打印“This is task A”(task A)。否则输出“This is task B”(task B)。
+
+### For Loop
+
+接下来，让我们看一下for循环。for循环反复执行代码块，直到for语句中的条件不再有效为止。
+
+*Looping through an iterable*
+
+在Python中，`iterable`指的是任何可以循环的对象，比如字符串、列表或元组。遍历iterable的语法如下:
+
+for a in iterable:
+
+print (a)
+
+Example:
+
+```python
+pets = ['cats', 'dogs', 'rabbits', 'hamsters']
+for myPets in pets:
+	print (myPets)
+```
+
+在上面的程序中，我们首先声明宠物列表，并给它的成员'猫'，'狗'，'兔子'和'仓鼠'。接下来，pets中的myPets语句:循环遍历pets列表，并将列表中的每个成员赋值给变量myPets。
+
+当程序第一次运行for循环时，它将‘cats’赋值给变量myPets。语句打印(myPets)，然后打印值' cats '。当程序第二次循环for语句时，它将值' dogs '赋值给myPets，并打印值' dogs '。程序继续循环遍历列表，直到到达列表的末尾。
+
+如果你运行这个程序，你会得到
+
+>cats
+>
+>dogs
+>
+>rabbits
+>
+>hamsters
+
+我们还可以显示列表中成员的索引。为此，我们使用enumerate()函数。
+
+for index, myPets in enumerate(pets):
+
+print (index, myPets)
+
+这将会给我们输出
+
+>0 cats
+>
+>1 dogs
+>
+>2 rabbits
+>
+>3 hamster
+>
+>
+
+下一个示例演示如何遍历字符串。
+
+```python
+message = ‘Hello’
+for i in message:
+	print (i)
+The output is
+H
+e
+l
+l
+o
+```
+
+*Looping through a* *sequence of numbers* 循环通过一个的数字序列
+
+要遍历一串数字，内置的range()函数非常有用。函数的作用是:生成一个数字列表，并具有语法范围(start, end, step)。
+
+如果没有给定start，则生成的数字将从0开始。
+
+注意:这里要记住的一个有用的技巧是，在Python(和大多数编程语言)中，除非另有说明，我们总是从零开始。
+
+例如，list和tuple的索引从0开始。
+
+当对字符串使用format()方法时，参数的位置从0开始。当使用range()函数时，如果没有给定start，则生成的数字从0开始。
+
+如果没有给出步长，则会生成一列连续的数字(即步长= 1)。必须提供结束值。然而，关于range()函数的一个奇怪的事情是，给定的结束值从来不是生成列表的一部分。
+
+>For instance,
+>
+>range(5) will generate the list [0, 1, 2, 3, 4]
+>
+>range(3, 10) will generate [3, 4, 5, 6, 7, 8, 9]
+>
+>range(4, 10, 2) will generate [4, 6, 8]
+
+要查看range()函数在for语句中的工作原理，请运行以下代码:
+
+```python
+for i in range(5):
+	print (i)
+You should get
+0
+1
+2
+3
+4
+```
+
+### While Loop
+
+我们要看的下一个控制流语句是while循环。顾名思义，while循环在循环内重复执行指令，而某个条件仍然有效。while语句的结构如下:
+
+while condition is true:
+
+do A
+
+大多数情况下，当使用while循环时，首先需要声明一个变量作为循环计数器。我们称这个变量为counter。while语句中的条件将计算counter的值，以确定它是否小于(或大于)某个值。如果是，则执行循环。让我们看一个示例程序。
+
+counter = 5
+
+while counter > 0:
+
+​	print (“Counter = “, counter)
+
+​	counter = counter - 1
+
+如果运行该程序，将得到以下输出
+
+>Counter = 5
+>
+>Counter = 4
+>
+>Counter = 3
+>
+>Counter = 2
+>
+>Counter = 1
+
+乍一看，while语句似乎具有最简单的语法，也应该是最容易使用的。然而，在使用while循环时必须小心，因为有无限循环的危险。注意，在上面的程序中，我们有一行counter = counter - 1?这条线至关重要。它将counter的值减少1，并将这个新值赋回给counter，覆盖原始值。
+
+我们需要将counter的值减少1，以便当计数器> 0时，循环条件最终将计算为False。如果我们忘记这样做，这个循环就会无休止地运行，导致一个无限循环。如果你想亲身体验一下，只需删除行counter = counter - 1，然后再试着运行程序。程序将继续打印counter = 5，直到您以某种方式终止程序。这不是一个愉快的体验，特别是如果你有一个大程序，你不知道哪个代码段导致了无限循环。
+
+### Break
+
+在使用循环时，有时您可能希望在满足某个条件时退出整个循环。为此，我们使用break关键字。运行以下程序，看看它是如何工作的。
+
+>j = 0
+>
+>for i in range(5):
+>
+>​	j = j + 2
+>
+>​	print (‘i = ’, i, ‘, j = ’, j)
+>
+>​	if j == 6:
+>
+>   		break
+>
+>You should get the following output.
+>
+>i = 0 , j = 2
+>
+>i = 1 , j = 4
+>
+>i = 2 , j = 6
+
+如果没有break关键字，程序应该从i = 0循环到i = 4，因为我们使用了函数range(5)。但是使用break关键字时，程序在i = 2时提前结束。这是因为当i = 2时，j达到6的值，break关键字导致循环结束。
+
+在上面的例子中，注意我们在for循环中使用了if语句。对我们来说，在编程中“混搭”各种控制工具是很常见的，比如在if语句中使用while循环，或者在while循环中使用for循环。这就是所谓的嵌套控制语句。
+
+### Continue
+
+循环的另一个有用的关键字是continue。当我们使用continue时，关键字后的其余循环将跳过该迭代。举个例子就更清楚了。
+
+```python
+j = 0
+for i in range(5):
+	j = j + 2
+	print (‘\ni = ’, i, ‘, j = ’, j)
+	if j == 6:
+      continue
+	print (‘I will be skipped over if j=6’)
+```
+
+>You will get the following output:
+>
+>i = 0 , j = 2
+>
+>I will be skipped over if j=6
+>
+>i = 1 , j = 4
+>
+>I will be skipped over if j=6
+>
+>i = 2 , j = 6
+>
+>i = 3 , j = 8
+>
+>I will be skipped over if j=6
+>
+>i = 4 , j = 10
+>
+>I will be skipped over if j=6
+>
+>
+
+当j = 6时，continue关键字后面的行不打印。除此之外，一切都正常运行。
+
+### Try, Except
+
+最后一个控制语句是try, except语句。这个语句控制错误发生时程序如何运行。语法如下:
+
+```python
+try:
+do something
+except:
+do something else when an error occurs
+For instance, try running the program below
+try:
+answer =12/0
+print (answer)
+except:
+print (“An error occurred”)
+```
+
+当你运行这个程序时，你会看到“发生错误”的消息。这是因为当程序试图在try块中执行语句answer =12/0时，会发生错误，因为您不能将数字除以0。try块的其余部分将被忽略，而except块中的语句将被执行。
+
+如果希望根据错误向用户显示更具体的错误消息，可以在except关键字后指定错误类型。尝试运行下面的程序。
+
+```python
+try:
+
+userInput1 = int(input("Please enter a number: "))
+
+userInput2 = int(input("Please enter another number: "))
+
+answer =userInput1/userInput2
+
+print ("The answer is ", answer)
+
+myFile = open("missing.txt", 'r')
+
+except ValueError:
+
+print ("Error: You did not enter a number")
+
+except ZeroDivisionError:
+
+print ("Error: Cannot divide by zero")
+
+except Exception as e:
+
+print ("Unknown error: ", e)
+```
+
+下面的列表显示了不同用户输入的各种输出。>>>表示用户输入，=>表示输出。
+
+\>>> Please enter a number: m
+
+=> Error: You did not enter a number
+
+ 原因:用户输入了一个不能转换成整数的字符串。这是一个ValueError。因此，将显示except ValueError块中的语句。
+
+\>>> Please enter a number: 12
+
+\>>> Please enter another number: 0
+
+=> Error: Cannot divide by zero
+
+原因:userInput2 = 0。因为我们不能用零除一个数，所以这是一个零除法错误。将显示except ZeroDivisionError块中的语句。
+
+\>>> Please enter a number: 12
+
+\>>> Please enter another number: 3
+
+=> The answer is 4.0
+
+=> Unknown error: [Errno 2] No such file or directory: 'missing.txt'
+
+原因:用户输入可接受的值，行打印(“答案是”，答案)正确执行。但是，下一行出现错误，因为找不到missing.txt。因为这不是ValueError或ZeroDivisionError，所以将执行最后一个except块。
+
+ValueError和ZeroDivisionError是Python中许多预定义错误类型中的两种。当内置操作或函数接收到具有正确类型但值不合适的参数时，将引发ValueError。当程序试图除以零时，会引发ZeroDivisionError。Python中其他常见的错误包括
+
+IOError:
+
+当I/O操作(例如内置的open()函数)由于I/O相关的原因失败时引发，例如，“未找到文件”。
+
+ImportError:
+
+当import语句未能找到模块定义时引发
+
+IndexError:
+
+当序列(如字符串、列表、元组)索引超出范围时引发。
+
+KeyError:
+
+在找不到字典键时引发。
+
+NameError:
+
+当找不到本地或全局名称时引发。
+
+TypeError:
+
+当操作或函数应用于不适当类型的对象时引发。
+
+有关Python中所有错误类型的完整列表，您可以参考https://docs.python.org/3/library/exceptions.html.
+
+Python还为每种不同类型的错误提供了预定义的错误消息。如果要显示消息，可以在错误类型之后使用as关键字。例如，要显示默认的ValueError消息，可以这样写:
+
+except ValueError as e:
+
+print (e)	
+
+e是分配给错误的变量名。你可以给它起其他名字，但通常使用e。程序中的最后一个except语句
+
+except Exception as e:
+
+print ("Unknown error: ", e)
+
+是使用预定义错误消息的示例。它作为捕获任何未预料到的错误的最后尝试。
+
+## Chapter 7: Functions and Modules
+
+在前面的章节中，我们简要地提到了函数和模块。在这一章中，让我们来详细看看它们。重申一下，所有编程语言都有内置代码，我们可以使用这些代码来简化程序员的生活。这些代码由执行某些常见任务的预先编写的类、变量和函数组成，并保存在称为模块的文件中。让我们先看看函数。
+
+### What are Functions?
+
+函数只是执行特定任务的预先编写的代码。作为一个类比，想想MS Excel中可用的数学函数。要添加数字，可以使用sum()函数和类型sum(A1:A5)，而不是输入A1+A2+A3+A4+A5。
+
+根据函数是如何写的,是否它是一个类的一部分(一个类是面向对象编程的概念,我们将不包括在这本书中)以及如何进口,我们可以调用一个函数,只需输入函数的名称或使用点符号。有些函数需要我们传入数据，以便它们执行它们的任务。这些数据被称为参数，我们将它们的值括在圆括号()中，中间用逗号分隔，从而将它们传递给函数。
+
+例如，要使用print()函数在屏幕上显示文本，我们输入print(“Hello World”)来调用它，其中print是函数名，而“Hello World”是参数。
+
+另一方面，要使用replace()函数来操作文本字符串，我们必须输入" Hello World "。replace(" World "， " Universe ")其中replace是函数名，" World "和" Universe "是参数。点之前的字符串(即“Hello World”)是将受到影响的字符串。因此，“Hello World”将被更改为“Hello Universe”。
+
+### Defining Your Own Functions
+
+我们可以在Python中定义自己的函数，并在整个程序中重用它们。定义函数的语法如下:
+
+```python
+def functionName(parameters):
+code detailing what the function should do
+return [expression]
+```
+
+这里有两个关键字，def和return。
+
+def告诉程序，从下一行开始的缩进代码是函数的一部分。return是我们用来从函数返回一个答案的关键字。函数中可以有多个return语句。然而，一旦函数执行return语句，函数将退出。如果你的函数不需要返回任何值，你可以省略return语句。或者，您可以编写return或return None。
+
+现在让我们定义第一个函数。假设我们想要确定一个给定的数是否是质数。下面是如何使用第三章学过的模数(%)操作符以及第六章学过的for循环和if语句定义函数的方法。
+
+```python
+def checkIfPrime (numberToCheck):
+for x in range(2, numberToCheck):
+      if (numberToCheck%x == 0):
+            return False
+return True
+```
+
+在上面的函数中，第2和第3行使用for循环将给定的参数numberToCheck除以从2到numberToCheck - 1的所有数字，以确定余数是否为零。如果余数为零，则要检查的number不是素数。第4行将返回False，函数将退出。
+
+如果在for循环的最后一次迭代中，除法的余数都没有为零，则函数将到达第5行，并返回True。然后函数将退出。
+
+要使用这个函数，我们输入checkIfPrime(13)并将它赋值给这样一个变量
+
+answer = checkIfPrime(13)
+
+这里我们将13作为参数传入。然后我们可以输入print(答案)来打印答案。我们将得到输出:True。
+
+### Variable Scope
+
+定义函数时需要理解的一个重要概念是变量作用域的概念。在函数内部定义的变量与在函数外部定义的变量处理不同。有两个主要区别。
+
+首先，在函数中声明的任何变量都只能在函数中访问。这些被称为局部变量。在函数外声明的任何变量都称为全局变量，在程序中的任何地方都可以访问它。
+
+要理解这一点，请尝试下面的代码:
+
+message1 = "Global Variable"
+
+```python
+def myFunction():
+print(“\nINSIDE THE FUNCTION”)
+#Global variables are accessible inside a function
+print (message1)
+#Declaring a local variable
+message2 = “Local Variable”
+print (message2)
+#Calling the function
+myFunction()
+print(“\nOUTSIDE THE FUNCTION”)
+#Global variables are accessible outside function
+print (message1)
+#Local variables are NOT accessible outside function.
+
+print (message2)
+```
+
+如果运行该程序，将得到下面的输出。
+
+>INSIDE THE FUNCTION
+>
+>Global Variable
+>
+>Local Variable
+>
+> 
+>
+>OUTSIDE THE FUNCTION
+>
+>Global Variable
+>
+>NameError: name 'message2' is not defined
+>
+>
+
+在函数中，局部变量和全局变量都可以访问。在函数外部，局部变量message2不再可访问。当我们试图在函数外部访问它时，会得到一个NameError。
+
+关于变量作用域要理解的第二个概念是，如果局部变量与全局变量同名，则函数内的任何代码都在访问该局部变量。外部的任何代码都在访问全局变量。尝试运行下面的代码
+
+```python
+message1 = "Global Variable (shares same name as a local variable)"
+
+def myFunction():
+message1 = "Local Variable (shares same name as a global variable)"
+print(“\nINSIDE THE FUNCTION”)
+print (message1)      
+
+# Calling the function
+myFunction()
+# Printing message1 OUTSIDE the function
+
+print (“\nOUTSIDE THE FUNCTION”)
+
+print (message1)
+```
+
+您将得到如下输出:
+
+INSIDE THE FUNCTION
+
+Local Variable (shares same name as a global variable)
+
+OUTSIDE THE FUNCTION
+
+Global Variable (shares same name as a local variable)
+
+当我们在函数内部打印message1时，它在打印局部变量时打印“局部变量(与全局变量共享相同的名称)”。当我们将它输出到外部时，它正在访问全局变量，因此输出“全局变量(与局部变量同名)”。
+
+### Importing Modules
+
+Python提供了大量的内置函数。这些函数保存在称为模块的文件中。要使用Python模块中的内置代码，我们必须首先将它们导入到程序中。我们通过使用import关键字来做到这一点。有三种方法可以做到。
+
+第一种方法是通过编写import moduleName来导入整个模块。
+
+例如，为了导入random模块，我们编写import random。
+
+为了在random模块中使用randrange()函数，我们编写以下代码
+
+随机的。randrange(10)。
+
+如果你发现每次使用函数时都写random太麻烦，你可以通过写import random作为r(其中r是你所选择的任意名称)来导入模块。现在要使用randrange()函数，只需编写r.randrange(1,10)。
+
+第三种导入模块的方法是通过编写从模块中导入特定的函数
+
+name1[， name2[，…以]]。
+
+例如，为了从random模块导入randrange()函数，我们从random import randrange写入。如果要导入多个函数，则用逗号分隔。为了导入randrange()和randint()函数，我们写入random import randrange, randint。现在要使用这个函数，我们不需要再使用点表示法。只要写randrange(1,10)
+
+### Creating our Own Module
+
+除了导入内置模块，我们还可以创建我们自己的模块。如果您希望将来在其他编程项目中重用某些函数，这将非常有用。
+
+创建模块很简单。只需保存扩展名为.py的文件，并将其放入要从其中导入它的Python文件的同一个文件夹中。
+
+假设您想使用前面在另一个Python脚本中定义的checkIfPrime()函数。下面是你该怎么做。首先将上面的代码保存为prime.py保存在桌面上。prime.py应该有以下代码。
+
+```python
+def checkIfPrime (numberToCheck):
+for x in range(2, numberToCheck):
+      if (numberToCheck%x == 0):
+            return False
+return True
+```
+
+接下来，创建另一个Python文件，并将其命名为使用echeckifprime .py。也把它保存在你的桌面上。usecheckifpri .py应该有以下代码。
+
+```python
+import prime
+answer = prime.checkIfPrime(13)
+print (answer)
+```
+
+现在useCheckIfPrime.py运行。您应该得到真实的输出。就这么简单。
+
+但是，假设您想存储prime.py并在不同的文件夹中使用echeckifprime .py。您需要添加一些代码来使用echeckifprime .py来告诉Python解释器在哪里找到模块。
+
+假设你在C驱动器中创建了一个名为“MyPythonModules”的文件夹来存储prime.py。您需要将以下代码添加到useCheckIfPrime.py文件的顶部(在import prime行之前)。
+
+```python
+import sys
+if 'C:\\MyPythonModules' not in sys.path:
+    sys.path.append('C:\\MyPythonModules')
+```
+
+sys.path指的是Python的系统路径。这是Python用来搜索模块和文件的目录列表。上面的代码将文件夹' C:\MyPythonModules '附加到你的系统路径。
+
+现在你可以把prime.py放在C:\MyPythonModules中，把checkIfPrime.py放在你选择的任何文件夹中。
+
+## Chapter 8: Working with Files
