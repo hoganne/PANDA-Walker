@@ -1250,3 +1250,98 @@ sys.path指的是Python的系统路径。这是Python用来搜索模块和文件
 现在你可以把prime.py放在C:\MyPythonModules中，把checkIfPrime.py放在你选择的任何文件夹中。
 
 ## Chapter 8: Working with Files
+
+​	太酷了!项目开始前，我们已经读到了这本书的最后一章。在这一章中，我们将看看如何使用外部文件。在前面的第5章中，我们学习了如何使用input()函数从用户那里获取输入。
+
+​	然而，在某些情况下，让用户在我们的程序中输入数据可能不实际，特别是当我们的程序需要处理大量数据时。在这种情况下，更方便的方法是将所需的信息作为外部文件准备，并让我们的程序从文件中读取信息。在这一章中，我们将学习如何做到这一点。准备好了
+
+### Opening and Reading Text Files
+
+我们将要读取的第一种文件类型是具有多行文本的简单文本文件。为此，让我们首先创建一个具有以下行的文本文件。一天之内学会Python并且学好它Python的初学者与动手项目这是唯一一本你需要立即开始用Python编程的书http://www.learncodingfast.com/python
+
+将此文本文件保存为myfile.txt文件到桌面。接下来，启动IDLE并输入下面的代码。也将这段代码保存为fileOperation.py到你的桌面。
+
+```python
+f = open (‘myfile.txt’, 'r')
+firstline = f.readline()
+secondline = f.readline()
+print (firstline)
+print (secondline)
+f.close()
+```
+
+代码中的第一行将打开该文件。在我们能够从任何文件中读取之前，我们必须先打开它(就像你需要打开kindle设备或应用程序来阅读这本电子书一样)。open()函数就是这样做的，它需要两个参数:
+
+第一个参数是文件的路径。如果您没有将fileoperations .py和myfile.txt保存在同一个文件夹(本例中是桌面文件夹)中，那么您需要替换' myfile. py '。您存储文本文件的实际路径。例如，如果你将它存储在C驱动器中名为“PythonFiles”的文件夹中，你就必须写入“C:\\PythonFiles\\myfile.txt '(双反斜杠)。
+
+第二个参数是模式。这指定了文件将如何被使用。常用的模式是
+
+'r' mode:
+
+For reading only.
+
+'w' mode:
+
+仅供写作。
+
+如果指定的文件不存在，将创建它。
+
+如果指定的文件存在，文件上的任何现有数据都将被删除。
+
+'a' mode:
+
+附加。
+
+如果指定的文件不存在，将创建它。
+
+如果指定的文件存在，那么写入该文件的任何数据都会自动添加到末尾
+
+'r+' mode:
+
+无论是阅读还是写作
+
+打开文件后，下一个语句firstline = f.r adline()读取文件中的第一行，并将其赋值给变量firstline。
+
+每次调用readline()函数时，它都会从文件中读取一个新行。在我们的程序中，readline()被调用两次。因此将读取前两行。当你运行程序时，你会得到输出:
+
+> Learn Python in One Day and Learn It Well
+>
+> Python for Beginners with Hands-on Project
+
+您会注意到每行后面都插入了换行符。这是因为readline()函数将' \n '字符添加到每行的末尾。如果不想让每行文本之间有额外的行，可以使用print(firstline, end = ")。这将删除' \n '字符。读取并打印前两行之后，最后一句话f.close()关闭文件。您应该总是在完成文件读取后关闭它，以释放任何系统资源。
+
+### Using a For Loop to Read Text Files
+
+除了使用上面的readline()方法读取文本文件之外，我们还可以使用for循环。事实上，for循环是读取文本文件的一种更优雅、更有效的方式。下面的程序展示了这是如何做到的。
+
+```python
+f = open (‘myfile.txt’, 'r')
+for line in f:
+	print (line, end = ‘’)
+f.close()
+```
+
+for循环逐行遍历文本文件。当你运行它时，你会得到
+
+>Learn Python in One Day and Learn It Well
+>
+>Python for Beginners with Hands-on Project
+>
+>The only book you need to start coding in Python immediately
+>
+>http://www.learncodingfast.com/python
+
+### Writing to a Text File
+
+现在我们已经学习了如何打开和读取文件，让我们尝试写入它。为此，我们将使用' a ' (append)模式。您也可以使用“w”模式，但如果文件已经存在，您将擦除文件中先前的所有内容。尝试运行以下程序。
+
+```python
+f = open (‘myfile.txt’, 'a')
+
+f.write(‘\nThis sentence will be appended.’)
+
+f.write(‘\nPython is Fun!’)
+
+f.close()
+```
+
