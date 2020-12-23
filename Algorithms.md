@@ -177,3 +177,215 @@ Tree =（root,F）
 
 
 您可以使用中序遍历轻松找出原始表达式。 但是程序处理这个表达式时并不容易，因为你必须检查操作的优先级。如果你想对这棵树进行后序遍历，使用栈来处理表达式会变得更加容易。 每遇到一个操作符，就可以从栈中弹出栈顶的两个元素，计算并将结果返回到栈中。
+
+
+
+### 使用递归解决树问题
+
+在前面的章节中，我们已经介绍了如何利用递归求解树的遍历。 递归是解决树的相关问题最有效和最常用的方法之一。
+
+我们知道，树可以以递归的方式定义为一个节点（根节点），它包括一个值和一个指向其他节点指针的列表。 递归是树的特性之一。 因此，许多树问题可以通过递归的方式来解决。 对于每个递归层级，我们只能关注单个节点内的问题，并通过递归调用函数来解决其子节点问题。
+
+通常，我们可以通过 “自顶向下” 或 “自底向上” 的递归来解决树问题。
+
+“自顶向下” 的解决方案
+“自顶向下” 意味着在每个递归层级，我们将首先访问节点来计算一些值，并在递归调用函数时将这些值传递到子节点。 所以 “自顶向下” 的解决方案可以被认为是一种前序遍历。 具体来说，递归函数 top_down(root, params) 的原理是这样的：
+
+```python
+1. return specific value for null node
+2. update the answer if needed                      // answer <-- params
+3. left_ans = top_down(root.left, left_params)		// left_params <-- root.val, params
+4. right_ans = top_down(root.right, right_params)	// right_params <-- root.val, params
+5. return the answer if needed                      // answer <-- left_ans, right_ans
+```
+
+
+例如，思考这样一个问题：给定一个二叉树，请寻找它的最大深度。
+
+我们知道根节点的深度是1。 对于每个节点，如果我们知道某节点的深度，那我们将知道它子节点的深度。 因此，在调用递归函数的时候，将节点的深度传递为一个参数，那么所有的节点都知道它们自身的深度。 而对于叶节点，我们可以通过更新深度从而获取最终答案。 这里是递归函数 maximum_depth(root, depth) 的伪代码：
+
+```python
+1. return if root is null
+2. if root is a leaf node:
+3. answer = max(answer, depth)         // update the answer if needed
+4. maximum_depth(root.left, depth + 1)      // call the function recursively for left child
+5. maximum_depth(root.right, depth + 1)		// call the function recursively for right child
+```
+
+
+以下的例子可以帮助你理解它是如何工作的：
+
+![img](E:\oldF\learningDocument\git-workspace\PANDA-Walker\picture\Slide12.png)
+
+```java
+private int answer;		// don't forget to initialize answer before call maximum_depth
+private void maximum_depth(TreeNode root, int depth) {
+    if (root == null) {
+        return;
+    }
+    if (root.left == null && root.right == null) {
+        answer = Math.max(answer, depth);
+    }
+    maximum_depth(root.left, depth + 1);
+    maximum_depth(root.right, depth + 1);
+}
+```
+
+
+
+“自底向上” 的解决方案
+“自底向上” 是另一种递归方法。 在每个递归层次上，我们首先对所有子节点递归地调用函数，然后根据返回值和根节点本身的值得到答案。 这个过程可以看作是后序遍历的一种。 通常， “自底向上” 的递归函数 bottom_up(root) 为如下所示：
+
+>1. return specific value for null node
+>2. left_ans = bottom_up(root.left)			// call function recursively for left child
+>3. right_ans = bottom_up(root.right)		// call function recursively for right child
+>4. return answers                           // answer <-- left_ans, right_ans, root.val
+
+让我们继续讨论前面关于树的最大深度的问题，但是使用不同的思维方式：对于树的单个节点，以节点自身为根的子树的最大深度x是多少？
+
+如果我们知道一个根节点，以其左子节点为根的最大深度为l和以其右子节点为根的最大深度为r，我们是否可以回答前面的问题？ 当然可以，我们可以选择它们之间的最大值，再加上1来获得根节点所在的子树的最大深度。 那就是 x = max（l，r）+ 1。
+
+这意味着对于每一个节点来说，我们都可以在解决它子节点的问题之后得到答案。 因此，我们可以使用“自底向上“的方法。下面是递归函数 maximum_depth(root) 的伪代码：
+
+>1. return 0 if root is null                 // return 0 for null node
+>2. left_depth = maximum_depth(root.left)
+>3. right_depth = maximum_depth(root.right)
+>4. return max(left_depth, right_depth) + 1	// return depth of the subtree rooted at root
+
+
+1. 以下的例子可以帮助你理解它是如何工作的：
+
+![img](E:\oldF\learningDocument\git-workspace\PANDA-Walker\picture\Slide25.png)
+
+```java
+public int maximum_depth(TreeNode root) {
+	if (root == null) {
+		return 0;                                   // return 0 for null node
+	}
+	int left_depth = maximum_depth(root.left);
+	int right_depth = maximum_depth(root.right);
+	return Math.max(left_depth, right_depth) + 1;	// return depth of the subtree rooted at root
+}
+```
+
+#### 总结
+
+了解递归并利用递归解决问题并不容易。当遇到树问题时，请先思考一下两个问题：
+
+1,你能确定一些参数，从该节点自身解决出发寻找答案吗？
+2,你可以使用这些参数和节点本身的值来决定什么应该是传递给它子节点的参数吗？
+如果答案都是肯定的，那么请尝试使用 “自顶向下” 的递归来解决此问题。
+
+或者你可以这样思考：对于树中的任意一个节点，如果你知道它子节点的答案，你能计算出该节点的答案吗？ 如果答案是肯定的，那么 “自底向上” 的递归可能是一个不错的解决方法。
+
+在接下来的章节中，我们将提供几个经典例题，以帮助你更好地理解树的结构和递归。
+
+### N叉树
+
+之前，我们更多关注于二叉树。本 LeetBook 将会把你对二叉树的认知延伸到 N 叉树（N-ary Tree） 。
+
+完成后，你将能够：
+
+>1. 理解 N 叉树的定义。
+>2. 了解 N 叉树不同的遍历方法。
+>3. 对于解决 N 叉树类型问题有基本的概念。
+
+
+
+### 前缀树
+
+`前缀树` ，又称 `字典树` ，是` N 叉树` 的特殊形式。
+
+我们将深入讨论前缀树的实现方法以及如何将这个数据结构应用到实际问题中。完成后，你将能够：
+
+>1. 理解前缀树的 `基本概念` ；
+>2. 掌握前缀树中的 `插入` 和 `搜索操作` ；
+>3. 了解前缀树如何帮助解决 `实际应用问题` ；
+>4. 运用前缀树解题。
+
+#### 前缀树简介
+
+本章主要向大家解答两个基本问题：
+
+- 什么是前缀树？
+- 如何用代码表示这个数据结构？
+
+如果你还不了解前缀树，阅读此章节会对你有所帮助。
+
+##### 什么是前缀树?
+
+`前缀树` 是` N叉树 `的一种特殊形式。通常来说，一个前缀树是用来 `存储字符串` 的。前缀树的每一个节点代表一个 `字符串（前缀）`。每一个节点会有多个子节点，通往不同子节点的路径上有着不同的字符。子节点代表的字符串是由节点本身的 `原始字符串 `，以及 `通往该子节点路径上所有的字符 `组成的。
+
+下面是前缀树的一个例子：
+
+![img](E:\oldF\learningDocument\git-workspace\PANDA-Walker\picture\screen-shot-2018-01-31-at-163403.png)
+
+在上图示例中，我们在节点中标记的值是该节点对应表示的字符串。例如，我们从根节点开始，选择第二条路径 'b'，然后选择它的第一个子节点 'a'，接下来继续选择子节点 'd'，我们最终会到达叶节点 "bad"。节点的值是由从根节点开始，与其经过的路径中的字符按顺序形成的。
+
+值得注意的是，根节点表示` 空字符串 `。
+
+前缀树的一个重要的特性是，节点所有的后代都与该节点相关的字符串有着共同的前缀。这就是 `前缀树 `名称的由来。
+
+我们再来看这个例子。例如，以节点 "b" 为根的子树中的节点表示的字符串，都具有共同的前缀 "b"。反之亦然，具有公共前缀 "b" 的字符串，全部位于以 "b" 为根的子树中，并且具有不同前缀的字符串来自不同的分支。
+
+前缀树有着广泛的应用，例如自动补全，拼写检查等等。我们将在后面的章节中介绍实际应用场景。
+
+##### 如何表示一个前缀树？
+
+在前面的文章中，我们介绍了前缀树的概念。在这篇文章中，我们将讨论如何用代码表示这个数据结构。
+
+在阅读一下内容前，请简要回顾 `N 叉树`的节点结构。
+
+前缀树的特别之处在于字符和子节点之间的对应关系。有许多不同的表示前缀树节点的方法，这里我们只介绍其中的两种方法。
+
+######  方法一 数组
+
+第一种方法是用 `数组 `存储子节点。
+
+例如，如果我们只存储含有字母 a 到 z 的字符串，我们可以在每个节点中声明一个大小为 26 的数组来存储其子节点。对于特定字符 c ，我们可以使用 c - 'a' 作为索引来查找数组中相应的子节点。
+
+```java
+class TrieNode {
+    // change this value to adapt to different cases
+    public static final int N = 26;
+    public TrieNode[] children = new TrieNode[N];  
+    // you might need some extra values according to different cases
+};
+/** Usage:
+ *  Initialization: TrieNode root = new TrieNode();
+ *  Return a specific child node with char c: root.children[c - 'a']
+ */
+```
+
+访问子节点十分 快捷 。访问一个特定的子节点比较 容易 ，因为在大多数情况下，我们很容易将一个字符转换为索引。但并非所有的子节点都需要这样的操作，所以这可能会导致 空间的浪费 。
+
+###### 方法二 Map
+
+第二种方法是使用` Hashmap `来存储子节点。
+
+我们可以在每个节点中声明一个 `Hashmap` 。`Hashmap `的键是字符，值是相对应的子节点。
+
+```java
+class TrieNode {
+    public Map<Character, TrieNode> children = new HashMap<>();  
+    // you might need some extra values according to different cases
+    //根据不同的情况，您可能需要一些额外的值
+};
+/**Usage:
+ *Initialization: TrieNode root = new TrieNode();
+ *Return a specific child node with char c: root.children.get(c)
+ *初始化:TrieNode root = new TrieNode();
+ *返回一个特定的子节点，使用char c:root.children.get(c)
+ */
+```
+
+通过相应的字符来访问特定的子节点 更为容易 。但它可能比使用数组 稍慢一些 。但是，由于我们只存储我们需要的子节点，因此 节省了空间 。这个方法也更加 灵活 ，因为我们不受到固定长度和固定范围的限制。
+
+##### 补充
+
+我们已经提到过如何表示前缀树中的子节点。除此之外，我们也需要用到一些其他的值。
+
+例如，我们知道，前缀树的每个节点表示一个字符串，但并不是所有由前缀树表示的字符串都是有意义的。如果我们只想在前缀树中存储单词，那么我们可能需要在每个节点中声明一个布尔值（Boolean）作为标志，来表明该节点所表示的字符串是否为一个单词。
+
+
+
