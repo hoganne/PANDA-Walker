@@ -27,9 +27,9 @@ public class BinaryTree {
             if(null!=poll.left) treeNodes.addFirst(poll.left);
             if(null!=poll.right) treeNodes.addFirst(poll.right);
         }
+
         return result;
     }
-
     //左根右
     public List<Integer> inorderTraversal(TreeNode root) {
         List<Integer> result = new ArrayList<Integer>();
@@ -78,7 +78,6 @@ public class BinaryTree {
         }
         return result;
     }
-
     //层序遍历
     public List<List<Integer>> levelOrder(TreeNode root) {
         List<List<Integer>> result = new ArrayList<List<Integer>>();
@@ -125,7 +124,6 @@ public class BinaryTree {
         return the answer if needed
         **/
     }
-
     /*
     递归遍历->自低向上的解决方案：后序遍历
     **/
@@ -136,9 +134,7 @@ public class BinaryTree {
         Integer rightNum = recursionMaxDepthDown(root.right);
         return Math.max(leftNum,rightNum)+1;
     }
-
     //对称二叉树:给定一个二叉树，检查它是否是镜像对称的。
-
     public boolean isSymmetric(TreeNode root) {
         return check(root,root);
     }
@@ -163,7 +159,7 @@ public class BinaryTree {
         return hasPathSum(root.left,sum-root.val)||hasPathSum(root.right,sum-root.val);
     }
     public boolean hasPathSumT(TreeNode root, int sum){return false;}
-    
+
 }
 
 
