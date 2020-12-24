@@ -163,6 +163,7 @@ public class BinaryTree {
         return hasPathSum(root.left,sum-root.val)||hasPathSum(root.right,sum-root.val);
     }
     public boolean hasPathSumT(TreeNode root, int sum){return false;}
+    
 }
 
 

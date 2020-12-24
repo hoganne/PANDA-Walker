@@ -1425,7 +1425,7 @@ outputFile = open (‘myoutputimage.jpg’, 'wb')
 
 在os模块中，我们将使用remove()和rename()函数。
 
-这里我们定义第一个函数。我们将其称为getUserPoint()。这个函数接受一个参数userName。然后打开文件' userScores '。txt为r模式。
+这里我们定义第一个函数。我们将其称为getUserPoint()。这个函数接受一个参数userName。然后打开文件' userScores '.txt为r模式。
 
 userscore .txt看起来是这样的:
 
@@ -1464,7 +1464,6 @@ newUser可以为True或False。如果newUser为True，该函数将在append模�
 ```python
 userScores.txt
 Ann, 100
-
 Benny, 102
 
 Carol, 214
