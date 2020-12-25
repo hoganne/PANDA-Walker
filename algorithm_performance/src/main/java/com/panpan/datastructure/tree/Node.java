@@ -1,5 +1,7 @@
 package com.panpan.datastructure.tree;
 
+import java.io.Externalizable;
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -25,7 +27,7 @@ class Node {
 };
 */
 
-public class Node {
+public class Node implements Serializable {
     public int val;
     public List<Node> children;
     public Node() {

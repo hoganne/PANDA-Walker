@@ -382,7 +382,41 @@ public int maximum_depth(TreeNode root) {
 
 树的序列化输入是用层序遍历，每组子节点都由 null 值分隔（参见示例）。
 
+##### N 叉树的经典递归解法
 
+经典递归法
+我们在之前的章节中讲过如何运用递归法解决二叉树问题。在这篇文章中，我们着重介绍如何将这个思想引入到 N 叉树中。
+
+在阅读以下内容之前，请确保你已阅读过 运用递归解决树的问题 这篇文章。
+
+1. "自顶向下"的解决方案
+
+"自顶向下"意味着在每个递归层次上，我们首先访问节点以获得一些值，然后在调用递归函数时，将这些值传给其子节点。
+
+一个典型的 "自顶向下" 函数 top_down(root, params) 的工作原理如下：
+
+>1. 对于 null 节点返回一个特定值
+>
+>2. 如果有需要，对当前答案 answer 进行更新                         // answer <-- params
+>
+>3. for each child node root.children[k]:
+>
+>   ​		ans[k] = top_down(root.children[k], new_params[k])  // new_params <-- root.val, params
+>
+>4. 如果有需要，返回答案 answer                                 // answer <-- all ans[k]
+>
+>5. "自底向上"的解决方案
+
+"自底向上" 意味着在每个递归层次上，我们首先为每个子节点递归地调用函数，然后根据返回值和根节点本身的值给出相应结果。
+
+一个典型的 "自底向上" 函数 bottom_up(root) 的工作原理如下：
+
+>1.对于 null 节点返回一个特定值
+>2.for each child node root.children[k]:
+>
+>​		ans[k] = bottom_up(root.children[k]) // 为每个子节点递归地调用函数
+>
+>4.返回答案 answer                          // answer <- root.val, all ans[k]
 
 
 
