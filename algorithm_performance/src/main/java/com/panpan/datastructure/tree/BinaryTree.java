@@ -45,10 +45,48 @@ public class BinaryTree {
             }else{
                 treeNodes.pollFirst();
                 result.add(poll.val);
-                if(null!=poll.right) treeNodes.addFirst(poll.right);
+                if(null!=poll.right) {treeNodes.addFirst(poll.right);}
             }
         }
         return result;
+    }
+    public List<Integer> inorderTraversal2(TreeNode root) {
+        List<Integer> result = new ArrayList<Integer>();
+        Deque<TreeNode> queue = new LinkedList<>();
+        Integer tmp = null;
+        while (null!=root||!queue.isEmpty()){
+            while (null!=root){
+                queue.push(root);
+                root = root.left;
+            }
+            root = queue.pop();
+            if(tmp==null){
+                tmp = root.val;
+            }else{
+                if(tmp<root.val){
+                    tmp = root.val;
+                }else{
+//                    return false;
+                }
+            }
+            root=root.right;
+        }
+        return null;
+    }
+
+    public List<Integer> inorderTraversalRecursion(TreeNode root) {
+        ArrayList<Integer> result = new ArrayList<>();
+        if(null==root){ return result;}
+        inorderRecursion(root,result);
+        return result;
+    }
+
+    public void inorderRecursion(TreeNode root ,List<Integer> result){
+        if(null!=root){
+            inorderRecursion(root.left,result);
+            result.add(root.val);
+            inorderRecursion(root.right,result);
+        }
     }
     //左右根
     public List<Integer> postorderTraversal(TreeNode root) {
@@ -127,7 +165,6 @@ public class BinaryTree {
     /*
     递归遍历->自低向上的解决方案：后序遍历
     **/
-
     public Integer recursionMaxDepthDown(TreeNode root){
         if(root==null) return 0;
         Integer leftNum = recursionMaxDepthDown(root.left);
@@ -159,7 +196,6 @@ public class BinaryTree {
         return hasPathSum(root.left,sum-root.val)||hasPathSum(root.right,sum-root.val);
     }
     public boolean hasPathSumT(TreeNode root, int sum){return false;}
-
 
     // 含义：将一个Node序列化为"parent[child_1,child_2...child_n]"的形式
 

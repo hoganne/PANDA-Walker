@@ -84,7 +84,7 @@ public class Codec{
     }
 
     //         解析形为"child_1,child_2...child_n"的字符串
-//         将其分为多个字符串，分别代表child_1,child_2...child_n
+    //         将其分为多个字符串，分别代表child_1,child_2...child_n
     List<String> parse(String data) {
         List<String> ans = new ArrayList<String>();
         int leftBracket = 0;
