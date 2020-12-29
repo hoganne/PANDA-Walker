@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="b7e02b20-fb1b-4e73-9ce3-1e095ddfa5b1" name="Default Changelist" comment="" />
+    <list default="true" id="b7e02b20-fb1b-4e73-9ce3-1e095ddfa5b1" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/../Algorithms.md" beforeDir="false" afterPath="$PROJECT_DIR$/../Algorithms.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/panpan/datastructure/tree/BinarySearchTree.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/panpan/datastructure/tree/BinarySearchTree.java" afterDir="false" />
+    </list>
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -73,15 +76,20 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/panpan/datastructure/tree/BinarySearchTree.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="351">
-              <caret line="114" column="20" selection-start-line="114" selection-start-column="20" selection-end-line="114" selection-end-column="20" />
+            <state relative-caret-position="384">
+              <caret line="140" column="51" lean-forward="true" selection-start-line="140" selection-start-column="51" selection-end-line="140" selection-end-column="51" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="docComment;class#BinarySearchTree#0" />
-                <element signature="class#BinarySearchTree#0" />
-                <element signature="method#main#0;class#BinarySearchTree#0" />
                 <element signature="method#isValidBST#0;class#BinarySearchTree#0" />
                 <element signature="method#helper#0;class#BinarySearchTree#0" />
+                <element signature="method#searchBST#0;class#BinarySearchTree#0" />
+                <element signature="e#2147#2157#0" expanded="true" />
+                <element signature="e#2508#2592#0" />
+                <element signature="method#insertIntoBST#0;class#BinarySearchTree#0" />
+                <element signature="method#generateTree#0;class#BinarySearchTree#0" />
+                <element signature="e#8128#8137#0" expanded="true" />
+                <element signature="e#8187#8197#0" expanded="true" />
                 <element signature="class#BSTIterator#0" />
                 <element signature="method#BSTIterator#0;class#BSTIterator#0" />
                 <element signature="method#next#0;class#BSTIterator#0" />
@@ -119,10 +127,9 @@
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="955" />
-    <option name="y" value="293" />
-    <option name="width" value="913" />
-    <option name="height" value="873" />
+    <option name="x" value="930" />
+    <option name="width" value="992" />
+    <option name="height" value="1040" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="1" id="Add" />
@@ -201,7 +208,7 @@
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1609148798770" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1609236095440" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
@@ -270,12 +277,12 @@
       <updated>1608889228369</updated>
       <workItem from="1608889230620" duration="1450000" />
       <workItem from="1609120397007" duration="12033000" />
-      <workItem from="1609206622753" duration="15000" />
+      <workItem from="1609206622753" duration="24197000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="13498000" />
+    <option name="totallyTimeSpent" value="37680000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
@@ -291,7 +298,7 @@
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.32936078" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.30552545" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.40086675" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -314,6 +321,18 @@
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/panpan/datastructure/tree/BinarySearchTree.java</url>
+          <line>170</line>
+          <properties />
+          <option name="timeStamp" value="14" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
   <component name="debuggerHistoryManager">
     <expressions id="evaluateExpression">
@@ -404,15 +423,20 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/panpan/datastructure/tree/BinarySearchTree.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="351">
-          <caret line="114" column="20" selection-start-line="114" selection-start-column="20" selection-end-line="114" selection-end-column="20" />
+        <state relative-caret-position="384">
+          <caret line="140" column="51" lean-forward="true" selection-start-line="140" selection-start-column="51" selection-end-line="140" selection-end-column="51" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="docComment;class#BinarySearchTree#0" />
-            <element signature="class#BinarySearchTree#0" />
-            <element signature="method#main#0;class#BinarySearchTree#0" />
             <element signature="method#isValidBST#0;class#BinarySearchTree#0" />
             <element signature="method#helper#0;class#BinarySearchTree#0" />
+            <element signature="method#searchBST#0;class#BinarySearchTree#0" />
+            <element signature="e#2147#2157#0" expanded="true" />
+            <element signature="e#2508#2592#0" />
+            <element signature="method#insertIntoBST#0;class#BinarySearchTree#0" />
+            <element signature="method#generateTree#0;class#BinarySearchTree#0" />
+            <element signature="e#8128#8137#0" expanded="true" />
+            <element signature="e#8187#8197#0" expanded="true" />
             <element signature="class#BSTIterator#0" />
             <element signature="method#BSTIterator#0;class#BSTIterator#0" />
             <element signature="method#next#0;class#BSTIterator#0" />
