@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="b7e02b20-fb1b-4e73-9ce3-1e095ddfa5b1" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/panpan/datastructure/tree/BinaryTree.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/panpan/datastructure/tree/BinaryTree.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/panpan/datastructure/tree/Codec.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/panpan/datastructure/tree/Codec.java" afterDir="false" />
-    </list>
+    <list default="true" id="b7e02b20-fb1b-4e73-9ce3-1e095ddfa5b1" name="Default Changelist" comment="" />
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -18,8 +14,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/panpan/datastructure/tree/Codec.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="304">
-              <caret line="20" column="43" lean-forward="true" selection-start-line="14" selection-start-column="8" selection-end-line="20" selection-end-column="43" />
+            <state relative-caret-position="513">
+              <caret line="20" column="43" selection-start-line="14" selection-start-column="8" selection-end-line="20" selection-end-column="43" />
               <folding>
                 <element signature="method#serialize#0;class#Codec#0" />
                 <element signature="method#deserialize#0;class#Codec#0" />
@@ -33,42 +29,26 @@
         <entry file="file://$PROJECT_DIR$/src/main/java/com/panpan/datastructure/tree/BinaryTree.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="216">
-              <caret line="13" column="43" lean-forward="true" selection-start-line="13" selection-start-column="43" selection-end-line="13" selection-end-column="43" />
+              <caret line="13" column="43" selection-start-line="13" selection-start-column="43" selection-end-line="13" selection-end-column="43" />
               <folding>
                 <element signature="docComment;class#BinaryTree#0" />
                 <element signature="method#preorderTraversal#0;class#BinaryTree#0" />
                 <element signature="e#609#833#1" />
-                <element signature="e#1756#1765#0" expanded="true" />
                 <element signature="method#inorderTraversalRecursion#0;class#BinaryTree#0" />
                 <element signature="method#inorderRecursion#0;class#BinaryTree#0" />
                 <element signature="method#postorderTraversal#0;class#BinaryTree#0" />
-                <element signature="e#2016#2670#1" />
-                <element signature="e#2246#2564#1" />
-                <element signature="e#2284#2400#1" />
-                <element signature="e#2436#2550#1" />
-                <element signature="e#2568#2660#1" />
                 <element signature="method#levelOrder#0;class#BinaryTree#0" />
-                <element signature="e#3120#3606#1" />
-                <element signature="e#3199#3437#1" />
-                <element signature="e#3248#3312#1" />
                 <element signature="method#recursionMaxDepth#0;class#BinaryTree#0" />
-                <element signature="e#3806#3862#1" />
                 <element signature="method#recursionMaxDepthDown#0;class#BinaryTree#0" />
-                <element signature="e#4654#4694#1" />
+                <element signature="e#5824#5825#0" expanded="true" />
                 <element signature="e#5863#5864#0" expanded="true" />
                 <element signature="method#check#0;class#BinaryTree#0" />
-                <element signature="e#4799#4835#1" />
-                <element signature="e#4876#4913#1" />
                 <element signature="method#hasPathSum#0;class#BinaryTree#0" />
-                <element signature="e#5279#5315#1" />
                 <element signature="method#hasPathSumT#0;class#BinaryTree#0" />
-                <element signature="e#5486#5541#0" />
                 <element signature="method#rserialize#0;class#BinaryTree#0" />
-                <element signature="e#5631#5670#1" />
-                <element signature="e#5676#5815#1" />
+                <element signature="e#7055#7056#0" expanded="true" />
                 <element signature="e#7098#7099#0" expanded="true" />
                 <element signature="method#rdeserialize#0;class#BinaryTree#0" />
-                <element signature="e#6020#6081#1" />
                 <element signature="method#deserialize#0;class#BinaryTree#0" />
               </folding>
             </state>
@@ -93,28 +73,19 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/panpan/datastructure/tree/BinarySearchTree.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="297">
-              <caret line="112" lean-forward="true" selection-start-line="112" selection-end-line="112" />
+            <state relative-caret-position="351">
+              <caret line="114" column="20" selection-start-line="114" selection-start-column="20" selection-end-line="114" selection-end-column="20" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="docComment;class#BinarySearchTree#0" />
                 <element signature="class#BinarySearchTree#0" />
                 <element signature="method#main#0;class#BinarySearchTree#0" />
                 <element signature="method#isValidBST#0;class#BinarySearchTree#0" />
-                <element signature="e#278#287#0" expanded="true" />
                 <element signature="method#helper#0;class#BinarySearchTree#0" />
                 <element signature="class#BSTIterator#0" />
-                <element signature="e#1673#1682#0" expanded="true" />
                 <element signature="method#BSTIterator#0;class#BSTIterator#0" />
-                <element signature="e#1767#1777#0" expanded="true" />
                 <element signature="method#next#0;class#BSTIterator#0" />
-                <element signature="class#BSTIterator#1" />
-                <element signature="method#BSTIterator#0;class#BSTIterator#1" />
-                <element signature="method#_inorder#0;class#BSTIterator#1" />
-                <element signature="docComment;method#next#0;class#BSTIterator#1" />
-                <element signature="docComment;method#hasNext#0;class#BSTIterator#1" />
-                <element signature="e#3696#3697#0" expanded="true" />
-                <element signature="e#3759#3760#0" expanded="true" />
+                <element signature="class#BSTIteratorLC#0" />
               </folding>
             </state>
           </provider>
@@ -299,11 +270,12 @@
       <updated>1608889228369</updated>
       <workItem from="1608889230620" duration="1450000" />
       <workItem from="1609120397007" duration="12033000" />
+      <workItem from="1609206622753" duration="15000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="13483000" />
+    <option name="totallyTimeSpent" value="13498000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
@@ -377,6 +349,46 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/panpan/datastructure/tree/Codec.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="513">
+          <caret line="20" column="43" selection-start-line="14" selection-start-column="8" selection-end-line="20" selection-end-column="43" />
+          <folding>
+            <element signature="method#serialize#0;class#Codec#0" />
+            <element signature="method#deserialize#0;class#Codec#0" />
+            <element signature="method#parse#0;class#Codec#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/panpan/datastructure/tree/BinaryTree.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="216">
+          <caret line="13" column="43" selection-start-line="13" selection-start-column="43" selection-end-line="13" selection-end-column="43" />
+          <folding>
+            <element signature="docComment;class#BinaryTree#0" />
+            <element signature="method#preorderTraversal#0;class#BinaryTree#0" />
+            <element signature="e#609#833#1" />
+            <element signature="method#inorderTraversalRecursion#0;class#BinaryTree#0" />
+            <element signature="method#inorderRecursion#0;class#BinaryTree#0" />
+            <element signature="method#postorderTraversal#0;class#BinaryTree#0" />
+            <element signature="method#levelOrder#0;class#BinaryTree#0" />
+            <element signature="method#recursionMaxDepth#0;class#BinaryTree#0" />
+            <element signature="method#recursionMaxDepthDown#0;class#BinaryTree#0" />
+            <element signature="e#5824#5825#0" expanded="true" />
+            <element signature="e#5863#5864#0" expanded="true" />
+            <element signature="method#check#0;class#BinaryTree#0" />
+            <element signature="method#hasPathSum#0;class#BinaryTree#0" />
+            <element signature="method#hasPathSumT#0;class#BinaryTree#0" />
+            <element signature="method#rserialize#0;class#BinaryTree#0" />
+            <element signature="e#7055#7056#0" expanded="true" />
+            <element signature="e#7098#7099#0" expanded="true" />
+            <element signature="method#rdeserialize#0;class#BinaryTree#0" />
+            <element signature="method#deserialize#0;class#BinaryTree#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/panpan/datastructure/tree/NTree.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="972">
@@ -390,86 +402,21 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/panpan/datastructure/tree/BinaryTree.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="216">
-          <caret line="13" column="43" lean-forward="true" selection-start-line="13" selection-start-column="43" selection-end-line="13" selection-end-column="43" />
-          <folding>
-            <element signature="docComment;class#BinaryTree#0" />
-            <element signature="method#preorderTraversal#0;class#BinaryTree#0" />
-            <element signature="e#609#833#1" />
-            <element signature="e#1756#1765#0" expanded="true" />
-            <element signature="method#inorderTraversalRecursion#0;class#BinaryTree#0" />
-            <element signature="method#inorderRecursion#0;class#BinaryTree#0" />
-            <element signature="method#postorderTraversal#0;class#BinaryTree#0" />
-            <element signature="e#2016#2670#1" />
-            <element signature="e#2246#2564#1" />
-            <element signature="e#2284#2400#1" />
-            <element signature="e#2436#2550#1" />
-            <element signature="e#2568#2660#1" />
-            <element signature="method#levelOrder#0;class#BinaryTree#0" />
-            <element signature="e#3120#3606#1" />
-            <element signature="e#3199#3437#1" />
-            <element signature="e#3248#3312#1" />
-            <element signature="method#recursionMaxDepth#0;class#BinaryTree#0" />
-            <element signature="e#3806#3862#1" />
-            <element signature="method#recursionMaxDepthDown#0;class#BinaryTree#0" />
-            <element signature="e#4654#4694#1" />
-            <element signature="e#5863#5864#0" expanded="true" />
-            <element signature="method#check#0;class#BinaryTree#0" />
-            <element signature="e#4799#4835#1" />
-            <element signature="e#4876#4913#1" />
-            <element signature="method#hasPathSum#0;class#BinaryTree#0" />
-            <element signature="e#5279#5315#1" />
-            <element signature="method#hasPathSumT#0;class#BinaryTree#0" />
-            <element signature="e#5486#5541#0" />
-            <element signature="method#rserialize#0;class#BinaryTree#0" />
-            <element signature="e#5631#5670#1" />
-            <element signature="e#5676#5815#1" />
-            <element signature="e#7098#7099#0" expanded="true" />
-            <element signature="method#rdeserialize#0;class#BinaryTree#0" />
-            <element signature="e#6020#6081#1" />
-            <element signature="method#deserialize#0;class#BinaryTree#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/panpan/datastructure/tree/Codec.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="304">
-          <caret line="20" column="43" lean-forward="true" selection-start-line="14" selection-start-column="8" selection-end-line="20" selection-end-column="43" />
-          <folding>
-            <element signature="method#serialize#0;class#Codec#0" />
-            <element signature="method#deserialize#0;class#Codec#0" />
-            <element signature="method#parse#0;class#Codec#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/panpan/datastructure/tree/BinarySearchTree.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="297">
-          <caret line="112" lean-forward="true" selection-start-line="112" selection-end-line="112" />
+        <state relative-caret-position="351">
+          <caret line="114" column="20" selection-start-line="114" selection-start-column="20" selection-end-line="114" selection-end-column="20" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="docComment;class#BinarySearchTree#0" />
             <element signature="class#BinarySearchTree#0" />
             <element signature="method#main#0;class#BinarySearchTree#0" />
             <element signature="method#isValidBST#0;class#BinarySearchTree#0" />
-            <element signature="e#278#287#0" expanded="true" />
             <element signature="method#helper#0;class#BinarySearchTree#0" />
             <element signature="class#BSTIterator#0" />
-            <element signature="e#1673#1682#0" expanded="true" />
             <element signature="method#BSTIterator#0;class#BSTIterator#0" />
-            <element signature="e#1767#1777#0" expanded="true" />
             <element signature="method#next#0;class#BSTIterator#0" />
-            <element signature="class#BSTIterator#1" />
-            <element signature="method#BSTIterator#0;class#BSTIterator#1" />
-            <element signature="method#_inorder#0;class#BSTIterator#1" />
-            <element signature="docComment;method#next#0;class#BSTIterator#1" />
-            <element signature="docComment;method#hasNext#0;class#BSTIterator#1" />
-            <element signature="e#3696#3697#0" expanded="true" />
-            <element signature="e#3759#3760#0" expanded="true" />
+            <element signature="class#BSTIteratorLC#0" />
           </folding>
         </state>
       </provider>
