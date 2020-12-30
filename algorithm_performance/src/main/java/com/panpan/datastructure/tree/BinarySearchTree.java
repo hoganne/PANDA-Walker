@@ -236,7 +236,7 @@ public class BinarySearchTree {
             stack.addLast(tree[i]);
         }
         roots.add(root);
-                while (!stack.isEmpty()){
+        while (!stack.isEmpty()){
                     TreeNode rootTmp = roots.pollFirst();
                     Integer left = stack.poll();
                     Integer right = stack.poll();
@@ -255,7 +255,6 @@ public class BinarySearchTree {
                         rootTmp.right=null;
                     }
                 }
-
         return head;
     }
 }

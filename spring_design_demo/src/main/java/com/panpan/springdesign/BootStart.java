@@ -1,5 +1,7 @@
 package com.panpan.springdesign;
 
+import org.springframework.beans.factory.xml.BeanDefinitionDecorator;
+
 /**
  * @Description TODO
  * @Author xupan

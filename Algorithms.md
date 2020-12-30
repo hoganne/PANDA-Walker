@@ -552,12 +552,6 @@ public int maximum_depth(TreeNode root) {
 
 
 
-
-
-
-
-
-
 ### 前缀树
 
 `前缀树` ，又称 `字典树` ，是` N 叉树` 的特殊形式。
@@ -590,7 +584,7 @@ public int maximum_depth(TreeNode root) {
 
 值得注意的是，根节点表示` 空字符串 `。
 
-前缀树的一个重要的特性是，节点所有的后代都与该节点相关的字符串有着共同的前缀。这就是 `前缀树 `名称的由来。
+`前缀树`的一个重要的特性是，节点所有的后代都与该节点相关的字符串有着共同的前缀。这就是 `前缀树 `名称的由来。
 
 我们再来看这个例子。例如，以节点 "b" 为根的子树中的节点表示的字符串，都具有共同的前缀 "b"。反之亦然，具有公共前缀 "b" 的字符串，全部位于以 "b" 为根的子树中，并且具有不同前缀的字符串来自不同的分支。
 
@@ -623,7 +617,7 @@ class TrieNode {
  */
 ```
 
-访问子节点十分 快捷 。访问一个特定的子节点比较 容易 ，因为在大多数情况下，我们很容易将一个字符转换为索引。但并非所有的子节点都需要这样的操作，所以这可能会导致 空间的浪费 。
+访问子节点十分 快捷 。访问一个特定的子节点比较 容易 ，因为在大多数情况下，我们很容易将一个字符转换为索引。但并非所有的子节点都需要这样的操作，所以这可能会导致`空间`的浪费 。
 
 ###### 方法二 Map
 
@@ -664,3 +658,176 @@ class TrieNode {
 更具体地说，如果我们在前缀树中插入一个字符串 S，我们要从根节点开始。 我们将根据 S[0]（S中的第一个字符），选择一个子节点或添加一个新的子节点。然后到达第二个节点，并根据 S[1] 做出选择。 再到第三个节点，以此类推。 最后，我们依次遍历 S 中的所有字符并到达末尾。 末端节点将是表示字符串 S 的节点。
 
 下面是一个例子：
+
+![img](E:\oldF\learningDocument\git-workspace\PANDA-Walker\picture\Slide5.png)
+
+我们来用伪代码总结一下以上策略：
+
+```python
+1. Initialize: cur = root
+2. for each char c in target string S:
+3. 		if cur does not have a child c:
+4.			cur.children[c] = new Trie node
+5.		cur = cur.children[c]
+6. cur is the node which represents the string S
+```
+
+通常情况情况下，你需要自己构建前缀树。构建前缀树实际上就是多次调用插入函数。但请记住在插入字符串之前要 `初始化根节点` 。
+
+#### 搜索前缀
+
+正如我们在前缀树的简介中提到的，所有节点的后代都与该节点相对应字符串的有着共同前缀。因此，很容易搜索以特定前缀开头的任何单词。
+
+同样地，我们可以根据给定的前缀沿着树形结构搜索下去。一旦我们找不到我们想要的子节点，搜索就以失败终止。否则，搜索成功。为了更具体地解释搜索的过程，我们提供了下列示例：
+
+![img](E:\oldF\learningDocument\git-workspace\PANDA-Walker\picture\Slide041.png)
+
+![img](E:\oldF\learningDocument\git-workspace\PANDA-Walker\picture\Slide101.png)
+
+我们来用伪代码总结一下以上策略：
+
+```python
+1. Initialize: cur = root
+2. for each char c in target string S:
+3. 		if cur does not have a child c:
+4.			search fails
+5.		cur = cur.children[c]
+6. search successes
+```
+
+#### 搜索单词
+
+你可能还想知道如何搜索特定的单词，而不是前缀。我们可以将这个词作为前缀，并同样按照上述同样的方法进行搜索。
+
+1,如果搜索失败，那么意味着没有单词以目标单词开头，那么目标单词绝对不会存在于前缀树中。
+
+2,如果搜索成功，我们需要检查目标单词是否是前缀树中单词的前缀，或者它本身就是一个单词。为了进一步解决这个问题，你可能需要稍对节点的结构做出修改。
+
+>提示：往每个节点中加入布尔值可能会有效地帮助你解决这个问题
+
+实现 Trie (前缀树)
+实现一个 Trie (`前缀树`)，包含` insert`, `search`, 和 `startsWith` 这三个操作。
+
+示例:
+
+```java
+Trie trie = new Trie();
+trie.insert("apple");
+trie.search("apple");   // 返回 true
+trie.search("app");     // 返回 false
+trie.startsWith("app"); // 返回 true
+trie.insert("app");   
+trie.search("app");     // 返回 true
+```
+
+
+
+> 说明:
+>
+> 你可以假设所有的输入都是由小写字母 a-z 构成的。
+> 保证所有输入均为非空字符串。
+
+##### Implement Trie - Solution
+
+Problem: Implement a trie with insert, search, and startsWith methods.
+
+解决这一问题的关键是设计Trie节点结构。为了知道节点所表示的字符串是否是一个单词，我们需要额外的布尔标记。
+
+当插入一个新单词时，我们将该单词的结束节点中的标志设置为true。当我们实现startsWith方法时，如果成功找到路径则返回true。但是，当我们实现搜索方法时，只有在成功找到路径并且结束节点的标志为true时才返回true。
+
+```java
+class Trie {
+    class TrieNode {
+        public boolean isWord; 
+        public Map<Character, TrieNode> childrenMap = new HashMap<>();
+    }
+    
+    private TrieNode root; 
+
+    /** Initialize your data structure here. */
+    public Trie() {
+        root = new TrieNode();
+    }
+    
+    /** Inserts a word into the trie. */
+    public void insert(String word) {
+        TrieNode cur = root;
+        for(int i = 0; i < word.length(); i++){
+            char c = word.charAt(i);
+            if(cur.childrenMap.get(c) == null){
+                // insert a new node if the path does not exist
+                cur.childrenMap.put(c, new TrieNode());
+            }
+            cur = cur.childrenMap.get(c); 
+        }
+        cur.isWord = true;
+    }
+    
+    /** Returns if the word is in the trie. */
+    public boolean search(String word) {
+        TrieNode cur = root;
+        for(int i = 0; i < word.length(); i++) {
+            char c = word.charAt(i);
+            if(cur.childrenMap.get(c) == null) {
+                return false;
+            }
+            cur = cur.childrenMap.get(c);
+        }
+        return cur.isWord;
+    }
+   
+    /** Returns if there is any word in the trie that starts with the given prefix. */
+    public boolean startsWith(String prefix) {
+        TrieNode cur = root;
+        for(int i = 0;i < prefix.length(); i++){
+            char c = prefix.charAt(i);
+            if(cur.childrenMap.get(c) == null) {
+                return false;
+            }
+            cur = cur.childrenMap.get(c);
+        }
+        return true;
+    }
+}
+```
+
+
+
+Complexity Analysis
+
+我们来讨论一下这个算法的复杂性。
+
+如果单词的最长长度是N，那么重试的高度就是N + 1。因此，所有insert、search和startsWith方法的时间复杂度均为O(N)。
+
+空间复杂性如何?
+
+如果我们总共要插入M个单词，单词的长度最多为N，那么在最坏的情况下，最多将有M*N个节点(任意两个单词没有共同的前缀)。
+
+让我们假设有最多K个不同的字符(在这个问题中K等于26，但在不同的情况下可能不同)。因此，每个节点将保持一个map，其大小不超过K。
+
+> 因此，空间复杂度为O(M *N *K)。
+
+虽然看起来确实是一种空间消耗，但是，实际的空间复杂度比我们估计的要小得多，特别是当单词分布比较密集的时候。
+
+你也可以通过数组来实现它，这将获得稍好的时间性能，但稍低的空间性能。
+
+###### 与哈希表比较
+
+您可能想知道为什么不使用哈希表来存储字符串。让我们简单比较一下这两种数据结构。我们假设有N个键，一个键的最大长度是M。
+
+时间复杂度
+
+在哈希表中搜索的时间复杂度通常是O(1)，但如果有太多的碰撞，我们使用高度平衡的BST解决碰撞，在最坏的时间将是O(logN)。
+
+在trie中搜索的时间复杂度为O(M)。
+
+哈希表在大多数情况下获胜。
+
+###### 空间复杂度
+
+哈希表的空间复杂度是O(M * N)，如果你想让哈希表具有与Trie相同的功能，你可能需要存储几个键的副本。例如，你可能想要存储“a”，“ap”，“app”，“appl”和“apple”为关键词“apple”，以便通过前缀进行搜索。在这种情况下，空间复杂性可能会更大
+
+如上所估计的，Trie的空间复杂度为O(M * N)。但实际上要比估计的小得多，因为在实际情况中会有很多单词有类似的前缀。
+
+在大多数情况下，trie会赢。
+

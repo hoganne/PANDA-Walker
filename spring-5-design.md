@@ -472,23 +472,23 @@ compositeBankAccount.accountType();
 
 AccountDecorator和Account之间的关系，即正确类型的继承
 
-AccountDecorator和Account之间的关系，也就是说，为了添加新的行为而不更改现有代码的组合
+`AccountDecorator`和`Account`之间的关系，也就是说，为了添加新的行为而不更改现有代码的组合
 
 参与此模式的类和对象是：
 
-1 Component （account）：它是对象的接口，可以动态添加职责
+1 `Component` （account）：它是对象的接口，可以动态添加职责
 
-2 ConcreteComponent（SavingAccount）：这是组件接口的具体类，它定义了可以附加附加职责的对象
+2 `ConcreteComponent`（SavingAccount）：这是组件接口的具体类，它定义了可以附加职责的对象
 
-3 Decorator （ AccountDecorator ）：它有一个对组件对象的引用，并定义了一个符合组件接口的接口
+3 `Decorator `（ AccountDecorator ）：它有一个对组件对象的引用，并定义了一个符合组件接口的接口
 
-4 ConcreteDecorator （SeniorCitizen and Privilege ）它是装饰器的具体实现，并向组件添加了职责
+4 `ConcreteDecorator `（SeniorCitizen and Privilege ）它是装饰器的具体实现，并向组件添加了职责
 
 #### Decorator design pattern in the Spring Framework
 
-Spring框架使用Decorator设计模式来构建重要的功能，例如事务，缓存同步以及与安全性相关的任务。让我们看一下Spring透明地实现此模式的一些功能：
+Spring框架使用Decorator设计模式来构建重要的功能，例如`事务`，`缓存同步`以及与`安全性相关`的任务。让我们看一下Spring透明地实现此模式的一些功能：
 
-1，将建议（advice）编织到Spring应用程序中。它通过`CGLib`代理使用`Decorator`模式。它通过在运行时生成目标类的子类来工作。
+1，将建议（`advice`）编织到Spring应用程序中。它通过`CGLib`代理使用`Decorator`模式。它通过在运行时生成目标类的子类来工作。
 
 2，`BeanDefinitionDecorator`：用于通过应用自定义属性装饰Bean定义。
 
@@ -498,4 +498,26 @@ Spring框架使用Decorator设计模式来构建重要的功能，例如事务�
 
 现在让我们转到另一个GOF设计模式-外观设计模式。
 
-98.html
+#### Facade Design Pattern
+
+Provide a unified interface to a set of interfaces in a subsystem. Facade defines a higher-level interface that makes the subsystem easier to use. - GOF Design Patterns
+
+为子系统中的一组接口提供统一的接口。Facade定义了一个更高级的接口，使子系统更容易使用
+
+Facade设计模式只是一个接口的接口，以简化客户机代码和子系统类之间的交互。本设计采用GOF结构设计模式。
+
+facade模式的好处:
+
+>这种模式降低了客户机与子系统交互的复杂性
+>
+>此模式将所有业务服务合并为单个接口，使它们更易于理解
+>
+>这种模式减少了客户端代码对系统内部工作的依赖
+
+##### Knowing when to use the Facade Pattern
+
+​		假设您正在设计一个系统，这个系统有大量的独立类，也有一组需要实现的服务。这个系统将会非常复杂，因此Facade模式就出现了，它减少了大型系统的复杂性，并简化了客户机代码与大型复杂系统子系统中的一组类的交互。
+
+​		假设您想要开发一个具有大量服务的银行企业应用程序来执行一个任务，例如，`AccountService`用于通过`accountId`获取帐户，`PaymentService`用于支付网关服务，`TransferService`用于将金额从一个帐户转移到另一个帐户。应用程序的客户机代码与所有这些服务交互，将资金从一个帐户转移到另一个帐户。
+
+​		这就是不同的客户如何与银行系统的金额转账过程交互。如以下图所示,在这里你可以看到客户端代码直接与子系统交互类和客户也应该意识到子系统的内部工作类,所以它仅仅是违反了坚实的设计原则,因为客户机代码紧密耦合的子系统的类银行应用程序:

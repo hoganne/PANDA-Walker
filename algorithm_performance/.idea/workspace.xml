@@ -3,7 +3,10 @@
   <component name="ChangeListManager">
     <list default="true" id="b7e02b20-fb1b-4e73-9ce3-1e095ddfa5b1" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/../Algorithms.md" beforeDir="false" afterPath="$PROJECT_DIR$/../Algorithms.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/panpan/datastructure/tree/BinarySearchTree.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/panpan/datastructure/tree/BinarySearchTree.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../spring-5-design.md" beforeDir="false" afterPath="$PROJECT_DIR$/../spring-5-design.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../spring_design_demo/src/main/java/com/panpan/springdesign/BootStart.java" beforeDir="false" afterPath="$PROJECT_DIR$/../spring_design_demo/src/main/java/com/panpan/springdesign/BootStart.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -61,7 +64,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/panpan/datastructure/tree/NTree.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="972">
+            <state relative-caret-position="816">
               <caret line="43" column="39" selection-start-line="43" selection-start-column="39" selection-end-line="43" selection-end-column="39" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -73,27 +76,34 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/panpan/datastructure/tree/BinarySearchTree.java">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/panpan/datastructure/tree/Trie.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="384">
-              <caret line="140" column="51" lean-forward="true" selection-start-line="140" selection-start-column="51" selection-end-line="140" selection-end-column="51" />
+            <state relative-caret-position="71">
+              <caret line="12" selection-start-line="12" selection-end-line="15" selection-end-column="5" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="docComment;class#BinarySearchTree#0" />
-                <element signature="method#isValidBST#0;class#BinarySearchTree#0" />
-                <element signature="method#helper#0;class#BinarySearchTree#0" />
-                <element signature="method#searchBST#0;class#BinarySearchTree#0" />
-                <element signature="e#2147#2157#0" expanded="true" />
-                <element signature="e#2508#2592#0" />
-                <element signature="method#insertIntoBST#0;class#BinarySearchTree#0" />
-                <element signature="method#generateTree#0;class#BinarySearchTree#0" />
-                <element signature="e#8128#8137#0" expanded="true" />
-                <element signature="e#8187#8197#0" expanded="true" />
-                <element signature="class#BSTIterator#0" />
-                <element signature="method#BSTIterator#0;class#BSTIterator#0" />
-                <element signature="method#next#0;class#BSTIterator#0" />
-                <element signature="class#BSTIteratorLC#0" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/panpan/datastructure/tree/TrieTree.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="243">
+              <caret line="9" column="47" lean-forward="true" selection-start-line="9" selection-start-column="47" selection-end-line="9" selection-end-column="47" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/panpan/datastructure/tree/TrieNode.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="405">
+              <caret line="15" lean-forward="true" selection-start-line="15" selection-end-line="15" />
+              <folding>
+                <element signature="imports" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -104,6 +114,7 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="Kotlin File" />
         <option value="Class" />
       </list>
     </option>
@@ -123,13 +134,17 @@
         <option value="$PROJECT_DIR$/src/main/java/com/panpan/datastructure/tree/Codec.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/panpan/datastructure/tree/BinaryTree.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/panpan/datastructure/tree/BinarySearchTree.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/panpan/datastructure/tree/TrieNode.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/panpan/datastructure/tree/TrieTree.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/panpan/datastructure/tree/Trie.java" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="930" />
-    <option name="width" value="992" />
-    <option name="height" value="1040" />
+  <component name="ProjectFrameBounds">
+    <option name="x" value="576" />
+    <option name="y" value="40" />
+    <option name="width" value="987" />
+    <option name="height" value="480" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="1" id="Add" />
@@ -139,8 +154,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="PackagesPane" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -193,12 +208,6 @@
               <item name="datastructure" type="462c0819:PsiDirectoryNode" />
               <item name="tree" type="462c0819:PsiDirectoryNode" />
             </path>
-            <path>
-              <item name="algorithm_performance" type="b2602c69:ProjectViewProjectNode" />
-              <item name="algorithm_performance" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="test" type="462c0819:PsiDirectoryNode" />
-            </path>
           </expand>
           <select />
         </subPane>
@@ -208,7 +217,7 @@
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1609236095440" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1609323968191" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
@@ -278,17 +287,19 @@
       <workItem from="1608889230620" duration="1450000" />
       <workItem from="1609120397007" duration="12033000" />
       <workItem from="1609206622753" duration="24197000" />
+      <workItem from="1609292785654" duration="3612000" />
+      <workItem from="1609317521851" duration="3575000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="37680000" />
+    <option name="totallyTimeSpent" value="44867000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <frame x="576" y="40" width="987" height="480" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" weight="0.5556858" />
+      <window_info content_ui="combo" id="Project" order="0" weight="0.37419355" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
@@ -408,9 +419,38 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/panpan/datastructure/tree/Tree.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="54">
+          <caret line="2" selection-start-line="2" selection-end-line="2" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/panpan/datastructure/tree/BinarySearchTree.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="168">
+          <caret line="65" lean-forward="true" selection-start-line="65" selection-end-line="65" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="docComment;class#BinarySearchTree#0" />
+            <element signature="method#isValidBST#0;class#BinarySearchTree#0" />
+            <element signature="method#helper#0;class#BinarySearchTree#0" />
+            <element signature="method#searchBST#0;class#BinarySearchTree#0" />
+            <element signature="e#3483#3567#0" />
+            <element signature="method#insertIntoBST#0;class#BinarySearchTree#0" />
+            <element signature="method#deleteNode#0;class#BinarySearchTree#0" />
+            <element signature="method#generateTree#0;class#BinarySearchTree#0" />
+            <element signature="class#BSTIterator#0" />
+            <element signature="method#BSTIterator#0;class#BSTIterator#0" />
+            <element signature="method#next#0;class#BSTIterator#0" />
+            <element signature="class#BSTIteratorLC#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/panpan/datastructure/tree/NTree.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="972">
+        <state relative-caret-position="816">
           <caret line="43" column="39" selection-start-line="43" selection-start-column="39" selection-end-line="43" selection-end-column="39" />
           <folding>
             <element signature="imports" expanded="true" />
@@ -421,27 +461,30 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/panpan/datastructure/tree/BinarySearchTree.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/panpan/datastructure/tree/Trie.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="384">
-          <caret line="140" column="51" lean-forward="true" selection-start-line="140" selection-start-column="51" selection-end-line="140" selection-end-column="51" />
+        <state relative-caret-position="71">
+          <caret line="12" selection-start-line="12" selection-end-line="15" selection-end-column="5" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="docComment;class#BinarySearchTree#0" />
-            <element signature="method#isValidBST#0;class#BinarySearchTree#0" />
-            <element signature="method#helper#0;class#BinarySearchTree#0" />
-            <element signature="method#searchBST#0;class#BinarySearchTree#0" />
-            <element signature="e#2147#2157#0" expanded="true" />
-            <element signature="e#2508#2592#0" />
-            <element signature="method#insertIntoBST#0;class#BinarySearchTree#0" />
-            <element signature="method#generateTree#0;class#BinarySearchTree#0" />
-            <element signature="e#8128#8137#0" expanded="true" />
-            <element signature="e#8187#8197#0" expanded="true" />
-            <element signature="class#BSTIterator#0" />
-            <element signature="method#BSTIterator#0;class#BSTIterator#0" />
-            <element signature="method#next#0;class#BSTIterator#0" />
-            <element signature="class#BSTIteratorLC#0" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/panpan/datastructure/tree/TrieNode.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="405">
+          <caret line="15" lean-forward="true" selection-start-line="15" selection-end-line="15" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/panpan/datastructure/tree/TrieTree.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="243">
+          <caret line="9" column="47" lean-forward="true" selection-start-line="9" selection-start-column="47" selection-end-line="9" selection-end-column="47" />
         </state>
       </provider>
     </entry>
