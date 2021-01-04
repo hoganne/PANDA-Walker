@@ -1,5 +1,7 @@
 package com.panpan.datastructure.tree;
 
+import com.sun.org.apache.regexp.internal.RE;
+
 import java.util.*;
 
 /**
@@ -12,7 +14,9 @@ public class BinaryTree {
     private Integer answer=0;
     private boolean result = false;
     public static void main(String[] args) {
-
+        int[] ints=new int[]{9,3,15,20,7};
+        int[] posts ={9,15,7,20,3};
+        buildTree(ints,posts);
     }
     //根左右
     public List<Integer> preorderTraversal(TreeNode root) {
@@ -232,6 +236,35 @@ public class BinaryTree {
         String[] data_array = data.split(",");
         List<String> data_list = new LinkedList<String>(Arrays.asList(data_array));
         return rdeserialize(data_list);
+    }
+
+    //    根据一棵树的中序遍历与后序遍历构造二叉树。
+    //
+    //注意:
+    //你可以假设树中没有重复的元素。
+    //
+    //例如，给出
+    //
+    //中序遍历 inorder = [9,3,15,20,7]
+    //后序遍历 postorder = [9,15,7,20,3]
+
+    public static TreeNode buildTree(int[] inorder, int[] postorder) {
+        if(postorder.length<=0){
+            return null;
+        }
+        Deque<TreeNode> stack = new LinkedList<TreeNode>();
+        Deque<TreeNode> result = new LinkedList<TreeNode>();
+        HashMap<Integer, Integer> inMap = new HashMap<>();
+        HashMap<Integer, Integer> postMap = new HashMap<>();
+        for (int i = 0; i < inorder.length; i++) {
+            inMap.put(inorder[i],i);
+            postMap.put(postorder[i],i);
+        }
+        for (int i = postorder.length-1; i >=0 ; i--) {
+            TreeNode treeNode = new TreeNode(postorder[i]);
+            
+        }
+        return null;
     }
 }
 
