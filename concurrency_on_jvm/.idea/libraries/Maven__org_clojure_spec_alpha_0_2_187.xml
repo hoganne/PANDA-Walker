@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: org.clojure:spec.alpha:0.2.187">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/clojure/spec.alpha/0.2.187/spec.alpha-0.2.187.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/org/clojure/spec.alpha/0.2.187/spec.alpha-0.2.187-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/clojure/spec.alpha/0.2.187/spec.alpha-0.2.187-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
