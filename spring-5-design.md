@@ -498,7 +498,7 @@ Spring框架使用Decorator设计模式来构建重要的功能，例如`事务`
 
 现在让我们转到另一个GOF设计模式-外观设计模式。
 
-#### Facade Design Pattern
+#### Facade Design Pattern(门面模式)
 
 Provide a unified interface to a set of interfaces in a subsystem. Facade defines a higher-level interface that makes the subsystem easier to use. - GOF Design Patterns
 
@@ -520,4 +520,197 @@ facade模式的好处:
 
 ​		假设您想要开发一个具有大量服务的银行企业应用程序来执行一个任务，例如，`AccountService`用于通过`accountId`获取帐户，`PaymentService`用于支付网关服务，`TransferService`用于将金额从一个帐户转移到另一个帐户。应用程序的客户机代码与所有这些服务交互，将资金从一个帐户转移到另一个帐户。
 
-​		这就是不同的客户如何与银行系统的金额转账过程交互。如以下图所示,在这里你可以看到客户端代码直接与子系统交互类和客户也应该意识到子系统的内部工作类,所以它仅仅是违反了坚实的设计原则,因为客户机代码紧密耦合的子系统的类银行应用程序:
+​		这就是不同的客户如何与银行系统的金额转账过程交互。如以下图所示,在这里你可以看到客户端代码直接与子系统交互类和客户也应该意识到子系统的内部工作类,所以它违反了SOLID设计原则,因为客户机代码紧密耦合的子系统的类银行应用程序:
+
+![image-20201231163404951](E:\oldF\learningDocument\git-workspace\PANDA-Walker\picture\image-20201231163404951.png)
+
+与客户机代码直接与子系统的类交互不同，您可以再引入一个接口，这使得子系统更易于使用，如下图所示。这个接口被称为Facade接口，它基于Facade模式，是一种与子系统交互的简单方式:
+
+![image-20201231165326420](E:\oldF\learningDocument\git-workspace\PANDA-Walker\picture\image-20201231165326420.png)
+
+##### Implementing the Facade design pattern
+
+让我们看看下面的清单，以演示Facade设计模式。
+
+为您的银行应用程序创建子系统服务类:让我们看看以下内容子系统的PaymentService类。
+
+下面是PaymentService.java文件:
+
+```java
+package com.packt.patterninspring.chapter3.facade.pattern;
+public class PaymentService {
+public static boolean doPayment(){
+return true;
+}
+}
+```
+
+让我们为子系统创建另一个服务类AccountService。
+
+```java
+public class AccountService {
+public static Account getAccount(String accountId) {
+return new SavingAccount();
+}
+}
+```
+
+Following is the TransferService.java file:
+
+```java
+public class TransferService {
+public static void transfer(int amount, Account fromAccount,
+Account toAccount) {
+System.out.println("Transfering Money");
+}
+}
+
+```
+
+创建一个Facade服务类来与子系统交互:让我们看看下面的内容用于子系统的Facade接口，然后将此Facade接口作为应用程序中的全局银行服务实现。
+
+Following is the BankingServiceFacade.java file:
+
+```java
+public interface BankingServiceFacade {
+void moneyTransfer();
+}
+
+```
+
+Following is the BankingServiceFacadeImpl.java file:
+
+```java
+public class BankingServiceFacadeImpl implements
+BankingServiceFacade{
+@Override
+public void moneyTransfer() {
+if(PaymentService.doPayment()){
+Account fromAccount = AccountService.getAccount("1");
+Account toAccount = AccountService.getAccount("2");
+TransferService.transfer(1000, fromAccount, toAccount);
+}
+}
+}
+
+```
+
+创建Facade的客户端
+
+Following is the FacadePatternClient.java file:
+
+```java
+public class FacadePatternClient {
+public static void main(String[] args) {
+BankingServiceFacade serviceFacade = new
+BankingServiceFacadeImpl();
+serviceFacade.moneyTransfer();
+}
+}
+```
+
+##### The UML structure for the Facade design pattern
+
+参与此模式的类和对象是:
+
+Facade (BankingServiceFacade)
+
+这是一个Facade接口，它知道哪个子系统类负责请求。该接口负责将客户机请求委托给适当的子系统对象。
+
+子系统类(AccountService、TransferService、PaymentService)
+
+这些接口实际上是银行流程系统应用程序的子系统功能。它们负责处理Facade对象分配的流程。这个类别中的接口没有对Facade对象的引用;它们没有Facade的实现细节。它们完全独立于立面对象。让我们看看下面这个模式的UML图
+
+![image-20201231171037147](E:\oldF\learningDocument\git-workspace\PANDA-Walker\picture\image-20201231171037147.png)
+
+##### Facade Pattern in the Spring Framework
+
+在企业应用程序中，如果您在Spring应用程序中工作，facade模式通常在应用程序的业务服务层中使用，以合并所有服务。您还可以在持久层的dao上应用此模式。
+
+现在我们已经看到了Facade设计模式，让我们转向它的另一个变体——代理设计模式。Proxy design pattern.
+
+#### Proxy design pattern
+
+为另一个对象提供代理项或占位符，以控制对该对象的访问。gof设计模式
+
+代理设计模式提供一个类的对象，该对象具有另一个类的功能。该模式属于GOF的结构设计模式
+
+此设计模式的目的是向外界提供另一个类的替代类及其功能。
+
+##### Purpose of the Proxy pattern
+
+让我们来看看以下几点:
+
+>这种模式将实际对象隐藏起来，不让外界看到。
+>
+>这个模式可以提高性能，因为它是根据需要创建对象的
+
+##### UML structure for the Proxy design pattern
+
+让我们看看下面这个模式的UML图:
+
+![image-20201231171529093](E:\oldF\learningDocument\git-workspace\PANDA-Walker\picture\image-20201231171529093.png)
+
+现在让我们看看这个UML图的不同组件:
+
+>Subject: 由Proxy和RealSubject实现的实际接口。
+>
+>RealSubject: 真正实现主体。它是一个由代理表示的真实对象。
+>
+>Proxy: 它是一个代理对象，也是真实对象的实现
+>
+>Subject: 它维护对真实对象的引用。
+
+#### Implementing the Proxy design pattern
+
+让我们研究以下代码来演示代理模式。
+
+##### Proxy pattern in the Spring Framework
+
+Spring框架透明地使用Spring AOP模块中的代理设计模式。正如我在第一章“开始使用Spring”中讨论的那样
+
+框架5.0和设计模式。在Spring AOP中，您创建对象的代理，以便在Spring应用程序中的横切点上应用横切关注点。在Spring中，其他模块也实现了代理模式，比如Spring的RMI ,HTTP Invoker，Hessian和 Burlap。
+
+让我们看看下一节关于行为设计模式及其底层模式和示例的内容。
+
+### Behavioral design patterns
+
+​		行为设计模式的意图是一组对象之间的交互和合作，以执行一项单个对象不能单独执行的任务。对象之间的交互应该是松散耦合的。
+
+​		在这个类别下的模式描述了类或对象交互和分配责任的方式。让我们在下一节中看看行为设计模式的不同变体。
+
+#### Chain of Responsibility design pattern(责任链设计模式)
+
+通过给多个对象处理请求的机会，避免将请求的发送方与接收方耦合在一起。将接收对象连接起来，并沿着这个链传递请求，直到一个对象处理它。-GOF Design Patterns
+
+责任链设计模式属于行为设计模式的家庭。根据这个模式，请求的发送方和接收方是解耦的。发送方向接收方链发送请求，链中的任何一个接收方都可以处理请求。在此模式中，receiver对象具有另一个receiver对象的引用，因此如果它不处理请求，则将相同的请求传递给另一个receiver对象。
+
+例如，在银行系统中，您可以使用任何ATM机在任何地方取款，因此它是责任链设计模式的活生生的例子之一。
+
+这种模式有以下好处:
+
+>此模式减少了系统中用于处理请求的发送方和接收方对象之间的耦合。
+>
+>此模式可以更灵活地将职责分配给另一个被引用的对象。
+>
+>该模式使用组合生成对象链，并且这组对象作为单个单元工作
+
+让我们看看下面的UML图，它显示了责任链设计模式的所有组件:
+
+![image-20201231173128420](E:\oldF\learningDocument\git-workspace\PANDA-Walker\picture\image-20201231173128420.png)
+
+>Handler:这是系统中处理请求的抽象类或接口。
+>
+>`ConcreteHandler`:这些是具体的类，它们实现Handler来处理请求，或者将相同的请求传递给Handler链的下一个继承者。
+>
+>client:它是向链上的处理程序对象发起请求的主应用程序类。
+
+##### Chain of Responsibility pattern in the Spring Framework
+
+Spring Security project实现了责任链模式在Spring框架。Spring Security允许您通过使用安全过滤器链在应用程序中实现身份验证和授权功能。
+
+这是一个高度可配置的框架。您可以使用此过滤器链添加自定义过滤器，以便根据责任链设计模式自定义功能。
+
+现在我们已经了解了责任链设计模式，让我们转向它的另一个变体——命令设计模式。-Command design pattern.
+
+### Command design pattern

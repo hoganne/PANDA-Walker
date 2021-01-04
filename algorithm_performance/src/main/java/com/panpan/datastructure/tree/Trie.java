@@ -10,11 +10,6 @@ import java.util.Map;
  * @Version V1.0
  **/
 class Trie {
-    class TrieNode {
-        public boolean isWord;
-        public Map<Character, TrieNode> childrenMap = new HashMap<>();
-    }
-
     private TrieNode root;
 
     /** Initialize your data structure here. */

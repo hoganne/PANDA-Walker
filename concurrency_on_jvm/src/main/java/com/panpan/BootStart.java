@@ -8,7 +8,6 @@ package com.panpan;
  **/
 public class BootStart {
     public static void main(String[] args) {
-
         System.out.println("haha");
     }
 }

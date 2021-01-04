@@ -11,5 +11,6 @@ import java.util.Map;
  **/
 public class TrieNode {
     public boolean isWord;
+    public Integer value = null;
     public Map<Character, TrieNode> childrenMap = new HashMap<>();
 }
