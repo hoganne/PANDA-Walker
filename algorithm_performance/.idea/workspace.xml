@@ -4,144 +4,14 @@
     <list default="true" id="b7e02b20-fb1b-4e73-9ce3-1e095ddfa5b1" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/panpan/datastructure/tree/BinaryTree.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/panpan/datastructure/tree/BinaryTree.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/panpan/datastructure/tree/BSTIterator.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/panpan/datastructure/tree/BSTIterator.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/panpan/datastructure/tree/BSTIteratorLC.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/panpan/datastructure/tree/BSTIteratorLC.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/panpan/datastructure/tree/BinarySearchTree.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/panpan/datastructure/tree/BinarySearchTree.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/panpan/datastructure/tree/BinaryTree.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/panpan/datastructure/tree/BinaryTree.class" afterDir="false" />
     </list>
-    <ignored path="$PROJECT_DIR$/target/" />
-    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/panpan/datastructure/tree/Codec.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="513">
-              <caret line="20" column="43" selection-start-line="14" selection-start-column="8" selection-end-line="20" selection-end-column="43" />
-              <folding>
-                <element signature="method#serialize#0;class#Codec#0" />
-                <element signature="method#deserialize#0;class#Codec#0" />
-                <element signature="method#parse#0;class#Codec#0" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/panpan/datastructure/tree/BinaryTree.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="467">
-              <caret line="264" column="12" selection-start-line="264" selection-start-column="12" selection-end-line="264" selection-end-column="12" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="docComment;class#BinaryTree#0" />
-                <element signature="method#preorderTraversal#0;class#BinaryTree#0" />
-                <element signature="method#inorderTraversal#0;class#BinaryTree#0" />
-                <element signature="method#inorderTraversal2#0;class#BinaryTree#0" />
-                <element signature="method#inorderTraversalRecursion#0;class#BinaryTree#0" />
-                <element signature="method#inorderRecursion#0;class#BinaryTree#0" />
-                <element signature="method#postorderTraversal#0;class#BinaryTree#0" />
-                <element signature="method#levelOrder#0;class#BinaryTree#0" />
-                <element signature="method#recursionMaxDepth#0;class#BinaryTree#0" />
-                <element signature="method#recursionMaxDepthDown#0;class#BinaryTree#0" />
-                <element signature="e#5980#5981#0" expanded="true" />
-                <element signature="e#6019#6020#0" expanded="true" />
-                <element signature="method#check#0;class#BinaryTree#0" />
-                <element signature="method#hasPathSum#0;class#BinaryTree#0" />
-                <element signature="method#hasPathSumT#0;class#BinaryTree#0" />
-                <element signature="method#rserialize#0;class#BinaryTree#0" />
-                <element signature="e#7211#7212#0" expanded="true" />
-                <element signature="e#7254#7255#0" expanded="true" />
-                <element signature="method#rdeserialize#0;class#BinaryTree#0" />
-                <element signature="method#deserialize#0;class#BinaryTree#0" />
-                <element signature="e#7825#7852#0" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/panpan/datastructure/tree/NTree.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="972">
-              <caret line="43" column="39" selection-start-line="43" selection-start-column="39" selection-end-line="43" selection-end-column="39" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#695#753#0" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/panpan/datastructure/tree/Trie.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="270">
-              <caret line="11" column="12" selection-start-line="11" selection-start-column="12" selection-end-line="11" selection-end-column="12" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/panpan/datastructure/tree/TrieTree.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="648">
-              <caret line="70" selection-start-line="70" selection-end-line="70" />
-              <folding>
-                <element signature="method#insert#0;class#TrieTree#0" />
-                <element signature="docComment;method#search#0;class#TrieTree#0" />
-                <element signature="method#search#0;class#TrieTree#0" />
-                <element signature="docComment;method#startsWith#0;class#TrieTree#0" />
-                <element signature="method#startsWith#0;class#TrieTree#0" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/panpan/datastructure/tree/MapSum.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="756">
-              <caret line="34" column="33" selection-start-line="34" selection-start-column="33" selection-end-line="34" selection-end-column="33" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#281#282#0" expanded="true" />
-                <element signature="e#327#328#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/panpan/datastructure/tree/TreeNode.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="243">
-              <caret line="9" column="13" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="13" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/panpan/datastructure/tree/TrieNode.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="378">
-              <caret line="15" column="1" selection-start-line="11" selection-start-column="7" selection-end-line="15" selection-end-column="1" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+  <component name="CodeStyleSettingsInfer">
+    <option name="done" value="true" />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -159,92 +29,24 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
-  <component name="IdeDocumentHistory">
-    <option name="CHANGED_PATHS">
-      <list>
-        <option value="$PROJECT_DIR$/src/main/java/com/panpan/datastructure/tree/NTree.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/panpan/datastructure/tree/Codec.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/panpan/datastructure/tree/BinarySearchTree.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/panpan/datastructure/tree/TrieTree.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/panpan/datastructure/tree/Trie.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/panpan/datastructure/tree/TrieNode.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/panpan/datastructure/tree/MapSum.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/panpan/datastructure/tree/BinaryTree.java" />
-      </list>
+  <component name="MavenImportPreferences">
+    <option name="importingSettings">
+      <MavenImportingSettings>
+        <option name="importAutomatically" value="true" />
+      </MavenImportingSettings>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="955" />
-    <option name="width" value="933" />
-    <option name="height" value="1040" />
+  <component name="ProjectCodeStyleSettingsMigration">
+    <option name="version" value="1" />
   </component>
+  <component name="ProjectId" id="1mbXiv4wT4M0ggpK7OWgNvFVAz7" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="1" id="Add" />
   </component>
-  <component name="ProjectView">
-    <navigator proportions="" version="1">
-      <foldersAlwaysOnTop value="true" />
-    </navigator>
-    <panes>
-      <pane id="Scope" />
-      <pane id="PackagesPane" />
-      <pane id="ProjectPane">
-        <subPane>
-          <expand>
-            <path>
-              <item name="algorithm_performance" type="b2602c69:ProjectViewProjectNode" />
-              <item name="algorithm_performance" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="algorithm_performance" type="b2602c69:ProjectViewProjectNode" />
-              <item name="algorithm_performance" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="algorithm_performance" type="b2602c69:ProjectViewProjectNode" />
-              <item name="algorithm_performance" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="algorithm_performance" type="b2602c69:ProjectViewProjectNode" />
-              <item name="algorithm_performance" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="algorithm_performance" type="b2602c69:ProjectViewProjectNode" />
-              <item name="algorithm_performance" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="panpan" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="algorithm_performance" type="b2602c69:ProjectViewProjectNode" />
-              <item name="algorithm_performance" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="panpan" type="462c0819:PsiDirectoryNode" />
-              <item name="datastructure" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="algorithm_performance" type="b2602c69:ProjectViewProjectNode" />
-              <item name="algorithm_performance" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="panpan" type="462c0819:PsiDirectoryNode" />
-              <item name="datastructure" type="462c0819:PsiDirectoryNode" />
-              <item name="tree" type="462c0819:PsiDirectoryNode" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
-    </panes>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
@@ -258,18 +60,6 @@
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="settings.editor.selected.configurable" value="vcs.Subversion" />
-  </component>
-  <component name="RunDashboard">
-    <option name="ruleStates">
-      <list>
-        <RuleState>
-          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
-        </RuleState>
-        <RuleState>
-          <option name="name" value="StatusDashboardGroupingRule" />
-        </RuleState>
-      </list>
-    </option>
   </component>
   <component name="RunManager" selected="Application.BinaryTree">
     <configuration name="BinarySearchTree" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
@@ -339,49 +129,18 @@
       <workItem from="1609404925324" duration="15000" />
       <workItem from="1609731998094" duration="8846000" />
       <workItem from="1609749840760" duration="3616000" />
+      <workItem from="1609763419183" duration="6122000" />
     </task>
     <servers />
   </component>
-  <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="64569000" />
-  </component>
-  <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
-    <editor active="true" />
-    <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.2185501" />
-      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info id="Image Layers" order="2" />
-      <window_info id="Designer" order="3" />
-      <window_info id="UI Designer" order="4" />
-      <window_info id="Capture Tool" order="5" />
-      <window_info id="Favorites" order="6" side_tool="true" />
-      <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.32936078" />
-      <window_info active="true" anchor="bottom" id="Debug" order="3" visible="true" weight="0.3900325" />
-      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Version Control" order="8" />
-      <window_info anchor="bottom" id="Database Changes" order="9" />
-      <window_info anchor="bottom" id="Terminal" order="10" />
-      <window_info anchor="bottom" id="Event Log" order="11" side_tool="true" />
-      <window_info anchor="bottom" id="Messages" order="12" />
-      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
-      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
-      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-      <window_info anchor="right" id="Palette" order="3" />
-      <window_info anchor="right" id="Database" order="4" />
-      <window_info anchor="right" id="Theme Preview" order="5" />
-      <window_info anchor="right" id="Maven" order="6" />
-      <window_info anchor="right" id="Capture Analysis" order="7" />
-      <window_info anchor="right" id="Palette&#9;" order="8" />
-    </layout>
-  </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="488" y="79" key="#com.intellij.ide.util.MemberChooser" timestamp="1609770409359">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state x="488" y="79" key="#com.intellij.ide.util.MemberChooser/0.0.1366.728@0.0.1366.728" timestamp="1609770409359" />
   </component>
   <component name="debuggerHistoryManager">
     <expressions id="evaluateExpression">
@@ -401,151 +160,6 @@
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
     </expressions>
-  </component>
-  <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/java_performance.iml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="54">
-          <caret line="2" column="56" lean-forward="true" selection-start-line="2" selection-start-column="56" selection-end-line="2" selection-end-column="56" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.idea/workspace.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="281">
-          <caret line="294" column="46" selection-start-line="294" selection-start-column="38" selection-end-line="294" selection-end-column="46" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/panpan/datastructure/tree/Tree.kt" />
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/panpan/datastructure/tree/NTree.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="972">
-          <caret line="43" column="39" selection-start-line="43" selection-start-column="39" selection-end-line="43" selection-end-column="39" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#695#753#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/panpan/datastructure/tree/Trie.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="11" column="12" selection-start-line="11" selection-start-column="12" selection-end-line="11" selection-end-column="12" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/panpan/datastructure/tree/TrieTree.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="648">
-          <caret line="70" selection-start-line="70" selection-end-line="70" />
-          <folding>
-            <element signature="method#insert#0;class#TrieTree#0" />
-            <element signature="docComment;method#search#0;class#TrieTree#0" />
-            <element signature="method#search#0;class#TrieTree#0" />
-            <element signature="docComment;method#startsWith#0;class#TrieTree#0" />
-            <element signature="method#startsWith#0;class#TrieTree#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/panpan/datastructure/tree/MapSum.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="756">
-          <caret line="34" column="33" selection-start-line="34" selection-start-column="33" selection-end-line="34" selection-end-column="33" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#281#282#0" expanded="true" />
-            <element signature="e#327#328#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/panpan/datastructure/tree/TreeNode.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="243">
-          <caret line="9" column="13" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/panpan/datastructure/tree/TrieNode.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="378">
-          <caret line="15" column="1" selection-start-line="11" selection-start-column="7" selection-end-line="15" selection-end-column="1" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/panpan/datastructure/tree/Codec.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="513">
-          <caret line="20" column="43" selection-start-line="14" selection-start-column="8" selection-end-line="20" selection-end-column="43" />
-          <folding>
-            <element signature="method#serialize#0;class#Codec#0" />
-            <element signature="method#deserialize#0;class#Codec#0" />
-            <element signature="method#parse#0;class#Codec#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/panpan/datastructure/tree/BinarySearchTree.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="174">
-          <caret line="170" selection-start-line="170" selection-end-line="170" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="docComment;class#BinarySearchTree#0" />
-            <element signature="method#isValidBST#0;class#BinarySearchTree#0" />
-            <element signature="method#helper#0;class#BinarySearchTree#0" />
-            <element signature="method#searchBST#0;class#BinarySearchTree#0" />
-            <element signature="e#3483#3567#0" />
-            <element signature="method#insertIntoBST#0;class#BinarySearchTree#0" />
-            <element signature="method#generateTree#0;class#BinarySearchTree#0" />
-            <element signature="class#BSTIterator#0" />
-            <element signature="method#BSTIterator#0;class#BSTIterator#0" />
-            <element signature="method#next#0;class#BSTIterator#0" />
-            <element signature="class#BSTIteratorLC#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/panpan/datastructure/tree/BinaryTree.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="467">
-          <caret line="264" column="12" selection-start-line="264" selection-start-column="12" selection-end-line="264" selection-end-column="12" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="docComment;class#BinaryTree#0" />
-            <element signature="method#preorderTraversal#0;class#BinaryTree#0" />
-            <element signature="method#inorderTraversal#0;class#BinaryTree#0" />
-            <element signature="method#inorderTraversal2#0;class#BinaryTree#0" />
-            <element signature="method#inorderTraversalRecursion#0;class#BinaryTree#0" />
-            <element signature="method#inorderRecursion#0;class#BinaryTree#0" />
-            <element signature="method#postorderTraversal#0;class#BinaryTree#0" />
-            <element signature="method#levelOrder#0;class#BinaryTree#0" />
-            <element signature="method#recursionMaxDepth#0;class#BinaryTree#0" />
-            <element signature="method#recursionMaxDepthDown#0;class#BinaryTree#0" />
-            <element signature="e#5980#5981#0" expanded="true" />
-            <element signature="e#6019#6020#0" expanded="true" />
-            <element signature="method#check#0;class#BinaryTree#0" />
-            <element signature="method#hasPathSum#0;class#BinaryTree#0" />
-            <element signature="method#hasPathSumT#0;class#BinaryTree#0" />
-            <element signature="method#rserialize#0;class#BinaryTree#0" />
-            <element signature="e#7211#7212#0" expanded="true" />
-            <element signature="e#7254#7255#0" expanded="true" />
-            <element signature="method#rdeserialize#0;class#BinaryTree#0" />
-            <element signature="method#deserialize#0;class#BinaryTree#0" />
-            <element signature="e#7825#7852#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
   </component>
   <component name="masterDetails">
     <states>

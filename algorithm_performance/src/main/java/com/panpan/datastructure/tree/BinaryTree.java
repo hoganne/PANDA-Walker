@@ -252,22 +252,71 @@ public class BinaryTree {
         if(postorder.length<=0){
             return null;
         }
-        Deque<TreeNode> stack = new LinkedList<TreeNode>();
-        Deque<TreeNode> result = new LinkedList<TreeNode>();
+        Deque<TreeNodeStruct> stack = new LinkedList<TreeNodeStruct>();
+//        Deque<TreeNode> result = new LinkedList<TreeNode>();
         HashMap<Integer, Integer> inMap = new HashMap<>();
         HashMap<Integer, Integer> postMap = new HashMap<>();
         for (int i = 0; i < inorder.length; i++) {
             inMap.put(inorder[i],i);
             postMap.put(postorder[i],i);
         }
-        for (int i = postorder.length-1; i >=0 ; i--) {
-            TreeNode treeNode = new TreeNode(postorder[i]);
-            
+        TreeNode root = new TreeNode(postorder[postorder.length - 1]);
+        TreeNode left = new TreeNode();
+        TreeNode right = new TreeNode();
+        stack.push(new TreeNodeStruct(left,0,inMap.get(root.val)-1));
+        while (!stack.isEmpty()){
+            TreeNodeStruct peek = stack.peek();
+            if(peek.start<peek.end){
+
+            }else{
+
+            }
         }
-        return null;
+        Deque<TreeNodeStruct> result = new LinkedList<TreeNodeStruct>();
+        result.push(new TreeNodeStruct(right,inMap.get(root.val)+1,inorder.length-1));
+        while (!result.isEmpty()){
+
+        }
+return null;
+    }
+    static class TreeNodeStruct{
+        public TreeNode node;
+        public int start=-1;
+        public int end=-1;
+        public TreeNodeStruct(TreeNode node, int start, int end) {
+            this.node = node;
+            this.start = start;
+            this.end = end;
+        }
+    }
+
+}
+class Solution{
+
+    HashMap<Integer,Integer> memo = new HashMap<>();
+    int[] post;
+
+    public TreeNode buildTree(int[] inorder, int[] postorder) {
+        for(int i = 0;i < inorder.length; i++) {
+            memo.put(inorder[i], i);
+        }
+        post = postorder;
+        TreeNode root = buildTree(0, inorder.length - 1, 0, post.length - 1);
+        return root;
+    }
+
+    public TreeNode buildTree(int is, int ie, int ps, int pe) {
+        if(ie < is || pe < ps) {
+            return null;
+        }
+        int root = post[pe];
+        int ri = memo.get(root);
+        TreeNode node = new TreeNode(root);
+        node.left = buildTree(is, ri - 1, ps, ps + ri - is - 1);
+        node.right = buildTree(ri + 1, ie, ps + ri - is, pe - 1);
+        return node;
     }
 }
-
 
 
 
