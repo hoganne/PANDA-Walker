@@ -13,7 +13,7 @@ public class BootStart2 {
         final Thread flagTd = new Thread(new Runnable() {
             @Override
             public void run() {
-                try {
+           try {
                     int read = System.in.read();
                     System.out.println(read);
 //                    int count =100000000 ;
@@ -35,7 +35,8 @@ public class BootStart2 {
         });
         flagTd.start();
         flagTd.interrupt();
-//        TimeUnit.SECONDS.sleep(1);
+        Thread.sleep(100);
+//      TimeUnit.SECONDS.sleep(1);
         flagTd.wait(10);
         flagTd.join();
 //      flagTd.stop();
