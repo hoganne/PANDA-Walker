@@ -10,6 +10,11 @@ import java.util.concurrent.TimeUnit;
  **/
 public class BootStart2 {
     public static void main(String[] args) throws InterruptedException {
+
+        synchronized (BootStart2.class){
+            BootStart2.class.wait(100);
+
+        }
         final Thread flagTd = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -26,7 +31,7 @@ public class BootStart2 {
 //                            break;
 //                        }
 //                    }
-                    this.notify();
+                      notify();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
