@@ -289,6 +289,77 @@ return null;
             this.end = end;
         }
     }
+//    给定一棵二叉树的根 root，请你考虑它所有 从根到叶的路径：从根到任何叶的路径。
+//    （所谓一个叶子节点，就是一个没有子节点的节点）
+//    假如通过节点 node 的每种可能的 “根-叶” 路径上值的总和全都小于给定的 limit，则该节点被称之为「不足节点」，需要被删除。
+//    请你删除所有不足节点，并返回生成的二叉树的根。
+//    public:
+//    TreeNode* sufficientSubset(TreeNode* root, int limit) {
+//        // 如果节点为空直接返回即可
+//        if(!root)
+//            return root;
+//        // 如果当前节点为叶子节点
+//        if(!root->left && !root->right){
+//            // 大于limit直接返回
+//            if(root->val >= limit)
+//                return root;
+//            // 小于limit  返回空节点 即代表删除这个节点
+//            else
+//                return nullptr;
+//        }
+//        // 非叶子节点，递归它的左右子节点
+//        root->left = sufficientSubset(root->left, limit - root->val);
+//        root->right = sufficientSubset(root->right, limit - root->val);
+//        // 如果递归后左右子节点为空，就代表经过它的路径都是小于limit，那么这个节点都可以删除了
+//        if(!root->left && !root->right)
+//            return nullptr;
+//        else
+//            return root;
+//    }
+
+    public static TreeNode sufficientSubset(TreeNode root, int limit) {
+        if(null==root){
+            return root;
+        }
+        if(null==root.left&&null==root.right){
+            if(root.val-limit>=0){
+                return root;
+            }else{
+                return null;
+            }
+        }
+        root.left=sufficientSubset(root.left,limit-root.val);
+        root.right=sufficientSubset(root.right,limit-root.val);
+        if(root.left==null&&root.right==null){
+            return null;
+        }else{
+            return root;
+        }
+    }
+
+    public static TreeNode sufficientSubsetIteration(TreeNode root,int limit){
+        if(root==null){
+            return root;
+        }
+        Deque<TreeNode> stack = new LinkedList<>();
+        Set<TreeNode> visited = new HashSet<>(16);
+        stack.push(root);
+        while (!stack.isEmpty()){
+            TreeNode peek = stack.peek();
+            if(peek.left!=null){
+
+            }
+            if (peek.right!=null){
+
+            }
+            //叶子节点
+            if(peek.left==null&&peek.right==null){
+
+            }
+        }
+        return null;
+    }
+
 
 }
 class Solution{
