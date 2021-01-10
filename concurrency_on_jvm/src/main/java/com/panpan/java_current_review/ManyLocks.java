@@ -53,4 +53,6 @@ public class ManyLocks {
 //            condition1.wait();
     }
 
+
+
 }

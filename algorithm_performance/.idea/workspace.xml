@@ -4,7 +4,10 @@
     <list default="true" id="b7e02b20-fb1b-4e73-9ce3-1e095ddfa5b1" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/panpan/datastructure/tree/BinaryTree.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/panpan/datastructure/tree/BinaryTree.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../concurrency_on_jvm/src/main/java/com/panpan/java_current_review/ManyLocks.java" beforeDir="false" afterPath="$PROJECT_DIR$/../concurrency_on_jvm/src/main/java/com/panpan/java_current_review/ManyLocks.java" afterDir="false" />
     </list>
+    <ignored path="$PROJECT_DIR$/target/" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -12,6 +15,78 @@
   </component>
   <component name="CodeStyleSettingsInfer">
     <option name="done" value="true" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/panpan/datastructure/tree/BinaryTree.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="262">
+              <caret line="341" column="24" lean-forward="true" selection-start-line="341" selection-start-column="24" selection-end-line="341" selection-end-column="24" />
+              <folding>
+                <element signature="docComment;class#BinaryTree#0" />
+                <element signature="method#main#0;class#BinaryTree#0" />
+                <element signature="method#preorderTraversal#0;class#BinaryTree#0" />
+                <element signature="e#765#989#1" />
+                <element signature="method#inorderTraversal#0;class#BinaryTree#0" />
+                <element signature="e#1384#1778#1" />
+                <element signature="e#1499#1601#1" />
+                <element signature="e#1605#1768#1" />
+                <element signature="method#inorderTraversal2#0;class#BinaryTree#0" />
+                <element signature="e#2049#2474#1" />
+                <element signature="e#2081#2164#1" />
+                <element signature="e#2222#2269#1" />
+                <element signature="e#2273#2435#1" />
+                <element signature="e#2307#2362#1" />
+                <element signature="method#inorderTraversalRecursion#0;class#BinaryTree#0" />
+                <element signature="method#inorderRecursion#0;class#BinaryTree#0" />
+                <element signature="e#2828#2970#1" />
+                <element signature="method#postorderTraversal#0;class#BinaryTree#0" />
+                <element signature="e#3343#3997#1" />
+                <element signature="e#3573#3891#1" />
+                <element signature="e#3611#3727#1" />
+                <element signature="e#3763#3877#1" />
+                <element signature="e#3895#3987#1" />
+                <element signature="method#levelOrder#0;class#BinaryTree#0" />
+                <element signature="e#4447#4933#1" />
+                <element signature="e#4526#4764#1" />
+                <element signature="e#4575#4639#1" />
+                <element signature="method#recursionMaxDepth#0;class#BinaryTree#0" />
+                <element signature="e#5133#5189#1" />
+                <element signature="method#recursionMaxDepthDown#0;class#BinaryTree#0" />
+                <element signature="method#check#0;class#BinaryTree#0" />
+                <element signature="e#6125#6161#1" />
+                <element signature="e#6202#6239#1" />
+                <element signature="method#hasPathSum#0;class#BinaryTree#0" />
+                <element signature="e#6605#6641#1" />
+                <element signature="method#hasPathSumT#0;class#BinaryTree#0" />
+                <element signature="e#6811#6866#0" />
+                <element signature="method#rserialize#0;class#BinaryTree#0" />
+                <element signature="e#6956#6995#1" />
+                <element signature="e#7001#7140#1" />
+                <element signature="method#rdeserialize#0;class#BinaryTree#0" />
+                <element signature="e#7345#7406#1" />
+                <element signature="method#deserialize#0;class#BinaryTree#0" />
+                <element signature="e#7825#7852#0" />
+                <element signature="method#buildTree#0;class#BinaryTree#0" />
+                <element signature="e#8093#8129#1" />
+                <element signature="e#8434#8523#1" />
+                <element signature="e#8778#8909#1" />
+                <element signature="class#TreeNodeStruct#0;class#BinaryTree#0" />
+                <element signature="method#TreeNodeStruct#0;class#TreeNodeStruct#0;class#BinaryTree#0" />
+                <element signature="method#sufficientSubset#0;class#BinaryTree#0" />
+                <element signature="e#10562#10657#1" />
+                <element signature="class#Solution#0" />
+                <element signature="method#buildTree#0;class#Solution#0" />
+                <element signature="e#9628#9676#1" />
+                <element signature="method#buildTree#1;class#Solution#0" />
+                <element signature="e#9904#9940#1" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -29,6 +104,13 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/src/main/java/com/panpan/datastructure/tree/BinaryTree.java" />
+      </list>
+    </option>
+  </component>
   <component name="MavenImportPreferences">
     <option name="importingSettings">
       <MavenImportingSettings>
@@ -39,9 +121,79 @@
   <component name="ProjectCodeStyleSettingsMigration">
     <option name="version" value="1" />
   </component>
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="955" />
+    <option name="width" value="933" />
+    <option name="height" value="1040" />
+  </component>
   <component name="ProjectId" id="1mbXiv4wT4M0ggpK7OWgNvFVAz7" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="1" id="Add" />
+  </component>
+  <component name="ProjectView">
+    <navigator proportions="" version="1">
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="Scope" />
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="algorithm_performance" type="b2602c69:ProjectViewProjectNode" />
+              <item name="algorithm_performance" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="algorithm_performance" type="b2602c69:ProjectViewProjectNode" />
+              <item name="algorithm_performance" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="algorithm_performance" type="b2602c69:ProjectViewProjectNode" />
+              <item name="algorithm_performance" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="algorithm_performance" type="b2602c69:ProjectViewProjectNode" />
+              <item name="algorithm_performance" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="algorithm_performance" type="b2602c69:ProjectViewProjectNode" />
+              <item name="algorithm_performance" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="panpan" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="algorithm_performance" type="b2602c69:ProjectViewProjectNode" />
+              <item name="algorithm_performance" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="panpan" type="462c0819:PsiDirectoryNode" />
+              <item name="datastructure" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="algorithm_performance" type="b2602c69:ProjectViewProjectNode" />
+              <item name="algorithm_performance" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="panpan" type="462c0819:PsiDirectoryNode" />
+              <item name="datastructure" type="462c0819:PsiDirectoryNode" />
+              <item name="tree" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+      <pane id="PackagesPane" />
+    </panes>
   </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -51,7 +203,7 @@
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1609748360797" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1610104736016" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
@@ -60,6 +212,18 @@
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="settings.editor.selected.configurable" value="vcs.Subversion" />
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
   </component>
   <component name="RunManager" selected="Application.BinaryTree">
     <configuration name="BinarySearchTree" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
@@ -130,8 +294,46 @@
       <workItem from="1609731998094" duration="8846000" />
       <workItem from="1609749840760" duration="3616000" />
       <workItem from="1609763419183" duration="6122000" />
+      <workItem from="1610070747356" duration="8535000" />
     </task>
     <servers />
+  </component>
+  <component name="TimeTrackingManager">
+    <option name="totallyTimeSpent" value="8535000" />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <editor active="true" />
+    <layout>
+      <window_info id="Image Layers" />
+      <window_info id="Designer" />
+      <window_info id="UI Designer" />
+      <window_info id="Capture Tool" />
+      <window_info id="Favorites" side_tool="true" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info anchor="bottom" id="Docker" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Database Changes" />
+      <window_info anchor="bottom" id="Version Control" />
+      <window_info anchor="bottom" id="Terminal" />
+      <window_info anchor="bottom" id="Event Log" side_tool="true" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info anchor="bottom" id="Run" order="2" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="right" id="Palette" />
+      <window_info anchor="right" id="Theme Preview" />
+      <window_info anchor="right" id="Maven" />
+      <window_info anchor="right" id="Capture Analysis" />
+      <window_info anchor="right" id="Palette&#9;" />
+      <window_info anchor="right" id="Database" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+    </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
@@ -160,6 +362,74 @@
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
     </expressions>
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/panpan/datastructure/tree/BinaryTree.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="262">
+          <caret line="341" column="24" lean-forward="true" selection-start-line="341" selection-start-column="24" selection-end-line="341" selection-end-column="24" />
+          <folding>
+            <element signature="docComment;class#BinaryTree#0" />
+            <element signature="method#main#0;class#BinaryTree#0" />
+            <element signature="method#preorderTraversal#0;class#BinaryTree#0" />
+            <element signature="e#765#989#1" />
+            <element signature="method#inorderTraversal#0;class#BinaryTree#0" />
+            <element signature="e#1384#1778#1" />
+            <element signature="e#1499#1601#1" />
+            <element signature="e#1605#1768#1" />
+            <element signature="method#inorderTraversal2#0;class#BinaryTree#0" />
+            <element signature="e#2049#2474#1" />
+            <element signature="e#2081#2164#1" />
+            <element signature="e#2222#2269#1" />
+            <element signature="e#2273#2435#1" />
+            <element signature="e#2307#2362#1" />
+            <element signature="method#inorderTraversalRecursion#0;class#BinaryTree#0" />
+            <element signature="method#inorderRecursion#0;class#BinaryTree#0" />
+            <element signature="e#2828#2970#1" />
+            <element signature="method#postorderTraversal#0;class#BinaryTree#0" />
+            <element signature="e#3343#3997#1" />
+            <element signature="e#3573#3891#1" />
+            <element signature="e#3611#3727#1" />
+            <element signature="e#3763#3877#1" />
+            <element signature="e#3895#3987#1" />
+            <element signature="method#levelOrder#0;class#BinaryTree#0" />
+            <element signature="e#4447#4933#1" />
+            <element signature="e#4526#4764#1" />
+            <element signature="e#4575#4639#1" />
+            <element signature="method#recursionMaxDepth#0;class#BinaryTree#0" />
+            <element signature="e#5133#5189#1" />
+            <element signature="method#recursionMaxDepthDown#0;class#BinaryTree#0" />
+            <element signature="method#check#0;class#BinaryTree#0" />
+            <element signature="e#6125#6161#1" />
+            <element signature="e#6202#6239#1" />
+            <element signature="method#hasPathSum#0;class#BinaryTree#0" />
+            <element signature="e#6605#6641#1" />
+            <element signature="method#hasPathSumT#0;class#BinaryTree#0" />
+            <element signature="e#6811#6866#0" />
+            <element signature="method#rserialize#0;class#BinaryTree#0" />
+            <element signature="e#6956#6995#1" />
+            <element signature="e#7001#7140#1" />
+            <element signature="method#rdeserialize#0;class#BinaryTree#0" />
+            <element signature="e#7345#7406#1" />
+            <element signature="method#deserialize#0;class#BinaryTree#0" />
+            <element signature="e#7825#7852#0" />
+            <element signature="method#buildTree#0;class#BinaryTree#0" />
+            <element signature="e#8093#8129#1" />
+            <element signature="e#8434#8523#1" />
+            <element signature="e#8778#8909#1" />
+            <element signature="class#TreeNodeStruct#0;class#BinaryTree#0" />
+            <element signature="method#TreeNodeStruct#0;class#TreeNodeStruct#0;class#BinaryTree#0" />
+            <element signature="method#sufficientSubset#0;class#BinaryTree#0" />
+            <element signature="e#10562#10657#1" />
+            <element signature="class#Solution#0" />
+            <element signature="method#buildTree#0;class#Solution#0" />
+            <element signature="e#9628#9676#1" />
+            <element signature="method#buildTree#1;class#Solution#0" />
+            <element signature="e#9904#9940#1" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
   </component>
   <component name="masterDetails">
     <states>
