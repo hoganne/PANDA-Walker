@@ -13,6 +13,10 @@ public class BootStart2 {
     public static void main(String[] args) throws InterruptedException {
 //        HashMap<Object, Object> map = new HashMap<>();
         Object o = new Object();
+        Object o1 = new Object();
+        if(o==o1){
+
+        }
         System.out.println(o.hashCode());
 //        synchronized (BootStart2.class){
 //            BootStart2.class.wait(100);

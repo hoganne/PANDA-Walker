@@ -2,9 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b7e02b20-fb1b-4e73-9ce3-1e095ddfa5b1" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/panpan/datastructure/tree/BinaryTree.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/panpan/datastructure/tree/BinaryTree.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../concurrency_on_jvm/src/main/java/com/panpan/java_current_review/ManyLocks.java" beforeDir="false" afterPath="$PROJECT_DIR$/../concurrency_on_jvm/src/main/java/com/panpan/java_current_review/ManyLocks.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../concurrency_on_jvm/src/main/java/com/panpan/java_current_review/BootStart2.java" beforeDir="false" afterPath="$PROJECT_DIR$/../concurrency_on_jvm/src/main/java/com/panpan/java_current_review/BootStart2.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -17,71 +16,89 @@
     <option name="done" value="true" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/panpan/datastructure/tree/BinaryTree.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="262">
-              <caret line="341" column="24" lean-forward="true" selection-start-line="341" selection-start-column="24" selection-end-line="341" selection-end-column="24" />
+            <state relative-caret-position="162">
+              <caret line="393" column="53" lean-forward="true" selection-start-line="393" selection-start-column="53" selection-end-line="393" selection-end-column="53" />
               <folding>
                 <element signature="docComment;class#BinaryTree#0" />
-                <element signature="method#main#0;class#BinaryTree#0" />
-                <element signature="method#preorderTraversal#0;class#BinaryTree#0" />
+                <element signature="e#449#1019#0" />
                 <element signature="e#765#989#1" />
-                <element signature="method#inorderTraversal#0;class#BinaryTree#0" />
+                <element signature="e#1024#1807#0" />
                 <element signature="e#1384#1778#1" />
                 <element signature="e#1499#1601#1" />
                 <element signature="e#1605#1768#1" />
-                <element signature="method#inorderTraversal2#0;class#BinaryTree#0" />
+                <element signature="e#1812#2501#0" />
                 <element signature="e#2049#2474#1" />
                 <element signature="e#2081#2164#1" />
                 <element signature="e#2222#2269#1" />
                 <element signature="e#2273#2435#1" />
                 <element signature="e#2307#2362#1" />
-                <element signature="method#inorderTraversalRecursion#0;class#BinaryTree#0" />
-                <element signature="method#inorderRecursion#0;class#BinaryTree#0" />
+                <element signature="e#2507#2733#0" />
+                <element signature="e#2739#2976#0" />
                 <element signature="e#2828#2970#1" />
-                <element signature="method#postorderTraversal#0;class#BinaryTree#0" />
+                <element signature="e#2981#4026#0" />
                 <element signature="e#3343#3997#1" />
                 <element signature="e#3573#3891#1" />
                 <element signature="e#3611#3727#1" />
                 <element signature="e#3763#3877#1" />
                 <element signature="e#3895#3987#1" />
-                <element signature="method#levelOrder#0;class#BinaryTree#0" />
+                <element signature="e#4031#4962#0" />
                 <element signature="e#4447#4933#1" />
                 <element signature="e#4526#4764#1" />
                 <element signature="e#4575#4639#1" />
-                <element signature="method#recursionMaxDepth#0;class#BinaryTree#0" />
+                <element signature="e#4967#5597#0" />
                 <element signature="e#5133#5189#1" />
-                <element signature="method#recursionMaxDepthDown#0;class#BinaryTree#0" />
-                <element signature="method#check#0;class#BinaryTree#0" />
+                <element signature="e#5602#5900#0" />
+                <element signature="e#6406#6407#0" expanded="true" />
+                <element signature="e#6026#6356#0" />
                 <element signature="e#6125#6161#1" />
                 <element signature="e#6202#6239#1" />
-                <element signature="method#hasPathSum#0;class#BinaryTree#0" />
+                <element signature="e#6362#6735#0" />
                 <element signature="e#6605#6641#1" />
-                <element signature="method#hasPathSumT#0;class#BinaryTree#0" />
+                <element signature="e#6740#6805#0" />
                 <element signature="e#6811#6866#0" />
-                <element signature="method#rserialize#0;class#BinaryTree#0" />
+                <element signature="e#6876#7166#0" />
                 <element signature="e#6956#6995#1" />
                 <element signature="e#7001#7140#1" />
-                <element signature="method#rdeserialize#0;class#BinaryTree#0" />
+                <element signature="e#7641#7642#0" expanded="true" />
+                <element signature="e#7261#7594#0" />
                 <element signature="e#7345#7406#1" />
-                <element signature="method#deserialize#0;class#BinaryTree#0" />
+                <element signature="e#7600#7819#0" />
                 <element signature="e#7825#7852#0" />
-                <element signature="method#buildTree#0;class#BinaryTree#0" />
+                <element signature="e#7995#9134#0" />
                 <element signature="e#8093#8129#1" />
                 <element signature="e#8434#8523#1" />
                 <element signature="e#8778#8909#1" />
-                <element signature="class#TreeNodeStruct#0;class#BinaryTree#0" />
-                <element signature="method#TreeNodeStruct#0;class#TreeNodeStruct#0;class#BinaryTree#0" />
-                <element signature="method#sufficientSubset#0;class#BinaryTree#0" />
-                <element signature="e#10562#10657#1" />
+                <element signature="e#9139#9426#0" />
+                <element signature="e#9262#9420#0" />
+                <element signature="e#9427#9474#0" />
+                <element signature="e#10390#10953#0" />
+                <element signature="e#10480#10516#1" />
+                <element signature="e#10562#10699#1" />
+                <element signature="e#10597#10641#1" />
+                <element signature="e#10645#10689#1" />
+                <element signature="e#10871#10907#1" />
+                <element signature="e#10911#10947#1" />
+                <element signature="class#AssistTreeNode#0" />
+                <element signature="method#AssistTreeNode#0;class#AssistTreeNode#0" />
                 <element signature="class#Solution#0" />
                 <element signature="method#buildTree#0;class#Solution#0" />
-                <element signature="e#9628#9676#1" />
+                <element signature="e#11720#11768#1" />
                 <element signature="method#buildTree#1;class#Solution#0" />
-                <element signature="e#9904#9940#1" />
+                <element signature="e#11996#12032#1" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/panpan/datastructure/tree/BinarySearchTree.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="290">
+              <caret line="229" column="56" lean-forward="true" selection-start-line="229" selection-start-column="56" selection-end-line="229" selection-end-column="56" />
             </state>
           </provider>
         </entry>
@@ -99,6 +116,7 @@
   <component name="FindInProjectRecents">
     <findStrings>
       <find>java_per</find>
+      <find>nodeTmp.node==null&amp;&amp;rightNode.node==null</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -135,7 +153,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -188,10 +205,22 @@
               <item name="datastructure" type="462c0819:PsiDirectoryNode" />
               <item name="tree" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="algorithm_performance" type="b2602c69:ProjectViewProjectNode" />
+              <item name="algorithm_performance" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="panpan" type="462c0819:PsiDirectoryNode" />
+              <item name="datastructure" type="462c0819:PsiDirectoryNode" />
+              <item name="tree" type="462c0819:PsiDirectoryNode" />
+              <item name="BinarySearchTree.java" type="529ef68f:ClassesTreeStructureProvider$PsiClassOwnerTreeNode" />
+            </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
       <pane id="PackagesPane" />
     </panes>
   </component>
@@ -203,7 +232,7 @@
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1610104736016" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1610445369764" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
@@ -295,44 +324,46 @@
       <workItem from="1609749840760" duration="3616000" />
       <workItem from="1609763419183" duration="6122000" />
       <workItem from="1610070747356" duration="8535000" />
+      <workItem from="1610419508730" duration="21244000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="8535000" />
+    <option name="totallyTimeSpent" value="29779000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Image Layers" />
-      <window_info id="Designer" />
-      <window_info id="UI Designer" />
-      <window_info id="Capture Tool" />
-      <window_info id="Favorites" side_tool="true" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25" />
+      <window_info content_ui="combo" id="Project" order="0" weight="0.1705757" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info anchor="bottom" id="Docker" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Database Changes" />
-      <window_info anchor="bottom" id="Version Control" />
-      <window_info anchor="bottom" id="Terminal" />
-      <window_info anchor="bottom" id="Event Log" side_tool="true" />
+      <window_info id="Image Layers" order="2" />
+      <window_info id="Designer" order="3" />
+      <window_info id="UI Designer" order="4" />
+      <window_info id="Capture Tool" order="5" />
+      <window_info id="Favorites" order="6" side_tool="true" />
+      <window_info anchor="bottom" id="Messages" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.32936078" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.39761648" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="right" id="Palette" />
-      <window_info anchor="right" id="Theme Preview" />
-      <window_info anchor="right" id="Maven" />
-      <window_info anchor="right" id="Capture Analysis" />
-      <window_info anchor="right" id="Palette&#9;" />
-      <window_info anchor="right" id="Database" />
+      <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Version Control" order="8" />
+      <window_info anchor="bottom" id="Database Changes" order="9" />
+      <window_info anchor="bottom" id="Terminal" order="10" />
+      <window_info anchor="bottom" id="Event Log" order="11" side_tool="true" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="right" id="Palette" order="3" />
+      <window_info anchor="right" id="Theme Preview" order="4" />
+      <window_info anchor="right" id="Maven" order="5" />
+      <window_info anchor="right" id="Capture Analysis" order="6" />
+      <window_info anchor="right" id="Palette&#9;" order="7" />
+      <window_info anchor="right" id="Database" order="8" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -344,8 +375,61 @@
     </state>
     <state x="488" y="79" key="#com.intellij.ide.util.MemberChooser/0.0.1366.728@0.0.1366.728" timestamp="1609770409359" />
   </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/panpan/datastructure/tree/BinaryTree.java</url>
+          <line>352</line>
+          <properties />
+          <option name="timeStamp" value="18" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/panpan/datastructure/tree/BinaryTree.java</url>
+          <line>569</line>
+          <properties />
+          <option name="timeStamp" value="19" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/panpan/datastructure/tree/BinaryTree.java</url>
+          <line>383</line>
+          <properties />
+          <option name="timeStamp" value="20" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/panpan/datastructure/tree/BinaryTree.java</url>
+          <line>478</line>
+          <properties />
+          <option name="timeStamp" value="21" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/panpan/datastructure/tree/BinaryTree.java</url>
+          <line>378</line>
+          <properties />
+          <option name="timeStamp" value="22" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/panpan/datastructure/tree/BinaryTree.java</url>
+          <line>403</line>
+          <properties />
+          <option name="timeStamp" value="23" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/panpan/datastructure/tree/BinaryTree.java</url>
+          <line>374</line>
+          <properties />
+          <option name="timeStamp" value="25" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
   <component name="debuggerHistoryManager">
     <expressions id="evaluateExpression">
+      <expression>
+        <expression-string>nodeTmp</expression-string>
+        <language-id>JAVA</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
       <expression>
         <expression-string>data</expression-string>
         <language-id>JAVA</language-id>
@@ -364,68 +448,84 @@
     </expressions>
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/panpan/datastructure/tree/BinarySearchTree.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="290">
+          <caret line="229" column="56" lean-forward="true" selection-start-line="229" selection-start-column="56" selection-end-line="229" selection-end-column="56" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/panpan/datastructure/tree/BinaryTree.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="262">
-          <caret line="341" column="24" lean-forward="true" selection-start-line="341" selection-start-column="24" selection-end-line="341" selection-end-column="24" />
+        <state relative-caret-position="162">
+          <caret line="393" column="53" lean-forward="true" selection-start-line="393" selection-start-column="53" selection-end-line="393" selection-end-column="53" />
           <folding>
             <element signature="docComment;class#BinaryTree#0" />
-            <element signature="method#main#0;class#BinaryTree#0" />
-            <element signature="method#preorderTraversal#0;class#BinaryTree#0" />
+            <element signature="e#449#1019#0" />
             <element signature="e#765#989#1" />
-            <element signature="method#inorderTraversal#0;class#BinaryTree#0" />
+            <element signature="e#1024#1807#0" />
             <element signature="e#1384#1778#1" />
             <element signature="e#1499#1601#1" />
             <element signature="e#1605#1768#1" />
-            <element signature="method#inorderTraversal2#0;class#BinaryTree#0" />
+            <element signature="e#1812#2501#0" />
             <element signature="e#2049#2474#1" />
             <element signature="e#2081#2164#1" />
             <element signature="e#2222#2269#1" />
             <element signature="e#2273#2435#1" />
             <element signature="e#2307#2362#1" />
-            <element signature="method#inorderTraversalRecursion#0;class#BinaryTree#0" />
-            <element signature="method#inorderRecursion#0;class#BinaryTree#0" />
+            <element signature="e#2507#2733#0" />
+            <element signature="e#2739#2976#0" />
             <element signature="e#2828#2970#1" />
-            <element signature="method#postorderTraversal#0;class#BinaryTree#0" />
+            <element signature="e#2981#4026#0" />
             <element signature="e#3343#3997#1" />
             <element signature="e#3573#3891#1" />
             <element signature="e#3611#3727#1" />
             <element signature="e#3763#3877#1" />
             <element signature="e#3895#3987#1" />
-            <element signature="method#levelOrder#0;class#BinaryTree#0" />
+            <element signature="e#4031#4962#0" />
             <element signature="e#4447#4933#1" />
             <element signature="e#4526#4764#1" />
             <element signature="e#4575#4639#1" />
-            <element signature="method#recursionMaxDepth#0;class#BinaryTree#0" />
+            <element signature="e#4967#5597#0" />
             <element signature="e#5133#5189#1" />
-            <element signature="method#recursionMaxDepthDown#0;class#BinaryTree#0" />
-            <element signature="method#check#0;class#BinaryTree#0" />
+            <element signature="e#5602#5900#0" />
+            <element signature="e#6406#6407#0" expanded="true" />
+            <element signature="e#6026#6356#0" />
             <element signature="e#6125#6161#1" />
             <element signature="e#6202#6239#1" />
-            <element signature="method#hasPathSum#0;class#BinaryTree#0" />
+            <element signature="e#6362#6735#0" />
             <element signature="e#6605#6641#1" />
-            <element signature="method#hasPathSumT#0;class#BinaryTree#0" />
+            <element signature="e#6740#6805#0" />
             <element signature="e#6811#6866#0" />
-            <element signature="method#rserialize#0;class#BinaryTree#0" />
+            <element signature="e#6876#7166#0" />
             <element signature="e#6956#6995#1" />
             <element signature="e#7001#7140#1" />
-            <element signature="method#rdeserialize#0;class#BinaryTree#0" />
+            <element signature="e#7641#7642#0" expanded="true" />
+            <element signature="e#7261#7594#0" />
             <element signature="e#7345#7406#1" />
-            <element signature="method#deserialize#0;class#BinaryTree#0" />
+            <element signature="e#7600#7819#0" />
             <element signature="e#7825#7852#0" />
-            <element signature="method#buildTree#0;class#BinaryTree#0" />
+            <element signature="e#7995#9134#0" />
             <element signature="e#8093#8129#1" />
             <element signature="e#8434#8523#1" />
             <element signature="e#8778#8909#1" />
-            <element signature="class#TreeNodeStruct#0;class#BinaryTree#0" />
-            <element signature="method#TreeNodeStruct#0;class#TreeNodeStruct#0;class#BinaryTree#0" />
-            <element signature="method#sufficientSubset#0;class#BinaryTree#0" />
-            <element signature="e#10562#10657#1" />
+            <element signature="e#9139#9426#0" />
+            <element signature="e#9262#9420#0" />
+            <element signature="e#9427#9474#0" />
+            <element signature="e#10390#10953#0" />
+            <element signature="e#10480#10516#1" />
+            <element signature="e#10562#10699#1" />
+            <element signature="e#10597#10641#1" />
+            <element signature="e#10645#10689#1" />
+            <element signature="e#10871#10907#1" />
+            <element signature="e#10911#10947#1" />
+            <element signature="class#AssistTreeNode#0" />
+            <element signature="method#AssistTreeNode#0;class#AssistTreeNode#0" />
             <element signature="class#Solution#0" />
             <element signature="method#buildTree#0;class#Solution#0" />
-            <element signature="e#9628#9676#1" />
+            <element signature="e#11720#11768#1" />
             <element signature="method#buildTree#1;class#Solution#0" />
-            <element signature="e#9904#9940#1" />
+            <element signature="e#11996#12032#1" />
           </folding>
         </state>
       </provider>

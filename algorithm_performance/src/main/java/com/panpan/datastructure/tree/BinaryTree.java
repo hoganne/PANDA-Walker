@@ -14,9 +14,16 @@ public class BinaryTree {
     private Integer answer=0;
     private boolean result = false;
     public static void main(String[] args) {
-        int[] ints=new int[]{9,3,15,20,7};
-        int[] posts ={9,15,7,20,3};
-        buildTree(ints,posts);
+//        int[] ints=new int[]{9,3,15,20,7};
+//        int[] posts ={9,15,7,20,3};
+//        buildTree(ints,posts);
+
+//        Integer[] trees = new Integer[]{1,2,3,4,-99,-99,7,8,9,-99,-99,12,13,-99,14};
+        Integer[] trees = new Integer[]{10,5,10};
+//        {5,4,8,11,null,17,4,7,1,null,null,5,3};
+//                                     {5,4,8,11,null,17,4,7,1,null,null,5,3};
+        TreeNode treeNode = BinarySearchTree.generateTree(trees);
+        sufficientSubsetIteration(treeNode,21);
     }
     //根左右
     public List<Integer> preorderTraversal(TreeNode root) {
@@ -341,26 +348,240 @@ return null;
         if(root==null){
             return root;
         }
-        Deque<TreeNode> stack = new LinkedList<>();
-        Set<TreeNode> visited = new HashSet<>(16);
-        stack.push(root);
+        TreeNode head = root;
+        Deque<AssistTreeNode> stack = new LinkedList<>();
+        Set<TreeNode> visited = new HashSet<>();
+        stack.push(new AssistTreeNode(root,limit-root.val,"root"));
+        Deque<AssistTreeNode> leftNodeStack = new LinkedList<>();
+        int flag =0;
         while (!stack.isEmpty()){
-            TreeNode peek = stack.peek();
-            if(peek.left!=null){
-
+            AssistTreeNode peek = stack.peek();
+            TreeNode node  = peek.node;
+            visited.add(node);
+            if(node!=null&&(node.left==null&&node.right==null)){
+                //路径和小于limit时
+                if(peek.currentVal>0){
+                    peek.node=null;
+                }
             }
-            if (peek.right!=null){
+            //
+            if(node!=null&&visited.contains(node)&&flag==1){
+                //不是叶子节点但是要回退
+                    AssistTreeNode nodeTmp = stack.pop();
+                    if(nodeTmp.leftOrRight.equals("l")){
+                        AssistTreeNode rightNode = stack.peek();
+                        if(rightNode.node==null&&nodeTmp.node==null){
+                            stack.pop();//弹出right节点
+                            AssistTreeNode rootTmp = stack.peek();//拿到其父亲节点
+                            rootTmp.node=null;
+                            //右节点是否弹出过
+                        }else if(!visited.contains(rightNode.node)){
+                            if(rightNode.node!=null&&(rightNode.node.left!=null||rightNode.node.right!=null)){
+                                visited.add(rightNode.node);
+                                flag=0;//入栈中
+                                //右节点非叶子节点
+                                //left节点弹出后，需要存储 nodeTmp
+                                leftNodeStack.push(nodeTmp);
+                                TreeNode rNode = rightNode.node;
+                                if (rNode.right!=null){
+                                    if(!visited.contains(rNode.right)){
+                                        stack.push(new AssistTreeNode(rNode.right,rightNode.currentVal-rNode.right.val,"r"));
+                                    }
+                                }else{
+                                    stack.push(new AssistTreeNode(null,0,"r"));
+                                }
 
+                                if(rNode.left!=null){
+                                    if(!visited.contains(rNode.left)){
+                                        stack.push(new AssistTreeNode(rNode.left,rightNode.currentVal-rNode.left.val,"l"));
+                                    }
+                                }else{
+                                    stack.push(new AssistTreeNode(null,0,"l"));
+                                }
+                            }else{
+                                visited.add(rightNode.node);
+                                //右节点 为叶子节点
+                                if(rightNode.node!=null&&(rightNode.currentVal>0)){
+                                    rightNode.node=null;
+                                }
+                                if(rightNode.node==null&&nodeTmp.node==null){
+                                    stack.pop();//弹出right节点
+                                    AssistTreeNode rootTmp = stack.peek();//拿到其父亲节点
+                                    rootTmp.node=null;
+                                }else{
+                                    stack.pop();//弹出right节点
+                                    AssistTreeNode rootTmp = stack.peek();//拿到其父亲节点
+                                    rootTmp.node.left=nodeTmp.node;
+                                    rootTmp.node.right=rightNode.node;
+                                }
+                            }
+                        }else{
+                            stack.pop();//弹出right节点
+                            AssistTreeNode rootTmp = stack.peek();//拿到其父亲节点
+                            if(rootTmp.leftOrRight.equals("root")){
+                                if(nodeTmp.node==null&&rightNode.node==null){
+                                    if(rootTmp.leftOrRight.equals("root")){
+                                        return null;
+                                    }
+                                    rootTmp =null;
+                                }else{
+                                    rootTmp.node.left=nodeTmp.node;
+                                    rootTmp.node.right=rightNode.node;
+                                }
+                                break;
+                            }else{
+                                if(nodeTmp.node==null&&rightNode.node==null){
+                                    if(rootTmp.leftOrRight.equals("root")){
+                                        return null;
+                                    }
+                                    rootTmp = null;
+                                }else{
+                                    rootTmp.node.left=nodeTmp.node;
+                                    rootTmp.node.right=rightNode.node;
+                                }
+
+                            }
+                        }
+                    }else if(nodeTmp.leftOrRight.equals("r")){
+                        AssistTreeNode left = leftNodeStack.pop();
+                        if(nodeTmp.node==null&&left.node==null){
+                            AssistTreeNode rootTmp = stack.peek();
+                            rootTmp.node=null;
+                        }else {
+                            AssistTreeNode rootTmp = stack.peek();
+                            rootTmp.node.left = left.node;
+                            rootTmp.node.right = nodeTmp.node;
+                        }
+                    }else{
+                        break;
+                    }
+                    continue;
+            }else if(node==null|| (node.left==null&&node.right==null)){
+                flag=1;//出栈中
+                AssistTreeNode nodeTmp = stack.pop();
+                if(nodeTmp.leftOrRight.equals("l")){
+                    AssistTreeNode rightNode = stack.peek();
+                    if(rightNode.node==null&&nodeTmp.node==null){
+                        stack.pop();//弹出right节点
+                        AssistTreeNode rootTmp = stack.peek();//拿到其父亲节点
+                        if(rootTmp.leftOrRight.equals("root")){
+                            return null;
+                        }else {
+                            rootTmp.node=null;
+                        }
+                        //右节点是否弹出过
+                    }else if(!visited.contains(rightNode.node)){
+                        if(rightNode.node!=null&&(rightNode.node.left!=null||rightNode.node.right!=null)){
+                            visited.add(rightNode.node);
+                            //右节点非叶子节点
+                            flag=0;//入栈
+                            //left节点弹出后，需要存储nodeTmp
+                            leftNodeStack.push(nodeTmp);
+                            TreeNode rNode = rightNode.node;
+                            if (rNode.right!=null){
+                                if(!visited.contains(rNode.right)){
+                                    stack.push(new AssistTreeNode(rNode.right,rightNode.currentVal-rNode.right.val,"r"));
+                                }
+                            }else{
+                                stack.push(new AssistTreeNode(null,0,"r"));
+                            }
+
+                            if(rNode.left!=null){
+                                if(!visited.contains(rNode.left)){
+                                    stack.push(new AssistTreeNode(rNode.left,rightNode.currentVal-rNode.left.val,"l"));
+                                }
+                            }else{
+                                stack.push(new AssistTreeNode(null,0,"l"));
+                            }
+                        }else{
+                            //右节点 为叶子节点
+                            visited.add(rightNode.node);
+                            if(rightNode.node!=null&&(rightNode.currentVal>0)){
+                                rightNode.node=null;
+                            }
+                            if(rightNode.node==null&&nodeTmp.node==null){
+                                stack.pop();//弹出right节点
+                                AssistTreeNode rootTmp = stack.peek();//拿到其父亲节点
+                                if(rootTmp.leftOrRight.equals("root")){
+                                    return null;
+                                }else{
+                                    rootTmp.node=null;
+                                }
+
+                            }else{
+                                stack.pop();//弹出right节点
+                                AssistTreeNode rootTmp = stack.peek();//拿到其父亲节点
+                                rootTmp.node.left=nodeTmp.node;
+                                rootTmp.node.right=rightNode.node;
+                            }
+                        }
+                    }else{
+                        stack.pop();//弹出right节点
+                        AssistTreeNode rootTmp = stack.peek();//拿到其父亲节点
+                        if(rootTmp.leftOrRight.equals("root")){
+                            if(nodeTmp.node==null&&rightNode.node==null){
+                                return null;
+                            }else{
+                                rootTmp.node.left=nodeTmp.node;
+                                rootTmp.node.right=rightNode.node;
+                            }
+
+                            break;
+                        }else{
+                            rootTmp.node.left=nodeTmp.node;
+                            rootTmp.node.right=rightNode.node;
+                        }
+                    }
+                }else if(nodeTmp.leftOrRight.equals("r")){
+                    AssistTreeNode left = leftNodeStack.pop();
+                    if(nodeTmp.node==null&&left.node==null){
+                        AssistTreeNode rootTmp = stack.peek();
+                        if(rootTmp.leftOrRight.equals("root")){
+                            return null;
+                        }
+                        rootTmp.node=null;
+                    }else {
+                        AssistTreeNode rootTmp = stack.peek();
+                        rootTmp.node.left = left.node;
+                        rootTmp.node.right = nodeTmp.node;
+                    }
+                }else{
+                    break;
+                }
+                continue;
             }
-            //叶子节点
-            if(peek.left==null&&peek.right==null){
 
+            if (node.right!=null){
+                if(!visited.contains(node.right)){
+                    stack.push(new AssistTreeNode(node.right,peek.currentVal-node.right.val,"r"));
+                }
+            }else{
+                stack.push(new AssistTreeNode(null,0,"r"));
+            }
+
+            if(node.left!=null){
+                if(!visited.contains(node.left)){
+                    stack.push(new AssistTreeNode(node.left,peek.currentVal-node.left.val,"l"));
+                }
+            }else{
+                stack.push(new AssistTreeNode(null,0,"l"));
             }
         }
-        return null;
+        return head;
     }
+//[5,4,8,11,null,17,4,7,null,null,null,5]
 
+}
+class AssistTreeNode{
+    public TreeNode node;
+    public Integer currentVal;
+    public String  leftOrRight;
 
+    public AssistTreeNode(TreeNode node, Integer currentVal, String leftOrRight) {
+        this.node = node;
+        this.currentVal = currentVal;
+        this.leftOrRight = leftOrRight;
+    }
 }
 class Solution{
 
