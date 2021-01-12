@@ -1,5 +1,9 @@
 package com.panpan.java_current_review;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 import java.util.concurrent.*;
 
 /**
@@ -19,8 +23,26 @@ public class ThreadPoolComplete {
         }, new RejectedExecutionHandler() {
             @Override
             public void rejectedExecution(Runnable r, ThreadPoolExecutor executor) {
-
+                try {
+                    executor.getQueue().add(r);
+                }catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
+        ArrayList<Callable<String>> tasks = new ArrayList<Callable<String>>();
+        tasks.add(new Callable() {
+            @Override
+            public String call() throws Exception {
+                return "--haha-hha-";
+            }
+        });
+//        try {
+//            Object o = testPools.invokeAny((Collection<? extends Callable<Object>>) tasks);
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        } catch (ExecutionException e) {
+//            e.printStackTrace();
+//        }
     }
 }
