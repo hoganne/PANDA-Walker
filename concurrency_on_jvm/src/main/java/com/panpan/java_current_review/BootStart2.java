@@ -3,6 +3,7 @@ package com.panpan.java_current_review;
 import java.net.Socket;
 import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * @Description TODO
@@ -11,7 +12,8 @@ import java.util.concurrent.TimeUnit;
  **/
 public class BootStart2 {
     public static void main(String[] args) throws InterruptedException {
-//        HashMap<Object, Object> map = new HashMap<>();
+//      HashMap<Object, Object> map = new HashMap<>();
+        ReentrantLock lock = new ReentrantLock();
         Object o = new Object();
         Object o1 = new Object();
         if(o==o1){
