@@ -11,12 +11,13 @@ import java.util.concurrent.locks.ReentrantLock;
  * @Date 2021/1/2
  **/
 public class BootStart2 {
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) throws InterruptedException{
 //      HashMap<Object, Object> map = new HashMap<>();
         ReentrantLock lock = new ReentrantLock();
+        int i =0;
         Object o = new Object();
         Object o1 = new Object();
-        if(o==o1){
+        if(o==o1&&o.equals(o1)){
 
         }
         System.out.println(o.hashCode());
