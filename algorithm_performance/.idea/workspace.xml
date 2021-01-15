@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="b7e02b20-fb1b-4e73-9ce3-1e095ddfa5b1" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+    <list default="true" id="aa0fde0b-3fc0-479e-b7e4-f9b75b15e3b0" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/../mysql问题总结.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/panpan/datastructure/string/Solution.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/panpan/datastructure/string/Solution.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/panpan/datastructure/string/Solution$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/panpan/datastructure/string/Solution$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/panpan/datastructure/string/Solution$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/panpan/datastructure/string/Solution$2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/panpan/datastructure/string/Solution.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/panpan/datastructure/string/Solution.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/panpan/datastructure/string/TreeNode.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/panpan/datastructure/string/TreeNode.class" afterDir="false" />
     </list>
-    <ignored path="$PROJECT_DIR$/target/" />
-    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
-  </component>
-  <component name="CodeStyleSettingsInfer">
-    <option name="done" value="true" />
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
@@ -43,10 +43,9 @@
         <entry file="file://$PROJECT_DIR$/src/main/java/com/panpan/datastructure/string/Solution.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="655">
-              <caret line="94" selection-start-line="94" selection-end-line="94" />
+              <caret line="124" selection-start-line="124" selection-end-line="124" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="method#findOcurrences#0;class#Solution#0" />
               </folding>
             </state>
           </provider>
@@ -55,8 +54,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/.gitignore">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="27">
-              <caret line="1" selection-start-line="1" selection-end-line="1" />
+            <state relative-caret-position="54">
+              <caret line="2" column="7" lean-forward="true" selection-start-line="2" selection-start-column="7" selection-end-line="2" selection-end-column="7" />
             </state>
           </provider>
         </entry>
@@ -107,23 +106,8 @@
       </list>
     </option>
   </component>
-  <component name="FindInProjectRecents">
-    <findStrings>
-      <find>java_per</find>
-      <find>nodeTmp.node==null&amp;&amp;rightNode.node==null</find>
-    </findStrings>
-  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
-  </component>
-  <component name="IdeDocumentHistory">
-    <option name="CHANGED_PATHS">
-      <list>
-        <option value="$PROJECT_DIR$/src/main/java/com/panpan/datastructure/tree/BinaryTree.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/panpan/datastructure/string/Solution.java" />
-        <option value="$PROJECT_DIR$/.gitignore" />
-      </list>
-    </option>
   </component>
   <component name="MavenImportPreferences">
     <option name="importingSettings">
@@ -132,15 +116,6 @@
       </MavenImportingSettings>
     </option>
   </component>
-  <component name="ProjectCodeStyleSettingsMigration">
-    <option name="version" value="1" />
-  </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="955" />
-    <option name="width" value="933" />
-    <option name="height" value="1040" />
-  </component>
-  <component name="ProjectId" id="1mbXiv4wT4M0ggpK7OWgNvFVAz7" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="1" id="Add" />
   </component>
@@ -214,28 +189,8 @@
       <pane id="PackagesPane" />
     </panes>
   </component>
-  <component name="ProjectViewState">
-    <option name="hideEmptyMiddlePackages" value="true" />
-    <option name="showExcludedFiles" value="true" />
-    <option name="showLibraryContents" value="true" />
-  </component>
   <component name="PropertiesComponent">
-    <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1610680879123" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
-    <property name="nodejs_npm_path_reset_for_default_project" value="true" />
-    <property name="nodejs_package_manager_path" value="npm" />
-    <property name="project.structure.last.edited" value="Project" />
-    <property name="project.structure.proportion" value="0.0" />
-    <property name="project.structure.side.proportion" value="0.2" />
-    <property name="settings.editor.selected.configurable" value="vcs.Subversion" />
-  </component>
-  <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="E:\oldF\learningDocument\git-workspace\PANDA-Walker\algorithm_performance" />
-    </key>
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1610681141617" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -249,71 +204,8 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.Solution">
-    <configuration name="BinarySearchTree" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="com.panpan.datastructure.tree.BinarySearchTree" />
-      <module name="java_performance" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.panpan.datastructure.tree.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="BinaryTree" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="com.panpan.datastructure.tree.BinaryTree" />
-      <module name="java_performance" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.panpan.datastructure.tree.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="Codec" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="com.panpan.datastructure.tree.Codec" />
-      <module name="java_performance" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.panpan.datastructure.tree.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="Solution" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="com.panpan.datastructure.string.Solution" />
-      <module name="java_performance" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.panpan.datastructure.string.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <recent_temporary>
-      <list>
-        <item itemvalue="Application.Solution" />
-        <item itemvalue="Application.BinaryTree" />
-        <item itemvalue="Application.BinarySearchTree" />
-        <item itemvalue="Application.Codec" />
-      </list>
-    </recent_temporary>
-  </component>
   <component name="SvnConfiguration">
-    <configuration>C:\Users\xupanpan\AppData\Roaming\Subversion</configuration>
-    <option name="runUnderTerminal" value="true" />
+    <configuration />
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -339,18 +231,18 @@
       <workItem from="1610614529404" duration="1375000" />
       <workItem from="1610615945063" duration="10000" />
       <workItem from="1610616186824" duration="2817000" />
-      <workItem from="1610675165220" duration="1192000" />
+      <workItem from="1610675165220" duration="1454000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="37162000" />
+    <option name="totallyTimeSpent" value="96000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.3054371" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.1641791" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
@@ -381,208 +273,211 @@
       <window_info anchor="right" id="Database" order="8" />
     </layout>
   </component>
-  <component name="TypeScriptGeneratedFilesManager">
-    <option name="version" value="1" />
-  </component>
-  <component name="WindowStateProjectService">
-    <state x="488" y="79" key="#com.intellij.ide.util.MemberChooser" timestamp="1609770409359">
-      <screen x="0" y="0" width="1366" height="728" />
-    </state>
-    <state x="488" y="79" key="#com.intellij.ide.util.MemberChooser/0.0.1366.728@0.0.1366.728" timestamp="1609770409359" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/panpan/datastructure/tree/BinaryTree.java</url>
-          <line>352</line>
-          <properties />
-          <option name="timeStamp" value="18" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/panpan/datastructure/tree/BinaryTree.java</url>
-          <line>569</line>
-          <properties />
-          <option name="timeStamp" value="19" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/panpan/datastructure/tree/BinaryTree.java</url>
-          <line>383</line>
-          <properties />
-          <option name="timeStamp" value="20" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/panpan/datastructure/tree/BinaryTree.java</url>
-          <line>478</line>
-          <properties />
-          <option name="timeStamp" value="21" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/panpan/datastructure/tree/BinaryTree.java</url>
-          <line>378</line>
-          <properties />
-          <option name="timeStamp" value="22" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/panpan/datastructure/tree/BinaryTree.java</url>
-          <line>374</line>
-          <properties />
-          <option name="timeStamp" value="25" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
-  </component>
-  <component name="debuggerHistoryManager">
-    <expressions id="evaluateExpression">
-      <expression>
-        <expression-string>nodeTmp</expression-string>
-        <language-id>JAVA</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>data</expression-string>
-        <language-id>JAVA</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>data.length()</expression-string>
-        <language-id>JAVA</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>sb.toString().substring(1,sb.length()-1)</expression-string>
-        <language-id>JAVA</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
-    </expressions>
-  </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/panpan/datastructure/tree/BinaryTree.java">
+    <entry file="file://$PROJECT_DIR$/.idea/workspace.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="8451">
-          <caret line="320" column="22" selection-start-line="320" selection-start-column="22" selection-end-line="320" selection-end-column="22" />
+        <state relative-caret-position="27">
+          <caret line="1" column="20" selection-start-line="1" selection-start-column="20" selection-end-line="1" selection-end-column="20" />
           <folding>
-            <element signature="docComment;class#BinaryTree#0" />
-            <element signature="e#6367#6368#0" expanded="true" />
-            <element signature="e#6406#6407#0" expanded="true" />
-            <element signature="e#7598#7599#0" expanded="true" />
-            <element signature="e#7641#7642#0" expanded="true" />
-            <element signature="e#11346#22375#0" />
-            <element signature="class#AssistTreeNode#0" />
-            <element signature="method#AssistTreeNode#0;class#AssistTreeNode#0" />
-            <element signature="class#Solution#0" />
-            <element signature="method#buildTree#0;class#Solution#0" />
-            <element signature="method#buildTree#1;class#Solution#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://C:/Program Files/Java/jdk1.8.0_201/src.zip!/java/util/HashMap.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34182">
-          <caret line="1326" column="42" selection-start-line="1326" selection-start-column="42" selection-end-line="1326" selection-end-column="42" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://C:/Program Files/Java/jdk1.8.0_201/src.zip!/java/util/AbstractMap.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="13851">
-          <caret line="572" column="60" selection-start-line="572" selection-start-column="60" selection-end-line="572" selection-end-column="60" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://C:/Program Files/Java/jdk1.8.0_201/src.zip!/java/lang/Object.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="5022">
-          <caret line="211" column="28" selection-start-line="211" selection-start-column="28" selection-end-line="211" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/panpan/datastructure/tree/BinarySearchTree.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="6048">
-          <caret line="229" column="56" selection-start-line="229" selection-start-column="56" selection-end-line="229" selection-end-column="56" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/panpan/datastructure/string/Solution.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="655">
-          <caret line="94" selection-start-line="94" selection-end-line="94" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="method#findOcurrences#0;class#Solution#0" />
+            <element signature="n#project#0;n#!!top" />
+            <element signature="n#component#0;n#project#0;n#!!top" />
+            <element signature="n#list#0;n#component#0;n#project#0;n#!!top" />
+            <element signature="n#component#1;n#project#0;n#!!top" />
+            <element signature="n#component#2;n#project#0;n#!!top" />
+            <element signature="n#leaf#0;n#component#2;n#project#0;n#!!top" />
+            <element signature="n#file#0;n#leaf#0;n#component#2;n#project#0;n#!!top" />
+            <element signature="n#entry#0;n#file#0;n#leaf#0;n#component#2;n#project#0;n#!!top" />
+            <element signature="n#provider#0;n#entry#0;n#file#0;n#leaf#0;n#component#2;n#project#0;n#!!top" />
+            <element signature="n#state#0;n#provider#0;n#entry#0;n#file#0;n#leaf#0;n#component#2;n#project#0;n#!!top" />
+            <element signature="n#folding#0;n#state#0;n#provider#0;n#entry#0;n#file#0;n#leaf#0;n#component#2;n#project#0;n#!!top" />
+            <element signature="n#file#1;n#leaf#0;n#component#2;n#project#0;n#!!top" />
+            <element signature="n#entry#0;n#file#1;n#leaf#0;n#component#2;n#project#0;n#!!top" />
+            <element signature="n#provider#0;n#entry#0;n#file#1;n#leaf#0;n#component#2;n#project#0;n#!!top" />
+            <element signature="n#state#0;n#provider#0;n#entry#0;n#file#1;n#leaf#0;n#component#2;n#project#0;n#!!top" />
+            <element signature="n#folding#0;n#state#0;n#provider#0;n#entry#0;n#file#1;n#leaf#0;n#component#2;n#project#0;n#!!top" />
+            <element signature="n#file#2;n#leaf#0;n#component#2;n#project#0;n#!!top" />
+            <element signature="n#entry#0;n#file#2;n#leaf#0;n#component#2;n#project#0;n#!!top" />
+            <element signature="n#provider#0;n#entry#0;n#file#2;n#leaf#0;n#component#2;n#project#0;n#!!top" />
+            <element signature="n#state#0;n#provider#0;n#entry#0;n#file#2;n#leaf#0;n#component#2;n#project#0;n#!!top" />
+            <element signature="n#file#3;n#leaf#0;n#component#2;n#project#0;n#!!top" />
+            <element signature="n#entry#0;n#file#3;n#leaf#0;n#component#2;n#project#0;n#!!top" />
+            <element signature="n#provider#0;n#entry#0;n#file#3;n#leaf#0;n#component#2;n#project#0;n#!!top" />
+            <element signature="n#state#0;n#provider#0;n#entry#0;n#file#3;n#leaf#0;n#component#2;n#project#0;n#!!top" />
+            <element signature="n#file#4;n#leaf#0;n#component#2;n#project#0;n#!!top" />
+            <element signature="n#entry#0;n#file#4;n#leaf#0;n#component#2;n#project#0;n#!!top" />
+            <element signature="n#provider#0;n#entry#0;n#file#4;n#leaf#0;n#component#2;n#project#0;n#!!top" />
+            <element signature="n#state#0;n#provider#0;n#entry#0;n#file#4;n#leaf#0;n#component#2;n#project#0;n#!!top" />
+            <element signature="n#file#5;n#leaf#0;n#component#2;n#project#0;n#!!top" />
+            <element signature="n#entry#0;n#file#5;n#leaf#0;n#component#2;n#project#0;n#!!top" />
+            <element signature="n#provider#0;n#entry#0;n#file#5;n#leaf#0;n#component#2;n#project#0;n#!!top" />
+            <element signature="n#state#0;n#provider#0;n#entry#0;n#file#5;n#leaf#0;n#component#2;n#project#0;n#!!top" />
+            <element signature="n#file#6;n#leaf#0;n#component#2;n#project#0;n#!!top" />
+            <element signature="n#entry#0;n#file#6;n#leaf#0;n#component#2;n#project#0;n#!!top" />
+            <element signature="n#provider#0;n#entry#0;n#file#6;n#leaf#0;n#component#2;n#project#0;n#!!top" />
+            <element signature="n#state#0;n#provider#0;n#entry#0;n#file#6;n#leaf#0;n#component#2;n#project#0;n#!!top" />
+            <element signature="n#component#3;n#project#0;n#!!top" />
+            <element signature="n#option#0;n#component#3;n#project#0;n#!!top" />
+            <element signature="n#list#0;n#option#0;n#component#3;n#project#0;n#!!top" />
+            <element signature="n#component#4;n#project#0;n#!!top" />
+            <element signature="n#findStrings#0;n#component#4;n#project#0;n#!!top" />
+            <element signature="n#component#5;n#project#0;n#!!top" />
+            <element signature="n#component#6;n#project#0;n#!!top" />
+            <element signature="n#option#0;n#component#6;n#project#0;n#!!top" />
+            <element signature="n#list#0;n#option#0;n#component#6;n#project#0;n#!!top" />
+            <element signature="n#component#7;n#project#0;n#!!top" />
+            <element signature="n#option#0;n#component#7;n#project#0;n#!!top" />
+            <element signature="n#MavenImportingSettings#0;n#option#0;n#component#7;n#project#0;n#!!top" />
+            <element signature="n#component#8;n#project#0;n#!!top" />
+            <element signature="n#component#10;n#project#0;n#!!top" />
+            <element signature="n#component#11;n#project#0;n#!!top" />
+            <element signature="n#navigator#0;n#component#11;n#project#0;n#!!top" />
+            <element signature="n#panes#0;n#component#11;n#project#0;n#!!top" />
+            <element signature="n#pane#1;n#panes#0;n#component#11;n#project#0;n#!!top" />
+            <element signature="n#subPane#0;n#pane#1;n#panes#0;n#component#11;n#project#0;n#!!top" />
+            <element signature="n#expand#0;n#subPane#0;n#pane#1;n#panes#0;n#component#11;n#project#0;n#!!top" />
+            <element signature="n#path#0;n#expand#0;n#subPane#0;n#pane#1;n#panes#0;n#component#11;n#project#0;n#!!top" />
+            <element signature="n#path#1;n#expand#0;n#subPane#0;n#pane#1;n#panes#0;n#component#11;n#project#0;n#!!top" />
+            <element signature="n#path#2;n#expand#0;n#subPane#0;n#pane#1;n#panes#0;n#component#11;n#project#0;n#!!top" />
+            <element signature="n#path#3;n#expand#0;n#subPane#0;n#pane#1;n#panes#0;n#component#11;n#project#0;n#!!top" />
+            <element signature="n#path#4;n#expand#0;n#subPane#0;n#pane#1;n#panes#0;n#component#11;n#project#0;n#!!top" />
+            <element signature="n#path#5;n#expand#0;n#subPane#0;n#pane#1;n#panes#0;n#component#11;n#project#0;n#!!top" />
+            <element signature="n#path#6;n#expand#0;n#subPane#0;n#pane#1;n#panes#0;n#component#11;n#project#0;n#!!top" />
+            <element signature="n#path#7;n#expand#0;n#subPane#0;n#pane#1;n#panes#0;n#component#11;n#project#0;n#!!top" />
+            <element signature="n#component#12;n#project#0;n#!!top" />
+            <element signature="n#component#13;n#project#0;n#!!top" />
+            <element signature="n#component#14;n#project#0;n#!!top" />
+            <element signature="n#key#0;n#component#14;n#project#0;n#!!top" />
+            <element signature="n#component#15;n#project#0;n#!!top" />
+            <element signature="n#option#0;n#component#15;n#project#0;n#!!top" />
+            <element signature="n#list#0;n#option#0;n#component#15;n#project#0;n#!!top" />
+            <element signature="n#RuleState#0;n#list#0;n#option#0;n#component#15;n#project#0;n#!!top" />
+            <element signature="n#RuleState#1;n#list#0;n#option#0;n#component#15;n#project#0;n#!!top" />
+            <element signature="n#component#16;n#project#0;n#!!top" />
+            <element signature="n#configuration#0;n#component#16;n#project#0;n#!!top" />
+            <element signature="n#extension#0;n#configuration#0;n#component#16;n#project#0;n#!!top" />
+            <element signature="n#pattern#0;n#extension#0;n#configuration#0;n#component#16;n#project#0;n#!!top" />
+            <element signature="n#method#0;n#configuration#0;n#component#16;n#project#0;n#!!top" />
+            <element signature="n#configuration#1;n#component#16;n#project#0;n#!!top" />
+            <element signature="n#extension#0;n#configuration#1;n#component#16;n#project#0;n#!!top" />
+            <element signature="n#pattern#0;n#extension#0;n#configuration#1;n#component#16;n#project#0;n#!!top" />
+            <element signature="n#method#0;n#configuration#1;n#component#16;n#project#0;n#!!top" />
+            <element signature="n#configuration#2;n#component#16;n#project#0;n#!!top" />
+            <element signature="n#extension#0;n#configuration#2;n#component#16;n#project#0;n#!!top" />
+            <element signature="n#pattern#0;n#extension#0;n#configuration#2;n#component#16;n#project#0;n#!!top" />
+            <element signature="n#method#0;n#configuration#2;n#component#16;n#project#0;n#!!top" />
+            <element signature="n#configuration#3;n#component#16;n#project#0;n#!!top" />
+            <element signature="n#extension#0;n#configuration#3;n#component#16;n#project#0;n#!!top" />
+            <element signature="n#pattern#0;n#extension#0;n#configuration#3;n#component#16;n#project#0;n#!!top" />
+            <element signature="n#method#0;n#configuration#3;n#component#16;n#project#0;n#!!top" />
+            <element signature="n#recent_temporary#0;n#component#16;n#project#0;n#!!top" />
+            <element signature="n#list#0;n#recent_temporary#0;n#component#16;n#project#0;n#!!top" />
+            <element signature="n#component#17;n#project#0;n#!!top" />
+            <element signature="n#component#18;n#project#0;n#!!top" />
+            <element signature="n#task#0;n#component#18;n#project#0;n#!!top" />
+            <element signature="n#component#19;n#project#0;n#!!top" />
+            <element signature="n#component#20;n#project#0;n#!!top" />
+            <element signature="n#layout#0;n#component#20;n#project#0;n#!!top" />
+            <element signature="n#component#0;n#!!top" />
+            <element signature="n#component#1;n#!!top" />
+            <element signature="n#state#0;n#component#1;n#!!top" />
+            <element signature="n#state#2;n#component#1;n#!!top" />
+            <element signature="n#state#4;n#component#1;n#!!top" />
+            <element signature="n#state#6;n#component#1;n#!!top" />
+            <element signature="n#state#8;n#component#1;n#!!top" />
+            <element signature="n#state#10;n#component#1;n#!!top" />
+            <element signature="n#state#12;n#component#1;n#!!top" />
+            <element signature="n#state#14;n#component#1;n#!!top" />
+            <element signature="n#state#16;n#component#1;n#!!top" />
+            <element signature="n#state#18;n#component#1;n#!!top" />
+            <element signature="n#state#20;n#component#1;n#!!top" />
+            <element signature="n#state#22;n#component#1;n#!!top" />
+            <element signature="n#state#24;n#component#1;n#!!top" />
+            <element signature="n#state#26;n#component#1;n#!!top" />
+            <element signature="n#state#28;n#component#1;n#!!top" />
+            <element signature="n#state#30;n#component#1;n#!!top" />
+            <element signature="n#state#32;n#component#1;n#!!top" />
+            <element signature="n#state#34;n#component#1;n#!!top" />
+            <element signature="n#state#36;n#component#1;n#!!top" />
+            <element signature="n#state#38;n#component#1;n#!!top" />
+            <element signature="n#state#40;n#component#1;n#!!top" />
+            <element signature="n#state#42;n#component#1;n#!!top" />
+            <element signature="n#component#2;n#!!top" />
+            <element signature="n#breakpoint-manager#0;n#component#2;n#!!top" />
+            <element signature="n#breakpoints#0;n#breakpoint-manager#0;n#component#2;n#!!top" />
+            <element signature="n#line-breakpoint#0;n#breakpoints#0;n#breakpoint-manager#0;n#component#2;n#!!top" />
+            <element signature="n#line-breakpoint#1;n#breakpoints#0;n#breakpoint-manager#0;n#component#2;n#!!top" />
+            <element signature="n#line-breakpoint#2;n#breakpoints#0;n#breakpoint-manager#0;n#component#2;n#!!top" />
+            <element signature="n#line-breakpoint#3;n#breakpoints#0;n#breakpoint-manager#0;n#component#2;n#!!top" />
+            <element signature="n#line-breakpoint#4;n#breakpoints#0;n#breakpoint-manager#0;n#component#2;n#!!top" />
+            <element signature="n#line-breakpoint#5;n#breakpoints#0;n#breakpoint-manager#0;n#component#2;n#!!top" />
+            <element signature="n#line-breakpoint#6;n#breakpoints#0;n#breakpoint-manager#0;n#component#2;n#!!top" />
+            <element signature="n#component#3;n#!!top" />
+            <element signature="n#expressions#0;n#component#3;n#!!top" />
+            <element signature="n#expression#0;n#expressions#0;n#component#3;n#!!top" />
+            <element signature="n#expression#1;n#expressions#0;n#component#3;n#!!top" />
+            <element signature="n#expression#2;n#expressions#0;n#component#3;n#!!top" />
+            <element signature="n#expression#3;n#expressions#0;n#component#3;n#!!top" />
+            <element signature="n#component#4;n#!!top" />
+            <element signature="n#entry#0;n#component#4;n#!!top" />
+            <element signature="n#provider#0;n#entry#0;n#component#4;n#!!top" />
+            <element signature="n#state#0;n#provider#0;n#entry#0;n#component#4;n#!!top" />
+            <element signature="n#folding#0;n#state#0;n#provider#0;n#entry#0;n#component#4;n#!!top" />
+            <element signature="n#entry#1;n#component#4;n#!!top" />
+            <element signature="n#provider#0;n#entry#1;n#component#4;n#!!top" />
+            <element signature="n#state#0;n#provider#0;n#entry#1;n#component#4;n#!!top" />
+            <element signature="n#entry#2;n#component#4;n#!!top" />
+            <element signature="n#provider#0;n#entry#2;n#component#4;n#!!top" />
+            <element signature="n#state#0;n#provider#0;n#entry#2;n#component#4;n#!!top" />
+            <element signature="n#entry#3;n#component#4;n#!!top" />
+            <element signature="n#provider#0;n#entry#3;n#component#4;n#!!top" />
+            <element signature="n#state#0;n#provider#0;n#entry#3;n#component#4;n#!!top" />
+            <element signature="n#entry#4;n#component#4;n#!!top" />
+            <element signature="n#provider#0;n#entry#4;n#component#4;n#!!top" />
+            <element signature="n#state#0;n#provider#0;n#entry#4;n#component#4;n#!!top" />
+            <element signature="n#entry#5;n#component#4;n#!!top" />
+            <element signature="n#provider#0;n#entry#5;n#component#4;n#!!top" />
+            <element signature="n#state#0;n#provider#0;n#entry#5;n#component#4;n#!!top" />
+            <element signature="n#folding#0;n#state#0;n#provider#0;n#entry#5;n#component#4;n#!!top" />
+            <element signature="n#entry#6;n#component#4;n#!!top" />
+            <element signature="n#provider#0;n#entry#6;n#component#4;n#!!top" />
+            <element signature="n#state#0;n#provider#0;n#entry#6;n#component#4;n#!!top" />
+            <element signature="n#component#5;n#!!top" />
+            <element signature="n#states#0;n#component#5;n#!!top" />
+            <element signature="n#state#0;n#states#0;n#component#5;n#!!top" />
+            <element signature="n#settings#0;n#state#0;n#states#0;n#component#5;n#!!top" />
+            <element signature="n#splitter-proportions#0;n#settings#0;n#state#0;n#states#0;n#component#5;n#!!top" />
+            <element signature="n#option#0;n#splitter-proportions#0;n#settings#0;n#state#0;n#states#0;n#component#5;n#!!top" />
+            <element signature="n#list#0;n#option#0;n#splitter-proportions#0;n#settings#0;n#state#0;n#states#0;n#component#5;n#!!top" />
+            <element signature="n#state#1;n#states#0;n#component#5;n#!!top" />
+            <element signature="n#settings#0;n#state#1;n#states#0;n#component#5;n#!!top" />
+            <element signature="n#splitter-proportions#0;n#settings#0;n#state#1;n#states#0;n#component#5;n#!!top" />
+            <element signature="n#option#0;n#splitter-proportions#0;n#settings#0;n#state#1;n#states#0;n#component#5;n#!!top" />
+            <element signature="n#list#0;n#option#0;n#splitter-proportions#0;n#settings#0;n#state#1;n#states#0;n#component#5;n#!!top" />
+            <element signature="n#state#2;n#states#0;n#component#5;n#!!top" />
+            <element signature="n#settings#0;n#state#2;n#states#0;n#component#5;n#!!top" />
+            <element signature="n#splitter-proportions#0;n#settings#0;n#state#2;n#states#0;n#component#5;n#!!top" />
+            <element signature="n#option#0;n#splitter-proportions#0;n#settings#0;n#state#2;n#states#0;n#component#5;n#!!top" />
+            <element signature="n#list#0;n#option#0;n#splitter-proportions#0;n#settings#0;n#state#2;n#states#0;n#component#5;n#!!top" />
+            <element signature="n#state#3;n#states#0;n#component#5;n#!!top" />
+            <element signature="n#settings#0;n#state#3;n#states#0;n#component#5;n#!!top" />
+            <element signature="n#splitter-proportions#0;n#settings#0;n#state#3;n#states#0;n#component#5;n#!!top" />
+            <element signature="n#option#0;n#splitter-proportions#0;n#settings#0;n#state#3;n#states#0;n#component#5;n#!!top" />
+            <element signature="n#list#0;n#option#0;n#splitter-proportions#0;n#settings#0;n#state#3;n#states#0;n#component#5;n#!!top" />
+            <element signature="n#state#4;n#states#0;n#component#5;n#!!top" />
+            <element signature="n#settings#0;n#state#4;n#states#0;n#component#5;n#!!top" />
+            <element signature="n#splitter-proportions#0;n#settings#0;n#state#4;n#states#0;n#component#5;n#!!top" />
+            <element signature="n#option#0;n#splitter-proportions#0;n#settings#0;n#state#4;n#states#0;n#component#5;n#!!top" />
+            <element signature="n#list#0;n#option#0;n#splitter-proportions#0;n#settings#0;n#state#4;n#states#0;n#component#5;n#!!top" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="27">
-          <caret line="1" selection-start-line="1" selection-end-line="1" />
+        <state relative-caret-position="54">
+          <caret line="2" column="7" lean-forward="true" selection-start-line="2" selection-start-column="7" selection-end-line="2" selection-end-column="7" />
         </state>
       </provider>
     </entry>
-  </component>
-  <component name="masterDetails">
-    <states>
-      <state key="GlobalLibrariesConfigurable.UI">
-        <settings>
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.2" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-      <state key="JdkListConfigurable.UI">
-        <settings>
-          <last-edited>1.8</last-edited>
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.2" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-      <state key="ProjectJDKs.UI">
-        <settings>
-          <last-edited>1.8</last-edited>
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.2" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-      <state key="ProjectLibrariesConfigurable.UI">
-        <settings>
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.2" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-      <state key="ScopeChooserConfigurable.UI">
-        <settings>
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.2" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-    </states>
   </component>
 </project>
