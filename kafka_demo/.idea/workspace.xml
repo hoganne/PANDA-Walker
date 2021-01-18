@@ -2,8 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3183c33e-4cf8-4243-be5a-0742c88f95e9" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/../algorithm_performance/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../algorithm_performance/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kafka_demo.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -52,10 +51,19 @@
       <option name="presentableId" value="Default" />
       <updated>1610721114391</updated>
       <workItem from="1610721120281" duration="606000" />
+      <workItem from="1610939504532" duration="1015000" />
+      <workItem from="1610946900266" duration="61000" />
+      <workItem from="1610947043408" duration="627000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="0" y="0" key="com.intellij.ide.util.TipDialog" timestamp="1610946936954">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state x="0" y="0" key="com.intellij.ide.util.TipDialog/0.0.1366.728@0.0.1366.728" timestamp="1610946936954" />
   </component>
 </project>
