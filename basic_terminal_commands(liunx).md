@@ -1,6 +1,6 @@
 # basic terminal commands（liunx）
 
-grep
+## grep
 
 ## awk  
 
