@@ -808,3 +808,9 @@ private final void transfer(Node<K,V>[] tab, Node<K,V>[] nextTab) {
 
 > 笔者水平有限，文章难免会有纰漏，如有错误欢迎一起交流探讨，我会第一时间更正的。都看到这里了，码字不易，可爱的你记得 "点赞" 哦，我需要你的正向反馈。
 
+
+
+补充：
+
+![image-20210125201851092](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20210125201851092.png)
+
