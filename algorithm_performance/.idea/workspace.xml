@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="aa0fde0b-3fc0-479e-b7e4-f9b75b15e3b0" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-    </list>
+    <list default="true" id="aa0fde0b-3fc0-479e-b7e4-f9b75b15e3b0" name="Default Changelist" comment="" />
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -15,43 +13,17 @@
     <option name="done" value="true" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/panpan/datastructure/array/Solution.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="204">
-              <caret line="109" column="44" selection-start-line="109" selection-start-column="44" selection-end-line="109" selection-end-column="44" />
+            <state relative-caret-position="432">
+              <caret line="105" column="57" selection-start-line="105" selection-start-column="57" selection-end-line="105" selection-end-column="57" />
               <folding>
                 <element signature="docComment;class#Solution#0" />
                 <element signature="method#main#0;class#Solution#0" />
-                <element signature="e#148#190#0" />
                 <element signature="method#addNegabinary#0;class#Solution#0" />
-                <element signature="e#947#1858#1" />
-                <element signature="e#983#1512#1" />
-                <element signature="e#1013#1284#1" />
-                <element signature="e#1088#1166#1" />
-                <element signature="e#1170#1244#1" />
-                <element signature="e#1105#1282#1" />
-                <element signature="e#1351#1848#1" />
-                <element signature="e#1380#1758#1" />
-                <element signature="e#1057#1135#1" />
-                <element signature="e#1109#1187#1" />
-                <element signature="e#1056#1129#1" />
-                <element signature="e#1376#1676#1" />
-                <element signature="e#1442#1666#1" />
-                <element signature="e#1471#1584#1" />
-                <element signature="e#1512#1567#1" />
-                <element signature="e#1582#1636#1" />
-                <element signature="e#1515#1561#1" />
-                <element signature="e#1471#1542#1" />
-                <element signature="e#1884#2233#1" />
-                <element signature="e#1913#2151#1" />
-                <element signature="e#1954#2020#1" />
-                <element signature="e#2024#2133#1" />
-                <element signature="e#2155#2219#1" />
-                <element signature="e#2268#2301#1" />
-                <element signature="e#2375#2411#1" />
-                <element signature="e#2296#2327#1" />
+                <element signature="method#addNegabinaryLC#0;class#Solution#0" />
               </folding>
             </state>
           </provider>
@@ -87,7 +59,7 @@
   <component name="ProjectCodeStyleSettingsMigration">
     <option name="version" value="1" />
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
+  <component name="ProjectFrameBounds" extendedState="7">
     <option name="x" value="955" />
     <option name="width" value="933" />
     <option name="height" value="1040" />
@@ -221,29 +193,24 @@
       <workItem from="1610616186824" duration="2817000" />
       <workItem from="1610624507670" duration="4225000" />
       <workItem from="1610764304324" duration="7301000" />
+      <workItem from="1611650855249" duration="584000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="7301000" />
+    <option name="totallyTimeSpent" value="7885000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="7" />
     <editor active="true" />
     <layout>
-      <window_info id="Image Layers" />
-      <window_info id="Designer" />
-      <window_info id="UI Designer" />
-      <window_info id="Capture Tool" />
-      <window_info id="Favorites" side_tool="true" />
       <window_info content_ui="combo" id="Project" order="0" weight="0.25" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info anchor="bottom" id="Messages" />
-      <window_info anchor="bottom" id="Docker" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Database Changes" />
-      <window_info anchor="bottom" id="Version Control" />
-      <window_info anchor="bottom" id="Terminal" />
-      <window_info anchor="bottom" id="Event Log" side_tool="true" />
+      <window_info id="Image Layers" order="2" />
+      <window_info id="Designer" order="3" />
+      <window_info id="UI Designer" order="4" />
+      <window_info id="Capture Tool" order="5" />
+      <window_info id="Favorites" order="6" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
       <window_info anchor="bottom" id="Run" order="2" />
@@ -251,15 +218,21 @@
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="right" id="Palette" />
-      <window_info anchor="right" id="Theme Preview" />
-      <window_info anchor="right" id="Maven" />
-      <window_info anchor="right" id="Capture Analysis" />
-      <window_info anchor="right" id="Palette&#9;" />
-      <window_info anchor="right" id="Database" />
+      <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Version Control" order="8" />
+      <window_info anchor="bottom" id="Database Changes" order="9" />
+      <window_info anchor="bottom" id="Terminal" order="10" />
+      <window_info anchor="bottom" id="Event Log" order="11" side_tool="true" />
+      <window_info anchor="bottom" id="Messages" order="12" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="right" id="Palette" order="3" />
+      <window_info anchor="right" id="Database" order="4" />
+      <window_info anchor="right" id="Theme Preview" order="5" />
+      <window_info anchor="right" id="Maven" order="6" />
+      <window_info anchor="right" id="Capture Analysis" order="7" />
+      <window_info anchor="right" id="Palette&#9;" order="8" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -418,39 +391,13 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/src/main/java/com/panpan/datastructure/array/Solution.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="109" column="44" selection-start-line="109" selection-start-column="44" selection-end-line="109" selection-end-column="44" />
+        <state relative-caret-position="432">
+          <caret line="105" column="57" selection-start-line="105" selection-start-column="57" selection-end-line="105" selection-end-column="57" />
           <folding>
             <element signature="docComment;class#Solution#0" />
             <element signature="method#main#0;class#Solution#0" />
-            <element signature="e#148#190#0" />
             <element signature="method#addNegabinary#0;class#Solution#0" />
-            <element signature="e#947#1858#1" />
-            <element signature="e#983#1512#1" />
-            <element signature="e#1013#1284#1" />
-            <element signature="e#1088#1166#1" />
-            <element signature="e#1170#1244#1" />
-            <element signature="e#1105#1282#1" />
-            <element signature="e#1351#1848#1" />
-            <element signature="e#1380#1758#1" />
-            <element signature="e#1057#1135#1" />
-            <element signature="e#1109#1187#1" />
-            <element signature="e#1056#1129#1" />
-            <element signature="e#1376#1676#1" />
-            <element signature="e#1442#1666#1" />
-            <element signature="e#1471#1584#1" />
-            <element signature="e#1512#1567#1" />
-            <element signature="e#1582#1636#1" />
-            <element signature="e#1515#1561#1" />
-            <element signature="e#1471#1542#1" />
-            <element signature="e#1884#2233#1" />
-            <element signature="e#1913#2151#1" />
-            <element signature="e#1954#2020#1" />
-            <element signature="e#2024#2133#1" />
-            <element signature="e#2155#2219#1" />
-            <element signature="e#2268#2301#1" />
-            <element signature="e#2375#2411#1" />
-            <element signature="e#2296#2327#1" />
+            <element signature="method#addNegabinaryLC#0;class#Solution#0" />
           </folding>
         </state>
       </provider>
