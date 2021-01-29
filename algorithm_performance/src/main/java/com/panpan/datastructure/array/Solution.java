@@ -10,9 +10,11 @@ import java.util.Arrays;
  **/
 public class Solution {
     public static void main(String[] args) {
-        int[] arr1 = {1, 1, 1, 1, 1};
-        int[] arr2 = {1,0,1};
-        new Solution().addNegabinary(arr1,arr2);
+//        int[] arr1 = {1, 1, 1, 1, 1};
+//        int[] arr2 = {1,0,1};
+        int[] arr1 = {1,1};
+        int[] arr2 = {1};
+        new Solution().addNegabinary2(arr1,arr2);
     }
 
     //    给出基数为 -2 的两个数 arr1 和 arr2，返回两数相加的结果。
@@ -143,4 +145,140 @@ public class Solution {
         return Arrays.copyOfRange(result,not_zero,result.length);
     }
 
+    public int[] addNegabinary2(int[] arr1, int[] arr2){
+        int[] result = new int[(arr1.length>arr2.length?arr1.length:arr2.length)+2];
+        int carrybit=0,i,j,index=result.length-1;
+        for (i = arr1.length-1,j=arr2.length-1; i >=0&&j>=0 ; i--,j--) {
+            switch (arr1[i]+arr2[j]+carrybit){
+                case 2:
+                    carrybit=-1;
+                    result[index] = 0;
+                    index--;
+                    break;
+                case 1:
+                    result[index] = 1;
+                    carrybit =0;
+                    index--;
+                    break;
+                case 0:
+                    result[index] = 0;
+                    carrybit =0;
+                    index--;
+                    break;
+                case -1:
+                    result[index] = 1;
+                    carrybit =1;
+                    index--;
+                    break;
+                case 3:
+                    result[index] = -1;
+                    carrybit =-1;
+                    index--;
+                    break;
+            }
+        }
+        if(i>=0){
+            for (;i>=0;i--) {
+                switch (arr1[i]+carrybit){
+                    case 2:
+                        carrybit=-1;
+                        result[index] = 0;
+                        index--;
+                        break;
+                    case 1:
+                        result[index] = 1;
+                        carrybit =0;
+                        index--;
+                        break;
+                    case 0:
+                        result[index] = 0;
+                        carrybit =0;
+                        index--;
+                        break;
+                    case -1:
+                        result[index] = 1;
+                        carrybit =1;
+                        index--;
+                        break;
+                    case 3:
+                        result[index] = -1;
+                        carrybit =-1;
+                        index--;
+                        break;
+                }
+            }
+        }
+        if(j>=0){
+            for (; j>=0; j--) {
+                switch (arr2[j]+carrybit){
+                    case 2:
+                        carrybit=-1;
+                        result[index] = 0;
+                        index--;
+                        break;
+                    case 1:
+                        result[index] = 1;
+                        carrybit =0;
+                        index--;
+                        break;
+                    case 0:
+                        result[index] = 0;
+                        carrybit =0;
+                        index--;
+                        break;
+                    case -1:
+                        result[index] = 1;
+                        carrybit =1;
+                        index--;
+                        break;
+                    case 3:
+                        result[index] = -1;
+                        carrybit =-1;
+                        index--;
+                        break;
+                }
+            }
+        }
+
+        while (carrybit!=0){
+            switch (carrybit){
+                case 2:
+                    carrybit=-1;
+                    result[index] = 0;
+                    index--;
+                    break;
+                case 1:
+                    result[index] = 1;
+                    carrybit =0;
+                    if(index>0){
+                        index--;
+                    }
+                    break;
+                case 0:
+                    result[index] = 0;
+                    carrybit =0;
+                    index--;
+                    break;
+                case -1:
+                    result[index] = 1;
+                    carrybit =1;
+                    index--;
+                    break;
+                case 3:
+                    result[index] = -1;
+                    carrybit =-1;
+                    index--;
+                    break;
+            }
+        }
+        int[] tmp = result;
+        while (tmp[0]==0&&tmp.length>1){
+            int[] tmp2 = new int[tmp.length-1];
+            for (int k = 0; k <tmp2.length ; k++) {
+                tmp2[k] = tmp[k+1];
+            }
+            tmp = tmp2;
+        }
+        return tmp;
+    }
 }
