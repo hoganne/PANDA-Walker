@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="aa0fde0b-3fc0-479e-b7e4-f9b75b15e3b0" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/../basic_terminal_commands(liunx).md" beforeDir="false" afterPath="$PROJECT_DIR$/../basic_terminal_commands(liunx).md" afterDir="false" />
-    </list>
+    <list default="true" id="aa0fde0b-3fc0-479e-b7e4-f9b75b15e3b0" name="Default Changelist" comment="" />
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -154,7 +152,7 @@
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1612173747635" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1612231986484" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
