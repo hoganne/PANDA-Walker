@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="ALL" />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="aa0fde0b-3fc0-479e-b7e4-f9b75b15e3b0" name="Default Changelist" comment="" />
-    <ignored path="$PROJECT_DIR$/target/" />
-    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <list default="true" id="aa0fde0b-3fc0-479e-b7e4-f9b75b15e3b0" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../kafka在zookeeper中的结构.md" beforeDir="false" afterPath="$PROJECT_DIR$/../kafka在zookeeper中的结构.md" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -11,36 +15,6 @@
   </component>
   <component name="CodeStyleSettingsInfer">
     <option name="done" value="true" />
-  </component>
-  <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/panpan/datastructure/array/Solution.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="424">
-              <caret line="273" selection-start-line="273" selection-end-line="273" />
-              <folding>
-                <element signature="docComment;class#Solution#0" />
-                <element signature="method#addNegabinary#0;class#Solution#0" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/panpan/datastructure/matrix/Solution.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="343">
-              <caret line="35" selection-start-line="35" selection-end-line="35" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#148#199#0" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -58,24 +32,31 @@
       <list>
         <option value="$PROJECT_DIR$/src/main/java/com/panpan/datastructure/array/Solution.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/panpan/datastructure/matrix/Solution.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/panpan/datastructure/heap/Solution.java" />
       </list>
     </option>
   </component>
-  <component name="MavenImportPreferences">
-    <option name="importingSettings">
-      <MavenImportingSettings>
-        <option name="importAutomatically" value="true" />
-      </MavenImportingSettings>
-    </option>
+  <component name="MavenProjectNavigator">
+    <treeState>
+      <expand>
+        <path>
+          <item name="" type="16c1761:MavenProjectsStructure$RootNode" />
+          <item name="java_performance" type="9519ce18:MavenProjectsStructure$ProjectNode" />
+        </path>
+      </expand>
+      <select />
+    </treeState>
   </component>
   <component name="ProjectCodeStyleSettingsMigration">
     <option name="version" value="1" />
   </component>
-  <component name="ProjectFrameBounds" extendedState="7">
-    <option name="x" value="-7" />
-    <option name="width" value="1011" />
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="664" />
+    <option name="y" value="6" />
+    <option name="width" value="1335" />
     <option name="height" value="1040" />
   </component>
+  <component name="ProjectId" id="1o0TAcoOPsIbtU5Nx4qgiCfjWWl" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="1" id="Add" />
   </component>
@@ -84,7 +65,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -135,44 +115,60 @@
               <item name="java" type="462c0819:PsiDirectoryNode" />
               <item name="panpan" type="462c0819:PsiDirectoryNode" />
               <item name="datastructure" type="462c0819:PsiDirectoryNode" />
-              <item name="matrix" type="462c0819:PsiDirectoryNode" />
+              <item name="heap" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="PackagesPane" />
       <pane id="Scope" />
     </panes>
   </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
-    <option name="showExcludedFiles" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1612231986484" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1612333394932" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../spring-session" />
+    <property name="vue.rearranger.settings.migration" value="true" />
   </component>
-  <component name="RunDashboard">
-    <option name="ruleStates">
-      <list>
-        <RuleState>
-          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
-        </RuleState>
-        <RuleState>
-          <option name="name" value="StatusDashboardGroupingRule" />
-        </RuleState>
-      </list>
-    </option>
-  </component>
-  <component name="RunManager" selected="Application.Solution (1)">
+  <component name="RunManager" selected="Application.Solution (3)">
     <configuration name="Solution (1)" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.panpan.datastructure.matrix.Solution" />
       <module name="java_performance" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="com.panpan.datastructure.matrix.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Solution (2)" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.panpan.datastructure.heap.Solution" />
+      <module name="java_performance" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.panpan.datastructure.heap.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Solution (3)" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.panpan.datastructure.sort.Solution" />
+      <module name="java_performance" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.panpan.datastructure.sort.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -193,13 +189,27 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
+      <option name="arquillianRunConfiguration">
+        <value>
+          <option name="containerStateName" value="" />
+        </value>
+      </option>
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.Solution (3)" />
+        <item itemvalue="Application.Solution (2)" />
         <item itemvalue="Application.Solution (1)" />
         <item itemvalue="Application.Solution" />
       </list>
     </recent_temporary>
   </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="SvnConfiguration">
     <configuration />
   </component>
@@ -231,17 +241,21 @@
       <workItem from="1610764304324" duration="7301000" />
       <workItem from="1611650855249" duration="1181000" />
       <workItem from="1611725892664" duration="9781000" />
-      <workItem from="1612150085383" duration="6209000" />
+      <workItem from="1612150085383" duration="12187000" />
+      <workItem from="1612331957963" duration="1401000" />
+      <workItem from="1612335811980" duration="266000" />
+      <workItem from="1612422367447" duration="5990000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="24472000" />
+    <option name="totallyTimeSpent" value="32117000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="7" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" weight="0.54295534" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.23134328" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
@@ -250,8 +264,8 @@
       <window_info id="Favorites" order="6" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" />
-      <window_info active="true" anchor="bottom" id="Debug" order="3" visible="true" weight="0.33694476" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.32936078" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.32719395" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -267,103 +281,13 @@
       <window_info anchor="right" id="Palette" order="3" />
       <window_info anchor="right" id="Database" order="4" />
       <window_info anchor="right" id="Theme Preview" order="5" />
-      <window_info anchor="right" id="Maven" order="6" />
+      <window_info anchor="right" id="Maven" order="6" weight="0.32995737" />
       <window_info anchor="right" id="Capture Analysis" order="7" />
       <window_info anchor="right" id="Palette&#9;" order="8" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
-    <option name="version" value="1" />
-  </component>
-  <component name="WindowStateProjectService">
-    <state x="488" y="79" key="#com.intellij.ide.util.MemberChooser" timestamp="1609770409359">
-      <screen x="0" y="0" width="1366" height="728" />
-    </state>
-    <state x="488" y="79" key="#com.intellij.ide.util.MemberChooser/0.0.1366.728@0.0.1366.728" timestamp="1609770409359" />
-    <state width="1322" height="35" key="GridCell.Tab.0.bottom" timestamp="1610638477005">
-      <screen x="0" y="0" width="1366" height="728" />
-    </state>
-    <state width="1322" height="35" key="GridCell.Tab.0.bottom/0.0.1366.728@0.0.1366.728" timestamp="1610638477005" />
-    <state width="1322" height="35" key="GridCell.Tab.0.center" timestamp="1610638477004">
-      <screen x="0" y="0" width="1366" height="728" />
-    </state>
-    <state width="1322" height="35" key="GridCell.Tab.0.center/0.0.1366.728@0.0.1366.728" timestamp="1610638477004" />
-    <state width="1322" height="35" key="GridCell.Tab.0.left" timestamp="1610638477004">
-      <screen x="0" y="0" width="1366" height="728" />
-    </state>
-    <state width="1322" height="35" key="GridCell.Tab.0.left/0.0.1366.728@0.0.1366.728" timestamp="1610638477004" />
-    <state width="1322" height="35" key="GridCell.Tab.0.right" timestamp="1610638477005">
-      <screen x="0" y="0" width="1366" height="728" />
-    </state>
-    <state width="1322" height="35" key="GridCell.Tab.0.right/0.0.1366.728@0.0.1366.728" timestamp="1610638477005" />
-    <state width="1322" height="35" key="GridCell.Tab.1.bottom" timestamp="1610638477005">
-      <screen x="0" y="0" width="1366" height="728" />
-    </state>
-    <state width="1322" height="35" key="GridCell.Tab.1.bottom/0.0.1366.728@0.0.1366.728" timestamp="1610638477005" />
-    <state width="1322" height="35" key="GridCell.Tab.1.center" timestamp="1610638477005">
-      <screen x="0" y="0" width="1366" height="728" />
-    </state>
-    <state width="1322" height="35" key="GridCell.Tab.1.center/0.0.1366.728@0.0.1366.728" timestamp="1610638477005" />
-    <state width="1322" height="35" key="GridCell.Tab.1.left" timestamp="1610638477005">
-      <screen x="0" y="0" width="1366" height="728" />
-    </state>
-    <state width="1322" height="35" key="GridCell.Tab.1.left/0.0.1366.728@0.0.1366.728" timestamp="1610638477005" />
-    <state width="1322" height="35" key="GridCell.Tab.1.right" timestamp="1610638477005">
-      <screen x="0" y="0" width="1366" height="728" />
-    </state>
-    <state width="1322" height="35" key="GridCell.Tab.1.right/0.0.1366.728@0.0.1366.728" timestamp="1610638477005" />
-    <state width="1322" height="35" key="GridCell.Tab.2.bottom" timestamp="1610638477006">
-      <screen x="0" y="0" width="1366" height="728" />
-    </state>
-    <state width="1322" height="35" key="GridCell.Tab.2.bottom/0.0.1366.728@0.0.1366.728" timestamp="1610638477006" />
-    <state width="1322" height="35" key="GridCell.Tab.2.center" timestamp="1610638477006">
-      <screen x="0" y="0" width="1366" height="728" />
-    </state>
-    <state width="1322" height="35" key="GridCell.Tab.2.center/0.0.1366.728@0.0.1366.728" timestamp="1610638477006" />
-    <state width="1322" height="35" key="GridCell.Tab.2.left" timestamp="1610638477006">
-      <screen x="0" y="0" width="1366" height="728" />
-    </state>
-    <state width="1322" height="35" key="GridCell.Tab.2.left/0.0.1366.728@0.0.1366.728" timestamp="1610638477006" />
-    <state width="1322" height="35" key="GridCell.Tab.2.right" timestamp="1610638477006">
-      <screen x="0" y="0" width="1366" height="728" />
-    </state>
-    <state width="1322" height="35" key="GridCell.Tab.2.right/0.0.1366.728@0.0.1366.728" timestamp="1610638477006" />
-    <state width="1322" height="35" key="GridCell.Tab.3.bottom" timestamp="1610638477007">
-      <screen x="0" y="0" width="1366" height="728" />
-    </state>
-    <state width="1322" height="35" key="GridCell.Tab.3.bottom/0.0.1366.728@0.0.1366.728" timestamp="1610638477007" />
-    <state width="1322" height="35" key="GridCell.Tab.3.center" timestamp="1610638477006">
-      <screen x="0" y="0" width="1366" height="728" />
-    </state>
-    <state width="1322" height="35" key="GridCell.Tab.3.center/0.0.1366.728@0.0.1366.728" timestamp="1610638477006" />
-    <state width="1322" height="35" key="GridCell.Tab.3.left" timestamp="1610638477006">
-      <screen x="0" y="0" width="1366" height="728" />
-    </state>
-    <state width="1322" height="35" key="GridCell.Tab.3.left/0.0.1366.728@0.0.1366.728" timestamp="1610638477006" />
-    <state width="1322" height="35" key="GridCell.Tab.3.right" timestamp="1610638477007">
-      <screen x="0" y="0" width="1366" height="728" />
-    </state>
-    <state width="1322" height="35" key="GridCell.Tab.3.right/0.0.1366.728@0.0.1366.728" timestamp="1610638477007" />
-    <state width="1322" height="35" key="GridCell.Tab.4.bottom" timestamp="1610638477008">
-      <screen x="0" y="0" width="1366" height="728" />
-    </state>
-    <state width="1322" height="35" key="GridCell.Tab.4.bottom/0.0.1366.728@0.0.1366.728" timestamp="1610638477008" />
-    <state width="1322" height="35" key="GridCell.Tab.4.center" timestamp="1610638477007">
-      <screen x="0" y="0" width="1366" height="728" />
-    </state>
-    <state width="1322" height="35" key="GridCell.Tab.4.center/0.0.1366.728@0.0.1366.728" timestamp="1610638477007" />
-    <state width="1322" height="35" key="GridCell.Tab.4.left" timestamp="1610638477007">
-      <screen x="0" y="0" width="1366" height="728" />
-    </state>
-    <state width="1322" height="35" key="GridCell.Tab.4.left/0.0.1366.728@0.0.1366.728" timestamp="1610638477007" />
-    <state width="1322" height="35" key="GridCell.Tab.4.right" timestamp="1610638477007">
-      <screen x="0" y="0" width="1366" height="728" />
-    </state>
-    <state width="1322" height="35" key="GridCell.Tab.4.right/0.0.1366.728@0.0.1366.728" timestamp="1610638477007" />
-    <state x="363" y="186" key="com.intellij.ide.util.TipDialog" timestamp="1610624697321">
-      <screen x="0" y="0" width="1366" height="728" />
-    </state>
-    <state x="363" y="186" key="com.intellij.ide.util.TipDialog/0.0.1366.728@0.0.1366.728" timestamp="1610624697321" />
+    <option name="version" value="3" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -371,68 +295,62 @@
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/panpan/datastructure/tree/BinaryTree.java</url>
           <line>352</line>
-          <properties />
           <option name="timeStamp" value="18" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/panpan/datastructure/tree/BinaryTree.java</url>
           <line>569</line>
-          <properties />
           <option name="timeStamp" value="19" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/panpan/datastructure/tree/BinaryTree.java</url>
           <line>383</line>
-          <properties />
           <option name="timeStamp" value="20" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/panpan/datastructure/tree/BinaryTree.java</url>
           <line>478</line>
-          <properties />
           <option name="timeStamp" value="21" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/panpan/datastructure/tree/BinaryTree.java</url>
           <line>378</line>
-          <properties />
           <option name="timeStamp" value="22" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/panpan/datastructure/tree/BinaryTree.java</url>
           <line>374</line>
-          <properties />
           <option name="timeStamp" value="25" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/panpan/datastructure/string/Solution.java</url>
           <line>89</line>
-          <properties />
           <option name="timeStamp" value="29" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/panpan/datastructure/array/Solution.java</url>
           <line>101</line>
-          <properties />
           <option name="timeStamp" value="34" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/panpan/datastructure/array/Solution.java</url>
           <line>103</line>
-          <properties />
           <option name="timeStamp" value="35" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/panpan/datastructure/array/Solution.java</url>
           <line>273</line>
-          <properties />
           <option name="timeStamp" value="39" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/panpan/datastructure/array/Solution.java</url>
           <line>281</line>
-          <properties />
           <option name="timeStamp" value="40" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/panpan/datastructure/sort/Solution.java</url>
+          <line>61</line>
+          <option name="timeStamp" value="41" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
@@ -440,7 +358,7 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/src/main/java/com/panpan/datastructure/array/Solution.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="424">
+        <state relative-caret-position="5076">
           <caret line="273" selection-start-line="273" selection-end-line="273" />
           <folding>
             <element signature="docComment;class#Solution#0" />
@@ -451,11 +369,22 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/panpan/datastructure/matrix/Solution.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="343">
-          <caret line="35" selection-start-line="35" selection-end-line="35" />
+        <state relative-caret-position="783">
+          <caret line="32" column="55" selection-start-line="32" selection-start-column="55" selection-end-line="32" selection-end-column="55" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#148#199#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/panpan/datastructure/heap/Solution.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="513">
+          <caret line="26" column="9" lean-forward="true" selection-start-line="26" selection-start-column="9" selection-end-line="26" selection-end-column="9" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="class#326:482" />
+            <element signature="e#646#706#1" />
           </folding>
         </state>
       </provider>
