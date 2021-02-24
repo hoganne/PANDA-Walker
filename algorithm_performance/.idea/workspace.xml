@@ -5,8 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="aa0fde0b-3fc0-479e-b7e4-f9b75b15e3b0" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/../Spring-Core-Technologies.md" beforeDir="false" afterPath="$PROJECT_DIR$/../Spring-Core-Technologies.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../kafka在zookeeper中的结构.md" beforeDir="false" afterPath="$PROJECT_DIR$/../kafka在zookeeper中的结构.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/panpan/datastructure/array/Solution.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/panpan/datastructure/array/Solution.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -189,17 +190,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
-      <option name="arquillianRunConfiguration">
-        <value>
-          <option name="containerStateName" value="" />
-        </value>
-      </option>
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <recent_temporary>
       <list>
         <item itemvalue="Application.Solution (3)" />
@@ -245,6 +235,7 @@
       <workItem from="1612331957963" duration="1401000" />
       <workItem from="1612335811980" duration="266000" />
       <workItem from="1612422367447" duration="5990000" />
+      <workItem from="1614146415782" duration="2798000" />
     </task>
     <servers />
   </component>

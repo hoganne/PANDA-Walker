@@ -5103,7 +5103,7 @@ Let us begin by defining some central AOP concepts and terminology. These terms 
 
 - AOP proxy: An object created by the AOP framework in order to implement the aspect contracts (advise method executions and so on). In the Spring Framework, an AOP proxy is a JDK dynamic proxy or a CGLIB proxy.
 
--AOP代理:一个由AOP框架创建的对象，用来实现方面契约(建议方法的执行等等)。在Spring框架中，       AOP代理是JDK动态代理或CGLIB代理。
+-AOP代理:一个由AOP框架创建的对象，用来实现方面契约(建议方法的执行等等)。在Spring框架中，AOP代理是JDK动态代理或CGLIB代理。
 
 - Weaving: linking aspects with other application types or objects to create an advised object. This can be done at compile time (using the AspectJ compiler, for example), load time, or at runtime. Spring AOP, like other pure Java AOP frameworks, performs weaving at runtime.
 
@@ -5173,7 +5173,7 @@ Thus, for example, the Spring Framework’s AOP functionality is normally used i
 
 Spring AOP never strives to compete with AspectJ to provide a comprehensive AOP solution. We believe that both proxy-based frameworks such as Spring AOP and full-blown frameworks such as AspectJ are valuable and that they are complementary, rather than in competition. Spring seamlessly integrates Spring AOP and IoC with AspectJ, to enable all uses of AOP within a consistent Spring-based application architecture. This integration does not affect the Spring AOP API or the AOP Alliance API. Spring AOP remains backward-compatible. See [the following chapter](https://docs.spring.io/spring-framework/docs/current/reference/html/core.html#aop-api) for a discussion of the Spring AOP APIs.
 
-Spring AOP从来没有努力与AspectJ竞争来提供一个全面的AOP解决方案。我们相信基于代理的框架(如Spring AOP)和成熟的框架(如AspectJ)都是有价值的，它们是互补的，而不是竞争的。Spring与AspectJ无缝地集成了Spring AOP和IoC，以便在一致的基于Spring的应用程序体系结构中启用AOP的所有使用。这种集成不会影响Spring AOP API或AOP Alliance API。Spring AOP保持向后兼容。有关Spring AOP api的讨论，请参阅[下面的章节](https://docs.springing.io/spring -framework/docs/current/reference/html/core.html# AOP -api)。
+Spring AOP从来没有努力与AspectJ竞争来提供一个全面的AOP解决方案。我们相信基于代理的框架(如Spring AOP)和成熟的框架(如AspectJ)都是有价值的，它们是互补的，而不是竞争的。Spring与AspectJ无缝地集成了Spring AOP和IoC，以便在一致的基于Spring的应用程序体系结构中启用AOP的所有使用。这种集成不会影响Spring AOP API或AOP Alliance API。Spring AOP保持向后兼容。有关Spring  AOP api的讨论，请参阅[下面的章节](https://docs.springing.io/spring -framework/docs/current/reference/html/core.html# AOP -api)。
 
 >One of the central tenets of the Spring Framework is that of non-invasiveness. This is the idea that you should not be forced to introduce framework-specific classes and interfaces into your business or domain model. However, in some places, the Spring Framework does give you the option to introduce Spring Framework-specific dependencies into your codebase. The rationale in giving you such options is because, in certain scenarios, it might be just plain easier to read or code some specific piece of functionality in such a way. However, the Spring Framework (almost) always offers you the choice: You have the freedom to make an informed decision as to which option best suits your particular use case or scenario.One such choice that is relevant to this chapter is that of which AOP framework (and which AOP style) to choose. You have the choice of AspectJ, Spring AOP, or both. You also have the choice of either the @AspectJ annotation-style approach or the Spring XML configuration-style approach. The fact that this chapter chooses to introduce the @AspectJ-style approach first should not be taken as an indication that the Spring team favors the @AspectJ annotation-style approach over the Spring XML configuration-style.See [Choosing which AOP Declaration Style to Use](https://docs.spring.io/spring-framework/docs/current/reference/html/core.html#aop-choosing) for a more complete discussion of the `whys and wherefores` of each style. 
 >
@@ -5202,8 +5202,6 @@ It is important to grasp the fact that Spring AOP is proxy-based. See [Understan
 
 Using the AspectJ compiler and weaver enables use of the full AspectJ language and is discussed in [Using AspectJ with Spring Applications](https://docs.spring.io/spring-framework/docs/current/reference/html/core.html#aop-using-aspectj). 
 使用AspectJ编译器和weaver可以使用完整的AspectJ语言，在[使用AspectJ与Spring应用程序](https://docs.springing.io/spring-framework/docs/current/reference/html/core.html #aop-using-aspectj)中讨论了这一点。
-
-
 
 #### 5.4.1. Enabling @AspectJ Support
 支持@ aspectj的支持
@@ -5335,15 +5333,20 @@ Spring AOP支持在切入点表达式中使用以下AspectJ切入点指示器(PC
 - `target`: Limits matching to join points (the execution of methods when using Spring AOP) where the target object (application object being proxied) is an instance of the given type.
 -`target`:将匹配限制为连接点(使用Spring AOP时方法的执行)，其中目标对象(被代理的应用程序对象)是给定类型的实例。
 - `args`: Limits matching to join points (the execution of methods when using Spring AOP) where the arguments are instances of the given types.
-- ` args `:限制对连接点(使用Spring AOP时方法的执行)的匹配，其中参数是给定类型的实例。
+
+  ` args `:限制对连接点(使用Spring AOP时方法的执行)的匹配，其中参数是给定类型的实例。
 - `@target`: Limits matching to join points (the execution of methods when using Spring AOP) where the class of the executing object has an annotation of the given type.
-- ` @target `:将匹配限制为连接点(使用Spring AOP时方法的执行)，其中执行对象的类具有给定类型的注释。
+
+  ` @target `:将匹配限制为连接点(使用Spring AOP时方法的执行)，其中执行对象的类具有给定类型的注释。
 - `@args`: Limits matching to join points (the execution of methods when using Spring AOP) where the runtime type of the actual arguments passed have annotations of the given types.
-- ` @args `:限制对连接点(使用Spring AOP时方法的执行)的匹配，因为实际传递的参数的运行时类型具有给定类型的注释。
+
+  ` @args `:限制对连接点(使用Spring AOP时方法的执行)的匹配，因为实际传递的参数的运行时类型具有给定类型的注释。
 - `@within`: Limits matching to join points within types that have the given annotation (the execution of methods declared in types with the given annotation when using Spring AOP).
-- ` @within `:限制匹配具有给定注释的类型中的连接点(在使用Spring AOP时，使用给定注释在类型中声明的方法的执行)。
+
+  ` @within `:限制匹配具有给定注释的类型中的连接点(在使用Spring AOP时，使用给定注释在类型中声明的方法的执行)。
 - `@annotation`: Limits matching to join points where the subject of the join point (the method being run in Spring AOP) has the given annotation.
-- ` @annotation `:将匹配限制为连接点的主题(在Spring AOP中运行的方法)具有给定注释的连接点。
+
+  ` @annotation `:将匹配限制为连接点的主题(在Spring AOP中运行的方法)具有给定注释的连接点。
 
 Other pointcut types 其他类型的切入点
 
@@ -5353,11 +5356,11 @@ The full AspectJ pointcut language supports additional pointcut designators that
 
 The set of pointcut designators supported by Spring AOP may be extended in future releases to support more of the AspectJ pointcut designators.
 
-Spring AOP支持的切入点指示器集可能在未来的版本中得到扩展，以支持更多的AspectJ切入点指示器。
+Spring AOP支持的切入点指示器集可能在未来的版本中得到扩展，以支持更多的AspectJ切入点标志。
 
 Because Spring AOP limits matching to only method execution join points, the preceding discussion of the pointcut designators gives a narrower definition than you can find in the AspectJ programming guide. In addition, AspectJ itself has type-based semantics and, at an execution join point, both `this` and `target` refer to the same object: the object executing the method. Spring AOP is a proxy-based system and differentiates between the proxy object itself (which is bound to `this`) and the target object behind the proxy (which is bound to `target`).
 
-因为Spring AOP将匹配限制为只匹配方法执行连接点，所以前面对切入点指示器的讨论给出了比AspectJ编程指南中更窄的定义。此外，AspectJ本身具有基于类型的语义，并且在一个执行连接点上，` this `和` target `都引用同一个对象:执行方法的对象。Spring AOP是一个基于代理的系统，区分了代理对象本身(绑定到`this`)和代理背后的目标对象(绑定到`target`)。
+因为Spring AOP将匹配限制为只匹配方法执行连接点，所以前面对切入点指示器的讨论给出了比AspectJ编程指南中更窄的定义。此外，AspectJ本身具有基于类型的语义，并且在一个执行连接点（join point）上，` this `和` target `都引用同一个对象:执行方法的对象。Spring AOP是一个基于代理的系统，区分了代理对象本身(绑定到`this`)和代理背后的目标对象(绑定到`target`)。
 
 Due to the proxy-based nature of Spring’s AOP framework, calls within the target object are, by definition, not intercepted. For JDK proxies, only public interface method calls on the proxy can be intercepted. With CGLIB, public and protected method calls on the proxy are intercepted (and even package-visible methods, if necessary). However, common interactions through proxies should always be designed through public signatures.Note that pointcut definitions are generally matched against any intercepted method. If a pointcut is strictly meant to be public-only, even in a CGLIB proxy scenario with potential non-public interactions through proxies, it needs to be defined accordingly.If your interception needs include method calls or even constructors within the target class, consider the use of Spring-driven [native AspectJ weaving](https://docs.spring.io/spring-framework/docs/current/reference/html/core.html#aop-aj-ltw) instead of Spring’s proxy-based AOP framework. This constitutes a different mode of AOP usage with different characteristics, so be sure to make yourself familiar with weaving before making a decision. 
 
@@ -5418,7 +5421,6 @@ When working with enterprise applications, developers often want to refer to mod
 
 ```java
 package com.xyz.myapp;
-
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 
@@ -5528,7 +5530,8 @@ The following examples show some common pointcut expressions:
 下面的例子展示了一些常见的切入点表达式:
 
 - The execution of any public method:
-执行任何公共方法:
+  执行任何公共方法:
+
   ```
       execution(public * *(..))
   ```
@@ -5732,7 +5735,7 @@ public class BeforeExample {
 
 After returning advice runs when a matched method execution returns normally. You can declare it by using the `@AfterReturning` annotation:
 
-在返回通知后，当匹配的方法执行正常返回时运行。你可以使用`@ afterreturn`注释来声明它:
+在返回通知后，当匹配的方法执行正常返回时运行。你可以使用`@afterReturn`注释来声明它:
 
 ```java
 import org.aspectj.lang.annotation.Aspect;
@@ -5754,15 +5757,13 @@ public class AfterReturningExample {
 
 Sometimes, you need access in the advice body to the actual value that was returned. You can use the form of `@AfterReturning` that binds the return value to get that access, as the following example shows:
 
-有时，您需要在通知正文中访问返回的实际值。您可以使用` @ afterreturn `的形式绑定返回值来获得访问，如下面的示例所示:
+有时，您需要在通知正文中访问返回的实际值。您可以使用` @afterReturn `的形式绑定返回值来获得访问，如下面的示例所示:
 
 ```java
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.AfterReturning;
-
 @Aspect
 public class AfterReturningExample {
-
     @AfterReturning(
         pointcut="com.xyz.myapp.CommonPointcuts.dataAccessOperation()",
         returning="retVal")
@@ -5778,7 +5779,7 @@ The name used in the `returning` attribute must correspond to the name of a para
 `returning`属性中使用的名称必须与通知方法中参数的名称相对应。当一个方法执行返回时，返回值作为相应的实参值传递给通知方法。` returning`子句还限制只匹配那些返回指定类型值的方法执行(在本例中是` Object `，它匹配任何返回值)。
 
 Please note that it is not possible to return a totally different reference when using after returning advice.
-请注意，它是不可能返回一个完全不同的参考时，使用后返回建议。
+请注意，它是不可能返回一个完全不同的参考时，在使用返回建议。
 
 ##### After Throwing Advice
 在抛出通知后
@@ -5792,12 +5793,10 @@ import org.aspectj.lang.annotation.AfterThrowing;
 
 @Aspect
 public class AfterThrowingExample {
-
     @AfterThrowing("com.xyz.myapp.CommonPointcuts.dataAccessOperation()")
     public void doRecoveryActions() {
         // ...
     }
-
 }
 ```
 
@@ -5811,14 +5810,12 @@ import org.aspectj.lang.annotation.AfterThrowing;
 
 @Aspect
 public class AfterThrowingExample {
-
     @AfterThrowing(
         pointcut="com.xyz.myapp.CommonPointcuts.dataAccessOperation()",
         throwing="ex")
     public void doRecoveryActions(DataAccessException ex) {
         // ...
     }
-
 }
 ```
 
@@ -5839,7 +5836,6 @@ import org.aspectj.lang.annotation.After;
 
 @Aspect
 public class AfterFinallyExample {
-
     @After("com.xyz.myapp.CommonPointcuts.dataAccessOperation()")
     public void doReleaseLock() {
         // ...
@@ -5930,7 +5926,7 @@ See the [javadoc](https://www.eclipse.org/aspectj/doc/released/runtime-api/org/a
 
 We have already seen how to bind the returned value or exception value (using after returning and after throwing advice). To make argument values available to the advice body, you can use the binding form of `args`. If you use a parameter name in place of a type name in an args expression, the value of the corresponding argument is passed as the parameter value when the advice is invoked. An example should make this clearer. Suppose you want to advise the execution of DAO operations that take an `Account` object as the first parameter, and you need access to the account in the advice body. You could write the following:
 
-我们已经了解了如何绑定返回值或异常值(在返回和抛出通知之后使用)。要使参数值对通知体可用，可以使用`args`的绑定形式。如果在args表达式中使用参数名代替类型名，则在调用通知时，将将相应实参的值作为参数值传递。一个例子应该会使这一点更清楚。假设您希望通知以`Account`对象作为第一个参数的DAO操作的执行，并且需要访问通知主体中的Account。你可以这样写
+我们已经了解了如何绑定返回值或异常值(在返回和抛出通知之后使用)。要使参数值对通知体可用，可以使用`args`的绑定形式。如果在args表达式中使用参数名代替类型名，则在调用通知时，将相应实参的值作为参数值传递。一个例子应该会使这一点更清楚。假设您希望通知以`Account`对象作为第一个参数的DAO操作的执行，并且需要访问通知主体中的`Account`。你可以这样写
 
 ```java
 @Before("com.xyz.myapp.CommonPointcuts.dataAccessOperation() && args(account,..)")
@@ -5957,7 +5953,7 @@ public void validateAccount(Account account) {
 }
 ```
 
-See the AspectJ programming guide for more details.
+See the AspectJ programming guide for more details.更多细节请参阅AspectJ编程指南。
 
 The proxy object ( `this`), target object ( `target`), and annotations ( `@within`, `@target`, `@annotation`, and `@args`) can all be bound in a similar fashion. The next two examples show how to match the execution of methods annotated with an `@Auditable` annotation and extract the audit code:
 
@@ -5977,7 +5973,7 @@ public @interface Auditable {
 
 The second of the two examples shows the advice that matches the execution of `@Auditable` methods:
 
-第二个示例显示了匹配` @Auditable `方法执行的通知:
+第二个示例显示了匹配`@Auditable`方法执行的通知:
 
 ```java
 @Before("com.xyz.lib.Pointcuts.anyPublicMethod() && @annotation(auditable)")
@@ -6119,14 +6115,16 @@ In many cases, you do this binding anyway (as in the preceding example).
 在许多情况下，无论如何都要进行绑定(如前面的示例所示)。
 
 ##### Advice Ordering
-通知订购
-What happens when multiple pieces of advice all want to run at the same join point? Spring AOP follows the same precedence rules as AspectJ to determine the order of advice execution. The highest precedence advice runs first "on the way in" (so, given two pieces of before advice, the one with highest precedence runs first). "On the way out" from a join point, the highest precedence advice runs last (so, given two pieces of after advice, the one with the highest precedence will run second).
+通知排序
+What happens when multiple pieces of advice all want to run at the same join point? Spring AOP follows the same precedence rules as AspectJ to determine the order of advice execution. The highest precedence advice runs first "on the way in" (so, given two pieces of before advice, the one with highest precedence runs first). 
+
+"On the way out" from a join point, the highest precedence advice runs last (so, given two pieces of after advice, the one with the highest precedence will run second).
 
 如果多个通知都希望在同一个连接点上运行，会发生什么情况?Spring AOP遵循与AspectJ相同的优先规则来决定通知的执行顺序。优先级最高的通知在`on the way in`首先运行(因此，给定两个before通知，优先级最高的那通知首先运行)。从连接点`on the way out`，优先级最高的通知最后运行(因此，给定两个after通知，优先级最高的通知将排在第二)。
 
 When two pieces of advice defined in different aspects both need to run at the same join point, unless you specify otherwise, the order of execution is undefined. You can control the order of execution by specifying precedence. This is done in the normal Spring way by either implementing the `org.springframework.core.Ordered` interface in the aspect class or annotating it with the `@Order` annotation. Given two aspects, the aspect returning the lower value from `Ordered.getOrder()` (or the annotation value) has the higher precedence.
 
-在不同方面定义的两个通知都需要在同一个连接点上运行时，除非另行指定，否则执行顺序是未定义的。您可以通过指定优先级来控制执行顺序。这是通过实现` org.springframework.core.Ordered`以正常的Spring方式完成的接口，或者用``@Order `注释它。对于两个方面，从` order . getorder() `(或注释值)返回较低值的方面具有较高的优先级。
+在不同方面定义的两个通知都需要在同一个连接点上运行时，除非另行指定，否则执行顺序是未定义的。您可以通过指定优先级来控制执行顺序。这是通过实现` org.springframework.core.Ordered`以正常的Spring方式完成的接口，或者用`@Order `注释它。对于两个方面，从` order . getorder() `(或注释值)返回较低值的方面具有较高的优先级。
 
 As of Spring Framework 5.2.7, advice methods defined in the same `@Aspect` class that need to run at the same join point are assigned precedence based on their advice type in the following order, from highest to lowest precedence: `@Around`, `@Before`, `@After`, `@AfterReturning`, `@AfterThrowing`. Note, however, that due to the implementation style in Spring‘s `AspectJAfterAdvice`, an `@After` advice method will effectively be invoked after any `@AfterReturning` or `@AfterThrowing` advice methods in the same aspect.When two pieces of the same type of advice (for example, two `@After` advice methods) defined in the same `@Aspect` class both need to run at the same join point, the ordering is undefined (since there is no way to retrieve the source code declaration order through reflection for javac-compiled classes). Consider collapsing such advice methods into one advice method per join point in each `@Aspect` class or refactor the pieces of advice into separate `@Aspect` classes that you can order at the aspect level via `Ordered` or `@Order`. 
 
@@ -6145,10 +6143,8 @@ You can make an introduction by using the `@DeclareParents` annotation. This ann
 ```java
 @Aspect
 public class UsageTracking {
-
     @DeclareParents(value="com.xzy.myapp.service.*+", defaultImpl=DefaultUsageTracked.class)
     public static UsageTracked mixin;
-
     @Before("com.xyz.myapp.CommonPointcuts.businessService() && this(usageTracked)")
     public void recordUsage(UsageTracked usageTracked) {
         usageTracked.incrementUseCount();
@@ -6187,7 +6183,6 @@ public class MyAspect {
     public void recordServiceUsage() {
         // ...
     }
-
 }
 ```
 
@@ -6216,10 +6211,11 @@ Because we want to retry the operation, we need to use around advice so that we 
 ```java
 @Aspect
 public class ConcurrentOperationExecutor implements Ordered {
-
+    
     private static final int DEFAULT_MAX_RETRIES = 2;
-
+    
     private int maxRetries = DEFAULT_MAX_RETRIES;
+    
     private int order = 1;
 
     public void setMaxRetries(int maxRetries) {
@@ -6944,7 +6940,72 @@ The change to the aspect to retry only idempotent operations involves refining t
         @annotation(com.xyz.myapp.service.Idempotent)"/>
 ```
 
-#### 5.8. Proxying Mechanisms
+### 5.6. Choosing which AOP Declaration Style to Use
+
+Once you have decided that an aspect is the best approach for implementing a given requirement, how do you decide between using Spring AOP or AspectJ and between the Aspect language (code) style, the @AspectJ annotation style, or the Spring XML style? These decisions are influenced by a number of factors including application requirements, development tools, and team familiarity with AOP.
+
+一旦确定了方面是实现给定需求的最佳方法，那么如何决定是使用Spring AOP还是使用AspectJ，是使用方面语言(代码)风格、@AspectJ注释风格还是使用Spring XML风格呢?这些决定受到许多因素的影响，包括应用程序需求、开发工具和团队对AOP的熟悉程度。
+
+#### 5.6.1. Spring AOP or Full AspectJ?
+
+Use the simplest thing that can work. Spring AOP is simpler than using full AspectJ, as there is no requirement to introduce the AspectJ compiler / weaver into your development and build processes. If you only need to advise the execution of operations on Spring beans, Spring AOP is the right choice. If you need to advise objects not managed by the Spring container (such as domain objects, typically), you need to use AspectJ. You also need to use AspectJ if you wish to advise join points other than simple method executions (for example, field get or set join points and so on).
+
+使用最简单的方法。Spring AOP比使用完整的AspectJ更简单，因为不需要在开发和构建过程中引入AspectJ编译器/编织器。如果您只需要对Spring bean上的操作执行提出建议，那么Spring AOP是正确的选择。如果您需要通知不由Spring容器管理的对象(通常是域对象)，您需要使用AspectJ。如果希望通知除简单方法执行之外的连接点(例如，字段获取或设置连接点等)，还需要使用AspectJ。
+
+When you use AspectJ, you have the choice of the AspectJ language syntax (also known as the “code style”) or the @AspectJ annotation style. Clearly, if you do not use Java 5+, the choice has been made for you: Use the code style. If aspects play a large role in your design, and you are able to use the [AspectJ Development Tools (AJDT)](https://www.eclipse.org/ajdt/) plugin for Eclipse, the AspectJ language syntax is the preferred option. It is cleaner and simpler because the language was purposefully designed for writing aspects. If you do not use Eclipse or have only a few aspects that do not play a major role in your application, you may want to consider using the @AspectJ style, sticking with regular Java compilation in your IDE, and adding an aspect weaving phase to your build script.
+
+当您使用AspectJ时，您可以选择AspectJ语言语法(也称为代码样式)或@AspectJ注释样式。显然，如果您不使用Java 5+，那么您可以选择:使用代码样式。如果方面在您的设计中扮演着重要的角色，并且您能够使用Eclipse的[AspectJ开发工具(AJDT)](https://www.eclipse.org/ajdt/)插件，那么AspectJ语言语法是首选选项。它更干净、更简单，因为语言是专门为编写方面而设计的。如果您不使用Eclipse，或者只有少数方面在您的应用程序中没有发挥主要作用，您可能想要考虑使用@AspectJ风格，在IDE中坚持常规的Java编译，并在构建脚本中添加一个方面编织阶段。
+
+#### 5.6.2. @AspectJ or XML for Spring AOP?
+
+If you have chosen to use Spring AOP, you have a choice of @AspectJ or XML style. There are various tradeoffs to consider.
+
+如果选择使用Spring AOP，则可以选择@AspectJ或XML样式。有各种各样的权衡需要考虑。
+
+The XML style may be most familiar to existing Spring users, and it is backed by genuine POJOs. When using AOP as a tool to configure enterprise services, XML can be a good choice (a good test is whether you consider the pointcut expression to be a part of your configuration that you might want to change independently). With the XML style, it is arguably clearer from your configuration which aspects are present in the system.
+
+The XML style has two disadvantages. First, it does not fully encapsulate the implementation of the requirement it addresses in a single place. The DRY principle says that there should be a single, unambiguous, authoritative representation of any piece of knowledge within a system. When using the XML style, the knowledge of how a requirement is implemented is split across the declaration of the backing bean class and the XML in the configuration file. When you use the @AspectJ style, this information is encapsulated in a single module: the aspect. Secondly, the XML style is slightly more limited in what it can express than the @AspectJ style: Only the “singleton” aspect instantiation model is supported, and it is not possible to combine named pointcuts declared in XML. For example, in the @AspectJ style you can write something like the following:
+
+现有的Spring用户可能最熟悉XML样式，并且它得到了真正的pojo的支持。当使用AOP作为配置企业服务的工具时，XML是一个不错的选择(一个好的测试是是否将切入点表达式视为您可能希望独立更改的配置的一部分)。使用XML样式，从您的配置来看，系统中存在哪些方面无疑更清楚。
+
+XML样式有两个缺点。首先，它没有在一个地方完全封装需求的实现。DRY原则认为，在一个系统中，任何知识片段都应该有一个单一的、明确的、权威的表示。在使用XML样式时，如何实现需求的知识被划分为支持bean类的声明和配置文件中的XML。当您使用@AspectJ样式时，此信息被封装在单个模块中:方面。其次，XML风格在表达方面比@AspectJ风格稍受限制:只支持单例方面实例化模型，而且不可能组合在XML中声明的命名切入点。例如，在@AspectJ风格中，你可以写一些类似下面的东西:
+
+```java
+@Pointcut("execution(* get*())")
+public void propertyAccess() {}
+
+@Pointcut("execution(org.xyz.Account+ *(..))")
+public void operationReturningAnAccount() {}
+
+@Pointcut("propertyAccess() && operationReturningAnAccount()")
+public void accountPropertyAccess() {}
+```
+
+In the XML style you can declare the first two pointcuts:
+
+```xml
+<aop:pointcut id="propertyAccess"
+        expression="execution(* get*())"/>
+
+<aop:pointcut id="operationReturningAnAccount"
+        expression="execution(org.xyz.Account+ *(..))"/>
+```
+
+The downside of the XML approach is that you cannot define the `accountPropertyAccess` pointcut by combining these definitions.
+
+The @AspectJ style supports additional instantiation models and richer pointcut composition. It has the advantage of keeping the aspect as a modular unit. It also has the advantage that the @AspectJ aspects can be understood (and thus consumed) both by Spring AOP and by AspectJ. So, if you later decide you need the capabilities of AspectJ to implement additional requirements, you can easily migrate to a classic AspectJ setup. On balance, the Spring team prefers the @AspectJ style for custom aspects beyond simple configuration of enterprise services.
+
+XML方法的缺点是不能通过组合这些定义来定义' accountPropertyAccess '切入点。
+
+@AspectJ样式支持额外的实例化模型和更丰富的切入点组合。它的优点是将aspect保持为模块化单元。它还有一个优点，就是@AspectJ方面可以被Spring AOP和AspectJ理解(从而消费)。因此，如果您后来决定需要AspectJ的功能来实现额外的需求，您可以很容易地迁移到经典的AspectJ设置。总的来说，除了简单的企业服务配置之外，Spring团队更喜欢使用@AspectJ风格来定制方面。
+
+### 5.7. Mixing Aspect Types
+
+It is perfectly possible to mix @AspectJ style aspects by using the auto-proxying support, schema-defined `<aop:aspect>` aspects, `<aop:advisor>` declared advisors, and even proxies and interceptors in other styles in the same configuration. All of these are implemented by using the same underlying support mechanism and can co-exist without any difficulty.
+
+通过使用自动代理支持、模式定义的' <aop:aspect> '方面、' <aop:advisor> '声明的顾问，甚至在同一配置中使用其他风格的代理和拦截器，完全有可能混合使用@AspectJ风格的方面。所有这些都是通过使用相同的底层支持机制实现的，可以毫无困难地共存。
+
+### 5.8. Proxying Mechanisms代理机制
 
 Spring AOP uses either JDK dynamic proxies or CGLIB to create the proxy for a given target object. JDK dynamic proxies are built into the JDK, whereas CGLIB is a common open-source class definition library (repackaged into `spring-core`).
 
@@ -6997,10 +7058,6 @@ If you invoke a method on an object reference, the method is invoked directly on
 
 ![aop proxy plain pojo call](https://docs.spring.io/spring-framework/docs/current/reference/html/images/aop-proxy-plain-pojo-call.png)
 
-Java
-
-Kotlin
-
 ```java
 public class Main {
 
@@ -7016,9 +7073,7 @@ Things change slightly when the reference that client code has is a proxy. Consi
 
 ![aop proxy call](https://docs.spring.io/spring-framework/docs/current/reference/html/images/aop-proxy-call.png)
 
-Java
 
-Kotlin
 
 ```java
 public class Main {
@@ -7039,9 +7094,7 @@ The key thing to understand here is that the client code inside the `main(..)` m
 
 Okay, so what is to be done about this? The best approach (the term "best" is used loosely here) is to refactor your code such that the self-invocation does not happen. This does entail some work on your part, but it is the best, least-invasive approach. The next approach is absolutely horrendous, and we hesitate to point it out, precisely because it is so horrendous. You can (painful as it is to us) totally tie the logic within your class to Spring AOP, as the following example shows:
 
-Java
 
-Kotlin
 
 ```java
 public class SimplePojo implements Pojo {
@@ -7081,20 +7134,21 @@ public class Main {
 
 Finally, it must be noted that AspectJ does not have this self-invocation issue because it is not a proxy-based AOP framework.
 
-#### 5.9. Programmatic Creation of @AspectJ Proxies
+### 5.9. Programmatic Creation of @AspectJ Proxies
+
+以编程方式创建@AspectJ代理
 
 In addition to declaring aspects in your configuration by using either `<aop:config>` or `<aop:aspectj-autoproxy>`, it is also possible to programmatically create proxies that advise target objects. For the full details of Spring’s AOP API, see the [next chapter](https://docs.spring.io/spring-framework/docs/current/reference/html/core.html#aop-api). Here, we want to focus on the ability to automatically create proxies by using @AspectJ aspects.
 
+除了使用' <aop:config> '或' <aop:aspectj-autoproxy> '在配置中声明方面之外，还可以通过编程方式创建通知目标对象的代理。关于Spring AOP API的完整细节，请参见[下一章](https://docs.spring.io/spring-framework/docs/current/reference/html/core.html#aop-api)。这里，我们将重点关注通过使用@AspectJ方面自动创建代理的能力。
+
 You can use the `org.springframework.aop.aspectj.annotation.AspectJProxyFactory` class to create a proxy for a target object that is advised by one or more @AspectJ aspects. The basic usage for this class is very simple, as the following example shows:
 
-Java
-
-Kotlin
+你可以使用' org.springframework.aop.aspectj.annotation。类来为一个或多个@AspectJ方面通知的目标对象创建代理。这个类的基本用法非常简单，如下面的例子所示:
 
 ```java
 // create a factory that can generate a proxy for the given target object
 AspectJProxyFactory factory = new AspectJProxyFactory(targetObject);
-
 // add an aspect, the class must be an @AspectJ aspect
 // you can call this as many times as you need with different aspects
 factory.addAspect(SecurityManager.class);
@@ -7108,7 +7162,9 @@ MyInterfaceType proxy = factory.getProxy();
 
 See the [javadoc](https://docs.spring.io/spring-framework/docs/5.3.1/javadoc-api/org/springframework/aop/aspectj/annotation/AspectJProxyFactory.html) for more information.
 
-#### 5.10. Using AspectJ with Spring Applications
+### 5.10. Using AspectJ with Spring Applications
+
+在Spring应用程序中使用AspectJ
 
 Everything we have covered so far in this chapter is pure Spring AOP. In this section, we look at how you can use the AspectJ compiler or weaver instead of or in addition to Spring AOP if your needs go beyond the facilities offered by Spring AOP alone.
 
@@ -7124,11 +7180,11 @@ Spring附带了一个小的AspectJ方面库，该库在您的发行版中可以�
 
 The Spring container instantiates and configures beans defined in your application context. It is also possible to ask a bean factory to configure a pre-existing object, given the name of a bean definition that contains the configuration to be applied. `spring-aspects.jar` contains an annotation-driven aspect that exploits this capability to allow dependency injection of any object. The support is intended to be used for objects created outside of the control of any container. Domain objects often fall into this category because they are often created programmatically with the `new` operator or by an ORM tool as a result of a database query.
 
-Spring容器实例化并配置在您的应用程序上下文中定义的bean。给定包含要应用的配置的Bean定义的名称，也可以要求Bean工厂配置预先存在的对象。 spring-aspects.jar包含一个注释驱动的方面，该方面利用此功能允许依赖项注入任何对象。该支架旨在用于在任何容器的控制范围之外创建的对象。域对象通常属于此类，因为它们通常是通过数据库查询的结果，使用新操作符或ORM工具以编程方式创建的。
+Spring容器实例化并配置在您的应用程序上下文中定义的bean。给定包含要应用的配置的Bean定义的名称，也可以要求Bean工厂配置预先存在的对象。 spring-aspects.jar包含一个注释驱动的方面，该方面利用此功能允许依赖项注入任何对象。该支架旨在用于在任何容器的控制范围之外创建的对象。domain对象通常属于此类，因为它们通常是通过数据库查询的结果，使用新操作符或ORM工具以编程方式创建的。
 
 The `@Configurable` annotation marks a class as being eligible for Spring-driven configuration. In the simplest case, you can use purely it as a marker annotation, as the following example shows:
 
-@Configurable注释将一个类标记为符合Spring驱动的配置。在最简单的情况下，您可以将其纯粹用作标记注释，如以下示例所示：
+@Configurable注解将一个类标记为符合Spring驱动的配置。在最简单的情况下，您可以将其纯粹用作标记注释，如以下示例所示：
 
 ```java
 package com.xyz.myapp.domain;
@@ -7157,9 +7213,7 @@ If you want to explicitly specify the name of the prototype bean definition to u
 
 ```java
 package com.xyz.myapp.domain;
-
 import org.springframework.beans.factory.annotation.Configurable;
-
 @Configurable("account")
 public class Account {
     // ...
@@ -7699,9 +7753,11 @@ Note that on JBoss, you may need to disable the app server scanning to prevent i
 
 ###### Generic Java Applications
 
+通用Java应用程序
+
 When class instrumentation is required in environments that are not supported by specific `LoadTimeWeaver` implementations, a JVM agent is the general solution. For such cases, Spring provides `InstrumentationLoadTimeWeaver` which requires a Spring-specific (but very general) JVM agent, `spring-instrument.jar`, autodetected by common `@EnableLoadTimeWeaving` and `<context:load-time-weaver/>` setups.
 
-通用Java应用程序
+
 如果特定LoadTimeWeaver实现不支持的环境中需要类检测，则JVM代理是通用解决方案。对于这种情况，Spring提供了InstrumentationLoadTimeWeaver，它需要特定于Spring（但非常通用）的JVM代理spring-instrument.jar，并由常见的@EnableLoadTimeWeaving和<context：load-time-weaver />设置自动检测到。
 
 To use it, you must start the virtual machine with the Spring agent by supplying the following JVM options:
@@ -7716,7 +7772,7 @@ Note that this requires modification of the JVM launch script, which may prevent
 
 请注意，这需要修改JVM启动脚本，这可能会阻止您在应用程序服务器环境中使用它（取决于您的服务器和您的操作策略）。也就是说，对于每个JVM一个应用程序的部署（例如独立的Spring Boot应用程序），无论如何，您通常都可以控制整个JVM的设置。
 
-#### 5.11. Further Resources
+### 5.11. Further Resources
 
 More information on AspectJ can be found on the [AspectJ website](https://www.eclipse.org/aspectj).
 
@@ -9138,6 +9194,95 @@ org.springframework.aop.framework.adapter软件包是一个SPI软件包，可以
 See the [`org.springframework.aop.framework.adapter`](https://docs.spring.io/spring-framework/docs/5.3.1/javadoc-api/org/springframework/aop/framework/adapter/package-frame.html) javadoc for further information.
 
 ### 7.Null-safety 安全零位
+
+### 8. Data Buffers and Codecs
+
+Java NIO provides `ByteBuffer` but many libraries build their own byte buffer API on top, especially for network operations where reusing buffers and/or using direct buffers is beneficial for performance. For example Netty has the `ByteBuf` hierarchy, Undertow uses XNIO, Jetty uses pooled byte buffers with a callback to be released, and so on. The `spring-core` module provides a set of abstractions to work with various byte buffer APIs as follows:
+
+Java NIO提供了' ByteBuffer '，但许多库在其上构建了自己的字节缓冲区API，特别是对于重用缓冲区和/或使用直接缓冲区有利于性能的网络操作。例如，Netty具有' ByteBuf '层次结构，Undertow使用XNIO, Jetty使用带有要释放回调的字节缓冲区池，等等。' spring-core '模块提供了一组抽象来处理各种字节缓冲区api，如下所示:
+
+- [`DataBufferFactory`](https://docs.spring.io/spring-framework/docs/current/reference/html/core.html#databuffers-factory) abstracts the creation of a data buffer.对数据缓冲区的创建进行抽象。
+- [`DataBuffer`](https://docs.spring.io/spring-framework/docs/current/reference/html/core.html#databuffers-buffer) represents a byte buffer, which may be [pooled](https://docs.spring.io/spring-framework/docs/current/reference/html/core.html#databuffers-buffer-pooled).表示一个字节缓冲区，可以是[pooled](https://docs.spring.io/spring-framework/docs/current/reference/html/core.html#databuffers-buffer-pooled)。
+- [`DataBufferUtils`](https://docs.spring.io/spring-framework/docs/current/reference/html/core.html#databuffers-utils) offers utility methods for data buffers.为数据缓冲区提供实用方法。
+- [Codecs](https://docs.spring.io/spring-framework/docs/current/reference/html/core.html#codecs) decode or encode streams data buffer streams into higher level objects.解码或编码流数据缓冲流到更高级别的对象。
+
+### 8.1. `DataBufferFactory`
+
+`DataBufferFactory` is used to create data buffers in one of two ways:
+
+1. Allocate a new data buffer, optionally specifying capacity upfront, if known, which is more efficient even though implementations of `DataBuffer` can grow and shrink on demand.
+2. Wrap an existing `byte[]` or `java.nio.ByteBuffer`, which decorates the given data with a `DataBuffer` implementation and that does not involve allocation.
+
+Note that WebFlux applications do not create a `DataBufferFactory` directly but instead access it through the `ServerHttpResponse` or the `ClientHttpRequest` on the client side. The type of factory depends on the underlying client or server, e.g. `NettyDataBufferFactory` for Reactor Netty, `DefaultDataBufferFactory` for others.
+
+### 8.2. `DataBuffer`
+
+The `DataBuffer` interface offers similar operations as `java.nio.ByteBuffer` but also brings a few additional benefits some of which are inspired by the Netty `ByteBuf`. Below is a partial list of benefits:
+
+- Read and write with independent positions, i.e. not requiring a call to `flip()` to alternate between read and write.
+- Capacity expanded on demand as with `java.lang.StringBuilder`.
+- Pooled buffers and reference counting via [`PooledDataBuffer`](https://docs.spring.io/spring-framework/docs/current/reference/html/core.html#databuffers-buffer-pooled).
+- View a buffer as `java.nio.ByteBuffer`, `InputStream`, or `OutputStream`.
+- Determine the index, or the last index, for a given byte.
+
+### 8.3. `PooledDataBuffer`
+
+As explained in the Javadoc for [ByteBuffer](https://docs.oracle.com/javase/8/docs/api/java/nio/ByteBuffer.html), byte buffers can be direct or non-direct. Direct buffers may reside outside the Java heap which eliminates the need for copying for native I/O operations. That makes direct buffers particularly useful for receiving and sending data over a socket, but they’re also more expensive to create and release, which leads to the idea of pooling buffers.
+
+`PooledDataBuffer` is an extension of `DataBuffer` that helps with reference counting which is essential for byte buffer pooling. How does it work? When a `PooledDataBuffer` is allocated the reference count is at 1. Calls to `retain()` increment the count, while calls to `release()` decrement it. As long as the count is above 0, the buffer is guaranteed not to be released. When the count is decreased to 0, the pooled buffer can be released, which in practice could mean the reserved memory for the buffer is returned to the memory pool.
+
+Note that instead of operating on `PooledDataBuffer` directly, in most cases it’s better to use the convenience methods in `DataBufferUtils` that apply release or retain to a `DataBuffer` only if it is an instance of `PooledDataBuffer`.
+
+### 8.4. `DataBufferUtils`
+
+`DataBufferUtils` offers a number of utility methods to operate on data buffers:
+
+- Join a stream of data buffers into a single buffer possibly with zero copy, e.g. via composite buffers, if that’s supported by the underlying byte buffer API.
+- Turn `InputStream` or NIO `Channel` into `Flux<DataBuffer>`, and vice versa a `Publisher<DataBuffer>` into `OutputStream` or NIO `Channel`.
+- Methods to release or retain a `DataBuffer` if the buffer is an instance of `PooledDataBuffer`.
+- Skip or take from a stream of bytes until a specific byte count.
+
+### 8.5. Codecs
+
+The `org.springframework.core.codec` package provides the following strategy interfaces:
+
+- `Encoder` to encode `Publisher<T>` into a stream of data buffers.
+- `Decoder` to decode `Publisher<DataBuffer>` into a stream of higher level objects.
+
+The `spring-core` module provides `byte[]`, `ByteBuffer`, `DataBuffer`, `Resource`, and `String` encoder and decoder implementations. The `spring-web` module adds Jackson JSON, Jackson Smile, JAXB2, Protocol Buffers and other encoders and decoders. See [Codecs](https://docs.spring.io/spring-framework/docs/current/reference/html/web-reactive.html#webflux-codecs) in the WebFlux section.
+
+### 8.6. Using `DataBuffer`
+
+When working with data buffers, special care must be taken to ensure buffers are released since they may be [pooled](https://docs.spring.io/spring-framework/docs/current/reference/html/core.html#databuffers-buffer-pooled). We’ll use codecs to illustrate how that works but the concepts apply more generally. Let’s see what codecs must do internally to manage data buffers.
+
+A `Decoder` is the last to read input data buffers, before creating higher level objects, and therefore it must release them as follows:
+
+1. If a `Decoder` simply reads each input buffer and is ready to release it immediately, it can do so via `DataBufferUtils.release(dataBuffer)`.
+2. If a `Decoder` is using `Flux` or `Mono` operators such as `flatMap`, `reduce`, and others that prefetch and cache data items internally, or is using operators such as `filter`, `skip`, and others that leave out items, then `doOnDiscard(PooledDataBuffer.class, DataBufferUtils::release)` must be added to the composition chain to ensure such buffers are released prior to being discarded, possibly also as a result an error or cancellation signal.
+3. If a `Decoder` holds on to one or more data buffers in any other way, it must ensure they are released when fully read, or in case an error or cancellation signals that take place before the cached data buffers have been read and released.
+
+Note that `DataBufferUtils#join` offers a safe and efficient way to aggregate a data buffer stream into a single data buffer. Likewise `skipUntilByteCount` and `takeUntilByteCount` are additional safe methods for decoders to use.
+
+An `Encoder` allocates data buffers that others must read (and release). So an `Encoder` doesn’t have much to do. However an `Encoder` must take care to release a data buffer if a serialization error occurs while populating the buffer with data. For example:
+
+```java
+DataBuffer buffer = factory.allocateBuffer();
+boolean release = true;
+try {
+    // serialize and populate buffer..序列化和填充缓冲区..
+    release = false;
+}
+finally {
+    if (release) {
+        DataBufferUtils.release(buffer);
+    }
+}
+return buffer;
+```
+
+The consumer of an `Encoder` is responsible for releasing the data buffers it receives. In a WebFlux application, the output of the `Encoder` is used to write to the HTTP server response, or to the client HTTP request, in which case releasing the data buffers is the responsibility of the code writing to the server response, or to the client request.
+
+Note that when running on Netty, there are debugging options for [troubleshooting buffer leaks](https://github.com/netty/netty/wiki/Reference-counted-objects#troubleshooting-buffer-leaks).
 
 ###  9.Logging 登录中
 
