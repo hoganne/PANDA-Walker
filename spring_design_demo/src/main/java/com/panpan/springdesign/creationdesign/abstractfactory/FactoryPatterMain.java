@@ -4,6 +4,8 @@ import com.panpan.springdesign.creationdesign.Factorypattern.Account;
 import com.panpan.springdesign.creationdesign.abstractfactory.impl.AccountFactory;
 import com.panpan.springdesign.creationdesign.abstractfactory.impl.FactoryProducer;
 
+import java.util.concurrent.locks.ReentrantLock;
+
 /**
  * @Description TODO
  * @Author xupan
@@ -28,5 +30,6 @@ public class FactoryPatterMain {
     //call accountType method of CurrentAccount
         currentAccount.accountType();
 
+        ReentrantLock lock = new ReentrantLock();
     }
 }
