@@ -118,9 +118,7 @@ private ConfigurableEnvironment getOrCreateEnvironment() {
 }
 ```
 
-还记得`this.webApplicationType`的值是什么吗，不记得的[点这里](https://www.cnblogs.com/youzhibing/p/9550343.html)寻找答案，在我的案例中其值就是`WebApplicationType.SERVLET`，那么很显然创建一个`StandardServletEnvironment`对象返回。
-
-`StandardServletEnvironment`类图
+还记得`this.webApplicationType`的值是什么吗，不记得的[点这里](https://www.cnblogs.com/youzhibing/p/9550343.html)寻找答案，在我的案例中其值就是`WebApplicationType.SERVLET`，那么很显然创建一个`StandardServletEnvironment`对象返回。`StandardServletEnvironment`类图
 
 ![img](https://images2018.cnblogs.com/blog/747662/201809/747662-20180910214100704-1161371304.png)
 
@@ -147,8 +145,7 @@ protected void customizePropertySources(MutablePropertySources propertySources) 
 ### `configureEnvironment`
 
 ```
-protected void configureEnvironment(ConfigurableEnvironment environment,
-    String[] args) {
+protected void configureEnvironment(ConfigurableEnvironment environment,String[] args) {
     // 配置PropertySources
     configurePropertySources(environment, args);
     // 配置Profiles
@@ -161,11 +158,12 @@ protected void configureEnvironment(ConfigurableEnvironment environment,
 `configurePropertySources`
 
 ```
-protected void configurePropertySources(ConfigurableEnvironment environment,
-        String[] args) {
+protected void configurePropertySources(ConfigurableEnvironment environment,String[] args) {
     MutablePropertySources sources = environment.getPropertySources();
+    
     // 此时defaultProperties还是null，可能后续过程会初始化，具体详情请期待后续的博文
     if (this.defaultProperties != null && !this.defaultProperties.isEmpty()){
+    
         //存在的话将其放到最后位置
         sources.addLast(new MapPropertySource("defaultProperties", this.defaultProperties));
     }
@@ -175,8 +173,7 @@ protected void configurePropertySources(ConfigurableEnvironment environment,
         if (sources.contains(name)) {
             PropertySource<?> source = sources.get(name);
             CompositePropertySource composite = new CompositePropertySource(name);
-            composite.addPropertySource(new SimpleCommandLinePropertySource(
-                    "springApplicationCommandLineArgs", args));
+            composite.addPropertySource(new SimpleCommandLinePropertySource("springApplicationCommandLineArgs", args));
             composite.addPropertySource(source);
             sources.replace(name, composite);
         }
@@ -194,11 +191,16 @@ protected void configurePropertySources(ConfigurableEnvironment environment,
 
 ```
 protected void configureProfiles(ConfigurableEnvironment environment, String[] args) {
+    
     // 保证environment的activeProfiles属性被初始化了。从PropertySources中查找spring.profiles.active属性
+    
     // 存在则将其值添加activeProfiles集合中。我们可以通过命令行参数指定该参数，但我们没有指定
+    
      environment.getActiveProfiles(); // ensure they are initialized
+     
     // But these ones should go first (last wins in a property key clash)
     // 如果存在其他的Profiles，则将这些Profiles放到第一的位置。此时没有，后面有没有后面再说
+    
     Set<String> profiles = new LinkedHashSet<>(this.additionalProfiles);
     profiles.addAll(Arrays.asList(environment.getActiveProfiles()));
     environment.setActiveProfiles(StringUtils.toStringArray(profiles));
@@ -224,28 +226,31 @@ public void environmentPrepared(ConfigurableEnvironment environment) {
 　　过滤出的与ApplicationEnvironmentPreparedEvent相匹配的监听器列表如下，他们的onApplicationEvent会被调用，大致做了以下事情：　　
 
 　　`ConfigFileApplicationListener`
+
 　　1、加载EnvironmentPostProcessor列表，仍然是从META-INF/spring.factories中加载（在SpringApplication实例化的时候已经加载了，这次是从缓存中读取），然后实例化；
 　　2、将自己也加入EnvironmentPostProcessor列表；ConfigFileApplicationListener实现了EnvironmentPostProcessor接口，可以看它的类图。
 　　3、对EnvironmentPostProcessor列表进行排序；排序之后，EnvironmentPostProcessor列表图如下：
 　　4、遍历EnvironmentPostProcessor列表，调用每个EnvironmentPostProcessor的postProcessEnvironment方法
 
-　　`SystemEnvironmentPropertySourceEnvironmentPostProcessor`将propertySourceList中名为systemEnvironment的SystemEnvironmentPropertySource对象替换成OriginAwareSystemEnvironmentPropertySource对象，source未变，还是SystemEnvironmentPropertySource对象的source；OriginAwareSystemEnvironmentPropertySource是SystemEnvironmentPropertySourceEnvironmentPostProcessor的静态内部类，且继承自SystemEnvironmentPropertySource。具体这么替换出于什么目的，便于原点查找？暂时还未知。
+　　`SystemEnvironmentPropertySourceEnvironmentPostProcessor`将propertySourceList中名为systemEnvironment的
 
-　　　　　　　　　　`SpringApplicationJsonEnvironmentPostProcessor`
+SystemEnvironmentPropertySource对象          替换成           OriginAwareSystemEnvironmentPropertySource 对象，source未变，还是SystemEnvironmentPropertySource对象的source；OriginAwareSystemEnvironmentPropertySource是SystemEnvironmentPropertySourceEnvironmentPostProcessor的静态内部类，且继承自SystemEnvironmentPropertySource。具体这么替换出于什么目的，便于原点查找？暂时还未知。
 
-　　　　　　　　　　　　spring.application.json(或SPRING_APPLICATION_JSON)是设置在系统属性或系统环境中；
+　　　　　　　　　　`SpringApplicationJsonEnvironmentPostProcessor`spring.application.json(或SPRING_APPLICATION_JSON)是设置在系统属性或系统环境中；
 
-　　　　　　　　　　　　如果spring.application.json(或SPRING_APPLICATION_JSON)有配置，那么给environment的propertySourceList增加JsonPropertySource，并将JsonPropertySource放到名叫systemProperties的PropertySource前；目前没有配置，那么此环境后处理器相当于什么也没做。
+　如果spring.application.json(或SPRING_APPLICATION_JSON)有配置，那么给environment的propertySourceList增加JsonPropertySource，并将JsonPropertySource放到名叫systemProperties的PropertySource前；目前没有配置，那么此环境后处理器相当于什么也没做。
 
-　　　　　　　　　　CloudFoundryVcapEnvironmentPostProcessor
+　CloudFoundryVcapEnvironmentPostProcessor
 
-　　　　　　　　　　　　云平台是否激活，激活了则给environment的propertySourceList增加名为vcap的PropertiesPropertySource对象，并将此对象放到命令行参数PropertySource（名叫commandLineArgs）后。很显然，我们没有激活云平台，那么此环境后处理器相当于什么也没做。
+　　　云平台是否激活，激活了则给environment的propertySourceList增加名为vcap的PropertiesPropertySource对象，并将此对象放到命令行参数PropertySource（名叫commandLineArgs）后。很显然，我们没有激活云平台，那么此环境后处理器相当于什么也没做。
 
-　　　　　　　　　　ConfigFileApplicationListener
+　　　ConfigFileApplicationListener
 
-　　　　　　　　　　　　添加名叫random的RandomValuePropertySource到名叫systemEnvironment的PropertySource后；
+添加名叫random的RandomValuePropertySource到名叫systemEnvironment的PropertySource后；并初始化Profiles；
 
-　　　　　　　　　　　　并初始化Profiles；初始化PropertiesPropertySourceLoader和YamlPropertySourceLoader这两个加载器从file:./config/,file:./,classpath:/config/,classpath:/路径下加载配置文件，PropertiesPropertySourceLoader加载配置文件application.xml和application.properties，YamlPropertySourceLoader加载配置文件application.yml和application.yaml。目前我们之后classpath:/路径下有个application.yml配置文件，将其属性配置封装进了一个名叫applicationConfig:[classpath:/application.yml]的OriginTrackedMapPropertySource中，并将此对象放到了propertySourceList的最后。
+初始化PropertiesPropertySourceLoader和YamlPropertySourceLoader这两个加载器从
+
+file:./config/,     file:./      ,classpath:/config/       ,      classpath:/路径下加载配置文件，PropertiesPropertySourceLoader加载配置文件application.xml和application.properties，YamlPropertySourceLoader加载配置文件application.yml和application.yaml。目前我们之后classpath:/路径下有个application.yml配置文件，将其属性配置封装进了一个名叫applicationConfig:[classpath:/application.yml]的OriginTrackedMapPropertySource中，并将此对象放到了propertySourceList的最后。
 
 AnsiOutputApplicationListener
 
@@ -253,15 +258,14 @@ AnsiOutputApplicationListener
 
 LoggingApplicationListener
 
-　　　　　　　　初始化日志系统
-　　　　　　ClasspathLoggingApplicationListener：没开启调试，所以什么也没做
-　　　　　　BackgroundPreinitializer：此时什么也没做
-　　　　　　DelegatingApplicationListener：此时什么也没做，因为环境中没有配置context.listener.classes属性
-　　　　　　FileEncodingApplicationListener：此时什么也没做，环境中没有spring.mandatory-file-encoding属性
+初始化日志系统ClasspathLoggingApplicationListener：没开启调试，所以什么也没做
+BackgroundPreinitializer：此时什么也没做
+DelegatingApplicationListener：此时什么也没做，因为环境中没有配置context.listener.classes属性
+FileEncodingApplicationListener：此时什么也没做，环境中没有spring.mandatory-file-encoding属性
 
-　　　　　　EnableEncryptablePropertiesBeanFactoryPostProcessor：此时什么也没有做
+EnableEncryptablePropertiesBeanFactoryPostProcessor：此时什么也没有做
 
-　　　　environmentPrepared方法会触发所有监听了ApplicationEnvironmentPreparedEvent事件的监听器，这些监听器目前主要新增了两个PropertySource：RandomValuePropertySource和OriginTrackedMapPropertySource，这个OriginTrackedMapPropertySource一般就是我们应用的配置文件application.yml（application.properties）。
+environmentPrepared方法会触发所有监听了ApplicationEnvironmentPreparedEvent事件的监听器，这些监听器目前主要新增了两个PropertySource：RandomValuePropertySource和OriginTrackedMapPropertySource，这个OriginTrackedMapPropertySource一般就是我们应用的配置文件application.yml（application.properties）。
 
 ### 　　bindToSpringApplication(environment)
 
@@ -280,7 +284,9 @@ protected void bindToSpringApplication(ConfigurableEnvironment environment) {
 }
 ```
 
-　　　　代码比较简单，应该就是将environment绑定到SpringApplication，可我跟进去发现没有将environment绑定到SpringApplication，执行完bindToSpringApplication方法后，SpringApplication的属性environment仍是null，这我就有点懵圈了，那这个方法到底有什么用，有知道的朋友吗？
+　　代码比较简单，应该就是将environment绑定到SpringApplication，可我跟进去发现没有将environment绑定到SpringApplication，执行完bindToSpringApplication方法后，SpringApplication的属性environment仍是null，这我就有点懵圈了，那这个方法到底有什么用，有知道的朋友吗？
+
+spring.main的配置信息
 
 ### 　　ConfigurationPropertySources.attach(environment)
 
@@ -297,9 +303,7 @@ public static void attach(Environment environment) {
     }j
     if (attached == null) {
         // 将sources封装成ConfigurationPropertySourcesPropertySource对象，并把这个对象放到sources的第一位置
-        sources.addFirst(new ConfigurationPropertySourcesPropertySource(
-                ATTACHED_PROPERTY_SOURCE_NAME,
-                new SpringConfigurationPropertySources(sources)));
+        sources.addFirst(new ConfigurationPropertySourcesPropertySource(ATTACHED_PROPERTY_SOURCE_NAME,new SpringConfigurationPropertySources(sources)));
     }
 }
 ```
