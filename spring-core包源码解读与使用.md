@@ -142,6 +142,232 @@ Java字段或方法类型。可以使用这个类简化对类型和方法描述�
 
 ## core
 
+### 其他
+
+#### AliasRegistry
+
+管理别名的通用接口。作为一个超级接口。
+
+#### AttributeAccessor
+
+接口定义了一个通用契约，用于将元数据附加到任意对象或从任意对象中访问元数据。
+
+#### AttributeAccessorSupport
+
+支持AttributeAccessors的类，提供所有方法的基实现。通过子类来扩展。Serializable if子类和所有属性值都是可序列化的。
+
+#### BridgeMethodResolver
+
+帮助分辨合成桥接方法和被桥接方法。
+
+给定一个合成桥接方法，返回被桥接的方法。桥接方法可以由编译器在扩展其方法具有参数化参数的参数化类型时创建。在运行时调用期间，可以通过反射调用和/或使用桥方法。当试图定位方法上的注释时，明智的做法是适当地检查桥接方法并找到桥接的方法。有关桥接方法使用的更多细节，请参阅Java语言规范。
+
+#### CollectionFactory
+
+能够识别常见Java和Spring集合类型的集合的工厂。主要用于框架内部使用。
+
+#### ConfigurableObjectInputStream
+
+特殊的ObjectInputStream子类，针对特定的类加载器解析类名。用作springframework.remoting.rmi. codebaseawareobjectinputstream的基类。
+
+#### Constants
+
+该类可用于解析在公共静态最终成员中包含常量定义的其他类。该类的asXXXX方法允许通过它们的字符串名称访问这些常量值。考虑类Foo包含public final static int CONSTANT1 = 66;这个类的一个封装Foo.class的实例在参数为"CONSTANT1"的情况下，将从其asNumber方法返回固定值66。这个类非常适合在propertyeditor中使用，使它们能够识别与常量本身相同的名称，并使它们不必维护自己的映射。
+
+#### Conventions
+
+提供方法来支持在整个框架中使用的各种命名和其他约定。主要用于框架内部使用。
+
+#### CoroutinesUtils.class
+
+#### DecoratingClassLoader
+
+用于装饰类加载器的基类，如overridingclassloader和org.springframework.instrument.classloading.shadowclassloader，提供被排除的包和类的通用处理。
+
+#### DecoratingProxy
+
+接口，通过装饰代理来实现，特别是Spring AOP代理，但也可能使用装饰语义定制代理。请注意，如果被装饰的类不属于最初的代理类的层次结构，则应该只实现这个接口。特别是，像Spring AOP CGLIB代理这样的“目标类”代理不应该实现它，因为在目标类上的任何查找都可以简单地在那里的代理类上执行。在core模块中定义，以便允许org.springframework.core.annotation.Annotationawareordercomparator(以及其他没有spring-aop依赖关系的潜在候选对象)用于内省目的，特别是用于注释查找。
+
+#### DefaultParameterNameDiscoverer
+
+ParameterNameDiscoverer策略接口的默认实现，使用Java 8标准反射机制(如果可用的话)，并返回到基于asm的localvariableparameternamediscoverer来检查类文件中的调试信息。如果存在Kotlin反射实现，则首先将KotlinReflectionParameterNameDiscoverer添加到列表中，并用于Kotlin类和接口。在作为Graal本机映像编译或运行时，不使用ParameterNameDiscoverer。进一步的发现程序可以通过addDiscoverer(ParameterNameDiscoverer)添加。
+
+#### ExceptionDepthComparator
+
+比较器能够根据抛出的异常类型的深度对异常进行排序。
+
+#### GenericTypeResolver
+
+根据类型变量解析泛型类型的助手类。主要用于在框架中使用，解析方法参数类型，即使它们是用泛型声明的。
+
+#### GraalDetector
+
+用于检测GraalVM本机映像环境的常见委托。
+
+#### InfrastructureProxy
+
+接口，该接口由透明的资源代理实现，这些资源代理需要被视为与底层资源相等，例如用于一致的查找键比较。注意，这个接口暗示了这种特殊的语义，并且没有构成一个通用的mixin!在org.springframework. transactions .support. transactionsynchronizationmanager中，这样的包装器将自动展开以进行关键比较。只有完全透明的代理，例如用于重定向或服务查找，才应该实现这个接口。用新行为修饰目标对象的代理(比如AOP代理)在这里不受限制
+
+#### KotlinDetector
+
+用于检测Kotlin的存在和标识Kotlin类型的通用委托。
+
+#### KotlinReflectionParameterNameDiscoverer
+
+ParameterNameDiscoverer实现，它使用Kotlin的反射工具来内省参数名称。与StandardReflectionParameterNameDiscoverer相比，它还允许在不需要Java 8 -parameters编译器标记的情况下确定接口参数名。
+
+#### LocalVariableTableParameterNameDiscoverer
+
+ParameterNameDiscoverer的实现，它使用方法属性中的LocalVariableTable信息来发现参数名。如果编译类文件时没有调试信息，则返回null。使用ObjectWeb的ASM库分析类文件。每个发现程序实例都以线程安全的方式为每个自省类缓存ASM发现的信息。建议尽可能重用ParameterNameDiscoverer实例。
+
+#### MethodClassKey
+
+针对特定目标类的方法的通用键类，包括toString()表示和相应的支持(如Java 8中对自定义HashMap键的建议)。
+
+#### MethodIntrospector
+
+定义彻底搜索与元数据相关的方法的算法，包括接口和父类，同时还处理参数化方法以及使用基于接口和类的代理时遇到的常见场景。
+
+通常(但不一定)用于寻找带注释的处理程序方法。
+
+#### MethodParameter
+
+封装方法参数规范的Helper类，即方法或构造函数加上参数索引和声明的泛型类型的嵌套类型索引。作为要传递的规范对象很有用。
+
+从4.2开始，有了一个org.springframework.core.annotation。SynthesizingMethodParameter子类可用，它用属性别名来合成注释。该子类特别用于web和消息端点处理。
+
+#### NamedInheritableThreadLocal
+
+InheritableThreadLocal子类将指定的名称公开为toString()结果(允许内省)。
+
+#### NamedThreadLocal
+
+ThreadLocal子类将指定的名称公开为toString()结果(允许内省)。
+
+#### NestedCheckedException
+
+用于用根本原因包装已检查异常的方便类。该类是抽象的，以迫使程序员扩展该类。getMessage将包含嵌套的异常信息;printStackTrace和其他类似方法将委托给包装的异常(如果有的话)。该类和NestedRuntimeException类之间的相似性是不可避免的，因为Java强制这两个类具有不同的超类(啊，具体继承的不灵活性!)
+
+#### NestedExceptionUtils
+
+实现能够保存嵌套异常的异常类的Helper类。必要是因为我们不能在不同的异常类型之间共享基类。主要用于框架内。
+
+#### NestedIOException
+
+正确处理根原因的IOException的子类，像NestedChecked/RuntimeException那样暴露根原因。在Java 6之前，标准IOException中没有添加适当的根源处理，这就是为什么我们需要自己做，以兼容Java 5的目的。该类和NestedChecked/RuntimeException类之间的相似性是不可避免的，因为该类需要从IOException派生。
+
+#### NestedRuntimeException
+
+用于用根本原因包装运行时异常的方便类。
+
+该类是抽象的，以迫使程序员扩展该类。getMessage将包含嵌套的异常信息;printStackTrace和其他类似方法将委托给包装的异常(如果有的话)。
+
+该类和NestedCheckedException类之间的相似性是不可避免的，因为Java强制这两个类具有不同的超类(啊，具体继承的灵活性!)
+
+参见:getMessage, printStackTrace, NestedCheckedException
+
+#### OrderComparator
+
+比较器实现有序对象，按序值升序排序，分别按优先级降序排序。优先级优先级优先级高于普通排序对象。具有相同顺序值的对象将相对于具有相同顺序值的其他对象以任意顺序排序。任何不提供自己的order值的对象都将隐式地赋给Ordered值。因此，相对于其他具有相同顺序值的对象，以任意顺序结束在已排序集合的末尾。
+
+#### Ordered
+
+Ordered是一个接口，可以由应该是有序的对象(例如集合中的对象)实现。实际的顺序可以解释为优先级，第一个对象(具有最低的顺序值)具有最高的优先级。注意，这个接口还有一个优先级标记:PriorityOrdered。有关PriorityOrdered对象相对于普通有序对象的排序方式的详细信息，请参阅Javadoc。有关非有序对象的排序语义的详细信息，请参阅OrderComparator的Javadoc。
+
+#### OverridingClassLoader
+
+类装入器不总是像普通类装入器那样委托给父类装入器。例如，这允许在覆盖类加载器中强制插装，或者“丢弃”类加载行为，在最终在给定的父类加载器中加载类的插装版本之前，为了内省的目的，选择的应用程序类临时加载在覆盖类加载器中。
+
+#### package-info
+
+#### ParameterizedTypeReference
+
+该类的目的是支持捕获和传递泛型类型。为了捕获泛型类型并在运行时保留它，你需要创建一个子类(最好是匿名内联类)，如下所示:
+
+ParameterizedTypeReference<List<String>> typeRef = new ParameterizedTypeReference<List<String>>() {};
+
+然后，可以使用产生的typeRef实例在运行时获取携带捕获的参数化类型信息的类型实例。要了解更多关于“super type tokens”的信息，请查看链接到Neal Gafter的博客文章。
+
+#### ParameterNameDiscoverer
+
+接口来发现方法和构造函数的参数名。发现参数名并不总是可能的，但是可以尝试各种策略，例如查找编译时可能发出的调试信息，查找带有AspectJ注释的方法的argname注释值。
+
+#### PrioritizedParameterNameDiscoverer
+
+连续尝试多个发现程序委托的发现者实现。在addDiscoverer方法中首先添加的那些具有最高的优先级。如果一个返回null，将尝试下一个。
+
+如果没有匹配的发现程序，默认行为是返回null。
+
+#### PriorityOrdered
+
+扩展了Ordered接口，表达了优先级排序:无论其顺序值如何，优先级总是在普通有序对象之前应用。当对一组有序对象进行排序时，优先级排序对象和普通有序对象被有效地视为两个独立的子集，优先级排序对象的集合在普通有序对象的集合之前，并在这些子集中应用相对排序。这主要是一个特殊用途的接口，在框架本身中用于首先识别优先级对象特别重要的对象，可能甚至不需要获取剩余的对象。一个典型的例子:Spring的后处理器优先级。注意:PriorityOrdered后处理器bean在一个特殊阶段初始化，比其他后处理器bean先初始化。这微妙地影响了它们的自动连接行为:它们只会自动连接到不需要为类型匹配进行急切初始化的bean上。
+
+#### ReactiveAdapter
+
+响应式流发布者与异步/响应式类型(如CompletableFuture、RxJava可观察对象等)之间的适配器。
+
+适配器通常通过ReactiveAdapterRegistry获得。
+
+#### ReactiveAdapterRegistry
+
+一个适配器注册表，使响应式流发布者与各种异步/响应式类型(如CompletableFuture、RxJava可观察对象等)相适应。
+
+默认情况下，根据类路径可用性，适配器为Reactor、RxJava 1、RxJava 2类型、CompletableFuture、Java 9+ Flow注册。发布者和Kotlin协程延迟和流
+
+#### ReactiveTypeDescriptor
+
+描述响应类型的语义，包括对isMultiValue()、isNoValue()和supportempty()的布尔检查。
+
+#### ResolvableType
+
+封装Java类型，提供对超类型、接口和泛型参数的访问，以及最终解析为类的能力。可解析类型可以从字段、方法参数、方法返回值或类中获得。这个类上的大多数方法本身都将返回可解析类型，这允许很容易
+
+#### ResolvableTypeProvider
+
+任何对象都可以实现这个接口来提供其实际的ResolvableType。
+
+在判断实例是否匹配通用签名时，这些信息非常有用，因为Java在运行时没有传递签名。
+
+在复杂的层次结构场景中，尤其是类的泛型类型签名在子类中发生变化时，该接口的用户应该小心。返回null总是有可能回退到默认行为。
+
+#### SerializableTypeWrapper
+
+可以用来获得java.lang.reflect.Types的包装的可序列化变量的内部实用程序类。字段或方法参数可以用作可序列化类型的根源。另外，也可以使用常规类作为源。返回的类型将是GenericArrayType、ParameterizedType、TypeVariable或WildcardType的一个类或可序列化代理。除了类(这是final)之外，对返回进一步类型(例如GenericArrayType.getGenericComponentType())的方法的调用将被自动包装。
+
+#### SimpleAliasRegistry
+
+AliasRegistry接口的简单实现。作为一个基类用于org.springframework.beans.BeanDefinitionRegistry实现。
+
+#### SmartClassLoader
+
+接口，该接口由支持重载的类加载器(例如，基于groovy的类加载器)实现。例如，由Spring的CGLIB代理工厂检测，以便做出缓存决策。
+
+如果类加载器没有实现这个接口，那么从它获得的所有类都应该被认为是不可重载的(即可缓存的)。
+
+#### SortedProperties
+
+属性的专门化，根据属性的键按字母数字排序。
+
+这在将Properties实例存储在Properties文件中时非常有用，因为它允许以具有一致的属性顺序的可重复方式生成此类文件。
+
+生成的属性文件中的注释也可以省略。
+
+#### SpringProperties
+
+本地Spring属性的静态容器，即在Spring库级别定义。读取一个春天。属性文件，还允许通过setProperty以编程方式设置属性。在检查属性时，首先检查本地条目，然后通过系统退回到jvm级的系统属性。getProperty检查。这是另一种设置与spring相关的系统属性的方法，如“spring.getenv”。忽略”和“spring.beaninfo。忽略”，特别是对于JVM系统属性被锁定在目标平台上的场景(例如WebSphere)。请参阅setFlag以获得一种方便的方式在本地将这些标记设置为"true"。
+
+#### SpringVersion
+
+类，该类公开Spring版本。从jar文件获取“Implementation-Version”清单属性。
+
+注意，有些类加载器不公开包元数据，因此该类可能无法在所有环境中确定Spring的版本。考虑使用基于反射的检查——例如，检查您打算调用的特定Spring 5.2方法是否存在。
+
+#### StandardReflectionParameterNameDiscoverer
+
+ParameterNameDiscoverer实现，它使用JDK 8的反射工具来自省参数名(基于“-parameters”编译器标志)。
+
+### annotation
+
 #### MergedAnnotation<A extends Annotation>
 
 从merged annotation集合返回的单个合并注释。将一个视图展示给一个注释，其中属性值可能已经从不同的源值“合并”了。可以使用各种get方法访问属性值。例如，要访问int属性，将使用getInt(String)方法。注意，访问属性值时不会转换。例如，如果底层属性是int类型，则不可能调用getString(String)。该规则的唯一例外是可以分别作为String和String[]访问的Class和Class[]值，以防止潜在的早期类初始化。如果有必要，可以将merge annotation合成回实际的注释中。
@@ -281,6 +507,100 @@ InvocationHandler用于Spring合成的注释(即封装在动态代理中)，该�
 #### TypeMappedAnnotations
 
 使用注释类型映射搜索和调整注释和元注释的合并注释实现。
+
+### codec
+
+#### AbstractDataBufferDecoder
+
+解码器实现的抽象基类，可以将数据缓冲器直接解码到目标元素类型。
+
+子类必须实现decodeDataBuffer以提供一种将DataBuffer转换为目标数据类型的方法。默认的decode实现转换每个单独的数据缓冲区，而decodeToMono应用“reduce”并转换聚合缓冲区。
+
+子类可以重写decode，以便沿着不同的边界分割输入流(例如字符串的新行字符)或总是减少到单个数据缓冲区(例如资源)。
+
+#### AbstractDecoder
+
+解码器实现的抽象基类。
+
+#### AbstractEncoder
+
+解码器实现的抽象基类。
+
+#### AbstractSingleValueEncoder
+
+只能处理单个值的编码器类的抽象基类。
+
+#### ByteArrayDecoder
+
+字节数组的解码器。
+
+#### ByteArrayEncoder
+
+字节数组的编码器。
+
+#### ByteBufferDecoder
+
+解码器bytebuffer)。
+
+#### ByteBufferEncoder
+
+编码器
+
+#### CharSequenceEncoder
+
+将CharSequence流编码为字节流
+
+#### CodecException
+
+指示对目标流进行编码和解码时出现的问题的一般错误。
+
+#### DataBufferDecoder
+
+数据转换器的简单传递译码器。
+
+注意:数据缓冲区应该在被使用之后通过org.springframework.core.io.buffer. databufferutil .release(DataBuffer)释放。此外，如果使用Flux或Mono操作符，如flatMap、reduce以及其他在内部预取、缓存和跳过或过滤数据项的操作符，请添加doOnDiscard(PooledDataBuffer)。类DataBufferUtils::release)，以确保缓存的数据缓冲区在错误或取消信号之前被释放
+
+#### DataBufferEncoder
+
+简单的数据传输编码器。
+
+#### Decoder
+
+将数据缓冲器输入流解码为<T>类型元素的输出流的策略。
+
+#### DecodingException
+
+指示解码输入流时出现的问题，焦点是与内容相关的问题，如解析失败。与更一般的I/O错误、非法状态或解码器可能选择引发的配置问题等CodecException相反。例如，在服务器web应用程序中，DecodingException将转换为具有400(错误输入)状态的响应，而CodecException将转换为500(服务器错误)状态。
+
+#### Encoder
+
+将<T>类型的对象流编码为字节输出流的策略。
+
+#### EncodingException
+
+指示对输入对象流进行编码时出现的问题，其重点是无法对对象进行编码。而不是更一般的I/O错误或CodecException，比如编码器也可以选择引发的配置问题。
+
+#### Hints
+
+用于处理提示的常量和方便方法。
+
+#### package-info
+
+#### ResourceDecoder
+
+译码器的资源。
+
+#### ResourceEncoder
+
+资源解码器
+
+#### ResourceRegionEncoder
+
+ResourceRegions编码器
+
+#### StringDecoder
+
+解码数据缓冲流到字符串流。解码之前，该解码器重新排列传入的数据缓冲区，以便每个缓冲区以换行符结束。这是为了确保正确解码多字节字符，并且不会跨越缓冲区边界。可以自定义默认分隔符(\n， \r\n)。部分灵感来自Netty的DelimiterBasedFrameDecoder。
 
 ## lang
 
