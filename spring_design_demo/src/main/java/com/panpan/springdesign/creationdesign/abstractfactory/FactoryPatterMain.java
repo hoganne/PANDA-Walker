@@ -12,7 +12,10 @@ import java.util.concurrent.locks.ReentrantLock;
  * @Date 2020/11/29
  **/
 public class FactoryPatterMain {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
+        Integer a=10;
+        System.out.println(a.equals(3));
+        System.out.println("dfsdf".equals("fwef"));
 
         AbstractFactory accountFactory = FactoryProducer.getFactory("ACCOUNT");
 

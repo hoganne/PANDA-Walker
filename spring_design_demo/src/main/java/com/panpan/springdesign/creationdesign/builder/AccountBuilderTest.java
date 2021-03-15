@@ -1,7 +1,5 @@
 package com.panpan.springdesign.creationdesign.builder;
 
-import org.springframework.beans.factory.support.BeanDefinitionBuilder;
-import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter;
 
 /**
  * @Description
