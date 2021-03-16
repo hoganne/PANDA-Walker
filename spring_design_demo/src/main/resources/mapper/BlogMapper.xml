@@ -2,8 +2,8 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.panpan.springdesign.BlogMapper">
-    <select id="selectBlog" resultType="com.panpan.springdesign.entiy.Blog">
+<mapper namespace="com.panpan.springdesign.dao.BlogMapper">
+    <select id="selectBlog" resultType="com.panpan.springdesign.entity.Blog">
     select * from Blog where id = #{id}
   </select>
 </mapper>

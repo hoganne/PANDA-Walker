@@ -1,11 +1,14 @@
 package com.panpan.springdesign;
-import com.panpan.springdesign.entiy.Blog;
+import com.panpan.springdesign.dao.ProvinceDao;
+import com.panpan.springdesign.entity.Province;
+import com.panpan.springdesign.entity.Blog;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
 /**
  * @Description TODO
@@ -23,9 +26,11 @@ public class BootStart {
         }
         SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
         Blog blog=null;
+        List<Province> provinces=null;
         try (SqlSession session = sqlSessionFactory.openSession()) {
-            blog = (Blog) session.selectOne("com.panpan.springdesign.BlogMapper.selectBlog", 101);
+            ProvinceDao mapper = session.getMapper(ProvinceDao.class);
+             provinces= mapper.queryAll(new Province());
         }
-        System.out.println(blog);
+        System.out.println(provinces);
     }
 }

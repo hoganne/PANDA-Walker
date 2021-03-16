@@ -1,4 +1,4 @@
-package com.panpan.springdesign.entiy;
+package com.panpan.springdesign.entity;
 
 /**
  * @Description TODO
