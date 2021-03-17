@@ -1,6 +1,6 @@
-package com.panpan.springdesign;
+package com.panpan.springdesign.dao;
 
-import com.panpan.springdesign.entiy.Blog;
+import com.panpan.springdesign.entity.Blog;
 
 /**
  * @Description TODO

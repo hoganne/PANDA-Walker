@@ -16,6 +16,7 @@
         </environment>
     </environments>
     <mappers>
-        <mapper resource="BlogMapper.xml"/>
+<!--        <mapper resource="BlogMapper.xml"/>-->
+        <mapper resource="mapper/ProvinceDao.xml"></mapper>
     </mappers>
 </configuration>
