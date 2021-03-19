@@ -2,40 +2,40 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.panpan.springdesign.dao.ProvinceDao">
 
-    <resultMap type="com.panpan.springdesign.entity.Province" id="ProvinceMap">
+    <resultMap type="com.panpan.springdesign.entity.Province"  id="ProvinceMap">
         <result property="id" column="id" jdbcType="INTEGER"/>
-        <result property="province" column="province" jdbcType="VARCHAR"/>
+        <result property="province" column="province" jdbcType="VARCHAR" typeHandler="com.panpan.springdesign.handler.MyTypeHandler"/>
         <result property="code" column="code" jdbcType="INTEGER"/>
     </resultMap>
 
     <!--查询单个-->
     <select id="queryById" resultMap="ProvinceMap">
         select id,
-               province,
+               name as province,
                code
-        from maintain.province
+        from province
         where id = #{id}
     </select>
 
     <!--查询指定行数据-->
     <select id="queryAllByLimit" resultMap="ProvinceMap">
         select id,
-               province,
+               name as province,
                code
-        from maintain.province limit #{offset}, #{limit}
+        from province limit #{offset}, #{limit}
     </select>
 
     <!--通过实体作为筛选条件查询-->
     <select id="queryAll" resultMap="ProvinceMap">
         select
-        id, province, code
-        from maintain.province
+        id, name as province, code
+        from province
         <where>
             <if test="id != null">
                 and id = #{id}
             </if>
             <if test="province != null and province != ''">
-                and province = #{province}
+                and name = #{province}
             </if>
             <if test="code != null">
                 and code = #{code}
@@ -45,12 +45,12 @@
 
     <!--新增所有列-->
     <insert id="insert" keyProperty="id" useGeneratedKeys="true">
-        insert into maintain.province(province, code)
+        insert into province(province, code)
         values (#{province}, #{code})
     </insert>
 
     <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
-        insert into maintain.province(province, code)
+        insert into province(name, code)
         values
         <foreach collection="entities" item="entity" separator=",">
             (#{entity.province}, #{entity.code})
@@ -58,7 +58,7 @@
     </insert>
 
     <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
-        insert into maintain.province(province, code)
+        insert into province(name, code)
         values
         <foreach collection="entities" item="entity" separator=",">
             (#{entity.province}, #{entity.code})
@@ -69,10 +69,10 @@
 
     <!--通过主键修改数据-->
     <update id="update">
-        update maintain.province
+        update province
         <set>
             <if test="province != null and province != ''">
-                province = #{province},
+                name = #{province},
             </if>
             <if test="code != null">
                 code = #{code},
@@ -84,7 +84,7 @@
     <!--通过主键删除-->
     <delete id="deleteById">
         delete
-        from maintain.province
+        from province
         where id = #{id}
     </delete>
 
